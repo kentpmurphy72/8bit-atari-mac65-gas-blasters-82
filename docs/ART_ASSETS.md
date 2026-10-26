@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Art Assets and Visual Direction
 
-**Version:** 0.4  
+**Version:** 0.5  
 **Date:** 2026-10-25  
 **Status:** Early art direction / living asset inventory  
 **Primary target:** Atari 800XL  
@@ -82,7 +82,8 @@ The hero is a **young adult man**, not the older, heavier, mustached character u
 | Grocery staff, shoppers, manager | Impede toilet-paper pickup | Confirmed groups; appearances TBD |
 | Player car | Distinct from friend/police cars | Confirmed role; color/model TBD |
 | Friends' car | At upper portion of vertical road view; drops Gas-Nix on drives 2 and 3 | Confirmed role; color/model TBD |
-| Police cars | Pursue and obstruct the player | Confirmed role; look TBD |
+| Police cars | Pursue and deliberately bump the player off-road | Confirmed role; look TBD |
+| Hazmat vans | Pursue and shove the player off-road | Confirmed role; look TBD |
 | Gas-Nix package | Clearly collectible medicine pickup on later road stages | Confirmed purpose; package design TBD |
 | Toilet paper | Readable grocery-store objective | Confirmed purpose; look TBD |
 
@@ -111,7 +112,8 @@ Road stages (2, 4, and 6) use a **Spy Hunter-style overhead/top-down view**:
 - Show a **blinking directional arrow near the top of the screen (within the driving playfield)**, indicating which branch of each fork the player must take. The arrow **appears a few seconds before the fork** so there is time to choose the route. Exact warning duration, blink cadence, typography/icon styling, and when it disappears remain open.
 - Show enough roadside/shoulder area that the player can steer freely off the road, with a clearly understandable **too-far-off-road crash boundary** (its exact graphic and collision threshold are open).
 - Place the friends' lead car **toward the top** of the driving playfield.
-- Draw police cars pursuing from **behind and alongside** the player.
+- Draw both **police cars and hazmat vans** pursuing from **behind and alongside** the player, with collision/ramming and displacement animations or cues.
+- Support visible **four-sided gas blasts** from the player's car (front, back, left, right) to knock back pursuers. Diagonal blast effects are an **optional direction under evaluation**, not yet a confirmed requirement.
 - In road stages **after** the pharmacy, show **Gas-Nix packages** falling/moving downward from the friends' car toward the player.
 - Ensure car silhouettes and pickups remain distinct at actual Atari 800XL display resolution.
 
@@ -120,7 +122,7 @@ Road stages (2, 4, and 6) use a **Spy Hunter-style overhead/top-down view**:
 ### Reusable environment categories
 
 - **Restaurant interior:** tables, counters, exits, hazmat-friendly paths.
-- **Highway:** confirmed overhead/upward-facing vehicle perspective with downward-scrolling winding roads, occasional two-way forks and indicated route, roadside/shoulder graphics, traffic, and player/friends/police vehicles. Free lateral steering; exact road width remains open.
+- **Highway:** confirmed overhead/upward-facing vehicle perspective with downward-scrolling winding roads, occasional two-way forks and indicated route, roadside/shoulder graphics, traffic, and player/friends/police/hazmat-van vehicles. Wrong fork is a mileage-slowing detour, not an instant wreck; free lateral steering and four-sided blast knockback are confirmed. Exact road width remains open.
 - **Pharmacy:** aisles, shelves, Gas-Nix product display/collection location.
 - **Grocery store:** aisles, shelves, toilet-paper pickup location.
 - **House exterior:** yard/driveway/front door, hazmat positions.
@@ -133,7 +135,7 @@ The game currently proposes nine stages per restaurant but may consolidate some 
 
 **Confirmed driving-stage screen partition:**
 - **About two-thirds of the screen** is the **road/driving playfield**, containing the player, other vehicles, winding road, branches, Gas-Nix pickups, and fork arrow as applicable.
-- **About one-third of the screen** is a separate **HUD/status area** containing at least a **gas-pressure meter, miles to the next destination/step, and score**, plus any other necessary status indicators.
+- **About one-third of the screen** is a separate **HUD/status area** containing at least a **gas-pressure meter, miles to the next destination/step, and score**, plus any other necessary status indicators. **Miles decrease more slowly on a wrong-fork detour**, even as the gas meter continues rising.
 - This split applies to road stages (2, 4, and 6). Do not assume the same split is required in indoor stages.
 - **HUD position/orientation is still open** (side panel vs. another configuration); avoid prematurely hardcoding it or treating a concept mockup as a final screen layout.
 
@@ -183,7 +185,8 @@ These are **planned assets, not completed assets**.
 | P0 | Hero | One recognizable sprite plus movement frames |
 | P0 | Player car | Readable road sprite |
 | P0 | Friends' car | Distinct road sprite |
-| P0 | Police car | Distinct hazard sprite |
+| P0 | Police car | Distinct hazard sprite; ramming/PIT-style knockback interaction |
+| P0 | Hazmat van | Large readable road enemy able to bump the player toward the shoulder |
 | P0 | Gas-Nix pickup | Small clear collectible icon |
 | P0 | Road | Downward-scrolling winding road, shoulder/off-road regions, and two-branch forks |
 | P0 | Fork arrow | Blinking route arrow near top of driving screen, introduced a few seconds before a two-way fork |
@@ -191,7 +194,7 @@ These are **planned assets, not completed assets**.
 | P0 | Gas pressure HUD | Meter and critical warning |
 | P1 | Taco Smell exterior/interior | Level 1 introductory scene and playable area |
 | P1 | Hazmat crew | Small readable enemy sprites |
-| P1 | Gas blast effect | Temporary cloud/bomb effect |
+| P1 | Gas blast effect | Directional gas knockback from front/rear/left/right of car; diagonal variants only if approved |
 | P1 | Pharmacy environment | Playable room/map and medicine location |
 | P1 | Grocery environment | Playable room/map and toilet paper |
 | P2 | Home exterior/interior/bathroom | Final stage visuals |
@@ -220,10 +223,12 @@ Priorities describe a **proposed prototype sequence**, not a development commitm
 7. Simplify the box artwork for a legible cartridge label at real dimensions.
 8. Reconcile the cover's “TOILET PAPER SOLD OUT AGAIN!” gag with the need to acquire toilet paper.
 9. Decide final package brand/logo use and production dimensions.
-10. Design the two-branch road fork and a blinking, top-of-screen advance-warning arrow; tune the exact blink rate and lead time. Design the 2/3 driving + 1/3 HUD layout and decide HUD placement/orientation.
+10. Design the two-branch road fork and a blinking, top-of-screen advance-warning arrow; tune the exact blink rate and lead time. Design visual cues for a wrong-fork detour with slower decreasing mileage. Design the 2/3 driving + 1/3 HUD layout and decide HUD placement/orientation.
+11. Design police-car and hazmat-van ramming effects and four-sided gas blasts; decide whether diagonal blast sprites are warranted after controller testing.
 
 ## 12. Change log
 
+- **v0.5 — 2026-10-25:** Adds police and hazmat vans capable of shoving player off road, directional knockback gas effects on all four sides of the car, and wrong-fork detours with slower distance countdown. Eight-way diagonal effects remain optional pending control decision.
 - **v0.4 — 2026-10-25:** Specifies blinking fork-direction arrow near the top of the driving screen, appearing a few seconds before the fork. Precise timing and visual treatment remain open.
 - **v0.3 — 2026-10-25:** Adds free lateral steering, winding roads, two-way forks with arrow, off-road crash boundary, and a driving-screen split of 2/3 playfield to 1/3 HUD. Exact presentation remains to be designed.
 - **v0.2 — 2026-10-25:** Locks road-stage art direction to an overhead view with upward-facing cars and downward-scrolling roadway; notes lead-car, pursuit, and Gas-Nix pickup placement. Driving-lane layout is still open.
