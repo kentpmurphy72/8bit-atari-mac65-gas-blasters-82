@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Game Design Document
 
-**Version:** 0.1  
+**Version:** 0.2  
 **Date:** 2026-10-25  
 **Status:** Early design / living document  
 **Primary target:** Atari 800XL (Atari 8-bit family)  
@@ -73,7 +73,7 @@ The player and friends have eaten a huge meal at the current level's restaurant.
 
 ### Stage 2 — First road chase: race to the pharmacy
 
-Two cars leave the restaurant: the player's car and a separate car driven by friends. Police pursue the player.
+Two cars leave the restaurant: the player's car and a separate car driven by friends. Police pursue the player. **The view is overhead, with the player's car pointing upward near the bottom of the screen as the road scrolls downward** (see Section 5.6).
 
 **Confirmed mechanic:** the gas meter begins **near 0%**, then steadily rises as the player heads toward the pharmacy. The player must reach the pharmacy **before the meter reaches 100%**, the explosion threshold.
 
@@ -167,9 +167,20 @@ The player has secret gas powers to evade hazmat personnel and police. The origi
 
 **Proposed:** distinct pursuit behaviors, roadblocks, variable speeds, and environmental interactions. No specific enemy names, AI algorithms or spawn rates are final.
 
-### 5.6 Player input and camera — Open
+### 5.6 Perspective, camera, and controls — Driving view confirmed
 
-Likely one Atari joystick with one fire button. No final mapping, screen perspective or controls are approved. We have discussed **overhead/maze** versus **side-view** indoor gameplay, and a **vertical-scrolling, top-down road** format has been used in concepts. These remain implementation/design choices to verify during prototyping.
+**Confirmed for all three road-chase stages (Stages 2, 4, and 6):**
+- **Overhead/top-down view**, inspired by the driving presentation of *Spy Hunter*.
+- The player's vehicle **faces and appears to drive upward**, positioned **toward the bottom of the screen**.
+- The **road and roadside scenery scroll downward** to convey forward travel.
+- The player steers **left and right** to navigate around other vehicles and toward pickups.
+- Police vehicles pursue from behind and may appear beside the player.
+- Friends travel ahead, with their lead car **near the top of the screen**.
+- On road chases after the pharmacy, the friends drop **Gas-Nix**; pickups move down toward the player's car as the road scrolls.
+
+**Still open for driving:** fixed lanes versus free horizontal movement; number/width of lanes; whether road width changes; precise player vertical-position freedom, acceleration/braking, speed, collision rules, input mapping, and gas-bomb controls. *Spy Hunter* is a perspective/gameplay reference, **not** a requirement to duplicate its entire control scheme.
+
+**Still open for indoor stages:** overhead maze versus side-view action. A single Atari joystick with one fire button is the expected hardware input, but the complete mapping is **not finalized**.
 
 ## 6. Player goals, failure and progression
 
@@ -198,6 +209,7 @@ We should avoid mixing two incompatible loss systems (pressure meter and separat
 | Level sequence | Taco Smell → Casa de Gas → The Bean Machine → The Blazing Burrito → repeat |
 | Stage count | Nine per level **for now**; may be reduced |
 | Pharmacy objective | **Gas-Nix gas relief**; not laxatives |
+| Driving perspective | **Confirmed overhead/top-down**; car points upward near screen bottom; road scrolls downward; friends' car ahead near top; police pursue from behind/alongside |
 | First driving stage | Near-zero pressure rising toward 100%; reach pharmacy before explosion |
 | Later driving stages | Friends' car drops Gas-Nix to manage pressure |
 | Friends | At restaurant; drive in separate lead car |
@@ -211,11 +223,12 @@ We should avoid mixing two incompatible loss systems (pressure meter and separat
 4. **Pressure failure:** what exactly happens at 100% (life lost, stage restart, game over)?
 5. **Pharmacy handoff:** how do friends receive Gas-Nix for subsequent drives?
 6. **Stage count:** should exterior/home/bathroom stages be combined?
-7. **Movement and collision:** steering/acceleration, hazards, enemies, gas bomb timing, and pickup behavior.
+7. **Driving details:** fixed lanes or unrestricted side-to-side movement? How many lanes, what road width, and what steering/acceleration/collision rules? Gas bomb timing and pickup behavior also remain open.
 8. **Progression:** how do restaurants/cycles become visually and mechanically distinct?
 9. **Score/lives:** scoring, bonuses, and continuation rules.
 10. **Hardware plan:** graphics, sound, memory, development and testing.
 
 ## 10. Change log
 
+- **v0.2 — 2026-10-25:** Confirms Spy Hunter-style overhead driving for Stages 2, 4, and 6: upward-facing player car near bottom, downward-scrolling road, lead friends' car near top, pursuing police, and falling Gas-Nix pickups on later drives. Lane and control details remain open.
 - **v0.1 — 2026-10-25:** Initial documented concept. Establishes four restaurants, provisional nine stages each, loop after Level 4, Gas-Nix replacing laxatives, first drive racing a rising meter, later drives collecting Gas-Nix from friends, and the bathroom objective.
