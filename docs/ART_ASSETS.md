@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Art Assets and Visual Direction
 
-**Version:** 0.5  
+**Version:** 0.6  
 **Date:** 2026-10-25  
 **Status:** Early art direction / living asset inventory  
 **Primary target:** Atari 800XL  
@@ -55,7 +55,7 @@ The cartridge label should share the same game title, visual style, young protag
 
 ## 3. Main hero — continuity specification
 
-The hero is a **young adult man**, not the older, heavier, mustached character used in an early concept.
+The hero is a **young adult man**, not the older, heavier, mustached character used in an early concept. **The hero's name is still undecided.** Do not label final artwork or sprites with a proposed name.
 
 **Current established visual cues:**
 - Youthful face, shaggy/messy brown hair.
@@ -113,7 +113,7 @@ Road stages (2, 4, and 6) use a **Spy Hunter-style overhead/top-down view**:
 - Show enough roadside/shoulder area that the player can steer freely off the road, with a clearly understandable **too-far-off-road crash boundary** (its exact graphic and collision threshold are open).
 - Place the friends' lead car **toward the top** of the driving playfield.
 - Draw both **police cars and hazmat vans** pursuing from **behind and alongside** the player, with collision/ramming and displacement animations or cues.
-- Support visible **four-sided gas blasts** from the player's car (front, back, left, right) to knock back pursuers. Diagonal blast effects are an **optional direction under evaluation**, not yet a confirmed requirement.
+- For the **first prototype**, create **four-direction gas blasts only** (front, back, left, right) to knock back pursuers. Diagonal effects are a **possible later enhancement**, not part of the first prototype.
 - In road stages **after** the pharmacy, show **Gas-Nix packages** falling/moving downward from the friends' car toward the player.
 - Ensure car silhouettes and pickups remain distinct at actual Atari 800XL display resolution.
 
@@ -194,7 +194,7 @@ These are **planned assets, not completed assets**.
 | P0 | Gas pressure HUD | Meter and critical warning |
 | P1 | Taco Smell exterior/interior | Level 1 introductory scene and playable area |
 | P1 | Hazmat crew | Small readable enemy sprites |
-| P1 | Gas blast effect | Directional gas knockback from front/rear/left/right of car; diagonal variants only if approved |
+| P1 | Gas blast effect | First prototype: front/rear/left/right knockback only; diagonal variants deferred |
 | P1 | Pharmacy environment | Playable room/map and medicine location |
 | P1 | Grocery environment | Playable room/map and toilet paper |
 | P2 | Home exterior/interior/bathroom | Final stage visuals |
@@ -228,6 +228,7 @@ Priorities describe a **proposed prototype sequence**, not a development commitm
 
 ## 12. Change log
 
+- **v0.6 — 2026-10-25:** Sets first-prototype gas effects to four directions; eight-way art deferred. Protagonist name remains open.
 - **v0.5 — 2026-10-25:** Adds police and hazmat vans capable of shoving player off road, directional knockback gas effects on all four sides of the car, and wrong-fork detours with slower distance countdown. Eight-way diagonal effects remain optional pending control decision.
 - **v0.4 — 2026-10-25:** Specifies blinking fork-direction arrow near the top of the driving screen, appearing a few seconds before the fork. Precise timing and visual treatment remain open.
 - **v0.3 — 2026-10-25:** Adds free lateral steering, winding roads, two-way forks with arrow, off-road crash boundary, and a driving-screen split of 2/3 playfield to 1/3 HUD. Exact presentation remains to be designed.
