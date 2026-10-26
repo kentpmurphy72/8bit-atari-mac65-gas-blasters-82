@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Project To-Do List
 
-**Version:** 0.1  
+**Version:** 0.2  
 **Date:** 2026-10-25  
 **Target:** Atari 800XL  
 **Status:** Planning and early design  
@@ -18,6 +18,8 @@
 - [x] Establish Gas-Nix as the gas-relief medicine.
 - [x] Define the first road chase's rising gas-pressure mechanic.
 - [x] Define Gas-Nix pickups dropped by friends on later road stages.
+- [x] Confirm overhead, upward-facing-car, downward-scrolling-road perspective for driving stages (Spy Hunter-style).
+- [ ] Decide fixed lanes versus free side-to-side steering and roadway width.
 - [ ] Choose overhead or side-view gameplay for indoor stages.
 - [ ] Define player movement and joystick/fire-button controls.
 - [ ] Define how gas blasts work against enemies.
@@ -52,8 +54,8 @@
 
 **Recommended starting point: Stage 2 — First Road Chase.**
 
-- [ ] Display a basic vertically scrolling road.
-- [ ] Draw the player's car.
+- [ ] Display a basic overhead roadway scrolling downward.
+- [ ] Draw the player's car facing upward near the bottom of the screen.
 - [ ] Implement joystick steering.
 - [ ] Add police cars and basic collision detection.
 - [ ] Add the gas-pressure meter.
@@ -156,4 +158,5 @@
 
 ## Change Log
 
+- **v0.2 — 2026-10-25:** Records the confirmed Spy Hunter-style overhead driving perspective; adds open lane-width/steering decision and clarifies driving-prototype tasks.
 - **v0.1 — 2026-10-25:** Initial project checklist reflecting the game-design and art-direction discussions to date.
