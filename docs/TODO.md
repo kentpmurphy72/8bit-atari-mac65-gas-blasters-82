@@ -1,12 +1,23 @@
 # Gas Blasters '82 — Project To-Do List
 
-**Version:** 0.7  
+**Version:** 0.8  
 **Date:** 2026-10-25  
 **Target:** Atari 800XL  
 **Status:** Planning and early design  
 **Companion documents:** [Game Design](GAME_DESIGN.md) · [Art Assets](ART_ASSETS.md)
 
 > Living checklist. An unchecked item is not necessarily an approved requirement; some items are proposed work that depends on design decisions. Update this file as tasks are finished or scope changes.
+
+## Status audit — 2026-10-25
+
+- **25 of 138 checklist items completed (18%).** Another **113 remain open**. No additional unchecked items met the completion criteria during this audit.
+- **Phase totals:** Game Design 19/37; Technical Architecture 3/14; First Playable Prototype 0/23; Indoor Gameplay 0/12; Graphics & Animation 3/15; Sound & Music 0/9; Build All Four Levels 0/10; Testing & Release 0/12; Ongoing Maintenance 0/6.
+- **Evidence reviewed:** current Game Design and Art Assets documents, repository files and available commit history. The repository contains the foundational design files and initial directory structure, but does not yet contain a committed playable game implementation.
+- **Still empty:** `AGENTS.md` and `docs/TECHNICAL_DESIGN.md`; do not mark them complete merely because the files exist.
+- **Partially specified, not complete:** four-way gas blast behavior is agreed upon for road stages, but the single-joystick control mapping and indoor blast behavior are open; the indoor camera, HUD placement, gameplay failure handling, and final art are also not decided.
+- **Ongoing maintenance checkboxes remain open intentionally:** documentation updates to date do not make recurring maintenance tasks permanently finished.
+
+This audit preserves the existing checked states and should not be interpreted as proof that emulator or physical hardware testing has taken place.
 
 ## Phase 1 — Game Design
 *Goal: Finalize the fundamental gameplay rules.*
@@ -189,6 +200,7 @@
 
 ## Change Log
 
+- **v0.8 — 2026-10-25:** Audited all 138 tasks against documented decisions and repository commits. Verified 25 already-complete items; no additional tasks were marked complete. Added phase totals and evidence/limitations summary.
 - **v0.7 — 2026-10-25:** Confirms Billy Blaster as the main character and records the exact in-game introduction text; presentation and implementation are still to do.
 - **v0.6 — 2026-10-25:** Confirms four-direction gas blasting as initial prototype scope, defers diagonal tests, and tracks naming the main character as an open design task.
 - **v0.5 — 2026-10-25:** Confirms wrong forks cause slower mileage countdown (gas still rises), police/hazmat vans bump the player off-road, and four-sided gas blasts repel enemies. Adds eight-direction feasibility/control decision and new prototype tasks.
