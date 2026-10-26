@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Art Assets and Visual Direction
 
-**Version:** 0.6  
+**Version:** 0.7  
 **Date:** 2026-10-25  
 **Status:** Early art direction / living asset inventory  
 **Primary target:** Atari 800XL  
@@ -55,7 +55,7 @@ The cartridge label should share the same game title, visual style, young protag
 
 ## 3. Main hero — continuity specification
 
-The hero is a **young adult man**, not the older, heavier, mustached character used in an early concept. **The hero's name is still undecided.** Do not label final artwork or sprites with a proposed name.
+The hero is **Billy Blaster** (**confirmed name**), a **young adult man**, not the older, heavier, mustached character used in an early concept. Use **Billy Blaster** consistently for character art, sprites, opening-story graphics, and production asset names.
 
 **Current established visual cues:**
 - Youthful face, shaggy/messy brown hair.
@@ -70,6 +70,14 @@ The hero is a **young adult man**, not the older, heavier, mustached character u
 **Consistency requirement:** the small hero in the **grocery-store scene** and the small hero **running toward/into the house** must look like the same young man shown in the center of the box, with the same cap, outfit, general build and colors. The cartridge hero must also match.
 
 **Still needed:** authoritative character turnaround, pixel-sprite proportions, walk/run poses, driving representation, direction-facing frames, and gas-blast animation.
+
+### Introductory text requirement
+
+The game must display the exact following text in an opening/title introduction or another appropriate **in-game** story moment:
+
+> Meet Billy Blaster. He's got a fast car, great friends, and a stomach that's about to become a national emergency.
+
+If needed for Atari 800XL display limits, split it into successive screens or lines while preserving the complete wording and punctuation. The placement, typography, transitions and character illustration are still to be designed.
 
 ## 4. Supporting characters and entities
 
@@ -145,7 +153,7 @@ The game currently proposes nine stages per restaurant but may consolidate some 
 - Recognizable **Gas-Nix** pickup sprite/icon.
 - Clear distinction among the player's car, the friends' car and police vehicles.
 - Signals for collision/capture, pressure relief and stage completion.
-- Restaurant/level introduction and stage transition screens.
+- Restaurant/level introduction and stage transition screens, including in-game delivery of Billy Blaster's required introduction.
 - Bathroom success moment and repeat-cycle transition.
 
 **Open:** exact HUD panel orientation and dimensions, pressure-meter styling, lives/other indicators, exact colors, font, animation frames and sound-linked effects.
@@ -225,9 +233,11 @@ Priorities describe a **proposed prototype sequence**, not a development commitm
 9. Decide final package brand/logo use and production dimensions.
 10. Design the two-branch road fork and a blinking, top-of-screen advance-warning arrow; tune the exact blink rate and lead time. Design visual cues for a wrong-fork detour with slower decreasing mileage. Design the 2/3 driving + 1/3 HUD layout and decide HUD placement/orientation.
 11. Design police-car and hazmat-van ramming effects and four-sided gas blasts; decide whether diagonal blast sprites are warranted after controller testing.
+12. Design a legible in-game opening/introduction presentation for Billy Blaster's required line.
 
 ## 12. Change log
 
+- **v0.7 — 2026-10-25:** Names the young protagonist Billy Blaster and specifies the exact introductory line to include in-game; layout and timing remain open.
 - **v0.6 — 2026-10-25:** Sets first-prototype gas effects to four directions; eight-way art deferred. Protagonist name remains open.
 - **v0.5 — 2026-10-25:** Adds police and hazmat vans capable of shoving player off road, directional knockback gas effects on all four sides of the car, and wrong-fork detours with slower distance countdown. Eight-way diagonal effects remain optional pending control decision.
 - **v0.4 — 2026-10-25:** Specifies blinking fork-direction arrow near the top of the driving screen, appearing a few seconds before the fork. Precise timing and visual treatment remain open.
