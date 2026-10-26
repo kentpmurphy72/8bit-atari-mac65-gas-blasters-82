@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Game Design Document
 
-**Version:** 0.6  
+**Version:** 0.7  
 **Date:** 2026-10-25  
 **Status:** Early design / living document  
 **Primary target:** Atari 800XL (Atari 8-bit family)  
@@ -64,7 +64,13 @@ Stage titles are working labels. It remains possible to **merge or remove stages
 
 ## 4. Story and stage flow
 
-**Main character name:** Not yet chosen. The existing packaging features a young man; possible names are brainstorming candidates only and should not be used as canonical text or code identifiers yet.
+**Main character name — Confirmed:** **Billy Blaster**. He is the young protagonist featured in the approved packaging direction.
+
+**Required introductory line — Confirmed (exact wording):**
+
+> Meet Billy Blaster. He's got a fast car, great friends, and a stomach that's about to become a national emergency.
+
+**In-game placement:** Include this line somewhere the player can encounter it **within the game**, preferably as part of the opening/title introduction or a short pre-Stage-1 story sequence. The final screen, timing and presentation are **open**. It may be split across multiple screens or text lines to accommodate Atari 800XL text/graphics limitations, but retain the exact wording, capitalization, apostrophes and punctuation in the combined text. Do not treat instruction-manual text alone as satisfying the in-game requirement.
 
 
 ### Stage 1 — Restaurant escape
@@ -231,6 +237,7 @@ We should avoid mixing two incompatible loss systems (pressure meter and separat
 | Topic | Current decision |
 |---|---|
 | Game title | **Gas Blasters '82** |
+| Main character | **Billy Blaster** (young male protagonist); exact introductory quote required within the game |
 | Lead restaurant | **Taco Smell** (replaces early working name Taco Hell) |
 | Level sequence | Taco Smell → Casa de Gas → The Bean Machine → The Blazing Burrito → repeat |
 | Stage count | Nine per level **for now**; may be reduced |
@@ -259,10 +266,12 @@ We should avoid mixing two incompatible loss systems (pressure meter and separat
 8. **Blaster controls:** how should four-way gas blast aiming coexist with steering on one joystick and Fire button? Evaluate possible diagonal extension only after the prototype.
 9. **Progression:** how do restaurants/cycles become visually and mechanically distinct?
 10. **Score/lives:** scoring, bonuses, and continuation rules.
-11. **Hardware plan:** graphics, sound, memory, development and testing.
+11. **Intro implementation:** where and how should Billy Blaster's required introduction appear in-game without changing its wording?
+12. **Hardware plan:** graphics, sound, memory, development and testing.
 
 ## 10. Change log
 
+- **v0.7 — 2026-10-25:** Confirms the protagonist's name as Billy Blaster and requires the exact introductory line to appear in-game, with presentation/placement to be determined.
 - **v0.6 — 2026-10-25:** Selects four-direction vehicle gas blasting for the first prototype; diagonal blasting remains an optional later experiment. Records that the main character has not yet been named.
 - **v0.5 — 2026-10-25:** Wrong fork becomes detour: miles count down slower while gas builds, with no automatic crash. Police cars and hazmat vans attempt to force the player off-road; four-sided gas blasts knock enemies away. Atari joystick can detect eight directions, but adding diagonal blasts and mapping aiming to one stick remain design decisions.
 - **v0.4 — 2026-10-25:** Confirms road-fork arrow appears near the top of the screen, blinks, and warns the player a few seconds before the road divides. Exact lead time, blink rate, and wrong-fork consequences remain open.
