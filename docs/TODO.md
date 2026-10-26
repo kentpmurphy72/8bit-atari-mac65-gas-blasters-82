@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Project To-Do List
 
-**Version:** 0.3  
+**Version:** 0.4  
 **Date:** 2026-10-25  
 **Target:** Atari 800XL  
 **Status:** Planning and early design  
@@ -24,7 +24,9 @@
 - [x] Confirm that driving too far off the road causes a crash.
 - [x] Confirm driving-stage screen allocation: 2/3 road/playfield and 1/3 status HUD (gas, miles to destination, score).
 - [ ] Decide road/shoulder widths and exact off-road crash tolerance.
-- [ ] Decide fork-arrow presentation and consequences of taking the wrong branch.
+- [x] Confirm a blinking fork-direction arrow near the top of the screen, appearing a few seconds before a fork.
+- [ ] Tune the exact arrow-warning lead time, blink cadence, and when the arrow disappears.
+- [ ] Decide consequences of taking the wrong branch.
 - [ ] Select HUD position/orientation and precise display dimensions.
 - [ ] Choose overhead or side-view gameplay for indoor stages.
 - [ ] Define player movement and joystick/fire-button controls.
@@ -64,7 +66,7 @@
 - [ ] Implement continuous side-to-side steering (no fixed-lane snapping).
 - [ ] Implement off-road detection and crash when too far beyond roadway edge.
 - [ ] Prototype roads winding left and right.
-- [ ] Prototype a two-branch fork with directional arrow.
+- [ ] Prototype a two-branch fork with a blinking direction arrow appearing a few seconds in advance near the top of the screen.
 - [ ] Draw the player's car facing upward near the bottom of the screen.
 - [ ] Implement joystick steering.
 - [ ] Add police cars and basic collision detection.
@@ -171,6 +173,7 @@
 
 ## Change Log
 
+- **v0.4 — 2026-10-25:** Confirms a blinking advance-warning arrow near the top of the driving screen a few seconds before forks; adds timing and blink-cadence tuning tasks.
 - **v0.3 — 2026-10-25:** Confirms unrestricted lateral driving, off-road crashes, winding/forking roads with route arrow, and 2/3 driving + 1/3 HUD screen layout; adds outstanding detailed-design and prototype work.
 - **v0.2 — 2026-10-25:** Records the confirmed Spy Hunter-style overhead driving perspective; adds open lane-width/steering decision and clarifies driving-prototype tasks.
 - **v0.1 — 2026-10-25:** Initial project checklist reflecting the game-design and art-direction discussions to date.
