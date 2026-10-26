@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Art Assets and Visual Direction
 
-**Version:** 0.3  
+**Version:** 0.4  
 **Date:** 2026-10-25  
 **Status:** Early art direction / living asset inventory  
 **Primary target:** Atari 800XL  
@@ -108,7 +108,7 @@ Road stages (2, 4, and 6) use a **Spy Hunter-style overhead/top-down view**:
 - Draw the player's car **from above**, **nose pointing toward the top of the screen**, near the **bottom of the play area**.
 - Create **downward-scrolling roadway and roadside graphics** to imply forward movement.
 - Support a **winding road** whose route shifts left and right, plus **two-way fork junctions** with two visually legible branches.
-- Show an **on-screen arrow** indicating which branch of each fork the player must take. The arrow's design and timing are open.
+- Show a **blinking directional arrow near the top of the screen (within the driving playfield)**, indicating which branch of each fork the player must take. The arrow **appears a few seconds before the fork** so there is time to choose the route. Exact warning duration, blink cadence, typography/icon styling, and when it disappears remain open.
 - Show enough roadside/shoulder area that the player can steer freely off the road, with a clearly understandable **too-far-off-road crash boundary** (its exact graphic and collision threshold are open).
 - Place the friends' lead car **toward the top** of the driving playfield.
 - Draw police cars pursuing from **behind and alongside** the player.
@@ -186,7 +186,7 @@ These are **planned assets, not completed assets**.
 | P0 | Police car | Distinct hazard sprite |
 | P0 | Gas-Nix pickup | Small clear collectible icon |
 | P0 | Road | Downward-scrolling winding road, shoulder/off-road regions, and two-branch forks |
-| P0 | Fork arrow | Clear directional sign for selected branch |
+| P0 | Fork arrow | Blinking route arrow near top of driving screen, introduced a few seconds before a two-way fork |
 | P0 | Driving screen layout | 2/3 playfield + 1/3 HUD for gas pressure, distance (miles), score |
 | P0 | Gas pressure HUD | Meter and critical warning |
 | P1 | Taco Smell exterior/interior | Level 1 introductory scene and playable area |
@@ -220,10 +220,11 @@ Priorities describe a **proposed prototype sequence**, not a development commitm
 7. Simplify the box artwork for a legible cartridge label at real dimensions.
 8. Reconcile the cover's “TOILET PAPER SOLD OUT AGAIN!” gag with the need to acquire toilet paper.
 9. Decide final package brand/logo use and production dimensions.
-10. Design the two-branch road fork, direction arrow, and 2/3 driving + 1/3 HUD layout; decide HUD placement/orientation.
+10. Design the two-branch road fork and a blinking, top-of-screen advance-warning arrow; tune the exact blink rate and lead time. Design the 2/3 driving + 1/3 HUD layout and decide HUD placement/orientation.
 
 ## 12. Change log
 
+- **v0.4 — 2026-10-25:** Specifies blinking fork-direction arrow near the top of the driving screen, appearing a few seconds before the fork. Precise timing and visual treatment remain open.
 - **v0.3 — 2026-10-25:** Adds free lateral steering, winding roads, two-way forks with arrow, off-road crash boundary, and a driving-screen split of 2/3 playfield to 1/3 HUD. Exact presentation remains to be designed.
 - **v0.2 — 2026-10-25:** Locks road-stage art direction to an overhead view with upward-facing cars and downward-scrolling roadway; notes lead-car, pursuit, and Gas-Nix pickup placement. Driving-lane layout is still open.
 - **v0.1 — 2026-10-25:** Captures the preferred retro box/cartridge concept, young hero continuity, hazmat figures added at Taco Smell, reduced green-gas effect, removed slogan, four restaurant names, and preliminary production asset list.
