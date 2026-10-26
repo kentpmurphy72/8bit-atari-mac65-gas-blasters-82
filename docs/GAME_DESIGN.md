@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Game Design Document
 
-**Version:** 0.3  
+**Version:** 0.4  
 **Date:** 2026-10-25  
 **Status:** Early design / living document  
 **Primary target:** Atari 800XL (Atari 8-bit family)  
@@ -177,7 +177,7 @@ The player has secret gas powers to evade hazmat personnel and police. The origi
 - The **road and roadside scenery scroll downward** to convey forward travel.
 - **Unrestricted side-to-side steering:** the car moves freely left or right, **not** between fixed discrete lanes. The player can drive onto the roadside/shoulder; going **too far off-road** causes a **crash**. The exact tolerance before crashing is open.
 - The roadway **winds left and right**. The road location changes relative to the screen and the player must steer to stay on it.
-- The road can **fork into two branches**. An **on-screen directional arrow** appears to indicate **which fork to take**. Consequences of taking the wrong fork are not yet defined.
+- The road can **fork into two branches**. A **blinking on-screen directional arrow** indicates **which fork to take**. The arrow appears **a few seconds before the fork is encountered**, positioned **near the top of the screen** in the driving playfield to give the player time to react. The exact number of seconds, blink cadence, disappearance timing, and consequences of choosing the wrong fork remain open.
 - Police vehicles pursue from behind and may appear beside the player.
 - Friends travel ahead, with their lead car **near the top of the driving playfield**.
 - On road chases after the pharmacy, the friends drop **Gas-Nix**; pickups move down toward the player's car as the road scrolls.
@@ -191,7 +191,7 @@ The player has secret gas powers to evade hazmat personnel and police. The origi
   - Any additional essential information identified during design.
 - The layout orientation (for example, a vertical side HUD vs. another division), exact pixel dimensions, text/graphic styling, and how the two-thirds boundary is implemented on Atari hardware are **not yet selected**. Preserve the overall 2/3-to-1/3 allocation.
 
-**Still open for driving:** road width and shoulders, winding curvature and fork generation/placement, arrow location/timing, outcomes for the wrong branch, crash/life/restart behavior, precise player vertical-position freedom, acceleration/braking, speed, enemy/traffic collisions, input mapping, gas-bomb controls, and whether the HUD includes lives or stage details. *Spy Hunter* is a perspective/gameplay reference, **not** a requirement to duplicate all its mechanics.
+**Still open for driving:** road width and shoulders, winding curvature and fork generation/placement, exact fork-warning lead time and blink cadence (with approximate top-screen placement confirmed), outcomes for the wrong branch, crash/life/restart behavior, precise player vertical-position freedom, acceleration/braking, speed, enemy/traffic collisions, input mapping, gas-bomb controls, and whether the HUD includes lives or stage details. *Spy Hunter* is a perspective/gameplay reference, **not** a requirement to duplicate all its mechanics.
 
 **Still open for indoor stages:** overhead maze versus side-view action. A single Atari joystick with one fire button is the expected hardware input, but the complete mapping is **not finalized**.
 
@@ -223,7 +223,7 @@ We should avoid mixing two incompatible loss systems (pressure meter and separat
 | Stage count | Nine per level **for now**; may be reduced |
 | Pharmacy objective | **Gas-Nix gas relief**; not laxatives |
 | Driving perspective | **Confirmed overhead/top-down**; car points upward near bottom of driving area; road scrolls downward; friends' car ahead near top; police pursue |
-| Driving controls/roads | **Free lateral steering** (no fixed lanes); winding roadway; driving too far off-road causes a crash; two-way road forks with arrow indicating correct fork |
+| Driving controls/roads | **Free lateral steering** (no fixed lanes); winding roadway; driving too far off-road causes a crash; two-way road forks with **blinking directional arrow near top of screen appearing a few seconds in advance** |
 | Driving screen layout | **2/3** road/playfield, **1/3** HUD with gas meter, miles to next destination, score, and other essential indicators |
 | First driving stage | Near-zero pressure rising toward 100%; reach pharmacy before explosion |
 | Later driving stages | Friends' car drops Gas-Nix to manage pressure |
@@ -238,13 +238,14 @@ We should avoid mixing two incompatible loss systems (pressure meter and separat
 4. **Pressure failure:** what exactly happens at 100% (life lost, stage restart, game over)?
 5. **Pharmacy handoff:** how do friends receive Gas-Nix for subsequent drives?
 6. **Stage count:** should exterior/home/bathroom stages be combined?
-7. **Driving details:** how wide is the winding roadway/shoulder; how long can the player remain off-road before crashing; how are forks and direction arrows presented; what happens at a wrong fork; and what steering, acceleration, collision, gas-bomb and pickup rules apply? Which side/portion hosts the one-third HUD?
+7. **Driving details:** how wide is the winding roadway/shoulder; how long can the player remain off-road before crashing; what exact lead time and blink rate should the confirmed advance-warning arrow use; when should it disappear; what happens at a wrong fork; and what steering, acceleration, collision, gas-bomb and pickup rules apply? Which side/portion hosts the one-third HUD?
 8. **Progression:** how do restaurants/cycles become visually and mechanically distinct?
 9. **Score/lives:** scoring, bonuses, and continuation rules.
 10. **Hardware plan:** graphics, sound, memory, development and testing.
 
 ## 10. Change log
 
+- **v0.4 — 2026-10-25:** Confirms road-fork arrow appears near the top of the screen, blinks, and warns the player a few seconds before the road divides. Exact lead time, blink rate, and wrong-fork consequences remain open.
 - **v0.3 — 2026-10-25:** Confirms unrestricted horizontal steering, off-road crash threshold, winding roads and two-way forks with direction arrows; reserves two-thirds of driving screen for roadway and one-third for gas meter, miles to destination, score and other HUD information. HUD placement and detailed rules remain open.
 - **v0.2 — 2026-10-25:** Confirms Spy Hunter-style overhead driving for Stages 2, 4, and 6: upward-facing player car near bottom, downward-scrolling road, lead friends' car near top, pursuing police, and falling Gas-Nix pickups on later drives. Lane and control details remain open.
 - **v0.1 — 2026-10-25:** Initial documented concept. Establishes four restaurants, provisional nine stages each, loop after Level 4, Gas-Nix replacing laxatives, first drive racing a rising meter, later drives collecting Gas-Nix from friends, and the bathroom objective.
