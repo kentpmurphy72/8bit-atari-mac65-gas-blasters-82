@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Project To-Do List
 
-**Version:** 0.6  
+**Version:** 0.7  
 **Date:** 2026-10-25  
 **Target:** Atari 800XL  
 **Status:** Planning and early design  
@@ -35,7 +35,9 @@
 - [ ] Design one-button joystick steering-versus-gas-aiming controls and prototype usability.
 - [ ] Determine car-to-car collision impulse, recovery window, and gas-blast knockback behavior.
 - [ ] Select HUD position/orientation and precise display dimensions.
-- [ ] Choose a name for the main character.
+- [x] Choose a name for the main character: **Billy Blaster**.
+- [x] Approve Billy Blaster's introductory line (exact wording captured in GAME_DESIGN.md).
+- [ ] Decide where and how to show Billy Blaster's required introduction within the game.
 - [ ] Choose overhead or side-view gameplay for indoor stages.
 - [ ] Define player movement and joystick/fire-button controls.
 - [ ] Define how gas blasts work against enemies.
@@ -130,7 +132,7 @@
 - [ ] Create HUD, score, gas-pressure, and miles-to-destination graphics for the dedicated one-third driving panel.
 - [ ] Design winding-road transitions, fork-road graphics, roadside/crash-boundary cues, directional arrow and wrong-fork detour feedback.
 - [ ] Design four-sided gas blast effects and ramming/knockback cues; optional diagonal art after mechanic approval.
-- [ ] Design title, stage introduction, game-over, and victory screens.
+- [ ] Design title, stage introduction (including Billy Blaster's exact quote), game-over, and victory screens.
 - [ ] Finalize box and cartridge artwork for production.
 
 ## Phase 6 — Sound and Music
@@ -157,7 +159,7 @@
 - [ ] Implement the loop from Level 4 back to Level 1.
 - [ ] Apply difficulty adjustments between levels and cycles.
 - [ ] Complete scoring, lives, and game-over logic.
-- [ ] Add intro, transition, and ending sequences.
+- [ ] Add intro, transition, and ending sequences; display Billy Blaster's approved line in-game with exact wording.
 - [ ] Play through a complete four-level cycle.
 
 ## Phase 8 — Testing and Release
@@ -187,6 +189,7 @@
 
 ## Change Log
 
+- **v0.7 — 2026-10-25:** Confirms Billy Blaster as the main character and records the exact in-game introduction text; presentation and implementation are still to do.
 - **v0.6 — 2026-10-25:** Confirms four-direction gas blasting as initial prototype scope, defers diagonal tests, and tracks naming the main character as an open design task.
 - **v0.5 — 2026-10-25:** Confirms wrong forks cause slower mileage countdown (gas still rises), police/hazmat vans bump the player off-road, and four-sided gas blasts repel enemies. Adds eight-direction feasibility/control decision and new prototype tasks.
 - **v0.4 — 2026-10-25:** Confirms a blinking advance-warning arrow near the top of the driving screen a few seconds before forks; adds timing and blink-cadence tuning tasks.
