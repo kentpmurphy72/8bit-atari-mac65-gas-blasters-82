@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Art Assets and Visual Direction
 
-**Version:** 0.1  
+**Version:** 0.2  
 **Date:** 2026-10-25  
 **Status:** Early art direction / living asset inventory  
 **Primary target:** Atari 800XL  
@@ -101,10 +101,23 @@ Names such as “Hazmat Hank” or “Officer Sniff” were brainstorming sugges
 
 Each restaurant needs its own recognizable title/location art. Whether it also gets a completely unique tile set, stage palette, enemy skins or gameplay geometry is **open**.
 
+### Driving-stage perspective — Confirmed
+
+Road stages (2, 4, and 6) use a **Spy Hunter-style overhead/top-down view**:
+
+- Draw the player's car **from above**, **nose pointing toward the top of the screen**, near the **bottom of the play area**.
+- Create **downward-scrolling roadway and roadside graphics** to imply forward movement.
+- Place the friends' lead car **toward the top** of the screen.
+- Draw police cars pursuing from **behind and alongside** the player.
+- In road stages **after** the pharmacy, show **Gas-Nix packages** falling/moving downward from the friends' car toward the player.
+- Ensure car silhouettes and pickups remain distinct at actual Atari 800XL display resolution.
+
+**Still open:** strict lanes versus free lateral steering, exact road width and markings, car colors, sprite dimensions, graphics modes, and vertical range of movement. The reference establishes the camera perspective, **not** a pixel-perfect replica of *Spy Hunter*.
+
 ### Reusable environment categories
 
 - **Restaurant interior:** tables, counters, exits, hazmat-friendly paths.
-- **Highway:** vertical-scrolling road, lanes, roadside scenery, traffic, player and friendly/police vehicles.
+- **Highway:** confirmed overhead/upward-facing vehicle perspective with downward-scrolling road, roadside scenery, traffic, and player/friends/police vehicles. Lane count and road width remain open.
 - **Pharmacy:** aisles, shelves, Gas-Nix product display/collection location.
 - **Grocery store:** aisles, shelves, toilet-paper pickup location.
 - **House exterior:** yard/driveway/front door, hazmat positions.
@@ -191,7 +204,7 @@ Priorities describe a **proposed prototype sequence**, not a development commitm
 2. Decide visual perspective for indoor sections (overhead or side view).
 3. Select 800XL graphics modes, sprite/tile dimensions, palette and animation budget.
 4. Draw a distinctive **Gas-Nix** box/pickup.
-5. Select car appearances and the friends' visual identity.
+5. Select car appearances and the friends' visual identity; determine lane structure and road width without changing the confirmed overhead perspective.
 6. Decide whether all four restaurants get separate key art and/or tile sets.
 7. Simplify the box artwork for a legible cartridge label at real dimensions.
 8. Reconcile the cover's “TOILET PAPER SOLD OUT AGAIN!” gag with the need to acquire toilet paper.
@@ -199,4 +212,5 @@ Priorities describe a **proposed prototype sequence**, not a development commitm
 
 ## 12. Change log
 
+- **v0.2 — 2026-10-25:** Locks road-stage art direction to an overhead view with upward-facing cars and downward-scrolling roadway; notes lead-car, pursuit, and Gas-Nix pickup placement. Driving-lane layout is still open.
 - **v0.1 — 2026-10-25:** Captures the preferred retro box/cartridge concept, young hero continuity, hazmat figures added at Taco Smell, reduced green-gas effect, removed slogan, four restaurant names, and preliminary production asset list.
