@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Project To-Do List
 
-**Version:** 0.2  
+**Version:** 0.3  
 **Date:** 2026-10-25  
 **Target:** Atari 800XL  
 **Status:** Planning and early design  
@@ -19,7 +19,13 @@
 - [x] Define the first road chase's rising gas-pressure mechanic.
 - [x] Define Gas-Nix pickups dropped by friends on later road stages.
 - [x] Confirm overhead, upward-facing-car, downward-scrolling-road perspective for driving stages (Spy Hunter-style).
-- [ ] Decide fixed lanes versus free side-to-side steering and roadway width.
+- [x] Confirm unrestricted left/right steering, rather than fixed lanes.
+- [x] Confirm winding roads and occasional two-way forks with on-screen direction arrows.
+- [x] Confirm that driving too far off the road causes a crash.
+- [x] Confirm driving-stage screen allocation: 2/3 road/playfield and 1/3 status HUD (gas, miles to destination, score).
+- [ ] Decide road/shoulder widths and exact off-road crash tolerance.
+- [ ] Decide fork-arrow presentation and consequences of taking the wrong branch.
+- [ ] Select HUD position/orientation and precise display dimensions.
 - [ ] Choose overhead or side-view gameplay for indoor stages.
 - [ ] Define player movement and joystick/fire-button controls.
 - [ ] Define how gas blasts work against enemies.
@@ -55,10 +61,16 @@
 **Recommended starting point: Stage 2 — First Road Chase.**
 
 - [ ] Display a basic overhead roadway scrolling downward.
+- [ ] Implement continuous side-to-side steering (no fixed-lane snapping).
+- [ ] Implement off-road detection and crash when too far beyond roadway edge.
+- [ ] Prototype roads winding left and right.
+- [ ] Prototype a two-branch fork with directional arrow.
 - [ ] Draw the player's car facing upward near the bottom of the screen.
 - [ ] Implement joystick steering.
 - [ ] Add police cars and basic collision detection.
-- [ ] Add the gas-pressure meter.
+- [ ] Divide the driving screen into roughly 2/3 driving playfield and 1/3 HUD.
+- [ ] Add the gas-pressure meter to the HUD.
+- [ ] Display miles remaining to the next destination and score in the HUD.
 - [ ] Make gas pressure rise automatically over time.
 - [ ] Trigger an explosion/failure when pressure reaches 100%.
 - [ ] Define and detect successful arrival at the pharmacy.
@@ -100,7 +112,8 @@
 - [ ] Design Gas-Nix and toilet-paper pickup graphics.
 - [ ] Design four distinct restaurant identities and environments.
 - [ ] Create pharmacy, grocery, road, house, and bathroom graphics.
-- [ ] Create HUD, score, and gas-pressure graphics.
+- [ ] Create HUD, score, gas-pressure, and miles-to-destination graphics for the dedicated one-third driving panel.
+- [ ] Design winding-road transitions, fork-road graphics, roadside/crash-boundary cues, and directional arrow.
 - [ ] Design title, stage introduction, game-over, and victory screens.
 - [ ] Finalize box and cartridge artwork for production.
 
@@ -158,5 +171,6 @@
 
 ## Change Log
 
+- **v0.3 — 2026-10-25:** Confirms unrestricted lateral driving, off-road crashes, winding/forking roads with route arrow, and 2/3 driving + 1/3 HUD screen layout; adds outstanding detailed-design and prototype work.
 - **v0.2 — 2026-10-25:** Records the confirmed Spy Hunter-style overhead driving perspective; adds open lane-width/steering decision and clarifies driving-prototype tasks.
 - **v0.1 — 2026-10-25:** Initial project checklist reflecting the game-design and art-direction discussions to date.
