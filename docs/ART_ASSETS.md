@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Art Assets and Visual Direction
 
-**Version:** 0.2  
+**Version:** 0.3  
 **Date:** 2026-10-25  
 **Status:** Early art direction / living asset inventory  
 **Primary target:** Atari 800XL  
@@ -107,17 +107,20 @@ Road stages (2, 4, and 6) use a **Spy Hunter-style overhead/top-down view**:
 
 - Draw the player's car **from above**, **nose pointing toward the top of the screen**, near the **bottom of the play area**.
 - Create **downward-scrolling roadway and roadside graphics** to imply forward movement.
-- Place the friends' lead car **toward the top** of the screen.
+- Support a **winding road** whose route shifts left and right, plus **two-way fork junctions** with two visually legible branches.
+- Show an **on-screen arrow** indicating which branch of each fork the player must take. The arrow's design and timing are open.
+- Show enough roadside/shoulder area that the player can steer freely off the road, with a clearly understandable **too-far-off-road crash boundary** (its exact graphic and collision threshold are open).
+- Place the friends' lead car **toward the top** of the driving playfield.
 - Draw police cars pursuing from **behind and alongside** the player.
 - In road stages **after** the pharmacy, show **Gas-Nix packages** falling/moving downward from the friends' car toward the player.
 - Ensure car silhouettes and pickups remain distinct at actual Atari 800XL display resolution.
 
-**Still open:** strict lanes versus free lateral steering, exact road width and markings, car colors, sprite dimensions, graphics modes, and vertical range of movement. The reference establishes the camera perspective, **not** a pixel-perfect replica of *Spy Hunter*.
+**Confirmed:** movement is **free left/right**, not restricted to fixed lanes. The road can curve/wind and split; leaving it too far results in a crash. **Still open:** road/shoulder width, curve severity, junction/arrow appearance, car colors, sprite dimensions, graphics modes, and vertical range of movement. The reference establishes the camera perspective, **not** a pixel-perfect replica of *Spy Hunter*.
 
 ### Reusable environment categories
 
 - **Restaurant interior:** tables, counters, exits, hazmat-friendly paths.
-- **Highway:** confirmed overhead/upward-facing vehicle perspective with downward-scrolling road, roadside scenery, traffic, and player/friends/police vehicles. Lane count and road width remain open.
+- **Highway:** confirmed overhead/upward-facing vehicle perspective with downward-scrolling winding roads, occasional two-way forks and indicated route, roadside/shoulder graphics, traffic, and player/friends/police vehicles. Free lateral steering; exact road width remains open.
 - **Pharmacy:** aisles, shelves, Gas-Nix product display/collection location.
 - **Grocery store:** aisles, shelves, toilet-paper pickup location.
 - **House exterior:** yard/driveway/front door, hazmat positions.
@@ -128,6 +131,12 @@ The game currently proposes nine stages per restaurant but may consolidate some 
 
 ## 6. Visual gameplay feedback / HUD
 
+**Confirmed driving-stage screen partition:**
+- **About two-thirds of the screen** is the **road/driving playfield**, containing the player, other vehicles, winding road, branches, Gas-Nix pickups, and fork arrow as applicable.
+- **About one-third of the screen** is a separate **HUD/status area** containing at least a **gas-pressure meter, miles to the next destination/step, and score**, plus any other necessary status indicators.
+- This split applies to road stages (2, 4, and 6). Do not assume the same split is required in indoor stages.
+- **HUD position/orientation is still open** (side panel vs. another configuration); avoid prematurely hardcoding it or treating a concept mockup as a final screen layout.
+
 **Needed in some form:**
 - Visible gas-pressure meter with clearly understood **0–100%** range.
 - Strong visual warning at/near **100%** (explosion threshold).
@@ -137,7 +146,7 @@ The game currently proposes nine stages per restaurant but may consolidate some 
 - Restaurant/level introduction and stage transition screens.
 - Bathroom success moment and repeat-cycle transition.
 
-**Open:** pressure-meter placement, scores/lives display, exact colors, screen dimensions, font, animation frames and sound-linked effects.
+**Open:** exact HUD panel orientation and dimensions, pressure-meter styling, lives/other indicators, exact colors, font, animation frames and sound-linked effects.
 
 Earlier UI sketches were illustrative and are **not** approved pixel-perfect layouts.
 
@@ -176,7 +185,9 @@ These are **planned assets, not completed assets**.
 | P0 | Friends' car | Distinct road sprite |
 | P0 | Police car | Distinct hazard sprite |
 | P0 | Gas-Nix pickup | Small clear collectible icon |
-| P0 | Road | Scrollable roadway/lane markings |
+| P0 | Road | Downward-scrolling winding road, shoulder/off-road regions, and two-branch forks |
+| P0 | Fork arrow | Clear directional sign for selected branch |
+| P0 | Driving screen layout | 2/3 playfield + 1/3 HUD for gas pressure, distance (miles), score |
 | P0 | Gas pressure HUD | Meter and critical warning |
 | P1 | Taco Smell exterior/interior | Level 1 introductory scene and playable area |
 | P1 | Hazmat crew | Small readable enemy sprites |
@@ -204,13 +215,15 @@ Priorities describe a **proposed prototype sequence**, not a development commitm
 2. Decide visual perspective for indoor sections (overhead or side view).
 3. Select 800XL graphics modes, sprite/tile dimensions, palette and animation budget.
 4. Draw a distinctive **Gas-Nix** box/pickup.
-5. Select car appearances and the friends' visual identity; determine lane structure and road width without changing the confirmed overhead perspective.
+5. Select car appearances and the friends' visual identity; determine exact roadway/shoulder width and off-road crash-boundary visuals (free lateral movement is confirmed).
 6. Decide whether all four restaurants get separate key art and/or tile sets.
 7. Simplify the box artwork for a legible cartridge label at real dimensions.
 8. Reconcile the cover's “TOILET PAPER SOLD OUT AGAIN!” gag with the need to acquire toilet paper.
 9. Decide final package brand/logo use and production dimensions.
+10. Design the two-branch road fork, direction arrow, and 2/3 driving + 1/3 HUD layout; decide HUD placement/orientation.
 
 ## 12. Change log
 
+- **v0.3 — 2026-10-25:** Adds free lateral steering, winding roads, two-way forks with arrow, off-road crash boundary, and a driving-screen split of 2/3 playfield to 1/3 HUD. Exact presentation remains to be designed.
 - **v0.2 — 2026-10-25:** Locks road-stage art direction to an overhead view with upward-facing cars and downward-scrolling roadway; notes lead-car, pursuit, and Gas-Nix pickup placement. Driving-lane layout is still open.
 - **v0.1 — 2026-10-25:** Captures the preferred retro box/cartridge concept, young hero continuity, hazmat figures added at Taco Smell, reduced green-gas effect, removed slogan, four restaurant names, and preliminary production asset list.
