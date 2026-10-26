@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Game Design Document
 
-**Version:** 0.5  
+**Version:** 0.6  
 **Date:** 2026-10-25  
 **Status:** Early design / living document  
 **Primary target:** Atari 800XL (Atari 8-bit family)  
@@ -63,6 +63,9 @@ The precise differences in layouts, enemies, difficulty and presentation between
 Stage titles are working labels. It remains possible to **merge or remove stages** after prototyping; nine is not a locked scope requirement.
 
 ## 4. Story and stage flow
+
+**Main character name:** Not yet chosen. The existing packaging features a young man; possible names are brainstorming candidates only and should not be used as canonical text or code identifiers yet.
+
 
 ### Stage 1 — Restaurant escape
 
@@ -153,13 +156,13 @@ Reach the bathroom before the impending explosion/implosion. Successful completi
 
 The player has secret gas powers to evade hazmat personnel and police.
 
-**Confirmed for driving:** the car can blast gas **outward from each of its four sides** (front, rear, left, right). A blast **pushes enemy cars and hazmat vans away**, helping prevent ramming and attempted forced off-road crashes.
+**Confirmed for the first playable prototype:** implement **four-direction gas blasting only** (front, rear, left, right). A blast **pushes enemy cars and hazmat vans away**, helping prevent ramming and attempted forced off-road crashes. Four-way blasting is the initial implementation scope; it does not permanently exclude diagonals.
 
 **Eight directions are technically possible on the Atari 800XL**: its digital joystick detects the four cardinal directions plus their four diagonal combinations. However, **diagonal gas-blast directions are still under consideration**, not an approved gameplay rule.
 
 **Critical control-design issue:** the Atari's typical one-button joystick is also responsible for steering. Eight-direction aiming and car steering cannot be independent at the same instant with only that one stick unless the game defines a mode/priority scheme. One possible **proposal**, not yet approved, is **hold Fire + point joystick to aim**, temporarily suspending steering while the car coasts; release Fire to resume steering. Alternatives include Fire + direction affecting both steering and aiming, a retained aim direction, or a simpler four-way blast scheme.
 
-**Open:** whether to adopt four or eight blast directions; exact Fire/joystick input mapping; blast range, animation, duration, cooldown and knockback; effects on player pressure; whether Gas-Nix weakens gas attacks; and how gas blasts work during indoor stages.
+**Open:** whether to add diagonals *after testing the four-way prototype*; exact Fire/joystick input mapping for steering and blast selection; blast range, animation, duration, cooldown and knockback; effects on player pressure; whether Gas-Nix weakens gas attacks; and how gas blasts work during indoor stages.
 
 ### 5.4 Friends' lead car — Confirmed concept
 
@@ -236,7 +239,8 @@ We should avoid mixing two incompatible loss systems (pressure meter and separat
 | Driving controls/roads | **Free lateral steering** (no fixed lanes); winding roadway; driving too far off-road causes a crash; two-way road forks with **blinking directional arrow near top of screen appearing a few seconds in advance** |
 | Wrong fork | No automatic crash; a time-costly detour slows miles-to-go countdown while pressure keeps increasing |
 | Road enemies / defense | Police cars and hazmat vans try to bump the player's car off-road; gas blasts from all **four sides** push vehicles away |
-| Diagonal gas blasts | Hardware supports 8-way joystick input; **whether to implement 8-way gas blasting and how to aim is open** |
+| Gas-blast prototype | **Four-way blasting selected for initial prototype** (front, rear, left, right); steering/aim input mapping still open |
+| Diagonal gas blasts | Hardware supports 8-way joystick input; **future 8-way extension remains optional** |
 | Driving screen layout | **2/3** road/playfield, **1/3** HUD with gas meter, miles to next destination, score, and other essential indicators |
 | First driving stage | Near-zero pressure rising toward 100%; reach pharmacy before explosion |
 | Later driving stages | Friends' car drops Gas-Nix to manage pressure |
@@ -252,13 +256,14 @@ We should avoid mixing two incompatible loss systems (pressure meter and separat
 5. **Pharmacy handoff:** how do friends receive Gas-Nix for subsequent drives?
 6. **Stage count:** should exterior/home/bathroom stages be combined?
 7. **Driving details:** How wide is the winding roadway/shoulder; how far can the car leave the road before crashing; what warning/blink timing should arrows use; how slow does mileage fall on wrong-fork detours, and how/when do detours rejoin; what steering, collision/ramming impulse, gas-blast knockback, pickup rules, and HUD placement apply?
-8. **Blaster controls:** keep four directions or add diagonals for eight-way gas blasts? If eight, how does one joystick switch between steering and aiming?
+8. **Blaster controls:** how should four-way gas blast aiming coexist with steering on one joystick and Fire button? Evaluate possible diagonal extension only after the prototype.
 9. **Progression:** how do restaurants/cycles become visually and mechanically distinct?
 10. **Score/lives:** scoring, bonuses, and continuation rules.
 11. **Hardware plan:** graphics, sound, memory, development and testing.
 
 ## 10. Change log
 
+- **v0.6 — 2026-10-25:** Selects four-direction vehicle gas blasting for the first prototype; diagonal blasting remains an optional later experiment. Records that the main character has not yet been named.
 - **v0.5 — 2026-10-25:** Wrong fork becomes detour: miles count down slower while gas builds, with no automatic crash. Police cars and hazmat vans attempt to force the player off-road; four-sided gas blasts knock enemies away. Atari joystick can detect eight directions, but adding diagonal blasts and mapping aiming to one stick remain design decisions.
 - **v0.4 — 2026-10-25:** Confirms road-fork arrow appears near the top of the screen, blinks, and warns the player a few seconds before the road divides. Exact lead time, blink rate, and wrong-fork consequences remain open.
 - **v0.3 — 2026-10-25:** Confirms unrestricted horizontal steering, off-road crash threshold, winding roads and two-way forks with direction arrows; reserves two-thirds of driving screen for roadway and one-third for gas meter, miles to destination, score and other HUD information. HUD placement and detailed rules remain open.
