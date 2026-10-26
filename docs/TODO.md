@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Project To-Do List
 
-**Version:** 0.5  
+**Version:** 0.6  
 **Date:** 2026-10-25  
 **Target:** Atari 800XL  
 **Status:** Planning and early design  
@@ -30,10 +30,12 @@
 - [x] Confirm police cars and hazmat vans attempt to bump/PIT-style force the car off the road.
 - [x] Confirm gas blasts from the front, rear, left and right push enemy vehicles away.
 - [ ] Set wrong-fork slowdown/detour length and rejoining behavior.
-- [ ] Decide whether to extend driving gas blasts from four sides to eight diagonal directions.
+- [x] Select four-direction gas blasting for the initial driving prototype.
+- [ ] Evaluate eight-direction blasting only after playtesting the four-way prototype.
 - [ ] Design one-button joystick steering-versus-gas-aiming controls and prototype usability.
 - [ ] Determine car-to-car collision impulse, recovery window, and gas-blast knockback behavior.
 - [ ] Select HUD position/orientation and precise display dimensions.
+- [ ] Choose a name for the main character.
 - [ ] Choose overhead or side-view gameplay for indoor stages.
 - [ ] Define player movement and joystick/fire-button controls.
 - [ ] Define how gas blasts work against enemies.
@@ -79,7 +81,8 @@
 - [ ] Add police cars and basic collision detection.
 - [ ] Add hazmat vans and enemy lateral ramming/forced-off-road behavior.
 - [ ] Implement directional gas blast knockback on all four sides of the player's car.
-- [ ] Experiment with optional diagonal (eight-way) blasting and a single-joystick aim/steer control scheme.
+- [ ] Test the four-direction aiming-versus-steering control scheme on a one-button joystick.
+- [ ] Consider an optional diagonal (eight-way) extension after four-way playtesting.
 - [ ] Divide the driving screen into roughly 2/3 driving playfield and 1/3 HUD.
 - [ ] Add the gas-pressure meter to the HUD.
 - [ ] Display miles remaining to the next destination and score in the HUD.
@@ -184,6 +187,7 @@
 
 ## Change Log
 
+- **v0.6 — 2026-10-25:** Confirms four-direction gas blasting as initial prototype scope, defers diagonal tests, and tracks naming the main character as an open design task.
 - **v0.5 — 2026-10-25:** Confirms wrong forks cause slower mileage countdown (gas still rises), police/hazmat vans bump the player off-road, and four-sided gas blasts repel enemies. Adds eight-direction feasibility/control decision and new prototype tasks.
 - **v0.4 — 2026-10-25:** Confirms a blinking advance-warning arrow near the top of the driving screen a few seconds before forks; adds timing and blink-cadence tuning tasks.
 - **v0.3 — 2026-10-25:** Confirms unrestricted lateral driving, off-road crashes, winding/forking roads with route arrow, and 2/3 driving + 1/3 HUD screen layout; adds outstanding detailed-design and prototype work.
