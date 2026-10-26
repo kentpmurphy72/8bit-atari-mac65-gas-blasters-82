@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Game Design Document
 
-**Version:** 0.4  
+**Version:** 0.5  
 **Date:** 2026-10-25  
 **Status:** Early design / living document  
 **Primary target:** Atari 800XL (Atari 8-bit family)  
@@ -81,7 +81,9 @@ Two cars leave the restaurant: the player's car and a separate car driven by fri
 
 **Confirmed road features:** free left/right steering, winding road, occasional two-way fork with an on-screen arrow indicating the intended route, and a crash if the car travels too far off the roadway. Driving uses approximately two-thirds of the screen; a separate one-third HUD shows gas pressure, distance in miles to the next destination, score, and other necessary indicators.
 
-**Open:** road speed/distance, traffic patterns, gas growth rate, police attack behavior, precise explosion penalty, whether road gas bombs offer relief, and consequences of choosing the wrong fork.
+**Confirmed:** If the player takes the **wrong fork**, it is a **detour, not an immediate crash**. The **miles-to-destination counter continues counting down, but more slowly**, while **gas pressure keeps rising**, making the detour costly. Police cars and hazmat vans intentionally try to **ram/PIT-style shove** the player off the road; being pushed too far off the roadway causes a crash. The player can use **gas blasts from all four sides of the car** to push pursuing vehicles away.
+
+**Open:** road speed/distance and precise distance penalty for incorrect forks, how detours rejoin the intended road, gas growth rate, exact explosion/crash penalties, and eight-direction gas-blast control mapping.
 
 ### Stage 3 — Pharmacy: obtain Gas-Nix
 
@@ -147,11 +149,17 @@ Reach the bathroom before the impending explosion/implosion. Successful completi
 
 **Balancing values are not specified**; do not hardcode speculative percentages as canonical game rules.
 
-### 5.3 Gas-blasting abilities — Core concept, detailed behavior open
+### 5.3 Gas-blasting abilities — Four-sided vehicle blasts confirmed; details open
 
-The player has secret gas powers to evade hazmat personnel and police. The original concept includes gas blasts in on-foot areas and gas bombs during vehicle pursuits.
+The player has secret gas powers to evade hazmat personnel and police.
 
-**Open:** attack direction, duration, stun vs. knockback, cooldown, whether attacks decrease pressure, whether gas power varies with pressure, and whether Gas-Nix weakens attack strength. These are possibilities discussed during brainstorming, **not approved mechanics**.
+**Confirmed for driving:** the car can blast gas **outward from each of its four sides** (front, rear, left, right). A blast **pushes enemy cars and hazmat vans away**, helping prevent ramming and attempted forced off-road crashes.
+
+**Eight directions are technically possible on the Atari 800XL**: its digital joystick detects the four cardinal directions plus their four diagonal combinations. However, **diagonal gas-blast directions are still under consideration**, not an approved gameplay rule.
+
+**Critical control-design issue:** the Atari's typical one-button joystick is also responsible for steering. Eight-direction aiming and car steering cannot be independent at the same instant with only that one stick unless the game defines a mode/priority scheme. One possible **proposal**, not yet approved, is **hold Fire + point joystick to aim**, temporarily suspending steering while the car coasts; release Fire to resume steering. Alternatives include Fire + direction affecting both steering and aiming, a retained aim direction, or a simpler four-way blast scheme.
+
+**Open:** whether to adopt four or eight blast directions; exact Fire/joystick input mapping; blast range, animation, duration, cooldown and knockback; effects on player pressure; whether Gas-Nix weakens gas attacks; and how gas blasts work during indoor stages.
 
 ### 5.4 Friends' lead car — Confirmed concept
 
@@ -165,9 +173,11 @@ The player has secret gas powers to evade hazmat personnel and police. The origi
 
 ### 5.5 Enemies and obstacles
 
-**Confirmed enemy groups by setting:** hazmat crew (restaurant and home exterior); police (road and home interior); pharmacy staff/patrons/manager; grocery shoppers/employees/manager.
+**Confirmed enemy groups by setting:** hazmat crew (restaurant and home exterior); police and **hazmat vans** (road), police (home interior); pharmacy staff/patrons/manager; grocery shoppers/employees/manager.
 
-**Proposed:** distinct pursuit behaviors, roadblocks, variable speeds, and environmental interactions. No specific enemy names, AI algorithms or spawn rates are final.
+**Confirmed driving enemy behavior:** police cars and hazmat vans **deliberately ram or attempt PIT-style side collisions** to push the player off the road. The player can counter them using gas-blast knockback. If a resulting shove carries the player's car too far outside the safe roadway, it **crashes**.
+
+**Open:** AI positioning and attack patterns, collision impulses, recovery opportunity before off-road failure, enemy knockback strengths and limits. Other enemy behaviors and roadblocks remain **proposed**; no specific enemy names or spawn rates are final.
 
 ### 5.6 Driving perspective, movement, road layout, and HUD — Confirmed design
 
@@ -177,8 +187,8 @@ The player has secret gas powers to evade hazmat personnel and police. The origi
 - The **road and roadside scenery scroll downward** to convey forward travel.
 - **Unrestricted side-to-side steering:** the car moves freely left or right, **not** between fixed discrete lanes. The player can drive onto the roadside/shoulder; going **too far off-road** causes a **crash**. The exact tolerance before crashing is open.
 - The roadway **winds left and right**. The road location changes relative to the screen and the player must steer to stay on it.
-- The road can **fork into two branches**. A **blinking on-screen directional arrow** indicates **which fork to take**. The arrow appears **a few seconds before the fork is encountered**, positioned **near the top of the screen** in the driving playfield to give the player time to react. The exact number of seconds, blink cadence, disappearance timing, and consequences of choosing the wrong fork remain open.
-- Police vehicles pursue from behind and may appear beside the player.
+- The road can **fork into two branches**. A **blinking on-screen directional arrow** indicates **which fork to take**. The arrow appears **a few seconds before the fork is encountered**, positioned **near the top of the screen** in the driving playfield to give the player time to react. **Taking the wrong fork does not instantly crash the car**: it wastes travel time, slows the miles-remaining countdown and allows pressure to keep building. The exact warning timing, slowdown factor, detour duration and road rejoining remain open.
+- Police cars and hazmat vans pursue, deliberately **bumping/PIT-style shoving** the player's car toward the road edge. **Four-sided car gas blasts** push these vehicles back. Diagonal blasting is possible but **unconfirmed**.
 - Friends travel ahead, with their lead car **near the top of the driving playfield**.
 - On road chases after the pharmacy, the friends drop **Gas-Nix**; pickups move down toward the player's car as the road scrolls.
 
@@ -186,12 +196,12 @@ The player has secret gas powers to evade hazmat personnel and police. The origi
 - Approximately **2/3 of the total screen** is reserved for the **road and active driving gameplay**.
 - Approximately **1/3 of the total screen** is a dedicated **status/HUD area**, showing at minimum:
   - Current **gas-pressure meter**.
-  - **Miles remaining to the next destination/step** (pharmacy, grocery store, or home).
+  - **Miles remaining to the next destination/step** (pharmacy, grocery store, or home); miles **continue decreasing at a reduced rate on wrong-fork detours**.
   - **Score**.
   - Any additional essential information identified during design.
 - The layout orientation (for example, a vertical side HUD vs. another division), exact pixel dimensions, text/graphic styling, and how the two-thirds boundary is implemented on Atari hardware are **not yet selected**. Preserve the overall 2/3-to-1/3 allocation.
 
-**Still open for driving:** road width and shoulders, winding curvature and fork generation/placement, exact fork-warning lead time and blink cadence (with approximate top-screen placement confirmed), outcomes for the wrong branch, crash/life/restart behavior, precise player vertical-position freedom, acceleration/braking, speed, enemy/traffic collisions, input mapping, gas-bomb controls, and whether the HUD includes lives or stage details. *Spy Hunter* is a perspective/gameplay reference, **not** a requirement to duplicate all its mechanics.
+**Still open for driving:** road width and shoulders, winding curvature and fork generation/placement, exact fork-warning lead time and blink cadence (with approximate top-screen placement confirmed), wrong-fork slowdown/detour tuning, crash/life/restart behavior, precise player vertical-position freedom, acceleration/braking, speed, enemy/traffic collisions, input mapping, gas-bomb controls, and whether the HUD includes lives or stage details. *Spy Hunter* is a perspective/gameplay reference, **not** a requirement to duplicate all its mechanics.
 
 **Still open for indoor stages:** overhead maze versus side-view action. A single Atari joystick with one fire button is the expected hardware input, but the complete mapping is **not finalized**.
 
@@ -224,6 +234,9 @@ We should avoid mixing two incompatible loss systems (pressure meter and separat
 | Pharmacy objective | **Gas-Nix gas relief**; not laxatives |
 | Driving perspective | **Confirmed overhead/top-down**; car points upward near bottom of driving area; road scrolls downward; friends' car ahead near top; police pursue |
 | Driving controls/roads | **Free lateral steering** (no fixed lanes); winding roadway; driving too far off-road causes a crash; two-way road forks with **blinking directional arrow near top of screen appearing a few seconds in advance** |
+| Wrong fork | No automatic crash; a time-costly detour slows miles-to-go countdown while pressure keeps increasing |
+| Road enemies / defense | Police cars and hazmat vans try to bump the player's car off-road; gas blasts from all **four sides** push vehicles away |
+| Diagonal gas blasts | Hardware supports 8-way joystick input; **whether to implement 8-way gas blasting and how to aim is open** |
 | Driving screen layout | **2/3** road/playfield, **1/3** HUD with gas meter, miles to next destination, score, and other essential indicators |
 | First driving stage | Near-zero pressure rising toward 100%; reach pharmacy before explosion |
 | Later driving stages | Friends' car drops Gas-Nix to manage pressure |
@@ -238,13 +251,15 @@ We should avoid mixing two incompatible loss systems (pressure meter and separat
 4. **Pressure failure:** what exactly happens at 100% (life lost, stage restart, game over)?
 5. **Pharmacy handoff:** how do friends receive Gas-Nix for subsequent drives?
 6. **Stage count:** should exterior/home/bathroom stages be combined?
-7. **Driving details:** how wide is the winding roadway/shoulder; how long can the player remain off-road before crashing; what exact lead time and blink rate should the confirmed advance-warning arrow use; when should it disappear; what happens at a wrong fork; and what steering, acceleration, collision, gas-bomb and pickup rules apply? Which side/portion hosts the one-third HUD?
-8. **Progression:** how do restaurants/cycles become visually and mechanically distinct?
-9. **Score/lives:** scoring, bonuses, and continuation rules.
-10. **Hardware plan:** graphics, sound, memory, development and testing.
+7. **Driving details:** How wide is the winding roadway/shoulder; how far can the car leave the road before crashing; what warning/blink timing should arrows use; how slow does mileage fall on wrong-fork detours, and how/when do detours rejoin; what steering, collision/ramming impulse, gas-blast knockback, pickup rules, and HUD placement apply?
+8. **Blaster controls:** keep four directions or add diagonals for eight-way gas blasts? If eight, how does one joystick switch between steering and aiming?
+9. **Progression:** how do restaurants/cycles become visually and mechanically distinct?
+10. **Score/lives:** scoring, bonuses, and continuation rules.
+11. **Hardware plan:** graphics, sound, memory, development and testing.
 
 ## 10. Change log
 
+- **v0.5 — 2026-10-25:** Wrong fork becomes detour: miles count down slower while gas builds, with no automatic crash. Police cars and hazmat vans attempt to force the player off-road; four-sided gas blasts knock enemies away. Atari joystick can detect eight directions, but adding diagonal blasts and mapping aiming to one stick remain design decisions.
 - **v0.4 — 2026-10-25:** Confirms road-fork arrow appears near the top of the screen, blinks, and warns the player a few seconds before the road divides. Exact lead time, blink rate, and wrong-fork consequences remain open.
 - **v0.3 — 2026-10-25:** Confirms unrestricted horizontal steering, off-road crash threshold, winding roads and two-way forks with direction arrows; reserves two-thirds of driving screen for roadway and one-third for gas meter, miles to destination, score and other HUD information. HUD placement and detailed rules remain open.
 - **v0.2 — 2026-10-25:** Confirms Spy Hunter-style overhead driving for Stages 2, 4, and 6: upward-facing player car near bottom, downward-scrolling road, lead friends' car near top, pursuing police, and falling Gas-Nix pickups on later drives. Lane and control details remain open.
