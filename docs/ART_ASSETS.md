@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Art Assets and Visual Direction
 
-**Version:** 0.13  
+**Version:** 0.14  
 **Date:** 2026-10-26  
 **Status:** Early art direction / living asset inventory  
 **Primary target:** Atari 800XL  
@@ -118,7 +118,7 @@ Road stages (2, 4, and 6) use a **Spy Hunter-style overhead/top-down view**:
 - Create **downward-scrolling roadway and roadside graphics** to imply forward movement.
 - Support winding sections that **narrow the paved road from 75% to 40% of the left driving playfield over approximately 4 seconds**, weave left/right at the narrow width, and **widen from 40% to 75% over approximately 4 seconds** when the winding ends. Keep both shoulders **6.25% of driving-playfield width each**, immediately adjacent to the road; remaining space becomes grass. When centered at minimum width, show **23.75% grass / 6.25% shoulder / 40% road / 6.25% shoulder / 23.75% grass**. In a weave, shoulder widths remain fixed to road edges while grass areas may become asymmetrical. These times/widths are design targets awaiting first-prototype validation.
 - Design a **center divider island** that scrolls down from the top of the roadway and creates a visually readable **left/right fork** (reference: supplied *Spy Hunter* center-island screenshot). The island is physically distinct from the safe shoulders and grassy off-road zones.
-- Show a **flashing GREEN arrow pointing straight UP**, positioned **near the top of the left driving playfield** on the **LEFT or RIGHT side** to indicate the preferred branch through the center-island fork. It begins flashing **approximately 2 seconds before the divider island first appears at the top of the screen**. Do not render a conventional sideways-pointing left/right arrow: branch selection is conveyed by the side on which the upward arrow appears. Exact blink rate, arrow sprite dimensions, disappearance timing and island art measurements remain open.
+- Show a **flashing GREEN arrow pointing straight UP**, positioned **near the top of the left driving playfield** on the **LEFT or RIGHT side** to indicate the preferred branch through the center-island fork. It begins **ON** and flashes **0.25s ON / 0.25s OFF**, starting **approximately 2 seconds before the divider island first appears at the top of the screen**. Keep flashing after the island becomes visible; **remove the arrow after Billy passes the fork decision point**. Do not render a conventional sideways-pointing left/right arrow: branch selection is conveyed by the side on which the upward arrow appears. Actual pixel coordinates, graphics-mode-dependent frame counts, decision-point collision coordinates, arrow sprite dimensions and island art measurements remain open.
 - **Straight-road baseline proportions within the left 2/3 driving playfield (left to right):** **6.25% grass**, **6.25% reduced-traction shoulder**, **75% paved roadway**, **6.25% reduced-traction shoulder**, **6.25% grass**. **Classify the center of Billy's car**, not its outer sprite/tire contact, at the local road boundary. Center in **grass** runs/resumes the off-road timer; center on **shoulder** pauses the timer at its value (with reduced traction); center on **paved road** resets it to zero. At **2.0 seconds of grass time since last paved-road contact**, the car explodes and loses one life. Derive exact pixel boundaries from these percentages **after selecting graphics mode**; no pixel values or sprite sizes are final.
 - Create the progressive effects for accumulated **grass** time: **skid (0–0.5s); car shake with reduced steering (0.5–1.0s); warning sound and smoke (1.0–1.5s); critical warning and heavier smoke (1.5–2.0s); explosion (2.0s)**. The timer/effect escalation **pauses** on shoulder and **resets** on paved road. Consider readability of paused warnings, without changing the confirmed timing rules.
 - Place the friends' lead car **toward the top** of the driving playfield.
@@ -127,7 +127,7 @@ Road stages (2, 4, and 6) use a **Spy Hunter-style overhead/top-down view**:
 - In road stages **after** the pharmacy, show **Gas-Nix packages** falling/moving downward from the friends' car toward the player.
 - Ensure car silhouettes and pickups remain distinct at actual Atari 800XL display resolution.
 
-**Confirmed:** movement is **free left/right**, not restricted to fixed lanes. Winding sections narrow **75% → 40% in ~4s** and widen **40% → 75% in ~4s**, maintaining **6.25% shoulders**; forks use a **center island** with a **flashing green UP arrow** to signal left/right ~2 seconds in advance. Grass triggers the off-road timer as defined by the car-center rules, rather than an immediate crash. **Still open:** game-feel validation of narrowing, island/arrow pixel shapes, flash cadence, curve severity, car colors, sprite dimensions, graphics modes, and vertical range of movement. The reference establishes the camera perspective, **not** a pixel-perfect replica of *Spy Hunter*.
+**Confirmed:** movement is **free left/right**, not restricted to fixed lanes. Winding sections narrow **75% → 40% in ~4s** and widen **40% → 75% in ~4s**, maintaining **6.25% shoulders**; forks use a **center island** with a **flashing green UP arrow** beginning ~2 seconds before island appearance; flash at **0.25s ON / 0.25s OFF** until Billy passes the decision point. Grass triggers the off-road timer as defined by the car-center rules, rather than an immediate crash. **Still open:** game-feel validation of narrowing, island/arrow pixel shapes and exact coordinates, frame-based timing, decision-point detection, curve severity, car colors, sprite dimensions, graphics modes, and vertical range of movement. The reference establishes the camera perspective, **not** a pixel-perfect replica of *Spy Hunter*.
 
 ### Reusable environment categories
 
@@ -202,7 +202,7 @@ These are **planned assets, not completed assets**.
 | P0 | Gas-Nix pickup | Small clear collectible icon |
 | P0 | Road | Downward-scrolling roadway; weaving width transitions 75%→40% in ~4s and 40%→75% in ~4s, constant 6.25% shoulders, variable grass, center-island forks |
 | P0 | Off-road recovery and crash FX | Skid, shake, smoke, heavy smoke, warning/critical states, and 2.0s explosion/lost-life cue |
-| P0 | Fork arrow | Flashing GREEN upward arrow near top of driving playfield, located left/right to mark preferred route; starts ~2s before fork island first appears |
+| P0 | Fork arrow | GREEN upward arrow near top on preferred left/right side; starts ~2s before island appears; flashes 0.25s ON / 0.25s OFF and vanishes after Billy passes fork decision point |
 | P0 | Driving screen layout | Left 2/3 playfield: nominal 6.25% grass + 6.25% shoulder + 75% road + 6.25% shoulder + 6.25% grass; right 1/3 fixed HUD for lives, score, miles remaining, gas |
 | P0 | Gas pressure HUD | Meter and critical warning |
 | P1 | Taco Smell exterior/interior | Level 1 introductory scene and playable area |
@@ -236,13 +236,14 @@ Priorities describe a **proposed prototype sequence**, not a development commitm
 7. Simplify the box artwork for a legible cartridge label at real dimensions.
 8. Reconcile the cover's “TOILET PAPER SOLD OUT AGAIN!” gag with the need to acquire toilet paper.
 9. Decide final package brand/logo use and production dimensions.
-10. Create the **center-island two-branch fork** and **flashing green upward arrow** near top on the selected left/right side; tune the flash rate, disappearance and precise pixels around the confirmed ~2-second pre-island cue. Design visual cues for a wrong-fork detour with slower decreasing mileage. Implement the confirmed **right-side HUD** within the 2/3-left / 1/3-right layout; decide final pixel dimensions.
+10. Create the **center-island two-branch fork** and **flashing green upward arrow** near top on the selected left/right side; **implement the confirmed 0.25s ON / 0.25s OFF cadence, ~2-second pre-island start and removal after Billy passes the decision point**. Determine exact pixel placement, sprite measurements and practical timing/collision implementation. Design visual cues for a wrong-fork detour with slower decreasing mileage. Implement the confirmed **right-side HUD** within the 2/3-left / 1/3-right layout; decide final pixel dimensions.
 11. Design police-car and hazmat-van ramming effects and four-sided gas blasts; decide whether diagonal blast sprites are warranted after controller testing.
 12. Design a legible in-game opening/introduction presentation for Billy Blaster's required line.
 13. Design narrowing/weaving tiles and road-edge transitions for the confirmed **75%→40% (~4s)** and **40%→75% (~4s)** changes; keep shoulders 6.25% each and validate the effect during prototyping.
 
 ## 12. Change log
 
+- **v0.14 — 2026-10-26:** Specifies flashing green UP fork arrow near top on preferred left/right side: start ~2s before island first appears, repeat 0.25s ON/0.25s OFF, remove after Billy passes the fork decision point. Actual pixels, frame conversions and display resources await architecture/prototype.
 - **v0.13 — 2026-10-26:** Sets 40% minimum road width, approximately four seconds to narrow and four to widen, unchanged 6.25% shoulders, and 23.75% grass on each side when centered at minimum width. Art and timing remain unimplemented and subject to prototype validation.
 - **v0.12 — 2026-10-26:** Specifies car-center zone classification, grass time runs/resumes, shoulder time pauses, paved-road return resets, and two-second exposure/lost-life feedback. Defer pixel coordinates and center representation until graphics mode is chosen.
 - **v0.11 — 2026-10-26:** Adds temporary road narrowing during weaving curves with return to normal width; center-island split forks; flashing green upward-pointing advance arrow on left/right side near top, starting about 2 seconds before island first appears. Minimum road width, blink rate and sprite sizes remain open.
