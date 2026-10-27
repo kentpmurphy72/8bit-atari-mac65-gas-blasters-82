@@ -1,7 +1,7 @@
 # Gas Blasters '82 — Art Assets and Visual Direction
 
-**Version:** 0.7  
-**Date:** 2026-10-25  
+**Version:** 0.8  
+**Date:** 2026-10-26  
 **Status:** Early art direction / living asset inventory  
 **Primary target:** Atari 800XL  
 **Companion document:** docs/GAME_DESIGN.md
@@ -118,14 +118,15 @@ Road stages (2, 4, and 6) use a **Spy Hunter-style overhead/top-down view**:
 - Create **downward-scrolling roadway and roadside graphics** to imply forward movement.
 - Support a **winding road** whose route shifts left and right, plus **two-way fork junctions** with two visually legible branches.
 - Show a **blinking directional arrow near the top of the screen (within the driving playfield)**, indicating which branch of each fork the player must take. The arrow **appears a few seconds before the fork** so there is time to choose the route. Exact warning duration, blink cadence, typography/icon styling, and when it disappears remain open.
-- Show enough roadside/shoulder area that the player can steer freely off the road, with a clearly understandable **too-far-off-road crash boundary** (its exact graphic and collision threshold are open).
+- Visually distinguish **road**, **shoulder**, and **beyond-shoulder off-road danger zone**. Driving on the shoulder is recoverable with reduced traction and does not activate the timer; remaining outside the shoulder **2.0 seconds** causes an explosion and one-life loss. Exact widths remain open.
+- Create the progressive effects for time beyond shoulder: **skid (0–0.5s); car shake with reduced steering (0.5–1.0s); warning sound and smoke (1.0–1.5s); critical warning and heavier smoke (1.5–2.0s); explosion (2.0s)**. Reset visual/audio effects when safely back on-road.
 - Place the friends' lead car **toward the top** of the driving playfield.
 - Draw both **police cars and hazmat vans** pursuing from **behind and alongside** the player, with collision/ramming and displacement animations or cues.
 - For the **first prototype**, create **four-direction gas blasts only** (front, back, left, right) to knock back pursuers. Diagonal effects are a **possible later enhancement**, not part of the first prototype.
 - In road stages **after** the pharmacy, show **Gas-Nix packages** falling/moving downward from the friends' car toward the player.
 - Ensure car silhouettes and pickups remain distinct at actual Atari 800XL display resolution.
 
-**Confirmed:** movement is **free left/right**, not restricted to fixed lanes. The road can curve/wind and split; leaving it too far results in a crash. **Still open:** road/shoulder width, curve severity, junction/arrow appearance, car colors, sprite dimensions, graphics modes, and vertical range of movement. The reference establishes the camera perspective, **not** a pixel-perfect replica of *Spy Hunter*.
+**Confirmed:** movement is **free left/right**, not restricted to fixed lanes. The road can curve/wind and split; leaving the shoulder starts a **two-second recovery countdown**, rather than an immediate crash. **Still open:** road/shoulder width, curve severity, junction/arrow appearance, car colors, sprite dimensions, graphics modes, and vertical range of movement. The reference establishes the camera perspective, **not** a pixel-perfect replica of *Spy Hunter*.
 
 ### Reusable environment categories
 
@@ -153,6 +154,7 @@ The game currently proposes nine stages per restaurant but may consolidate some 
 - Recognizable **Gas-Nix** pickup sprite/icon.
 - Clear distinction among the player's car, the friends' car and police vehicles.
 - Signals for collision/capture, pressure relief and stage completion.
+- Distinct **off-road warning** effects (skid, shake, smoke, critical smoke, sound, explosion and lost-life cue) separate from gas-meter warnings.
 - Restaurant/level introduction and stage transition screens, including in-game delivery of Billy Blaster's required introduction.
 - Bathroom success moment and repeat-cycle transition.
 
@@ -196,7 +198,8 @@ These are **planned assets, not completed assets**.
 | P0 | Police car | Distinct hazard sprite; ramming/PIT-style knockback interaction |
 | P0 | Hazmat van | Large readable road enemy able to bump the player toward the shoulder |
 | P0 | Gas-Nix pickup | Small clear collectible icon |
-| P0 | Road | Downward-scrolling winding road, shoulder/off-road regions, and two-branch forks |
+| P0 | Road | Downward-scrolling winding road with distinguishable normal-road, low-traction shoulder, and beyond-shoulder timed-danger zones; two-branch forks |
+| P0 | Off-road recovery and crash FX | Skid, shake, smoke, heavy smoke, warning/critical states, and 2.0s explosion/lost-life cue |
 | P0 | Fork arrow | Blinking route arrow near top of driving screen, introduced a few seconds before a two-way fork |
 | P0 | Driving screen layout | 2/3 playfield + 1/3 HUD for gas pressure, distance (miles), score |
 | P0 | Gas pressure HUD | Meter and critical warning |
@@ -226,7 +229,7 @@ Priorities describe a **proposed prototype sequence**, not a development commitm
 2. Decide visual perspective for indoor sections (overhead or side view).
 3. Select 800XL graphics modes, sprite/tile dimensions, palette and animation budget.
 4. Draw a distinctive **Gas-Nix** box/pickup.
-5. Select car appearances and the friends' visual identity; determine exact roadway/shoulder width and off-road crash-boundary visuals (free lateral movement is confirmed).
+5. Select car appearances and the friends' visual identity; choose exact roadway/shoulder widths and geometric beyond-shoulder trigger (two-second failure rule and shoulder behavior are confirmed).
 6. Decide whether all four restaurants get separate key art and/or tile sets.
 7. Simplify the box artwork for a legible cartridge label at real dimensions.
 8. Reconcile the cover's “TOILET PAPER SOLD OUT AGAIN!” gag with the need to acquire toilet paper.
@@ -237,6 +240,7 @@ Priorities describe a **proposed prototype sequence**, not a development commitm
 
 ## 12. Change log
 
+- **v0.8 — 2026-10-26:** Defines shoulder/off-road art cues and escalating two-second warning animation/audio through explosion and one-life penalty, preserving unresolved exact widths.
 - **v0.7 — 2026-10-25:** Names the young protagonist Billy Blaster and specifies the exact introductory line to include in-game; layout and timing remain open.
 - **v0.6 — 2026-10-25:** Sets first-prototype gas effects to four directions; eight-way art deferred. Protagonist name remains open.
 - **v0.5 — 2026-10-25:** Adds police and hazmat vans capable of shoving player off road, directional knockback gas effects on all four sides of the car, and wrong-fork detours with slower distance countdown. Eight-way diagonal effects remain optional pending control decision.
