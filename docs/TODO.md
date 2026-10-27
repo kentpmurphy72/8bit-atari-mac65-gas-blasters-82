@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Project To-Do List
 
-**Version:** 0.10  
+**Version:** 0.11  
 **Date:** 2026-10-26  
 **Target:** Atari 800XL  
 **Status:** Planning and early design  
@@ -10,8 +10,8 @@
 
 ## Status update — 2026-10-26 (following 2026-10-25 audit)
 
-- **28 of 145 checklist items completed (19%).** Another **117 remain open**. Confirmed straight-road width and fixed right HUD: 75% roadway with 12.5% combined shoulder/grass on each side of the left 2/3 driving region, and lives/score/miles/gas in the right 1/3. The remaining shoulder-versus-grass split and precise off-road trigger are still open.
-- **Phase totals:** Game Design 22/40; Technical Architecture 3/14; First Playable Prototype 0/25; Indoor Gameplay 0/12; Graphics & Animation 3/16; Sound & Music 0/10; Build All Four Levels 0/10; Testing & Release 0/12; Ongoing Maintenance 0/6.
+- **29 of 146 checklist items completed (20%).** Another **117 remain open**. The straight-road playfield is now defined as 6.25% grass / 6.25% shoulder / 75% road / 6.25% shoulder / 6.25% grass, all within the left 2/3 of the screen. The fixed HUD occupies the right 1/3. The grass boundary triggers the 2-second off-road countdown; exact pixel/collision tests and partial shoulder recovery remain implementation/design details.
+- **Phase totals:** Game Design 23/41; Technical Architecture 3/14; First Playable Prototype 0/25; Indoor Gameplay 0/12; Graphics & Animation 3/16; Sound & Music 0/10; Build All Four Levels 0/10; Testing & Release 0/12; Ongoing Maintenance 0/6.
 - **Evidence reviewed:** current Game Design and Art Assets documents, repository files and available commit history. The repository contains the foundational design files and initial directory structure, but does not yet contain a committed playable game implementation.
 - **Still empty:** `AGENTS.md` and `docs/TECHNICAL_DESIGN.md`; do not mark them complete merely because the files exist.
 - **Partially specified, not complete:** four-way gas blast behavior is agreed upon for road stages, but the single-joystick control mapping and indoor blast behavior are open; the indoor camera, HUD placement, gameplay failure handling, and final art are also not decided.
@@ -36,7 +36,8 @@ This audit preserves the existing checked states and should not be interpreted a
 - [x] Confirm driving-stage screen allocation: 2/3 road/playfield and 1/3 status HUD (gas, miles to destination, score).
 - [x] Confirm 2.0-second continuous off-road limit, safe low-traction shoulder, warnings, return-to-road reset, explosion and one-life loss.
 - [x] Confirm straight-road width: left 2/3 driving playfield containing 75% roadway and 12.5% combined shoulder/grass on **each side**; winding roads/forks can alter local margins.
-- [ ] Decide shoulder-versus-grass split within each 12.5% roadside strip, precise off-road trigger geometry, and behavior when recovering only to the shoulder.
+- [x] Confirm each roadside strip consists of **6.25% shoulder next to the road and 6.25% outer grass** (fractions of the left driving playfield); grass is the two-second crash-danger zone.
+- [ ] Determine exact Atari-pixel boundaries, car-overlap test at grass entry, and behavior when recovering only to the shoulder.
 - [x] Confirm a blinking fork-direction arrow near the top of the screen, appearing a few seconds before a fork.
 - [ ] Tune the exact arrow-warning lead time, blink cadence, and when the arrow disappears.
 - [x] Confirm wrong forks incur slower miles countdown and continued rising gas pressure, rather than an immediate crash.
@@ -88,7 +89,7 @@ This audit preserves the existing checked states and should not be interpreted a
 
 - [ ] Display a basic overhead roadway scrolling downward.
 - [ ] Implement continuous side-to-side steering (no fixed-lane snapping).
-- [ ] Implement three zones: normal road, low-traction shoulder, and beyond-shoulder timer-danger area.
+- [ ] Implement three zones with baseline widths: 75% normal road, 6.25% low-traction shoulder per side, and 6.25% grass/timer-danger area per side of the left driving region.
 - [ ] Implement 2.0-second continuous off-road countdown, return-to-road reset, car explosion and loss of one life.
 - [ ] Implement staged skid, shake/reduced steering, warning/smoke, critical warning/heavy smoke.
 - [ ] Prototype roads winding left and right.
@@ -207,6 +208,7 @@ This audit preserves the existing checked states and should not be interpreted a
 
 ## Change Log
 
+- **v0.11 — 2026-10-26:** Approves equal 6.25% shoulder / 6.25% grass subdivision on both sides of a 75% baseline road; marks the proportion decision complete while leaving pixel-level collision and partial shoulder recovery open. Checklist now 29/146 completed.
 - **v0.10 — 2026-10-26:** Confirms the straight-section 75% road plus 12.5% roadside per side within a fixed left two-thirds driving playfield, and selects right-third HUD with lives/score/miles/gas. Splits remaining geometry and pixel sizing into open items. Now 28/145 completed; no code implementation claimed.
 - **v0.9 — 2026-10-26:** Confirms two-second off-road explosion/one-life rule, low-traction shoulder and progressive warnings, and updates phase/checklist counts (26/143). Exact road/shoulder widths remain open; added prototype, art and sound tasks.
 - **v0.8 — 2026-10-25:** Audited all 138 tasks against documented decisions and repository commits. Verified 25 already-complete items; no additional tasks were marked complete. Added phase totals and evidence/limitations summary.
