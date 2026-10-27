@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Art Assets and Visual Direction
 
-**Version:** 0.9  
+**Version:** 0.10  
 **Date:** 2026-10-26  
 **Status:** Early art direction / living asset inventory  
 **Primary target:** Atari 800XL  
@@ -118,7 +118,7 @@ Road stages (2, 4, and 6) use a **Spy Hunter-style overhead/top-down view**:
 - Create **downward-scrolling roadway and roadside graphics** to imply forward movement.
 - Support a **winding road** whose centerline shifts left and right within the fixed left driving area (so 12.5% roadside margins are **straight-section starting proportions**, not rigid margins on curves), plus **two-way fork junctions** with two visually legible branches. Forks can locally alter road geometry.
 - Show a **blinking directional arrow near the top of the screen (within the driving playfield)**, indicating which branch of each fork the player must take. The arrow **appears a few seconds before the fork** so there is time to choose the route. Exact warning duration, blink cadence, typography/icon styling, and when it disappears remain open.
-- **Straight-road baseline proportions within the left 2/3 driving playfield:** **12.5% left roadside (shoulder + grass)**, **75% roadway**, **12.5% right roadside (shoulder + grass)**. Visually distinguish paved **road**, reduced-traction safe **shoulder**, and **grass beyond the shoulder**, which starts the **2.0-second continuous off-road crash timer** and costs one life at expiry. Exact division of each roadside strip between shoulder/grass is not yet set.
+- **Straight-road baseline proportions within the left 2/3 driving playfield (left to right):** **6.25% grass**, **6.25% reduced-traction shoulder**, **75% paved roadway**, **6.25% reduced-traction shoulder**, **6.25% grass**. Grass lies outside the safe shoulder and starts the **2.0-second continuous off-road timer**, which costs one life if it expires. Actual pixel widths and sprite-overlap collision thresholds remain to be defined.
 - Create the progressive effects for time beyond shoulder: **skid (0–0.5s); car shake with reduced steering (0.5–1.0s); warning sound and smoke (1.0–1.5s); critical warning and heavier smoke (1.5–2.0s); explosion (2.0s)**. Reset visual/audio effects when safely back on-road.
 - Place the friends' lead car **toward the top** of the driving playfield.
 - Draw both **police cars and hazmat vans** pursuing from **behind and alongside** the player, with collision/ramming and displacement animations or cues.
@@ -143,7 +143,7 @@ The game currently proposes nine stages per restaurant but may consolidate some 
 ## 6. Visual gameplay feedback / HUD
 
 **Confirmed driving-stage screen partition:**
-- **Left two-thirds:** road/driving playfield, with the **straight-road baseline split of 12.5% roadside / 75% road / 12.5% roadside** within that area. The two roadside strips each contain shoulder and grass.
+- **Left two-thirds:** road/driving playfield, with the **straight-road baseline split of 6.25% grass / 6.25% shoulder / 75% road / 6.25% shoulder / 6.25% grass** within that area.
 - **Right one-third:** **fixed HUD/status panel**, displaying **lives, score, miles to the next destination/step, and gas-pressure meter**, plus other necessary indicators. **Miles decrease more slowly on wrong-fork detours**, even as the gas meter rises.
 - Roads can wind/fork inside the left playfield; roadside margins may be unequal or road geometry altered at curves/forks. **Never use the HUD area as extra driving road space.**
 - This split applies to road stages (2, 4, and 6); no comparable layout is approved yet for indoor stages.
@@ -202,7 +202,7 @@ These are **planned assets, not completed assets**.
 | P0 | Road | Downward-scrolling winding road with distinguishable normal-road, low-traction shoulder, and beyond-shoulder timed-danger zones; two-branch forks |
 | P0 | Off-road recovery and crash FX | Skid, shake, smoke, heavy smoke, warning/critical states, and 2.0s explosion/lost-life cue |
 | P0 | Fork arrow | Blinking route arrow near top of driving screen, introduced a few seconds before a two-way fork |
-| P0 | Driving screen layout | Left 2/3 playfield: nominal 12.5% roadside + 75% road + 12.5% roadside; right 1/3 fixed HUD for lives, score, miles remaining, gas |
+| P0 | Driving screen layout | Left 2/3 playfield: nominal 6.25% grass + 6.25% shoulder + 75% road + 6.25% shoulder + 6.25% grass; right 1/3 fixed HUD for lives, score, miles remaining, gas |
 | P0 | Gas pressure HUD | Meter and critical warning |
 | P1 | Taco Smell exterior/interior | Level 1 introductory scene and playable area |
 | P1 | Hazmat crew | Small readable enemy sprites |
@@ -230,7 +230,7 @@ Priorities describe a **proposed prototype sequence**, not a development commitm
 2. Decide visual perspective for indoor sections (overhead or side view).
 3. Select 800XL graphics modes, sprite/tile dimensions, palette and animation budget.
 4. Draw a distinctive **Gas-Nix** box/pickup.
-5. Select car appearances and the friends' visual identity; settle how to divide each confirmed 12.5% roadside strip into shoulder versus grass, plus exact geometric beyond-shoulder trigger (straight-road 75%/12.5%/12.5% baseline and two-second failure rule are confirmed).
+5. Select car appearances and the friends' visual identity; determine exact Atari pixel widths and vehicle-overlap/collision detection at the **confirmed 6.25% shoulder / 6.25% grass** boundary, plus partial-recovery treatment (road-strip percentages and two-second rule are confirmed).
 6. Decide whether all four restaurants get separate key art and/or tile sets.
 7. Simplify the box artwork for a legible cartridge label at real dimensions.
 8. Reconcile the cover's “TOILET PAPER SOLD OUT AGAIN!” gag with the need to acquire toilet paper.
@@ -241,6 +241,7 @@ Priorities describe a **proposed prototype sequence**, not a development commitm
 
 ## 12. Change log
 
+- **v0.10 — 2026-10-26:** Confirms 6.25% shoulder next to road and 6.25% grass outside it on each side of the straight-road playfield, retaining a 75% roadway. Collision/pixel implementation remains open.
 - **v0.9 — 2026-10-26:** Confirms straight-road visual width (75% of left playfield), 12.5% roadside strips on each side, fixed HUD in right third showing lives/score/miles/gas, and flexible margins for winding/forking roads. Exact shoulder/grass split remains open.
 - **v0.8 — 2026-10-26:** Defines shoulder/off-road art cues and escalating two-second warning animation/audio through explosion and one-life penalty, preserving unresolved exact widths.
 - **v0.7 — 2026-10-25:** Names the young protagonist Billy Blaster and specifies the exact introductory line to include in-game; layout and timing remain open.
