@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Art Assets and Visual Direction
 
-**Version:** 0.15  
+**Version:** 0.16  
 **Date:** 2026-10-26  
 **Status:** Early art direction / living asset inventory  
 **Primary target:** Atari 800XL  
@@ -123,7 +123,7 @@ Road stages (2, 4, and 6) use a **Spy Hunter-style overhead/top-down view**:
 - Create the progressive effects for accumulated **grass** time: **skid (0–0.5s); car shake with reduced steering (0.5–1.0s); warning sound and smoke (1.0–1.5s); critical warning and heavier smoke (1.5–2.0s); explosion (2.0s)**. The timer/effect escalation **pauses** on shoulder and **resets** on paved road. Consider readability of paused warnings, without changing the confirmed timing rules.
 - Place the friends' lead car **toward the top** of the driving playfield.
 - Draw both **police cars and hazmat vans** pursuing from **behind and alongside** the player, with collision/ramming and displacement animations or cues.
-- For the **first prototype**, create **four-direction gas blasts only** (front, back, left, right) to knock back pursuers. Diagonal effects are a **possible later enhancement**, not part of the first prototype.
+- Create **four-direction-only gas-blast animations** (front, rear, left, right); **no diagonal blast variants planned**. In each direction, a **small jeans-covered backside visibly pops out of the appropriate front/rear/side window/edge**, and a **gas cloud emanates directly from that backside** toward the enemy. Aim for a short, cartoonish, readable overhead pop-out/cloud sequence; the front-window version can be exaggerated rather than physically realistic. **Hold Fire + direction** activates the respective blast; steering is disabled while Fire is held but the car continues/coasts forward.
 - In road stages **after** the pharmacy, show **Gas-Nix packages** falling/moving downward from the friends' car toward the player.
 - Ensure car silhouettes and pickups remain distinct at actual Atari 800XL display resolution.
 
@@ -207,7 +207,7 @@ These are **planned assets, not completed assets**.
 | P0 | Gas pressure HUD | Meter and critical warning |
 | P1 | Taco Smell exterior/interior | Level 1 introductory scene and playable area |
 | P1 | Hazmat crew | Small readable enemy sprites |
-| P1 | Gas blast effect | First prototype: front/rear/left/right knockback only; diagonal variants deferred |
+| P1 | Gas blast effect | Four cardinal directions only: jeans-clad backside pops from front/rear/left/right window, with greenish cloud emanating outward and readable knockback cue; no diagonal artwork |
 | P1 | Pharmacy environment | Playable room/map and medicine location |
 | P1 | Grocery environment | Playable room/map and toilet paper |
 | P2 | Home exterior/interior/bathroom | Final stage visuals |
@@ -237,12 +237,13 @@ Priorities describe a **proposed prototype sequence**, not a development commitm
 8. Reconcile the cover's “TOILET PAPER SOLD OUT AGAIN!” gag with the need to acquire toilet paper.
 9. Decide final package brand/logo use and production dimensions.
 10. Create the **center-island two-branch fork** and **flashing green upward arrow** near top on the selected left/right side; **implement the confirmed 0.25s ON / 0.25s OFF cadence, ~2-second pre-island start and removal after Billy passes the decision point**. Determine exact pixel placement, sprite measurements and practical timing/collision implementation. Design a legible **+1.0-mile remaining-distance change** on the wrong fork (specific text/animation still open); draw the two branches **merging soon back into one normal 75%-width road**, independent of the extra mileage. Implement the confirmed **right-side HUD** within the 2/3-left / 1/3-right layout; decide final pixel dimensions.
-11. Design police-car and hazmat-van ramming effects and four-sided gas blasts; decide whether diagonal blast sprites are warranted after controller testing.
+11. Design police-car and hazmat-van ramming effects plus **four** window-based gas-blast poses: a simple **blue-jeans backside** briefly sticks out each corresponding front/rear/side window and emits a recognizable gas cloud; specify legibility, frame count and sprite budget after choosing graphics mode. **No diagonal sprites** in the current plan.
 12. Design a legible in-game opening/introduction presentation for Billy Blaster's required line.
 13. Design narrowing/weaving tiles and road-edge transitions for the confirmed **75%→40% (~4s)** and **40%→75% (~4s)** changes; keep shoulders 6.25% each and validate the effect during prototyping.
 
 ## 12. Change log
 
+- **v0.16 — 2026-10-27:** Locks road-stage four-way window gas blasts (no diagonal art), one-joystick hold-Fire+direction mode with no simultaneous steering/coasting car, and the cartoon visual of a jeans-clad backside popping out the selected window with a gas cloud emanating outward. Sprite size, timing and hardware technique await prototyping.
 - **v0.15 — 2026-10-27:** Updates wrong-fork visuals to a one-time +1.0-mile HUD penalty with normal distance countdown; branches automatically merge relatively soon into a normal-width road without remaining separate for the extra mile. Exact merge animation timing and any optional HUD message remain open. Supersedes historical v0.5 mileage-slowdown concept.
 - **v0.14 — 2026-10-26:** Specifies flashing green UP fork arrow near top on preferred left/right side: start ~2s before island first appears, repeat 0.25s ON/0.25s OFF, remove after Billy passes the fork decision point. Actual pixels, frame conversions and display resources await architecture/prototype.
 - **v0.13 — 2026-10-26:** Sets 40% minimum road width, approximately four seconds to narrow and four to widen, unchanged 6.25% shoulders, and 23.75% grass on each side when centered at minimum width. Art and timing remain unimplemented and subject to prototype validation.
