@@ -1,17 +1,17 @@
 # Gas Blasters '82 — Project To-Do List
 
-**Version:** 0.8  
-**Date:** 2026-10-25  
+**Version:** 0.9  
+**Date:** 2026-10-26  
 **Target:** Atari 800XL  
 **Status:** Planning and early design  
 **Companion documents:** [Game Design](GAME_DESIGN.md) · [Art Assets](ART_ASSETS.md)
 
 > Living checklist. An unchecked item is not necessarily an approved requirement; some items are proposed work that depends on design decisions. Update this file as tasks are finished or scope changes.
 
-## Status audit — 2026-10-25
+## Status update — 2026-10-26 (following 2026-10-25 audit)
 
-- **25 of 138 checklist items completed (18%).** Another **113 remain open**. No additional unchecked items met the completion criteria during this audit.
-- **Phase totals:** Game Design 19/37; Technical Architecture 3/14; First Playable Prototype 0/23; Indoor Gameplay 0/12; Graphics & Animation 3/15; Sound & Music 0/9; Build All Four Levels 0/10; Testing & Release 0/12; Ongoing Maintenance 0/6.
+- **26 of 143 checklist items completed (18%).** Another **117 remain open**. Split the old combined road-width/tolerance decision: two-second timing and recovery rules are approved, but exact road/shoulder widths remain open. Four additional implementation tasks were added to reflect separate timing, graphics and sound work.
+- **Phase totals:** Game Design 20/38; Technical Architecture 3/14; First Playable Prototype 0/25; Indoor Gameplay 0/12; Graphics & Animation 3/16; Sound & Music 0/10; Build All Four Levels 0/10; Testing & Release 0/12; Ongoing Maintenance 0/6.
 - **Evidence reviewed:** current Game Design and Art Assets documents, repository files and available commit history. The repository contains the foundational design files and initial directory structure, but does not yet contain a committed playable game implementation.
 - **Still empty:** `AGENTS.md` and `docs/TECHNICAL_DESIGN.md`; do not mark them complete merely because the files exist.
 - **Partially specified, not complete:** four-way gas blast behavior is agreed upon for road stages, but the single-joystick control mapping and indoor blast behavior are open; the indoor camera, HUD placement, gameplay failure handling, and final art are also not decided.
@@ -34,7 +34,8 @@ This audit preserves the existing checked states and should not be interpreted a
 - [x] Confirm winding roads and occasional two-way forks with on-screen direction arrows.
 - [x] Confirm that driving too far off the road causes a crash.
 - [x] Confirm driving-stage screen allocation: 2/3 road/playfield and 1/3 status HUD (gas, miles to destination, score).
-- [ ] Decide road/shoulder widths and exact off-road crash tolerance.
+- [x] Confirm 2.0-second continuous off-road limit, safe low-traction shoulder, warnings, return-to-road reset, explosion and one-life loss.
+- [ ] Decide exact road/shoulder widths, off-road trigger geometry, and behavior when recovering only to the shoulder.
 - [x] Confirm a blinking fork-direction arrow near the top of the screen, appearing a few seconds before a fork.
 - [ ] Tune the exact arrow-warning lead time, blink cadence, and when the arrow disappears.
 - [x] Confirm wrong forks incur slower miles countdown and continued rising gas pressure, rather than an immediate crash.
@@ -85,7 +86,9 @@ This audit preserves the existing checked states and should not be interpreted a
 
 - [ ] Display a basic overhead roadway scrolling downward.
 - [ ] Implement continuous side-to-side steering (no fixed-lane snapping).
-- [ ] Implement off-road detection and crash when too far beyond roadway edge.
+- [ ] Implement three zones: normal road, low-traction shoulder, and beyond-shoulder timer-danger area.
+- [ ] Implement 2.0-second continuous off-road countdown, return-to-road reset, car explosion and loss of one life.
+- [ ] Implement staged skid, shake/reduced steering, warning/smoke, critical warning/heavy smoke.
 - [ ] Prototype roads winding left and right.
 - [ ] Prototype a two-branch fork with a blinking direction arrow appearing a few seconds in advance near the top of the screen.
 - [ ] Implement a wrong-fork detour with miles counting down more slowly while gas pressure continues rising.
@@ -141,7 +144,8 @@ This audit preserves the existing checked states and should not be interpreted a
 - [ ] Design four distinct restaurant identities and environments.
 - [ ] Create pharmacy, grocery, road, house, and bathroom graphics.
 - [ ] Create HUD, score, gas-pressure, and miles-to-destination graphics for the dedicated one-third driving panel.
-- [ ] Design winding-road transitions, fork-road graphics, roadside/crash-boundary cues, directional arrow and wrong-fork detour feedback.
+- [ ] Design winding-road transitions, fork-road graphics, shoulder/off-road boundary cues, directional arrow and wrong-fork detour feedback.
+- [ ] Create off-road skid, shake, smoke, critical smoke and two-second explosion/lost-life visual effects.
 - [ ] Design four-sided gas blast effects and ramming/knockback cues; optional diagonal art after mechanic approval.
 - [ ] Design title, stage introduction (including Billy Blaster's exact quote), game-over, and victory screens.
 - [ ] Finalize box and cartridge artwork for production.
@@ -154,7 +158,8 @@ This audit preserves the existing checked states and should not be interpreted a
 - [ ] Create vehicle and police-pursuit sounds.
 - [ ] Create Gas-Nix pickup sound.
 - [ ] Add escalating gas-pressure warning sounds.
-- [ ] Create explosion and failure effects.
+- [ ] Create explosion and failure effects (including timed off-road crash).
+- [ ] Create escalating normal/critical off-road warning sounds during the two-second countdown.
 - [ ] Create stage-completion sounds.
 - [ ] Create the final bathroom victory effect.
 - [ ] Test sound effects alongside gameplay.
@@ -200,6 +205,7 @@ This audit preserves the existing checked states and should not be interpreted a
 
 ## Change Log
 
+- **v0.9 — 2026-10-26:** Confirms two-second off-road explosion/one-life rule, low-traction shoulder and progressive warnings, and updates phase/checklist counts (26/143). Exact road/shoulder widths remain open; added prototype, art and sound tasks.
 - **v0.8 — 2026-10-25:** Audited all 138 tasks against documented decisions and repository commits. Verified 25 already-complete items; no additional tasks were marked complete. Added phase totals and evidence/limitations summary.
 - **v0.7 — 2026-10-25:** Confirms Billy Blaster as the main character and records the exact in-game introduction text; presentation and implementation are still to do.
 - **v0.6 — 2026-10-25:** Confirms four-direction gas blasting as initial prototype scope, defers diagonal tests, and tracks naming the main character as an open design task.
