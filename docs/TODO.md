@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Project To-Do List
 
-**Version:** 0.17  
+**Version:** 0.18  
 **Date:** 2026-10-27  
 **Target:** Atari 800XL  
 **Status:** Planning and early design  
@@ -10,11 +10,11 @@
 
 ## Status update — 2026-10-26 (following 2026-10-25 audit)
 
-- **35 of 151 checklist items completed (23%).** Another **116 remain open**. Wrong-fork behavior is finalized: **one-time +1.0 mile** to remaining distance **only for a wrong turn**, normal countdown rate, continuing gas pressure, and automatic **early merge** back into a normal 75%-width road. The original slower-mileage rule is superseded. Exact visual merge timing and all coding/playtesting remain open.
-- **Phase totals:** Game Design 29/44; Technical Architecture 3/15; First Playable Prototype 0/26; Indoor Gameplay 0/12; Graphics & Animation 3/16; Sound & Music 0/10; Build All Four Levels 0/10; Testing & Release 0/12; Ongoing Maintenance 0/6.
+- **37 of 151 checklist items completed (25%).** Another **114 remain open**. Road-stage gas blasting is **four-way only (front/rear/left/right)** with **hold Fire + direction** aiming; **holding Fire disables steering while the car coasts**. A **jeans-covered backside pops from the matching window and emits a gas cloud**. Diagonal blasting and two-joystick mode are not planned for the current prototype. Actual mechanics, sprites and usability still need implementation/testing.
+- **Phase totals:** Game Design 31/44; Technical Architecture 3/15; First Playable Prototype 0/26; Indoor Gameplay 0/12; Graphics & Animation 3/16; Sound & Music 0/10; Build All Four Levels 0/10; Testing & Release 0/12; Ongoing Maintenance 0/6.
 - **Evidence reviewed:** current Game Design and Art Assets documents, repository files and available commit history. The repository contains the foundational design files and initial directory structure, but does not yet contain a committed playable game implementation.
 - **Still empty:** `AGENTS.md` and `docs/TECHNICAL_DESIGN.md`; do not mark them complete merely because the files exist.
-- **Partially specified, not complete:** four-way gas blast behavior is agreed upon for road stages, but the single-joystick control mapping and indoor blast behavior are open; the indoor camera, HUD placement, gameplay failure handling, and final art are also not decided.
+- **Partially specified, not complete:** road-stage **four-way blast controls** and jeans-clad-backside/cloud visual concept are agreed upon, but **implementation and playtesting remain open**, as do precise blast timing/range/knockback, indoor controls and blasts, indoor camera, HUD presentation, failure handling, and final art.
 - **Ongoing maintenance checkboxes remain open intentionally:** documentation updates to date do not make recurring maintenance tasks permanently finished.
 
 This audit preserves the existing checked states and should not be interpreted as proof that emulator or physical hardware testing has taken place.
@@ -48,8 +48,8 @@ This audit preserves the existing checked states and should not be interpreted a
 - [x] Confirm gas blasts from the front, rear, left and right push enemy vehicles away.
 - [x] Confirm wrong forks add **exactly 1.0 mile once**; continue at **normal countdown speed** while gas pressure rises; fork branches **merge back relatively soon into a single normal-width (75%) road**, without requiring a visually separate extra mile.
 - [x] Select four-direction gas blasting for the initial driving prototype.
-- [ ] Evaluate eight-direction blasting only after playtesting the four-way prototype.
-- [ ] Design one-button joystick steering-versus-gas-aiming controls and prototype usability.
+- [x] Select **four-way gas blasting only** for the current design (front/rear/left/right car windows); **no diagonal attacks** planned, although the concept can be reconsidered if testing later warrants it.
+- [x] Confirm driving controls: joystick **steers with Fire released**; **hold Fire + Up/Down/Left/Right** to blast front/rear/left/right; **no steering while Fire held**, car keeps moving/coasting. Two-joystick mode deferred; usability is a separate prototype test.
 - [ ] Determine car-to-car collision impulse, recovery window, and gas-blast knockback behavior.
 - [x] Fix the HUD in the **right third** of the driving screen; include lives, score, miles remaining and gas meter.
 - [ ] Finalize HUD visual presentation and arrangement of lives, score, miles and gas meter (right-third placement is already confirmed).
@@ -57,8 +57,8 @@ This audit preserves the existing checked states and should not be interpreted a
 - [x] Approve Billy Blaster's introductory line (exact wording captured in GAME_DESIGN.md).
 - [ ] Decide where and how to show Billy Blaster's required introduction within the game.
 - [ ] Choose overhead or side-view gameplay for indoor stages.
-- [ ] Define player movement and joystick/fire-button controls.
-- [ ] Define how gas blasts work against enemies.
+- [ ] Define **indoor-stage** movement and joystick/fire-button controls (road-stage control mapping is confirmed).
+- [ ] Define remaining gas-blast details (range, cooldown, repeat rate and knockback strength) and effects against **indoor** enemies; four-way road blasts already knock back police/hazmat vehicles.
 - [ ] Determine whether using gas powers reduces gas pressure.
 - [ ] Define gas-pressure behavior inside buildings.
 - [ ] Define exactly what happens when gas pressure reaches 100%.
@@ -105,8 +105,8 @@ This audit preserves the existing checked states and should not be interpreted a
 - [ ] Add police cars and basic collision detection.
 - [ ] Add hazmat vans and enemy lateral ramming/forced-off-road behavior.
 - [ ] Implement directional gas blast knockback on all four sides of the player's car.
-- [ ] Test the four-direction aiming-versus-steering control scheme on a one-button joystick.
-- [ ] Consider an optional diagonal (eight-way) extension after four-way playtesting.
+- [ ] **Prototype and playtest** the approved **hold Fire + cardinal direction** gas-blast mode: no lateral steering while held, car coasts forward, release Fire to resume steering; test safe use during winding roads and police pursuit.
+- [ ] Prototype the **jeans-covered backside pop-out + emanating gas-cloud effect** for each of the four car windows; evaluate sprite readability/animation and collision alignment at the selected Atari graphics resolution.
 - [ ] Divide the driving screen into **left 2/3 playfield** (straight-road baseline 75% road + 12.5% shoulder/grass per side) and **right 1/3 HUD**.
 - [ ] Add the gas-pressure meter to the HUD.
 - [ ] Display **lives**, miles remaining to the next destination, and score in the right-side HUD.
@@ -154,7 +154,7 @@ This audit preserves the existing checked states and should not be interpreted a
 - [ ] Create HUD, score, gas-pressure, and miles-to-destination graphics for the dedicated one-third driving panel.
 - [ ] Design temporary narrowing/weaving road transitions and return-to-baseline, center-divider island forks, shoulder/off-road cues, left/right-positioned flashing GREEN upward arrow, **early branch merging to a 75%-width road**, and **+1.0-mile HUD wrong-turn feedback**.
 - [ ] Create off-road skid, shake, smoke, critical smoke and two-second explosion/lost-life visual effects.
-- [ ] Design four-sided gas blast effects and ramming/knockback cues; optional diagonal art after mechanic approval.
+- [ ] Design **four** car-window gas-blast animations, each showing a **jeans-covered backside popping out the window** and a cloud originating from it, with enemy ramming/knockback cues; **no diagonal art planned**.
 - [ ] Design title, stage introduction (including Billy Blaster's exact quote), game-over, and victory screens.
 - [ ] Finalize box and cartridge artwork for production.
 
@@ -213,6 +213,7 @@ This audit preserves the existing checked states and should not be interpreted a
 
 ## Change Log
 
+- **v0.18 — 2026-10-27:** Confirms four-way-only road gas blasts (no diagonal mode), hold Fire + cardinal direction to blast instead of steer while the car coasts, and the jeans-clad backside popping from the selected window with a gas cloud. Defers two-joystick option, clarifies indoor controls remain open, and replaces the obsolete prototype diagonal task with four-way blast FX implementation. Marks two Phase 1 design decisions complete: 37/151.
 - **v0.17 — 2026-10-27:** Finalizes wrong-fork rule: add **+1.0 mile once** only on a wrong turn, retain normal miles-countdown speed and continuing gas pressure, and automatically merge branches soon into a normal 75%-width road before the extra mile is traveled. Supersedes previously recorded slower-mileage behavior; implementation/prototype merge geometry remains open. 35/151 complete.
 - **v0.16 — 2026-10-26:** Confirms green fork-arrow cadence (0.25s ON / 0.25s OFF), ~2-second advance warning and disappearance after passing fork decision point. Marks Phase 1 arrow-design task complete and adds a Phase 2 timing/coordinate-mapping task; retains Phase 3 prototype implementation. 34/151 complete.
 - **v0.15 — 2026-10-26:** Approves road narrowing from 75% to 40% in ~4 seconds and widening back in ~4 seconds; shoulders stay 6.25% on each side, grass expands to 23.75% on each side when centered and narrow. Marks design task done and adds separate Phase 3 prototype-validation task. 33/150 complete.
