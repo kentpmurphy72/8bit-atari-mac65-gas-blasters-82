@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Game Design Document
 
-**Version:** 0.10  
+**Version:** 0.11  
 **Date:** 2026-10-26  
 **Status:** Early design / living document  
 **Primary target:** Atari 800XL (Atari 8-bit family)  
@@ -195,8 +195,8 @@ The player has secret gas powers to evade hazmat personnel and police.
 - The player's vehicle **faces and appears to drive upward**, positioned **toward the bottom of the driving playfield**.
 - The **road and roadside scenery scroll downward** to convey forward travel.
 - **Unrestricted side-to-side steering:** the car moves freely left or right, **not** between fixed discrete lanes. The playable environment has three distinct areas: road (normal handling), shoulder (reduced traction, no countdown), and beyond-shoulder off-road (a **2.0-second continuous danger countdown**; see Section 5.7).
-- The roadway **winds left and right**. The road location changes relative to the screen and the player must steer to stay on it.
-- The road can **fork into two branches**. A **blinking on-screen directional arrow** indicates **which fork to take**. The arrow appears **a few seconds before the fork is encountered**, positioned **near the top of the screen** in the driving playfield to give the player time to react. **Taking the wrong fork does not instantly crash the car**: it wastes travel time, slows the miles-remaining countdown and allows pressure to keep building. The exact warning timing, slowdown factor, detour duration and road rejoining remain open.
+- **Winding-road sequences** become **temporarily narrower** than the established **75%-of-driving-playfield straight-road baseline**, while the road center **weaves left and right**. Once a winding sequence ends, the road **widens back to its normal baseline width**. The **minimum narrowed width**, narrowing/expansion speed and curve severity are open for playtesting; do not assume 75% is maintained throughout winding sections.
+- **Road forks are formed by a divider island that enters from the top of the road screen and scrolls downward through the center of the road**, splitting traffic around a **left branch** and a **right branch**, visually inspired by the supplied *Spy Hunter* screenshot. **Approximately 2 seconds before the island first appears on screen**, a **flashing green arrow pointing straight UP** appears **near the top of the driving playfield**, on the **left or right side** to identify the preferred branch. The arrow's **position**, not a rotated left/right arrowhead, signals which branch to take. **Taking the wrong fork does not instantly crash the car**: it wastes travel time, slows the miles-remaining countdown and allows pressure to keep building. Exact arrow flash cadence/disappearance, island dimensions, detour penalty and road rejoining remain open.
 - Police cars and hazmat vans pursue, deliberately **bumping/PIT-style shoving** the player's car toward the road edge. **Four-sided car gas blasts** push these vehicles back. Diagonal blasting is possible but **unconfirmed**.
 - Friends travel ahead, with their lead car **near the top of the driving playfield**.
 - On road chases after the pharmacy, the friends drop **Gas-Nix**; pickups move down toward the player's car as the road scrolls.
@@ -210,11 +210,11 @@ The player has secret gas powers to evade hazmat personnel and police.
   - **Road: 75%**.
   - **Right shoulder: 6.25%**.
   - **Right grass: 6.25%**.
-- As the road **winds left/right**, its center shifts within the left playfield; local left/right roadside widths therefore need **not** remain identical at each screen row. Road forks may temporarily depart from these simple straight-road proportions to show both branches. The HUD stays fixed at the right.
+- As the road **winds left/right**, its center shifts within the left playfield **and the paved road temporarily narrows**. Local left/right roadside widths need **not** remain identical at each screen row. When the winding sequence ends, the road returns to its **75% normal straight-road width**. Center-island forks locally divide the road into branches. The HUD stays fixed at the right.
 - **Each 12.5% roadside strip is divided evenly:** **6.25% shoulder adjacent to the roadway** and **6.25% grass farther out**. On the shoulder, handling is degraded but the off-road countdown does not begin. Moving into the grass beyond the shoulder starts the existing two-second countdown. **Exact sprite/collision geometry (e.g., center versus vehicle edge), pixel dimensions, and partial recovery behavior remain open** pending graphics-mode selection and playtesting.
 - Atari 800XL display mode, concrete screen-pixel allocations and HUD styling are still open; the percentages are game-design proportions rather than an approved memory/display-list implementation.
 
-**Still open for driving:** precise car/collision overlap threshold at the approved shoulder-to-grass boundary and pixel widths, winding curvature and fork generation/placement, exact fork-warning lead time and blink cadence (with approximate top-screen placement confirmed), wrong-fork slowdown/detour tuning, restart/respawn after an off-road explosion, precise player vertical-position freedom, acceleration/braking, speed, enemy/traffic collisions, input mapping, gas-bomb controls, and whether the HUD includes lives or stage details. *Spy Hunter* is a perspective/gameplay reference, **not** a requirement to duplicate all its mechanics.
+**Still open for driving:** precise car/collision overlap threshold at the approved shoulder-to-grass boundary and pixel widths, **minimum width and transitions during winding/narrowed segments**, curve severity, center-island dimensions/fork generation and placement, arrow blink rate/when it disappears (its ~2-second lead relative to first island appearance and placement are confirmed), wrong-fork slowdown/detour tuning, restart/respawn after an off-road explosion, precise player vertical-position freedom, acceleration/braking, speed, enemy/traffic collisions, input mapping, gas-bomb controls, and whether the HUD includes lives or stage details. *Spy Hunter* is a perspective/gameplay reference, **not** a requirement to duplicate all its mechanics.
 
 **Still open for indoor stages:** overhead maze versus side-view action. A single Atari joystick with one fire button is the expected hardware input, but the complete mapping is **not finalized**.
 
@@ -271,7 +271,7 @@ We should avoid mixing two incompatible loss systems (pressure meter and separat
 | Stage count | Nine per level **for now**; may be reduced |
 | Pharmacy objective | **Gas-Nix gas relief**; not laxatives |
 | Driving perspective | **Confirmed overhead/top-down**; car points upward near bottom of driving area; road scrolls downward; friends' car ahead near top; police pursue |
-| Driving controls/roads | **Free lateral steering** (no fixed lanes); winding roadway; safe shoulder followed by timed off-road danger; two-way forks with **blinking directional arrow near top of screen appearing a few seconds in advance** |
+| Driving controls/roads | **Free lateral steering**; temporary road narrowing during weaving curves, returning to 75% normal width; timed off-road danger beyond shoulder; **center-island forks** with a **flashing green upward arrow** near top on left/right branch side **~2s before island first appears** |
 | Off-road penalty | **2.0 seconds** continuously beyond shoulder = car explodes, lose one life; shoulder reduces traction but does not start timer; progressive skid/shake/smoke/audio warnings; timer resets on safe return to road |
 | Wrong fork | No automatic crash; a time-costly detour slows miles-to-go countdown while pressure keeps increasing |
 | Road enemies / defense | Police cars and hazmat vans try to bump the player's car off-road; gas blasts from all **four sides** push vehicles away |
@@ -291,7 +291,7 @@ We should avoid mixing two incompatible loss systems (pressure meter and separat
 4. **Pressure failure:** what exactly happens at 100% (life lost, stage restart, game over)?
 5. **Pharmacy handoff:** how do friends receive Gas-Nix for subsequent drives?
 6. **Stage count:** should exterior/home/bathroom stages be combined?
-7. **Driving details:** What exact collision/vehicle overlap threshold should trigger grass entry at the confirmed shoulder-to-grass boundary, and how does respawning after a timed off-road explosion work; what warning/blink timing should arrows use; how slow does mileage fall on wrong-fork detours, and how/when do detours rejoin; what steering, collision/ramming impulse, gas-blast knockback, pickup rules, and HUD placement apply?
+7. **Driving details:** What exact collision/vehicle overlap threshold should trigger grass entry at the confirmed shoulder-to-grass boundary, and how does respawning after a timed off-road explosion work; how narrow should winding roads become and how quickly should they widen; what flash cadence/disappearance should green arrows use (with a ~2s pre-island appearance confirmed); what center-island size and collision behavior should forks use; how slow does mileage fall on wrong-fork detours, and how/when do they rejoin; what steering, collision/ramming impulse, gas-blast knockback and pickup rules apply?
 8. **Blaster controls:** how should four-way gas blast aiming coexist with steering on one joystick and Fire button? Evaluate possible diagonal extension only after the prototype.
 9. **Progression:** how do restaurants/cycles become visually and mechanically distinct?
 10. **Score/lives:** scoring, bonuses, and continuation rules.
@@ -300,6 +300,7 @@ We should avoid mixing two incompatible loss systems (pressure meter and separat
 
 ## 10. Change log
 
+- **v0.11 — 2026-10-26:** Confirms narrowed winding-road stretches that weave and widen back to the 75% baseline; fork splits via center divider island; blinking **green upward-pointing** route arrow near top on preferred left/right side starts roughly 2 seconds **before the island first appears**. Minimum winding width, arrow blink cadence and island dimensions remain open.
 - **v0.10 — 2026-10-26:** Confirms each straight-road roadside strip is divided into 6.25% shoulder next to pavement and 6.25% grass beyond, measured as fractions of the left driving playfield. Grass triggers the two-second danger timer; car-overlap detection and behavior on partial shoulder recovery remain open.
 - **v0.9 — 2026-10-26:** Confirms left two-thirds driving area with 75% road and 12.5% combined shoulder/grass on each side for straight segments; fixes HUD in right third and adds lives to score/miles/gas. Curves and forks may shift the road; precise shoulder/grass split and collision boundaries remain open.
 - **v0.8 — 2026-10-26:** Approves two-second continuous off-road countdown, safe but low-traction shoulder, progressive skid/shake/smoke/audio cues, reset on safe return to road, and car explosion costing one life. Road/shoulder geometry and respawn remain open.
