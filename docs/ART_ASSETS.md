@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Art Assets and Visual Direction
 
-**Version:** 0.14  
+**Version:** 0.15  
 **Date:** 2026-10-26  
 **Status:** Early art direction / living asset inventory  
 **Primary target:** Atari 800XL  
@@ -132,7 +132,7 @@ Road stages (2, 4, and 6) use a **Spy Hunter-style overhead/top-down view**:
 ### Reusable environment categories
 
 - **Restaurant interior:** tables, counters, exits, hazmat-friendly paths.
-- **Highway:** confirmed overhead/upward-facing vehicle perspective with downward-scrolling winding roads, occasional two-way forks and indicated route, roadside/shoulder graphics, traffic, and player/friends/police/hazmat-van vehicles. Wrong fork is a mileage-slowing detour, not an instant wreck; free lateral steering and four-sided blast knockback are confirmed. Exact road width remains open.
+- **Highway:** confirmed overhead/upward-facing vehicle perspective with downward-scrolling winding roads, occasional two-way forks and indicated route, roadside/shoulder graphics, traffic, and player/friends/police/hazmat-van vehicles. Choosing the wrong branch **adds +1.0 mile once** to the remaining distance, **without slowing the countdown** or causing an immediate wreck. **Branches visually rejoin soon afterward as one normal 75%-width road**, rather than staying split for the entire extra mile. Free lateral steering and four-sided blast knockback are confirmed. Actual display-pixel dimensions await graphics-mode selection.
 - **Pharmacy:** aisles, shelves, Gas-Nix product display/collection location.
 - **Grocery store:** aisles, shelves, toilet-paper pickup location.
 - **House exterior:** yard/driveway/front door, hazmat positions.
@@ -145,7 +145,7 @@ The game currently proposes nine stages per restaurant but may consolidate some 
 
 **Confirmed driving-stage screen partition:**
 - **Left two-thirds:** road/driving playfield, with the **straight-road baseline split of 6.25% grass / 6.25% shoulder / 75% road / 6.25% shoulder / 6.25% grass** within that area.
-- **Right one-third:** **fixed HUD/status panel**, displaying **lives, score, miles to the next destination/step, and gas-pressure meter**, plus other necessary indicators. **Miles decrease more slowly on wrong-fork detours**, even as the gas meter rises.
+- **Right one-third:** **fixed HUD/status panel**, displaying **lives, score, miles to the next destination/step, and gas-pressure meter**, plus other necessary indicators. **Wrong fork: add 1.0 mile to the HUD once; mileage then decreases at normal speed** while the gas meter keeps rising. The visual road merge happens before the added mile has elapsed.
 - Roads can wind/fork inside the left playfield; winding segments use the confirmed **40% minimum paved-road width and fixed 6.25% shoulders**, while left/right grass margins can differ as the roadway weaves. **Never use the HUD area as extra driving road space.**
 - This split applies to road stages (2, 4, and 6); no comparable layout is approved yet for indoor stages.
 - The exact HUD pixel dimensions, graphics mode, font and styling remain open; left/right placement and design ratios are confirmed.
@@ -236,13 +236,14 @@ Priorities describe a **proposed prototype sequence**, not a development commitm
 7. Simplify the box artwork for a legible cartridge label at real dimensions.
 8. Reconcile the cover's “TOILET PAPER SOLD OUT AGAIN!” gag with the need to acquire toilet paper.
 9. Decide final package brand/logo use and production dimensions.
-10. Create the **center-island two-branch fork** and **flashing green upward arrow** near top on the selected left/right side; **implement the confirmed 0.25s ON / 0.25s OFF cadence, ~2-second pre-island start and removal after Billy passes the decision point**. Determine exact pixel placement, sprite measurements and practical timing/collision implementation. Design visual cues for a wrong-fork detour with slower decreasing mileage. Implement the confirmed **right-side HUD** within the 2/3-left / 1/3-right layout; decide final pixel dimensions.
+10. Create the **center-island two-branch fork** and **flashing green upward arrow** near top on the selected left/right side; **implement the confirmed 0.25s ON / 0.25s OFF cadence, ~2-second pre-island start and removal after Billy passes the decision point**. Determine exact pixel placement, sprite measurements and practical timing/collision implementation. Design a legible **+1.0-mile remaining-distance change** on the wrong fork (specific text/animation still open); draw the two branches **merging soon back into one normal 75%-width road**, independent of the extra mileage. Implement the confirmed **right-side HUD** within the 2/3-left / 1/3-right layout; decide final pixel dimensions.
 11. Design police-car and hazmat-van ramming effects and four-sided gas blasts; decide whether diagonal blast sprites are warranted after controller testing.
 12. Design a legible in-game opening/introduction presentation for Billy Blaster's required line.
 13. Design narrowing/weaving tiles and road-edge transitions for the confirmed **75%→40% (~4s)** and **40%→75% (~4s)** changes; keep shoulders 6.25% each and validate the effect during prototyping.
 
 ## 12. Change log
 
+- **v0.15 — 2026-10-27:** Updates wrong-fork visuals to a one-time +1.0-mile HUD penalty with normal distance countdown; branches automatically merge relatively soon into a normal-width road without remaining separate for the extra mile. Exact merge animation timing and any optional HUD message remain open. Supersedes historical v0.5 mileage-slowdown concept.
 - **v0.14 — 2026-10-26:** Specifies flashing green UP fork arrow near top on preferred left/right side: start ~2s before island first appears, repeat 0.25s ON/0.25s OFF, remove after Billy passes the fork decision point. Actual pixels, frame conversions and display resources await architecture/prototype.
 - **v0.13 — 2026-10-26:** Sets 40% minimum road width, approximately four seconds to narrow and four to widen, unchanged 6.25% shoulders, and 23.75% grass on each side when centered at minimum width. Art and timing remain unimplemented and subject to prototype validation.
 - **v0.12 — 2026-10-26:** Specifies car-center zone classification, grass time runs/resumes, shoulder time pauses, paved-road return resets, and two-second exposure/lost-life feedback. Defer pixel coordinates and center representation until graphics mode is chosen.
