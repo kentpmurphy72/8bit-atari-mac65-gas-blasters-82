@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Project To-Do List
 
-**Version:** 0.15  
+**Version:** 0.16  
 **Date:** 2026-10-26  
 **Target:** Atari 800XL  
 **Status:** Planning and early design  
@@ -10,8 +10,8 @@
 
 ## Status update — 2026-10-26 (following 2026-10-25 audit)
 
-- **33 of 150 checklist items completed (22%).** Another **117 remain open**. Confirmed winding-road geometry: **75% → 40% paved width in ~4s, then 40% → 75% in ~4s**, with **fixed 6.25% shoulders** and centered minimum-width **23.75% grass per side**. The Phase 1 design decision is complete; **Phase 3 prototype validation** remains open. These are approved design targets, not implemented features.
-- **Phase totals:** Game Design 27/44; Technical Architecture 3/14; First Playable Prototype 0/26; Indoor Gameplay 0/12; Graphics & Animation 3/16; Sound & Music 0/10; Build All Four Levels 0/10; Testing & Release 0/12; Ongoing Maintenance 0/6.
+- **34 of 151 checklist items completed (23%).** Another **117 remain open**. The green fork arrow's gameplay behavior is now finalized: **~2s before island appears**, **0.25s ON / 0.25s OFF**, remains flashing until Billy passes the fork decision point. **Phase 2** retains frame/coordinate calculations; **Phase 3** retains implementation and testing. Road narrowing and off-road behavior remain approved design targets, not implemented features.
+- **Phase totals:** Game Design 28/44; Technical Architecture 3/15; First Playable Prototype 0/26; Indoor Gameplay 0/12; Graphics & Animation 3/16; Sound & Music 0/10; Build All Four Levels 0/10; Testing & Release 0/12; Ongoing Maintenance 0/6.
 - **Evidence reviewed:** current Game Design and Art Assets documents, repository files and available commit history. The repository contains the foundational design files and initial directory structure, but does not yet contain a committed playable game implementation.
 - **Still empty:** `AGENTS.md` and `docs/TECHNICAL_DESIGN.md`; do not mark them complete merely because the files exist.
 - **Partially specified, not complete:** four-way gas blast behavior is agreed upon for road stages, but the single-joystick control mapping and indoor blast behavior are open; the indoor camera, HUD placement, gameplay failure handling, and final art are also not decided.
@@ -42,7 +42,7 @@ This audit preserves the existing checked states and should not be interpreted a
 - [x] Confirm **car-center zone detection**, **grass timer runs/resumes**, **shoulder pauses** at current value and **paved road resets** timer to zero.
 - [x] Set winding-road minimum to **40% of left driving playfield**; narrow from normal **75% to 40% in ~4s** and widen back **40% to 75% in ~4s**. Maintain **6.25% shoulders** on each side (centered narrow road leaves **23.75% grass** per side).
 - [x] Confirm a **flashing GREEN arrow pointing UP**, appearing **near the top of the driving area** on the **left or right side** to indicate preferred fork; start flashing **~2 seconds before the center island first appears**.
-- [ ] Tune flashing-green-arrow blink cadence/disappearance and precise pixel timing around the confirmed ~2-second pre-island warning.
+- [x] Confirm fork-arrow warning: **0.25s ON / 0.25s OFF**, begins **~2s before center island first appears**, keeps flashing near top through fork approach and **disappears when Billy passes the fork decision point**. (Exact frame/pixel mapping belongs to Phases 2–3.)
 - [x] Confirm wrong forks incur slower miles countdown and continued rising gas pressure, rather than an immediate crash.
 - [x] Confirm police cars and hazmat vans attempt to bump/PIT-style force the car off the road.
 - [x] Confirm gas blasts from the front, rear, left and right push enemy vehicles away.
@@ -81,6 +81,7 @@ This audit preserves the existing checked states and should not be interpreted a
 - [ ] Develop a preliminary memory map and allocation strategy.
 - [ ] Determine how player/missile graphics will be used.
 - [ ] Define the game's main loop, input handling, timing, and collision architecture.
+- [ ] Define frame-based timing, graphics-mode-specific coordinates, and the measurable decision-point trigger for the approved fork arrow (**~2s pre-island**, **0.25s ON/OFF**, disappears after Billy passes fork); account for video refresh rate and road scrolling.
 - [ ] Establish a reusable stage/level data structure.
 - [ ] Complete `TECHNICAL_DESIGN.md`.
 - [ ] Populate `AGENTS.md` with instructions for Codex.
@@ -97,7 +98,7 @@ This audit preserves the existing checked states and should not be interpreted a
 - [ ] Implement staged skid, shake/reduced steering, warning/smoke, critical warning/heavy smoke.
 - [ ] Prototype winding roads narrowing **75% → 40% over ~4s**, weaving at the narrow width, and widening **40% → 75% over ~4s**, preserving **6.25% shoulders**.
 - [ ] **Playtest and validate** the 40% minimum, four-second narrowing/widening, shoulder safety, and recoverability against enemy ramming; tune only if necessary.
-- [ ] Prototype a **scrolling center-divider island** that creates left/right branches, with a **flashing GREEN upward arrow near top on the preferred side** beginning ~2 seconds before the island first appears.
+- [ ] Prototype a **scrolling center-divider island** creating left/right branches and a green upward arrow near top on the preferred side. Start flashes **~2 seconds before island first appears**; animate **0.25s ON / 0.25s OFF**, keep flashing during fork approach, and remove when Billy passes the fork's decision point. Validate timing, visibility and geometry in the chosen graphics mode.
 - [ ] Implement a wrong-fork detour with miles counting down more slowly while gas pressure continues rising.
 - [ ] Draw the player's car facing upward near the bottom of the screen.
 - [ ] Implement joystick steering.
@@ -212,6 +213,7 @@ This audit preserves the existing checked states and should not be interpreted a
 
 ## Change Log
 
+- **v0.16 — 2026-10-26:** Confirms green fork-arrow cadence (0.25s ON / 0.25s OFF), ~2-second advance warning and disappearance after passing fork decision point. Marks Phase 1 arrow-design task complete and adds a Phase 2 timing/coordinate-mapping task; retains Phase 3 prototype implementation. 34/151 complete.
 - **v0.15 — 2026-10-26:** Approves road narrowing from 75% to 40% in ~4 seconds and widening back in ~4 seconds; shoulders stay 6.25% on each side, grass expands to 23.75% on each side when centered and narrow. Marks design task done and adds separate Phase 3 prototype-validation task. 33/150 complete.
 - **v0.14 — 2026-10-26:** Moves the Atari graphics-mode and exact pixel-boundary decision out of Phase 1 into the existing Phase 2 graphics/screens task; clarifies Phase 3 car-center collision implementation at Billy's current road cross-section; leaves HUD visual presentation in Phase 1. Removes a redundant open checklist item without changing completed statuses (32/149 done).
 - **v0.13 — 2026-10-26:** Checks off car-center grass detection and run/pause/reset timer behavior (grass/shoulder/paved road). Splits the old mixed checklist item so graphics-mode-dependent pixel boundaries remain open. 32/150 completed; no implementation claimed.
