@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Game Design Document
 
-**Version:** 0.8  
+**Version:** 0.9  
 **Date:** 2026-10-26  
 **Status:** Early design / living document  
 **Primary target:** Atari 800XL (Atari 8-bit family)  
@@ -201,16 +201,18 @@ The player has secret gas powers to evade hazmat personnel and police.
 - Friends travel ahead, with their lead car **near the top of the driving playfield**.
 - On road chases after the pharmacy, the friends drop **Gas-Nix**; pickups move down toward the player's car as the road scrolls.
 
-**Confirmed driving-stage screen allocation:**
-- Approximately **2/3 of the total screen** is reserved for the **road and active driving gameplay**.
-- Approximately **1/3 of the total screen** is a dedicated **status/HUD area**, showing at minimum:
-  - Current **gas-pressure meter**.
-  - **Miles remaining to the next destination/step** (pharmacy, grocery store, or home); miles **continue decreasing at a reduced rate on wrong-fork detours**.
-  - **Score**.
-  - Any additional essential information identified during design.
-- The layout orientation (for example, a vertical side HUD vs. another division), exact pixel dimensions, text/graphic styling, and how the two-thirds boundary is implemented on Atari hardware are **not yet selected**. Preserve the overall 2/3-to-1/3 allocation.
+**Confirmed driving-stage screen allocation and straight-road proportions:**
+- **Left 2/3 of the total screen:** driving playfield, containing roadway, both roadside strips, traffic and hazards.
+- **Right 1/3 of the total screen:** dedicated fixed **HUD/status panel**, with at minimum **lives**, **score**, **miles remaining to the next destination**, and **gas-pressure meter**. Miles decrease at a reduced rate on wrong-fork detours.
+- For a **straight-road baseline**, percentages are of the **left driving playfield**, not the entire screen:
+  - **Left roadside strip: 12.5%** (shoulder plus grass).
+  - **Road: 75%**.
+  - **Right roadside strip: 12.5%** (shoulder plus grass).
+- As the road **winds left/right**, its center shifts within the left playfield; local left/right roadside widths therefore need **not** remain identical at each screen row. Road forks may temporarily depart from these simple straight-road proportions to show both branches. The HUD stays fixed at the right.
+- The **12.5% side strip combines shoulder and grass**. The shoulder is the reduced-traction recovery area; grass beyond it triggers the established two-second off-road countdown. **The split between shoulder and grass, the exact geometric collision threshold, and pixel dimensions remain open** pending graphics-mode selection and prototype testing.
+- Atari 800XL display mode, concrete screen-pixel allocations and HUD styling are still open; the percentages are game-design proportions rather than an approved memory/display-list implementation.
 
-**Still open for driving:** exact road and shoulder widths/trigger geometry, winding curvature and fork generation/placement, exact fork-warning lead time and blink cadence (with approximate top-screen placement confirmed), wrong-fork slowdown/detour tuning, restart/respawn after an off-road explosion, precise player vertical-position freedom, acceleration/braking, speed, enemy/traffic collisions, input mapping, gas-bomb controls, and whether the HUD includes lives or stage details. *Spy Hunter* is a perspective/gameplay reference, **not** a requirement to duplicate all its mechanics.
+**Still open for driving:** shoulder-versus-grass split inside each 12.5% roadside strip, exact off-road trigger geometry and pixel widths, winding curvature and fork generation/placement, exact fork-warning lead time and blink cadence (with approximate top-screen placement confirmed), wrong-fork slowdown/detour tuning, restart/respawn after an off-road explosion, precise player vertical-position freedom, acceleration/braking, speed, enemy/traffic collisions, input mapping, gas-bomb controls, and whether the HUD includes lives or stage details. *Spy Hunter* is a perspective/gameplay reference, **not** a requirement to duplicate all its mechanics.
 
 **Still open for indoor stages:** overhead maze versus side-view action. A single Atari joystick with one fire button is the expected hardware input, but the complete mapping is **not finalized**.
 
@@ -234,7 +236,7 @@ Applies to all driving stages (Stages 2, 4 and 6), including situations where pu
 
 **Confirmed:** the two-second cutoff, loss of one life, safe-but-slippery shoulder, harder off-road steering, progressive skid/shake/smoke/warning feedback, and return-to-road timer reset. The sub-second warning bands above are the accepted initial targets and may be balanced during playtesting.
 
-**Not yet finalized:** road/shoulder width, exact geometric transition into the off-road danger zone, handling of an existing timer when briefly returning only to the shoulder (but not yet road), specific steering/traction percentages, collision math, audio/animation details, and respawn/restart behavior after losing a life.
+**Not yet finalized:** precise shoulder-versus-grass division inside the confirmed 12.5% roadside strip, exact geometric transition into the off-road danger zone, handling of an existing timer when briefly returning only to the shoulder (but not yet road), specific steering/traction percentages, collision math, audio/animation details, and respawn/restart behavior after losing a life.
 
 ## 6. Player goals, failure and progression
 
@@ -273,7 +275,7 @@ We should avoid mixing two incompatible loss systems (pressure meter and separat
 | Road enemies / defense | Police cars and hazmat vans try to bump the player's car off-road; gas blasts from all **four sides** push vehicles away |
 | Gas-blast prototype | **Four-way blasting selected for initial prototype** (front, rear, left, right); steering/aim input mapping still open |
 | Diagonal gas blasts | Hardware supports 8-way joystick input; **future 8-way extension remains optional** |
-| Driving screen layout | **2/3** road/playfield, **1/3** HUD with gas meter, miles to next destination, score, and other essential indicators |
+| Driving screen layout | **Left 2/3** driving playfield with **75% straight roadway** and **12.5% combined shoulder/grass** on each side; **right 1/3** fixed HUD for lives, score, miles remaining, and gas meter; road centers can shift in curves/forks |
 | First driving stage | Near-zero pressure rising toward 100%; reach pharmacy before explosion |
 | Later driving stages | Friends' car drops Gas-Nix to manage pressure |
 | Friends | At restaurant; drive in separate lead car |
@@ -287,7 +289,7 @@ We should avoid mixing two incompatible loss systems (pressure meter and separat
 4. **Pressure failure:** what exactly happens at 100% (life lost, stage restart, game over)?
 5. **Pharmacy handoff:** how do friends receive Gas-Nix for subsequent drives?
 6. **Stage count:** should exterior/home/bathroom stages be combined?
-7. **Driving details:** What exact road/shoulder widths and off-road boundary geometry should we use, and how does respawning after a timed off-road explosion work; what warning/blink timing should arrows use; how slow does mileage fall on wrong-fork detours, and how/when do detours rejoin; what steering, collision/ramming impulse, gas-blast knockback, pickup rules, and HUD placement apply?
+7. **Driving details:** How should the confirmed 12.5% roadside strips be divided between shoulder and grass, what precise off-road collision boundary should we use, and how does respawning after a timed off-road explosion work; what warning/blink timing should arrows use; how slow does mileage fall on wrong-fork detours, and how/when do detours rejoin; what steering, collision/ramming impulse, gas-blast knockback, pickup rules, and HUD placement apply?
 8. **Blaster controls:** how should four-way gas blast aiming coexist with steering on one joystick and Fire button? Evaluate possible diagonal extension only after the prototype.
 9. **Progression:** how do restaurants/cycles become visually and mechanically distinct?
 10. **Score/lives:** scoring, bonuses, and continuation rules.
@@ -296,6 +298,7 @@ We should avoid mixing two incompatible loss systems (pressure meter and separat
 
 ## 10. Change log
 
+- **v0.9 — 2026-10-26:** Confirms left two-thirds driving area with 75% road and 12.5% combined shoulder/grass on each side for straight segments; fixes HUD in right third and adds lives to score/miles/gas. Curves and forks may shift the road; precise shoulder/grass split and collision boundaries remain open.
 - **v0.8 — 2026-10-26:** Approves two-second continuous off-road countdown, safe but low-traction shoulder, progressive skid/shake/smoke/audio cues, reset on safe return to road, and car explosion costing one life. Road/shoulder geometry and respawn remain open.
 - **v0.7 — 2026-10-25:** Confirms the protagonist's name as Billy Blaster and requires the exact introductory line to appear in-game, with presentation/placement to be determined.
 - **v0.6 — 2026-10-25:** Selects four-direction vehicle gas blasting for the first prototype; diagonal blasting remains an optional later experiment. Records that the main character has not yet been named.
