@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Project To-Do List
 
-**Version:** 0.13  
+**Version:** 0.14  
 **Date:** 2026-10-26  
 **Target:** Atari 800XL  
 **Status:** Planning and early design  
@@ -10,8 +10,8 @@
 
 ## Status update — 2026-10-26 (following 2026-10-25 audit)
 
-- **32 of 150 checklist items completed (21%).** Another **118 remain open**. Grass entry is detected by **Billy's car center**; grass time **runs/resumes**, shoulder time **pauses**, and return to paved road **resets** the two-second timer. Percent-based zone widths are approved; exact pixel boundaries remain to be derived after graphics-mode selection. These are documented design rules, not implemented code.
-- **Phase totals:** Game Design 26/45; Technical Architecture 3/14; First Playable Prototype 0/25; Indoor Gameplay 0/12; Graphics & Animation 3/16; Sound & Music 0/10; Build All Four Levels 0/10; Testing & Release 0/12; Ongoing Maintenance 0/6.
+- **32 of 149 checklist items completed (21%).** Another **117 remain open**. The graphics-mode and precise-pixel-boundary decision now belongs exclusively to **Phase 2 — Technical Architecture**. **Phase 1** retains approved gameplay proportions/rules and the remaining HUD visual-design decision; **Phase 3** owns the car-center boundary-check implementation. No additional tasks were completed or code implemented.
+- **Phase totals:** Game Design 26/44; Technical Architecture 3/14; First Playable Prototype 0/25; Indoor Gameplay 0/12; Graphics & Animation 3/16; Sound & Music 0/10; Build All Four Levels 0/10; Testing & Release 0/12; Ongoing Maintenance 0/6.
 - **Evidence reviewed:** current Game Design and Art Assets documents, repository files and available commit history. The repository contains the foundational design files and initial directory structure, but does not yet contain a committed playable game implementation.
 - **Still empty:** `AGENTS.md` and `docs/TECHNICAL_DESIGN.md`; do not mark them complete merely because the files exist.
 - **Partially specified, not complete:** four-way gas blast behavior is agreed upon for road stages, but the single-joystick control mapping and indoor blast behavior are open; the indoor camera, HUD placement, gameplay failure handling, and final art are also not decided.
@@ -40,7 +40,6 @@ This audit preserves the existing checked states and should not be interpreted a
 - [x] Confirm straight-road width: left 2/3 driving playfield containing 75% roadway and 12.5% combined shoulder/grass on **each side**; winding roads/forks can alter local margins.
 - [x] Confirm each roadside strip consists of **6.25% shoulder next to the road and 6.25% outer grass** (fractions of the left driving playfield); grass is the two-second crash-danger zone.
 - [x] Confirm **car-center zone detection**, **grass timer runs/resumes**, **shoulder pauses** at current value and **paved road resets** timer to zero.
-- [ ] Choose Atari graphics mode and derive **exact pixel boundaries** from the approved 6.25% / 6.25% / 75% / 6.25% / 6.25% proportions; implement car-center checks at each roadway cross-section.
 - [ ] Decide **minimum roadway width** and transition speed for winding/narrowed sections, then validate in the prototype.
 - [x] Confirm a **flashing GREEN arrow pointing UP**, appearing **near the top of the driving area** on the **left or right side** to indicate preferred fork; start flashing **~2 seconds before the center island first appears**.
 - [ ] Tune flashing-green-arrow blink cadence/disappearance and precise pixel timing around the confirmed ~2-second pre-island warning.
@@ -53,7 +52,7 @@ This audit preserves the existing checked states and should not be interpreted a
 - [ ] Design one-button joystick steering-versus-gas-aiming controls and prototype usability.
 - [ ] Determine car-to-car collision impulse, recovery window, and gas-blast knockback behavior.
 - [x] Fix the HUD in the **right third** of the driving screen; include lives, score, miles remaining and gas meter.
-- [ ] Determine exact pixel dimensions, graphics mode and HUD presentation.
+- [ ] Finalize HUD visual presentation and arrangement of lives, score, miles and gas meter (right-third placement is already confirmed).
 - [x] Choose a name for the main character: **Billy Blaster**.
 - [x] Approve Billy Blaster's introductory line (exact wording captured in GAME_DESIGN.md).
 - [ ] Decide where and how to show Billy Blaster's required introduction within the game.
@@ -78,7 +77,7 @@ This audit preserves the existing checked states and should not be interpreted a
 - [ ] Select emulator and debugging tools.
 - [ ] Establish the assembly, build, and execution workflow.
 - [ ] Decide on cartridge, disk, or other distribution format.
-- [ ] Select Atari graphics modes and screen layouts.
+- [ ] Select Atari/ANTIC graphics mode(s) and screen layouts; derive **exact pixel boundaries** for the left 2/3 driving playfield, straight-road zones (**6.25% grass / 6.25% shoulder / 75% road / 6.25% shoulder / 6.25% grass**) and right 1/3 HUD. Specify pixel rounding/alignment and how boundaries update as roads wind or narrow.
 - [ ] Develop a preliminary memory map and allocation strategy.
 - [ ] Determine how player/missile graphics will be used.
 - [ ] Define the game's main loop, input handling, timing, and collision architecture.
@@ -93,7 +92,7 @@ This audit preserves the existing checked states and should not be interpreted a
 
 - [ ] Display a basic overhead roadway scrolling downward.
 - [ ] Implement continuous side-to-side steering (no fixed-lane snapping).
-- [ ] Implement three zones with baseline widths: 75% normal road, 6.25% low-traction shoulder per side and 6.25% grass per side; classify by **car center** using the road edges at the player's current vertical position.
+- [ ] Implement road/shoulder/grass zone classification using the **center of Billy's car** and the graphics-mode-specific left/right boundary coordinates at **his current vertical road cross-section**, including winding and narrowed roads (normal baseline: 75% road, 6.25% shoulder per side and 6.25% grass per side).
 - [ ] Implement **grass time runs/resumes / shoulder time pauses / paved-road time resets** behavior; at 2.0s accumulated grass time since last road recovery, explode and deduct one life.
 - [ ] Implement staged skid, shake/reduced steering, warning/smoke, critical warning/heavy smoke.
 - [ ] Prototype narrowed roads weaving left/right, then **widening back to the normal 75% baseline width**.
@@ -212,6 +211,7 @@ This audit preserves the existing checked states and should not be interpreted a
 
 ## Change Log
 
+- **v0.14 — 2026-10-26:** Moves the Atari graphics-mode and exact pixel-boundary decision out of Phase 1 into the existing Phase 2 graphics/screens task; clarifies Phase 3 car-center collision implementation at Billy's current road cross-section; leaves HUD visual presentation in Phase 1. Removes a redundant open checklist item without changing completed statuses (32/149 done).
 - **v0.13 — 2026-10-26:** Checks off car-center grass detection and run/pause/reset timer behavior (grass/shoulder/paved road). Splits the old mixed checklist item so graphics-mode-dependent pixel boundaries remain open. 32/150 completed; no implementation claimed.
 - **v0.12 — 2026-10-26:** Confirms winding roadway temporarily narrows then returns to 75% baseline; forks feature scrolling central island with flashing green UP arrow on left/right near top ~2 seconds before island enters screen. Two design decisions checked; minimum narrowed road width remains open; total 31/149 tasks complete.
 - **v0.11 — 2026-10-26:** Approves equal 6.25% shoulder / 6.25% grass subdivision on both sides of a 75% baseline road; marks the proportion decision complete while leaving pixel-level collision and partial shoulder recovery open. Checklist now 29/146 completed.
