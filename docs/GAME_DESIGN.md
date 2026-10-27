@@ -1,7 +1,7 @@
 # Gas Blasters '82 — Game Design Document
 
-**Version:** 0.7  
-**Date:** 2026-10-25  
+**Version:** 0.8  
+**Date:** 2026-10-26  
 **Status:** Early design / living document  
 **Primary target:** Atari 800XL (Atari 8-bit family)  
 **Purpose:** Record the current concept for design discussions and eventual Codex implementation.
@@ -88,11 +88,11 @@ Two cars leave the restaurant: the player's car and a separate car driven by fri
 
 **Important:** Gas-Nix is **not yet available**. Friends do **not** drop Gas-Nix on this first drive, because it has not been acquired yet.
 
-**Confirmed road features:** free left/right steering, winding road, occasional two-way fork with an on-screen arrow indicating the intended route, and a crash if the car travels too far off the roadway. Driving uses approximately two-thirds of the screen; a separate one-third HUD shows gas pressure, distance in miles to the next destination, score, and other necessary indicators.
+**Confirmed road features:** free left/right steering, winding road, occasional two-way fork with an on-screen arrow indicating the intended route, and recoverable shoulder/off-road driving with a **2.0-second off-road countdown** before an explosion costs one life. Driving uses approximately two-thirds of the screen; a separate one-third HUD shows gas pressure, distance in miles to the next destination, score, and other necessary indicators.
 
-**Confirmed:** If the player takes the **wrong fork**, it is a **detour, not an immediate crash**. The **miles-to-destination counter continues counting down, but more slowly**, while **gas pressure keeps rising**, making the detour costly. Police cars and hazmat vans intentionally try to **ram/PIT-style shove** the player off the road; being pushed too far off the roadway causes a crash. The player can use **gas blasts from all four sides of the car** to push pursuing vehicles away.
+**Confirmed:** If the player takes the **wrong fork**, it is a **detour, not an immediate crash**. The **miles-to-destination counter continues counting down, but more slowly**, while **gas pressure keeps rising**, making the detour costly. Police cars and hazmat vans intentionally try to **ram/PIT-style shove** the player off the road; being pushed beyond the shoulder begins the same **2.0-second recovery countdown**, not an instant crash. The player can use **gas blasts from all four sides of the car** to push pursuing vehicles away.
 
-**Open:** road speed/distance and precise distance penalty for incorrect forks, how detours rejoin the intended road, gas growth rate, exact explosion/crash penalties, and eight-direction gas-blast control mapping.
+**Open:** road speed/distance and precise distance penalty for incorrect forks, how detours rejoin the intended road, gas growth rate, exact outcome of a **100% gas-pressure explosion** (distinct from off-road failure), respawn after an off-road explosion, and eight-direction gas-blast control mapping.
 
 ### Stage 3 — Pharmacy: obtain Gas-Nix
 
@@ -184,7 +184,7 @@ The player has secret gas powers to evade hazmat personnel and police.
 
 **Confirmed enemy groups by setting:** hazmat crew (restaurant and home exterior); police and **hazmat vans** (road), police (home interior); pharmacy staff/patrons/manager; grocery shoppers/employees/manager.
 
-**Confirmed driving enemy behavior:** police cars and hazmat vans **deliberately ram or attempt PIT-style side collisions** to push the player off the road. The player can counter them using gas-blast knockback. If a resulting shove carries the player's car too far outside the safe roadway, it **crashes**.
+**Confirmed driving enemy behavior:** police cars and hazmat vans **deliberately ram or attempt PIT-style side collisions** to push the player off the road. The player can counter them using gas-blast knockback. If a resulting shove carries Billy **beyond the shoulder**, he has **two continuous seconds** to return to the road before his car **explodes and one life is lost**. A shove or brief shoulder excursion is not an immediate crash.
 
 **Open:** AI positioning and attack patterns, collision impulses, recovery opportunity before off-road failure, enemy knockback strengths and limits. Other enemy behaviors and roadblocks remain **proposed**; no specific enemy names or spawn rates are final.
 
@@ -194,7 +194,7 @@ The player has secret gas powers to evade hazmat personnel and police.
 - **Overhead/top-down view**, inspired by the driving presentation of *Spy Hunter*.
 - The player's vehicle **faces and appears to drive upward**, positioned **toward the bottom of the driving playfield**.
 - The **road and roadside scenery scroll downward** to convey forward travel.
-- **Unrestricted side-to-side steering:** the car moves freely left or right, **not** between fixed discrete lanes. The player can drive onto the roadside/shoulder; going **too far off-road** causes a **crash**. The exact tolerance before crashing is open.
+- **Unrestricted side-to-side steering:** the car moves freely left or right, **not** between fixed discrete lanes. The playable environment has three distinct areas: road (normal handling), shoulder (reduced traction, no countdown), and beyond-shoulder off-road (a **2.0-second continuous danger countdown**; see Section 5.7).
 - The roadway **winds left and right**. The road location changes relative to the screen and the player must steer to stay on it.
 - The road can **fork into two branches**. A **blinking on-screen directional arrow** indicates **which fork to take**. The arrow appears **a few seconds before the fork is encountered**, positioned **near the top of the screen** in the driving playfield to give the player time to react. **Taking the wrong fork does not instantly crash the car**: it wastes travel time, slows the miles-remaining countdown and allows pressure to keep building. The exact warning timing, slowdown factor, detour duration and road rejoining remain open.
 - Police cars and hazmat vans pursue, deliberately **bumping/PIT-style shoving** the player's car toward the road edge. **Four-sided car gas blasts** push these vehicles back. Diagonal blasting is possible but **unconfirmed**.
@@ -210,15 +210,39 @@ The player has secret gas powers to evade hazmat personnel and police.
   - Any additional essential information identified during design.
 - The layout orientation (for example, a vertical side HUD vs. another division), exact pixel dimensions, text/graphic styling, and how the two-thirds boundary is implemented on Atari hardware are **not yet selected**. Preserve the overall 2/3-to-1/3 allocation.
 
-**Still open for driving:** road width and shoulders, winding curvature and fork generation/placement, exact fork-warning lead time and blink cadence (with approximate top-screen placement confirmed), wrong-fork slowdown/detour tuning, crash/life/restart behavior, precise player vertical-position freedom, acceleration/braking, speed, enemy/traffic collisions, input mapping, gas-bomb controls, and whether the HUD includes lives or stage details. *Spy Hunter* is a perspective/gameplay reference, **not** a requirement to duplicate all its mechanics.
+**Still open for driving:** exact road and shoulder widths/trigger geometry, winding curvature and fork generation/placement, exact fork-warning lead time and blink cadence (with approximate top-screen placement confirmed), wrong-fork slowdown/detour tuning, restart/respawn after an off-road explosion, precise player vertical-position freedom, acceleration/braking, speed, enemy/traffic collisions, input mapping, gas-bomb controls, and whether the HUD includes lives or stage details. *Spy Hunter* is a perspective/gameplay reference, **not** a requirement to duplicate all its mechanics.
 
 **Still open for indoor stages:** overhead maze versus side-view action. A single Atari joystick with one fire button is the expected hardware input, but the complete mapping is **not finalized**.
+
+### 5.7 Off-road recovery, shoulder handling and two-second explosion — Confirmed
+
+Applies to all driving stages (Stages 2, 4 and 6), including situations where pursuing police cars or hazmat vans shove the player sideways.
+
+- **Road:** Normal traction and steering. The off-road danger timer is reset/cleared when Billy safely returns to the paved road.
+- **Shoulder:** Some tolerance for drifting partly off pavement. The shoulder does **not** immediately kill the player or start the off-road countdown, but traction is reduced and steering is harder than on the road.
+- **Beyond the shoulder (off-road):** The car becomes harder to control. A **continuous two-second countdown** starts once the car is beyond the shoulder. If Billy cannot recover in time, his car **explodes** and the player **loses one life**.
+- **Recovery:** Reaching the road safely **resets** the timer and stops the off-road warning sequence. The timer measures **continuous** off-road time, **not** a cumulative stage-wide total. This is separate from gas pressure reaching 100%.
+- **Progressive on-screen/audio feedback** follows the accepted initial timing targets:
+
+| Continuous time beyond shoulder | Response |
+|---|---|
+| 0.0–0.5 s | Car starts skidding; correction is still possible. |
+| 0.5–1.0 s | Car shakes; steering responsiveness decreases. |
+| 1.0–1.5 s | Warning sound begins; smoke appears. |
+| 1.5–2.0 s | Critical warning; smoke gets heavier. |
+| 2.0 s | **Vehicle explosion and one-life penalty.** |
+
+**Confirmed:** the two-second cutoff, loss of one life, safe-but-slippery shoulder, harder off-road steering, progressive skid/shake/smoke/warning feedback, and return-to-road timer reset. The sub-second warning bands above are the accepted initial targets and may be balanced during playtesting.
+
+**Not yet finalized:** road/shoulder width, exact geometric transition into the off-road danger zone, handling of an existing timer when briefly returning only to the shoulder (but not yet road), specific steering/traction percentages, collision math, audio/animation details, and respawn/restart behavior after losing a life.
 
 ## 6. Player goals, failure and progression
 
 **Confirmed:** get through the restaurant, pharmacy, grocery store and home sequence; manage gas pressure; reach the bathroom; finish four restaurant levels; repeat from Taco Smell.
 
-**Open:** lives, continues, checkpoints, score, high-score table, bonus points, difficulty increases after looping, and consequences of capture versus pressure reaching 100%.
+**Confirmed:** two continuous seconds beyond the shoulder results in a car explosion and **one life lost**.
+
+**Open:** number of starting lives, continues, checkpoints, score, high-score table, bonus points, difficulty increases after looping, respawn after off-road explosions, and consequences of capture versus gas pressure reaching 100%.
 
 We should avoid mixing two incompatible loss systems (pressure meter and separate countdown timer) until we deliberately choose how they interact.
 
@@ -243,7 +267,8 @@ We should avoid mixing two incompatible loss systems (pressure meter and separat
 | Stage count | Nine per level **for now**; may be reduced |
 | Pharmacy objective | **Gas-Nix gas relief**; not laxatives |
 | Driving perspective | **Confirmed overhead/top-down**; car points upward near bottom of driving area; road scrolls downward; friends' car ahead near top; police pursue |
-| Driving controls/roads | **Free lateral steering** (no fixed lanes); winding roadway; driving too far off-road causes a crash; two-way road forks with **blinking directional arrow near top of screen appearing a few seconds in advance** |
+| Driving controls/roads | **Free lateral steering** (no fixed lanes); winding roadway; safe shoulder followed by timed off-road danger; two-way forks with **blinking directional arrow near top of screen appearing a few seconds in advance** |
+| Off-road penalty | **2.0 seconds** continuously beyond shoulder = car explodes, lose one life; shoulder reduces traction but does not start timer; progressive skid/shake/smoke/audio warnings; timer resets on safe return to road |
 | Wrong fork | No automatic crash; a time-costly detour slows miles-to-go countdown while pressure keeps increasing |
 | Road enemies / defense | Police cars and hazmat vans try to bump the player's car off-road; gas blasts from all **four sides** push vehicles away |
 | Gas-blast prototype | **Four-way blasting selected for initial prototype** (front, rear, left, right); steering/aim input mapping still open |
@@ -262,7 +287,7 @@ We should avoid mixing two incompatible loss systems (pressure meter and separat
 4. **Pressure failure:** what exactly happens at 100% (life lost, stage restart, game over)?
 5. **Pharmacy handoff:** how do friends receive Gas-Nix for subsequent drives?
 6. **Stage count:** should exterior/home/bathroom stages be combined?
-7. **Driving details:** How wide is the winding roadway/shoulder; how far can the car leave the road before crashing; what warning/blink timing should arrows use; how slow does mileage fall on wrong-fork detours, and how/when do detours rejoin; what steering, collision/ramming impulse, gas-blast knockback, pickup rules, and HUD placement apply?
+7. **Driving details:** What exact road/shoulder widths and off-road boundary geometry should we use, and how does respawning after a timed off-road explosion work; what warning/blink timing should arrows use; how slow does mileage fall on wrong-fork detours, and how/when do detours rejoin; what steering, collision/ramming impulse, gas-blast knockback, pickup rules, and HUD placement apply?
 8. **Blaster controls:** how should four-way gas blast aiming coexist with steering on one joystick and Fire button? Evaluate possible diagonal extension only after the prototype.
 9. **Progression:** how do restaurants/cycles become visually and mechanically distinct?
 10. **Score/lives:** scoring, bonuses, and continuation rules.
@@ -271,6 +296,7 @@ We should avoid mixing two incompatible loss systems (pressure meter and separat
 
 ## 10. Change log
 
+- **v0.8 — 2026-10-26:** Approves two-second continuous off-road countdown, safe but low-traction shoulder, progressive skid/shake/smoke/audio cues, reset on safe return to road, and car explosion costing one life. Road/shoulder geometry and respawn remain open.
 - **v0.7 — 2026-10-25:** Confirms the protagonist's name as Billy Blaster and requires the exact introductory line to appear in-game, with presentation/placement to be determined.
 - **v0.6 — 2026-10-25:** Selects four-direction vehicle gas blasting for the first prototype; diagonal blasting remains an optional later experiment. Records that the main character has not yet been named.
 - **v0.5 — 2026-10-25:** Wrong fork becomes detour: miles count down slower while gas builds, with no automatic crash. Police cars and hazmat vans attempt to force the player off-road; four-sided gas blasts knock enemies away. Atari joystick can detect eight directions, but adding diagonal blasts and mapping aiming to one stick remain design decisions.
