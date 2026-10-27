@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Project To-Do List
 
-**Version:** 0.11  
+**Version:** 0.12  
 **Date:** 2026-10-26  
 **Target:** Atari 800XL  
 **Status:** Planning and early design  
@@ -10,8 +10,8 @@
 
 ## Status update — 2026-10-26 (following 2026-10-25 audit)
 
-- **29 of 146 checklist items completed (20%).** Another **117 remain open**. The straight-road playfield is now defined as 6.25% grass / 6.25% shoulder / 75% road / 6.25% shoulder / 6.25% grass, all within the left 2/3 of the screen. The fixed HUD occupies the right 1/3. The grass boundary triggers the 2-second off-road countdown; exact pixel/collision tests and partial shoulder recovery remain implementation/design details.
-- **Phase totals:** Game Design 23/41; Technical Architecture 3/14; First Playable Prototype 0/25; Indoor Gameplay 0/12; Graphics & Animation 3/16; Sound & Music 0/10; Build All Four Levels 0/10; Testing & Release 0/12; Ongoing Maintenance 0/6.
+- **31 of 149 checklist items completed (21%).** Another **118 remain open**. New confirmed details: road temporarily narrows while weaving and restores its 75% normal width; forks use a central dividing island and an advance **flashing green UP arrow** positioned left/right ~2 seconds before the island first appears. Minimum winding-road width, blink cadence and island dimensions remain for prototype tuning.
+- **Phase totals:** Game Design 25/44; Technical Architecture 3/14; First Playable Prototype 0/25; Indoor Gameplay 0/12; Graphics & Animation 3/16; Sound & Music 0/10; Build All Four Levels 0/10; Testing & Release 0/12; Ongoing Maintenance 0/6.
 - **Evidence reviewed:** current Game Design and Art Assets documents, repository files and available commit history. The repository contains the foundational design files and initial directory structure, but does not yet contain a committed playable game implementation.
 - **Still empty:** `AGENTS.md` and `docs/TECHNICAL_DESIGN.md`; do not mark them complete merely because the files exist.
 - **Partially specified, not complete:** four-way gas blast behavior is agreed upon for road stages, but the single-joystick control mapping and indoor blast behavior are open; the indoor camera, HUD placement, gameplay failure handling, and final art are also not decided.
@@ -32,14 +32,17 @@ This audit preserves the existing checked states and should not be interpreted a
 - [x] Confirm overhead, upward-facing-car, downward-scrolling-road perspective for driving stages (Spy Hunter-style).
 - [x] Confirm unrestricted left/right steering, rather than fixed lanes.
 - [x] Confirm winding roads and occasional two-way forks with on-screen direction arrows.
+- [x] Confirm winding sections **temporarily narrow while weaving** and **restore normal 75% width** afterward.
+- [x] Confirm forks form around a **center divider island** which scrolls downward from the top.
 - [x] Confirm that driving too far off the road causes a crash.
 - [x] Confirm driving-stage screen allocation: 2/3 road/playfield and 1/3 status HUD (gas, miles to destination, score).
 - [x] Confirm 2.0-second continuous off-road limit, safe low-traction shoulder, warnings, return-to-road reset, explosion and one-life loss.
 - [x] Confirm straight-road width: left 2/3 driving playfield containing 75% roadway and 12.5% combined shoulder/grass on **each side**; winding roads/forks can alter local margins.
 - [x] Confirm each roadside strip consists of **6.25% shoulder next to the road and 6.25% outer grass** (fractions of the left driving playfield); grass is the two-second crash-danger zone.
 - [ ] Determine exact Atari-pixel boundaries, car-overlap test at grass entry, and behavior when recovering only to the shoulder.
-- [x] Confirm a blinking fork-direction arrow near the top of the screen, appearing a few seconds before a fork.
-- [ ] Tune the exact arrow-warning lead time, blink cadence, and when the arrow disappears.
+- [ ] Decide **minimum roadway width** and transition speed for winding/narrowed sections, then validate in the prototype.
+- [x] Confirm a **flashing GREEN arrow pointing UP**, appearing **near the top of the driving area** on the **left or right side** to indicate preferred fork; start flashing **~2 seconds before the center island first appears**.
+- [ ] Tune flashing-green-arrow blink cadence/disappearance and precise pixel timing around the confirmed ~2-second pre-island warning.
 - [x] Confirm wrong forks incur slower miles countdown and continued rising gas pressure, rather than an immediate crash.
 - [x] Confirm police cars and hazmat vans attempt to bump/PIT-style force the car off the road.
 - [x] Confirm gas blasts from the front, rear, left and right push enemy vehicles away.
@@ -92,8 +95,8 @@ This audit preserves the existing checked states and should not be interpreted a
 - [ ] Implement three zones with baseline widths: 75% normal road, 6.25% low-traction shoulder per side, and 6.25% grass/timer-danger area per side of the left driving region.
 - [ ] Implement 2.0-second continuous off-road countdown, return-to-road reset, car explosion and loss of one life.
 - [ ] Implement staged skid, shake/reduced steering, warning/smoke, critical warning/heavy smoke.
-- [ ] Prototype roads winding left and right.
-- [ ] Prototype a two-branch fork with a blinking direction arrow appearing a few seconds in advance near the top of the screen.
+- [ ] Prototype narrowed roads weaving left/right, then **widening back to the normal 75% baseline width**.
+- [ ] Prototype a **scrolling center-divider island** that creates left/right branches, with a **flashing GREEN upward arrow near top on the preferred side** beginning ~2 seconds before the island first appears.
 - [ ] Implement a wrong-fork detour with miles counting down more slowly while gas pressure continues rising.
 - [ ] Draw the player's car facing upward near the bottom of the screen.
 - [ ] Implement joystick steering.
@@ -147,7 +150,7 @@ This audit preserves the existing checked states and should not be interpreted a
 - [ ] Design four distinct restaurant identities and environments.
 - [ ] Create pharmacy, grocery, road, house, and bathroom graphics.
 - [ ] Create HUD, score, gas-pressure, and miles-to-destination graphics for the dedicated one-third driving panel.
-- [ ] Design winding-road transitions, fork-road graphics, shoulder/off-road boundary cues, directional arrow and wrong-fork detour feedback.
+- [ ] Design temporary narrowing/weaving road transitions and return-to-baseline, center-divider island forks, shoulder/off-road cues, left/right-positioned flashing GREEN upward arrow and wrong-fork detour feedback.
 - [ ] Create off-road skid, shake, smoke, critical smoke and two-second explosion/lost-life visual effects.
 - [ ] Design four-sided gas blast effects and ramming/knockback cues; optional diagonal art after mechanic approval.
 - [ ] Design title, stage introduction (including Billy Blaster's exact quote), game-over, and victory screens.
@@ -208,6 +211,7 @@ This audit preserves the existing checked states and should not be interpreted a
 
 ## Change Log
 
+- **v0.12 — 2026-10-26:** Confirms winding roadway temporarily narrows then returns to 75% baseline; forks feature scrolling central island with flashing green UP arrow on left/right near top ~2 seconds before island enters screen. Two design decisions checked; minimum narrowed road width remains open; total 31/149 tasks complete.
 - **v0.11 — 2026-10-26:** Approves equal 6.25% shoulder / 6.25% grass subdivision on both sides of a 75% baseline road; marks the proportion decision complete while leaving pixel-level collision and partial shoulder recovery open. Checklist now 29/146 completed.
 - **v0.10 — 2026-10-26:** Confirms the straight-section 75% road plus 12.5% roadside per side within a fixed left two-thirds driving playfield, and selects right-third HUD with lives/score/miles/gas. Splits remaining geometry and pixel sizing into open items. Now 28/145 completed; no code implementation claimed.
 - **v0.9 — 2026-10-26:** Confirms two-second off-road explosion/one-life rule, low-traction shoulder and progressive warnings, and updates phase/checklist counts (26/143). Exact road/shoulder widths remain open; added prototype, art and sound tasks.
