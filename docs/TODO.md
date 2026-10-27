@@ -1,7 +1,7 @@
 # Gas Blasters '82 — Project To-Do List
 
-**Version:** 0.16  
-**Date:** 2026-10-26  
+**Version:** 0.17  
+**Date:** 2026-10-27  
 **Target:** Atari 800XL  
 **Status:** Planning and early design  
 **Companion documents:** [Game Design](GAME_DESIGN.md) · [Art Assets](ART_ASSETS.md)
@@ -10,8 +10,8 @@
 
 ## Status update — 2026-10-26 (following 2026-10-25 audit)
 
-- **34 of 151 checklist items completed (23%).** Another **117 remain open**. The green fork arrow's gameplay behavior is now finalized: **~2s before island appears**, **0.25s ON / 0.25s OFF**, remains flashing until Billy passes the fork decision point. **Phase 2** retains frame/coordinate calculations; **Phase 3** retains implementation and testing. Road narrowing and off-road behavior remain approved design targets, not implemented features.
-- **Phase totals:** Game Design 28/44; Technical Architecture 3/15; First Playable Prototype 0/26; Indoor Gameplay 0/12; Graphics & Animation 3/16; Sound & Music 0/10; Build All Four Levels 0/10; Testing & Release 0/12; Ongoing Maintenance 0/6.
+- **35 of 151 checklist items completed (23%).** Another **116 remain open**. Wrong-fork behavior is finalized: **one-time +1.0 mile** to remaining distance **only for a wrong turn**, normal countdown rate, continuing gas pressure, and automatic **early merge** back into a normal 75%-width road. The original slower-mileage rule is superseded. Exact visual merge timing and all coding/playtesting remain open.
+- **Phase totals:** Game Design 29/44; Technical Architecture 3/15; First Playable Prototype 0/26; Indoor Gameplay 0/12; Graphics & Animation 3/16; Sound & Music 0/10; Build All Four Levels 0/10; Testing & Release 0/12; Ongoing Maintenance 0/6.
 - **Evidence reviewed:** current Game Design and Art Assets documents, repository files and available commit history. The repository contains the foundational design files and initial directory structure, but does not yet contain a committed playable game implementation.
 - **Still empty:** `AGENTS.md` and `docs/TECHNICAL_DESIGN.md`; do not mark them complete merely because the files exist.
 - **Partially specified, not complete:** four-way gas blast behavior is agreed upon for road stages, but the single-joystick control mapping and indoor blast behavior are open; the indoor camera, HUD placement, gameplay failure handling, and final art are also not decided.
@@ -43,10 +43,10 @@ This audit preserves the existing checked states and should not be interpreted a
 - [x] Set winding-road minimum to **40% of left driving playfield**; narrow from normal **75% to 40% in ~4s** and widen back **40% to 75% in ~4s**. Maintain **6.25% shoulders** on each side (centered narrow road leaves **23.75% grass** per side).
 - [x] Confirm a **flashing GREEN arrow pointing UP**, appearing **near the top of the driving area** on the **left or right side** to indicate preferred fork; start flashing **~2 seconds before the center island first appears**.
 - [x] Confirm fork-arrow warning: **0.25s ON / 0.25s OFF**, begins **~2s before center island first appears**, keeps flashing near top through fork approach and **disappears when Billy passes the fork decision point**. (Exact frame/pixel mapping belongs to Phases 2–3.)
-- [x] Confirm wrong forks incur slower miles countdown and continued rising gas pressure, rather than an immediate crash.
+- [x] Confirm wrong-fork penalty is **one-time +1.0 mile to distance remaining**, **no countdown slowdown**, gas pressure continues rising, and no immediate crash.
 - [x] Confirm police cars and hazmat vans attempt to bump/PIT-style force the car off the road.
 - [x] Confirm gas blasts from the front, rear, left and right push enemy vehicles away.
-- [ ] Set wrong-fork slowdown/detour length and rejoining behavior.
+- [x] Confirm wrong forks add **exactly 1.0 mile once**; continue at **normal countdown speed** while gas pressure rises; fork branches **merge back relatively soon into a single normal-width (75%) road**, without requiring a visually separate extra mile.
 - [x] Select four-direction gas blasting for the initial driving prototype.
 - [ ] Evaluate eight-direction blasting only after playtesting the four-way prototype.
 - [ ] Design one-button joystick steering-versus-gas-aiming controls and prototype usability.
@@ -99,7 +99,7 @@ This audit preserves the existing checked states and should not be interpreted a
 - [ ] Prototype winding roads narrowing **75% → 40% over ~4s**, weaving at the narrow width, and widening **40% → 75% over ~4s**, preserving **6.25% shoulders**.
 - [ ] **Playtest and validate** the 40% minimum, four-second narrowing/widening, shoulder safety, and recoverability against enemy ramming; tune only if necessary.
 - [ ] Prototype a **scrolling center-divider island** creating left/right branches and a green upward arrow near top on the preferred side. Start flashes **~2 seconds before island first appears**; animate **0.25s ON / 0.25s OFF**, keep flashing during fork approach, and remove when Billy passes the fork's decision point. Validate timing, visibility and geometry in the chosen graphics mode.
-- [ ] Implement a wrong-fork detour with miles counting down more slowly while gas pressure continues rising.
+- [ ] Implement wrong-fork route selection with **one-time +1.0 mile** on wrong-branch choice, **normal-rate** miles countdown and continuing gas-pressure increase; automatically **merge split branches back soon** to one normal 75%-width road, **before** the extra mile is traveled. Prototype/tune visual merge timing and clarity.
 - [ ] Draw the player's car facing upward near the bottom of the screen.
 - [ ] Implement joystick steering.
 - [ ] Add police cars and basic collision detection.
@@ -152,7 +152,7 @@ This audit preserves the existing checked states and should not be interpreted a
 - [ ] Design four distinct restaurant identities and environments.
 - [ ] Create pharmacy, grocery, road, house, and bathroom graphics.
 - [ ] Create HUD, score, gas-pressure, and miles-to-destination graphics for the dedicated one-third driving panel.
-- [ ] Design temporary narrowing/weaving road transitions and return-to-baseline, center-divider island forks, shoulder/off-road cues, left/right-positioned flashing GREEN upward arrow and wrong-fork detour feedback.
+- [ ] Design temporary narrowing/weaving road transitions and return-to-baseline, center-divider island forks, shoulder/off-road cues, left/right-positioned flashing GREEN upward arrow, **early branch merging to a 75%-width road**, and **+1.0-mile HUD wrong-turn feedback**.
 - [ ] Create off-road skid, shake, smoke, critical smoke and two-second explosion/lost-life visual effects.
 - [ ] Design four-sided gas blast effects and ramming/knockback cues; optional diagonal art after mechanic approval.
 - [ ] Design title, stage introduction (including Billy Blaster's exact quote), game-over, and victory screens.
@@ -213,6 +213,7 @@ This audit preserves the existing checked states and should not be interpreted a
 
 ## Change Log
 
+- **v0.17 — 2026-10-27:** Finalizes wrong-fork rule: add **+1.0 mile once** only on a wrong turn, retain normal miles-countdown speed and continuing gas pressure, and automatically merge branches soon into a normal 75%-width road before the extra mile is traveled. Supersedes previously recorded slower-mileage behavior; implementation/prototype merge geometry remains open. 35/151 complete.
 - **v0.16 — 2026-10-26:** Confirms green fork-arrow cadence (0.25s ON / 0.25s OFF), ~2-second advance warning and disappearance after passing fork decision point. Marks Phase 1 arrow-design task complete and adds a Phase 2 timing/coordinate-mapping task; retains Phase 3 prototype implementation. 34/151 complete.
 - **v0.15 — 2026-10-26:** Approves road narrowing from 75% to 40% in ~4 seconds and widening back in ~4 seconds; shoulders stay 6.25% on each side, grass expands to 23.75% on each side when centered and narrow. Marks design task done and adds separate Phase 3 prototype-validation task. 33/150 complete.
 - **v0.14 — 2026-10-26:** Moves the Atari graphics-mode and exact pixel-boundary decision out of Phase 1 into the existing Phase 2 graphics/screens task; clarifies Phase 3 car-center collision implementation at Billy's current road cross-section; leaves HUD visual presentation in Phase 1. Removes a redundant open checklist item without changing completed statuses (32/149 done).
