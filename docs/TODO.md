@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Project To-Do List
 
-**Version:** 0.14  
+**Version:** 0.15  
 **Date:** 2026-10-26  
 **Target:** Atari 800XL  
 **Status:** Planning and early design  
@@ -10,8 +10,8 @@
 
 ## Status update — 2026-10-26 (following 2026-10-25 audit)
 
-- **32 of 149 checklist items completed (21%).** Another **117 remain open**. The graphics-mode and precise-pixel-boundary decision now belongs exclusively to **Phase 2 — Technical Architecture**. **Phase 1** retains approved gameplay proportions/rules and the remaining HUD visual-design decision; **Phase 3** owns the car-center boundary-check implementation. No additional tasks were completed or code implemented.
-- **Phase totals:** Game Design 26/44; Technical Architecture 3/14; First Playable Prototype 0/25; Indoor Gameplay 0/12; Graphics & Animation 3/16; Sound & Music 0/10; Build All Four Levels 0/10; Testing & Release 0/12; Ongoing Maintenance 0/6.
+- **33 of 150 checklist items completed (22%).** Another **117 remain open**. Confirmed winding-road geometry: **75% → 40% paved width in ~4s, then 40% → 75% in ~4s**, with **fixed 6.25% shoulders** and centered minimum-width **23.75% grass per side**. The Phase 1 design decision is complete; **Phase 3 prototype validation** remains open. These are approved design targets, not implemented features.
+- **Phase totals:** Game Design 27/44; Technical Architecture 3/14; First Playable Prototype 0/26; Indoor Gameplay 0/12; Graphics & Animation 3/16; Sound & Music 0/10; Build All Four Levels 0/10; Testing & Release 0/12; Ongoing Maintenance 0/6.
 - **Evidence reviewed:** current Game Design and Art Assets documents, repository files and available commit history. The repository contains the foundational design files and initial directory structure, but does not yet contain a committed playable game implementation.
 - **Still empty:** `AGENTS.md` and `docs/TECHNICAL_DESIGN.md`; do not mark them complete merely because the files exist.
 - **Partially specified, not complete:** four-way gas blast behavior is agreed upon for road stages, but the single-joystick control mapping and indoor blast behavior are open; the indoor camera, HUD placement, gameplay failure handling, and final art are also not decided.
@@ -40,7 +40,7 @@ This audit preserves the existing checked states and should not be interpreted a
 - [x] Confirm straight-road width: left 2/3 driving playfield containing 75% roadway and 12.5% combined shoulder/grass on **each side**; winding roads/forks can alter local margins.
 - [x] Confirm each roadside strip consists of **6.25% shoulder next to the road and 6.25% outer grass** (fractions of the left driving playfield); grass is the two-second crash-danger zone.
 - [x] Confirm **car-center zone detection**, **grass timer runs/resumes**, **shoulder pauses** at current value and **paved road resets** timer to zero.
-- [ ] Decide **minimum roadway width** and transition speed for winding/narrowed sections, then validate in the prototype.
+- [x] Set winding-road minimum to **40% of left driving playfield**; narrow from normal **75% to 40% in ~4s** and widen back **40% to 75% in ~4s**. Maintain **6.25% shoulders** on each side (centered narrow road leaves **23.75% grass** per side).
 - [x] Confirm a **flashing GREEN arrow pointing UP**, appearing **near the top of the driving area** on the **left or right side** to indicate preferred fork; start flashing **~2 seconds before the center island first appears**.
 - [ ] Tune flashing-green-arrow blink cadence/disappearance and precise pixel timing around the confirmed ~2-second pre-island warning.
 - [x] Confirm wrong forks incur slower miles countdown and continued rising gas pressure, rather than an immediate crash.
@@ -95,7 +95,8 @@ This audit preserves the existing checked states and should not be interpreted a
 - [ ] Implement road/shoulder/grass zone classification using the **center of Billy's car** and the graphics-mode-specific left/right boundary coordinates at **his current vertical road cross-section**, including winding and narrowed roads (normal baseline: 75% road, 6.25% shoulder per side and 6.25% grass per side).
 - [ ] Implement **grass time runs/resumes / shoulder time pauses / paved-road time resets** behavior; at 2.0s accumulated grass time since last road recovery, explode and deduct one life.
 - [ ] Implement staged skid, shake/reduced steering, warning/smoke, critical warning/heavy smoke.
-- [ ] Prototype narrowed roads weaving left/right, then **widening back to the normal 75% baseline width**.
+- [ ] Prototype winding roads narrowing **75% → 40% over ~4s**, weaving at the narrow width, and widening **40% → 75% over ~4s**, preserving **6.25% shoulders**.
+- [ ] **Playtest and validate** the 40% minimum, four-second narrowing/widening, shoulder safety, and recoverability against enemy ramming; tune only if necessary.
 - [ ] Prototype a **scrolling center-divider island** that creates left/right branches, with a **flashing GREEN upward arrow near top on the preferred side** beginning ~2 seconds before the island first appears.
 - [ ] Implement a wrong-fork detour with miles counting down more slowly while gas pressure continues rising.
 - [ ] Draw the player's car facing upward near the bottom of the screen.
@@ -211,6 +212,7 @@ This audit preserves the existing checked states and should not be interpreted a
 
 ## Change Log
 
+- **v0.15 — 2026-10-26:** Approves road narrowing from 75% to 40% in ~4 seconds and widening back in ~4 seconds; shoulders stay 6.25% on each side, grass expands to 23.75% on each side when centered and narrow. Marks design task done and adds separate Phase 3 prototype-validation task. 33/150 complete.
 - **v0.14 — 2026-10-26:** Moves the Atari graphics-mode and exact pixel-boundary decision out of Phase 1 into the existing Phase 2 graphics/screens task; clarifies Phase 3 car-center collision implementation at Billy's current road cross-section; leaves HUD visual presentation in Phase 1. Removes a redundant open checklist item without changing completed statuses (32/149 done).
 - **v0.13 — 2026-10-26:** Checks off car-center grass detection and run/pause/reset timer behavior (grass/shoulder/paved road). Splits the old mixed checklist item so graphics-mode-dependent pixel boundaries remain open. 32/150 completed; no implementation claimed.
 - **v0.12 — 2026-10-26:** Confirms winding roadway temporarily narrows then returns to 75% baseline; forks feature scrolling central island with flashing green UP arrow on left/right near top ~2 seconds before island enters screen. Two design decisions checked; minimum narrowed road width remains open; total 31/149 tasks complete.
