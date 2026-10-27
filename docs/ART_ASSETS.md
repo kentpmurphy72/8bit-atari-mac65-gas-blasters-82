@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Art Assets and Visual Direction
 
-**Version:** 0.10  
+**Version:** 0.11  
 **Date:** 2026-10-26  
 **Status:** Early art direction / living asset inventory  
 **Primary target:** Atari 800XL  
@@ -116,8 +116,9 @@ Road stages (2, 4, and 6) use a **Spy Hunter-style overhead/top-down view**:
 
 - Draw the player's car **from above**, **nose pointing toward the top of the screen**, near the **bottom of the play area**.
 - Create **downward-scrolling roadway and roadside graphics** to imply forward movement.
-- Support a **winding road** whose centerline shifts left and right within the fixed left driving area (so 12.5% roadside margins are **straight-section starting proportions**, not rigid margins on curves), plus **two-way fork junctions** with two visually legible branches. Forks can locally alter road geometry.
-- Show a **blinking directional arrow near the top of the screen (within the driving playfield)**, indicating which branch of each fork the player must take. The arrow **appears a few seconds before the fork** so there is time to choose the route. Exact warning duration, blink cadence, typography/icon styling, and when it disappears remain open.
+- Support **narrowed winding-road stretches** that weave left/right within the fixed left playfield, then **return to the normal 75% baseline road width** on straight sections. The straight-road 6.25% grass + 6.25% shoulder margins per side are starting proportions, not rigid margins while the road moves or narrows. The minimum narrowed road width and transition rate are still open.
+- Design a **center divider island** that scrolls down from the top of the roadway and creates a visually readable **left/right fork** (reference: supplied *Spy Hunter* center-island screenshot). The island is physically distinct from the safe shoulders and grassy off-road zones.
+- Show a **flashing GREEN arrow pointing straight UP**, positioned **near the top of the left driving playfield** on the **LEFT or RIGHT side** to indicate the preferred branch through the center-island fork. It begins flashing **approximately 2 seconds before the divider island first appears at the top of the screen**. Do not render a conventional sideways-pointing left/right arrow: branch selection is conveyed by the side on which the upward arrow appears. Exact blink rate, arrow sprite dimensions, disappearance timing and island art measurements remain open.
 - **Straight-road baseline proportions within the left 2/3 driving playfield (left to right):** **6.25% grass**, **6.25% reduced-traction shoulder**, **75% paved roadway**, **6.25% reduced-traction shoulder**, **6.25% grass**. Grass lies outside the safe shoulder and starts the **2.0-second continuous off-road timer**, which costs one life if it expires. Actual pixel widths and sprite-overlap collision thresholds remain to be defined.
 - Create the progressive effects for time beyond shoulder: **skid (0–0.5s); car shake with reduced steering (0.5–1.0s); warning sound and smoke (1.0–1.5s); critical warning and heavier smoke (1.5–2.0s); explosion (2.0s)**. Reset visual/audio effects when safely back on-road.
 - Place the friends' lead car **toward the top** of the driving playfield.
@@ -126,7 +127,7 @@ Road stages (2, 4, and 6) use a **Spy Hunter-style overhead/top-down view**:
 - In road stages **after** the pharmacy, show **Gas-Nix packages** falling/moving downward from the friends' car toward the player.
 - Ensure car silhouettes and pickups remain distinct at actual Atari 800XL display resolution.
 
-**Confirmed:** movement is **free left/right**, not restricted to fixed lanes. The road can curve/wind and split; leaving the shoulder starts a **two-second recovery countdown**, rather than an immediate crash. **Still open:** road/shoulder width, curve severity, junction/arrow appearance, car colors, sprite dimensions, graphics modes, and vertical range of movement. The reference establishes the camera perspective, **not** a pixel-perfect replica of *Spy Hunter*.
+**Confirmed:** movement is **free left/right**, not restricted to fixed lanes. Winding sections **narrow temporarily and restore baseline width**; forks use a **center island** with a **flashing green UP arrow** to signal left/right ~2 seconds in advance. Leaving the shoulder starts a **two-second recovery countdown**, rather than an immediate crash. **Still open:** minimum narrowed width, island/arrow pixel shapes, flash cadence, curve severity, car colors, sprite dimensions, graphics modes, and vertical range of movement. The reference establishes the camera perspective, **not** a pixel-perfect replica of *Spy Hunter*.
 
 ### Reusable environment categories
 
@@ -199,9 +200,9 @@ These are **planned assets, not completed assets**.
 | P0 | Police car | Distinct hazard sprite; ramming/PIT-style knockback interaction |
 | P0 | Hazmat van | Large readable road enemy able to bump the player toward the shoulder |
 | P0 | Gas-Nix pickup | Small clear collectible icon |
-| P0 | Road | Downward-scrolling winding road with distinguishable normal-road, low-traction shoulder, and beyond-shoulder timed-danger zones; two-branch forks |
+| P0 | Road | Downward-scrolling road with temporarily narrowed, weaving sections that restore to normal width; road/shoulder/grass zones and center-island two-branch forks |
 | P0 | Off-road recovery and crash FX | Skid, shake, smoke, heavy smoke, warning/critical states, and 2.0s explosion/lost-life cue |
-| P0 | Fork arrow | Blinking route arrow near top of driving screen, introduced a few seconds before a two-way fork |
+| P0 | Fork arrow | Flashing GREEN upward arrow near top of driving playfield, located left/right to mark preferred route; starts ~2s before fork island first appears |
 | P0 | Driving screen layout | Left 2/3 playfield: nominal 6.25% grass + 6.25% shoulder + 75% road + 6.25% shoulder + 6.25% grass; right 1/3 fixed HUD for lives, score, miles remaining, gas |
 | P0 | Gas pressure HUD | Meter and critical warning |
 | P1 | Taco Smell exterior/interior | Level 1 introductory scene and playable area |
@@ -235,12 +236,14 @@ Priorities describe a **proposed prototype sequence**, not a development commitm
 7. Simplify the box artwork for a legible cartridge label at real dimensions.
 8. Reconcile the cover's “TOILET PAPER SOLD OUT AGAIN!” gag with the need to acquire toilet paper.
 9. Decide final package brand/logo use and production dimensions.
-10. Design the two-branch road fork and a blinking, top-of-screen advance-warning arrow; tune the exact blink rate and lead time. Design visual cues for a wrong-fork detour with slower decreasing mileage. Implement the confirmed **right-side HUD** within the 2/3-left / 1/3-right layout; decide final pixel dimensions.
+10. Create the **center-island two-branch fork** and **flashing green upward arrow** near top on the selected left/right side; tune the flash rate, disappearance and precise pixels around the confirmed ~2-second pre-island cue. Design visual cues for a wrong-fork detour with slower decreasing mileage. Implement the confirmed **right-side HUD** within the 2/3-left / 1/3-right layout; decide final pixel dimensions.
 11. Design police-car and hazmat-van ramming effects and four-sided gas blasts; decide whether diagonal blast sprites are warranted after controller testing.
 12. Design a legible in-game opening/introduction presentation for Billy Blaster's required line.
+13. Design narrowed winding-road tile/edge transitions and restoration to 75% baseline road width; select prototype minimum road width.
 
 ## 12. Change log
 
+- **v0.11 — 2026-10-26:** Adds temporary road narrowing during weaving curves with return to normal width; center-island split forks; flashing green upward-pointing advance arrow on left/right side near top, starting about 2 seconds before island first appears. Minimum road width, blink rate and sprite sizes remain open.
 - **v0.10 — 2026-10-26:** Confirms 6.25% shoulder next to road and 6.25% grass outside it on each side of the straight-road playfield, retaining a 75% roadway. Collision/pixel implementation remains open.
 - **v0.9 — 2026-10-26:** Confirms straight-road visual width (75% of left playfield), 12.5% roadside strips on each side, fixed HUD in right third showing lives/score/miles/gas, and flexible margins for winding/forking roads. Exact shoulder/grass split remains open.
 - **v0.8 — 2026-10-26:** Defines shoulder/off-road art cues and escalating two-second warning animation/audio through explosion and one-life penalty, preserving unresolved exact widths.
