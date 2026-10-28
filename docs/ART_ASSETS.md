@@ -1,7 +1,7 @@
 # Gas Blasters '82 — Art Assets and Visual Direction
 
-**Version:** 0.16  
-**Date:** 2026-10-26  
+**Version:** 0.17  
+**Date:** 2026-10-28  
 **Status:** Early art direction / living asset inventory  
 **Primary target:** Atari 800XL  
 **Companion document:** docs/GAME_DESIGN.md
@@ -73,11 +73,15 @@ The hero is **Billy Blaster** (**confirmed name**), a **young adult man**, not t
 
 ### Introductory text requirement
 
-The game must display the exact following text in an opening/title introduction or another appropriate **in-game** story moment:
+The game must display the exact following text on **one static “Meet the Crew” introduction screen shown after 1 PLAYER start and before Stage 1**:
 
 > Meet Billy Blaster. He's got a fast car, great friends, and a stomach that's about to become a national emergency.
 
-If needed for Atari 800XL display limits, split it into successive screens or lines while preserving the complete wording and punctuation. The placement, typography, transitions and character illustration are still to be designed.
+**Confirmed art scope:** **One** opening cutscene/illustration: Billy Blaster **large and centered**, four friends around him, Taco Smell context, and the complete required quote in a legible caption region of the **same screen**. Retain the arcade-quality **Version 2 “Meet the Crew” composition** as the visual target. Names pictured in that concept (Dave, Tracy, Mike, Jen) are placeholders, not finalized. After this image, go **straight to Stage 1 (Taco Smell restaurant escape)**.
+
+**Not in current art scope:** a separate **Screen 2** of the crew arriving in Taco Smell's parking lot and **Screen 3** of everyone sitting at the dinner table. These are **deferred possibilities** for a later project revision; do not budget, implement or require them to finish the initial game. The restaurant setting and meal are conveyed by the opening context and gameplay, not extra cutscenes.
+
+**Atari implementation remains open:** An ANTIC E (160 × 192) proof of concept and mixed graphics/text treatment have been explored, and the user has successfully launched a Screen 1 XEX. Do not assume ANTIC E is locked for all game screens or that the current mockup/converted bitmap is production-ready. The single-screen caption may use multiple **lines**, not multiple separate illustrated screens; retain the exact wording and punctuation. Final pixel art, optional palette changes, text readability, memory loading, and input to advance remain technical/art tasks.
 
 ## 4. Supporting characters and entities
 
@@ -157,7 +161,7 @@ The game currently proposes nine stages per restaurant but may consolidate some 
 - Clear distinction among the player's car, the friends' car and police vehicles.
 - Signals for collision/capture, pressure relief and stage completion.
 - Distinct **off-road warning** effects (skid, shake, smoke, critical smoke, sound, explosion and lost-life cue) separate from gas-meter warnings.
-- Restaurant/level introduction and stage transition screens, including in-game delivery of Billy Blaster's required introduction.
+- **Single opening “Meet the Crew” screen** (after 1 PLAYER start, before Taco Smell Stage 1) displaying Billy Blaster's exact quote; separate parking-lot and dinner illustrations are deferred. Generic stage transitions may still be required for gameplay.
 - Bathroom success moment and repeat-cycle transition.
 
 **Open:** exact HUD panel orientation and dimensions, pressure-meter styling, lives/other indicators, exact colors, font, animation frames and sound-linked effects.
@@ -205,7 +209,8 @@ These are **planned assets, not completed assets**.
 | P0 | Fork arrow | GREEN upward arrow near top on preferred left/right side; starts ~2s before island appears; flashes 0.25s ON / 0.25s OFF and vanishes after Billy passes fork decision point |
 | P0 | Driving screen layout | Left 2/3 playfield: nominal 6.25% grass + 6.25% shoulder + 75% road + 6.25% shoulder + 6.25% grass; right 1/3 fixed HUD for lives, score, miles remaining, gas |
 | P0 | Gas pressure HUD | Meter and critical warning |
-| P1 | Taco Smell exterior/interior | Level 1 introductory scene and playable area |
+| P1 | Single “Meet the Crew” opening screen | One static post-start scene: Billy centered with four friends, exact approved quote, then Stage 1; arcade-style Version 2 composition is visual target; parking-lot/dinner cutscenes deferred |
+| P1 | Taco Smell exterior/interior | Playable Stage 1 environment and restaurant visuals (no separate arrival/dinner intro art required) |
 | P1 | Hazmat crew | Small readable enemy sprites |
 | P1 | Gas blast effect | Four cardinal directions only: jeans-clad backside pops from front/rear/left/right window, with greenish cloud emanating outward and readable knockback cue; no diagonal artwork |
 | P1 | Pharmacy environment | Playable room/map and medicine location |
@@ -238,11 +243,12 @@ Priorities describe a **proposed prototype sequence**, not a development commitm
 9. Decide final package brand/logo use and production dimensions.
 10. Create the **center-island two-branch fork** and **flashing green upward arrow** near top on the selected left/right side; **implement the confirmed 0.25s ON / 0.25s OFF cadence, ~2-second pre-island start and removal after Billy passes the decision point**. Determine exact pixel placement, sprite measurements and practical timing/collision implementation. Design a legible **+1.0-mile remaining-distance change** on the wrong fork (specific text/animation still open); draw the two branches **merging soon back into one normal 75%-width road**, independent of the extra mileage. Implement the confirmed **right-side HUD** within the 2/3-left / 1/3-right layout; decide final pixel dimensions.
 11. Design police-car and hazmat-van ramming effects plus **four** window-based gas-blast poses: a simple **blue-jeans backside** briefly sticks out each corresponding front/rear/side window and emits a recognizable gas cloud; specify legibility, frame count and sprite budget after choosing graphics mode. **No diagonal sprites** in the current plan.
-12. Design a legible in-game opening/introduction presentation for Billy Blaster's required line.
+12. Refine the **single post-start “Meet the Crew” introductory screen** for actual Atari hardware and readable display of Billy Blaster's exact quote, using Version 2 artwork as the visual target. Determine final graphics/text technique, advance control and screen loading; do **not** create separate parking-lot or dinner-table cutscenes in current scope.
 13. Design narrowing/weaving tiles and road-edge transitions for the confirmed **75%→40% (~4s)** and **40%→75% (~4s)** changes; keep shoulders 6.25% each and validate the effect during prototyping.
 
 ## 12. Change log
 
+- **v0.17 — 2026-10-28:** Limits the opening cinematic to **one** post-start “Meet the Crew” static screen based on the Version 2 visual reference, with Billy centered, friends and the exact quote. The Taco Smell parking-lot and dinner-table screens are removed from current scope and may be revisited later. Artwork/ANTIC E proof of concept is not a finalized in-repo asset.
 - **v0.16 — 2026-10-27:** Locks road-stage four-way window gas blasts (no diagonal art), one-joystick hold-Fire+direction mode with no simultaneous steering/coasting car, and the cartoon visual of a jeans-clad backside popping out the selected window with a gas cloud emanating outward. Sprite size, timing and hardware technique await prototyping.
 - **v0.15 — 2026-10-27:** Updates wrong-fork visuals to a one-time +1.0-mile HUD penalty with normal distance countdown; branches automatically merge relatively soon into a normal-width road without remaining separate for the extra mile. Exact merge animation timing and any optional HUD message remain open. Supersedes historical v0.5 mileage-slowdown concept.
 - **v0.14 — 2026-10-26:** Specifies flashing green UP fork arrow near top on preferred left/right side: start ~2s before island first appears, repeat 0.25s ON/0.25s OFF, remove after Billy passes the fork decision point. Actual pixels, frame conversions and display resources await architecture/prototype.
