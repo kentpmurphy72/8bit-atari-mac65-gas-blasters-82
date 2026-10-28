@@ -1,7 +1,7 @@
 # Gas Blasters '82 — Game Design Document
 
-**Version:** 0.16  
-**Date:** 2026-10-26  
+**Version:** 0.17  
+**Date:** 2026-10-28  
 **Status:** Early design / living document  
 **Primary target:** Atari 800XL (Atari 8-bit family)  
 **Purpose:** Record the current concept for design discussions and eventual Codex implementation.
@@ -70,7 +70,11 @@ Stage titles are working labels. It remains possible to **merge or remove stages
 
 > Meet Billy Blaster. He's got a fast car, great friends, and a stomach that's about to become a national emergency.
 
-**In-game placement:** Include this line somewhere the player can encounter it **within the game**, preferably as part of the opening/title introduction or a short pre-Stage-1 story sequence. The final screen, timing and presentation are **open**. It may be split across multiple screens or text lines to accommodate Atari 800XL text/graphics limitations, but retain the exact wording, capitalization, apostrophes and punctuation in the combined text. Do not treat instruction-manual text alone as satisfying the in-game requirement.
+**Confirmed introduction scope and placement (current design):** After the player selects **1 PLAYER / starts the game**, show **one static introductory screen — Screen 1: “Meet the Crew.”** It features **Billy Blaster prominently in the center** with his four friends around him, along with the complete required introductory line above. The existing arcade-style Version 2 artwork is the **visual reference**, not a finalized Atari bitmap or production asset; names on that concept art (Dave, Tracy, Mike, Jen) remain **placeholders**, not confirmed character names.
+
+**Flow:** Title / 1 PLAYER start → **one Billy-and-crew introduction screen** → **Stage 1: Taco Smell restaurant escape**. The Taco Smell sign and the restaurant-escape opening supply the dinner/story setup; do **not** require a separate illustration of the crew pulling into the parking lot or sitting down to eat. **Screens 2 and 3 (parking lot and dinner table) are removed from current scope**, not permanently rejected; they can be reconsidered after core game design and gameplay are further along. Do not require the cinematic to repeat on every restaurant/level loop.
+
+**Presentation and implementation notes:** Display the **exact quote in-game** without altering its wording, punctuation or sequence; use readable text lines/area on that **same single intro screen** as needed for Atari limitations. The user has already launched an ANTIC E Screen 1 XEX proof of concept, but **the final introduction graphics mode, bitmap quality, display-list/color technique, memory/loading plan, advancement control, and timing are still to be finalized/tested in Technical Architecture and implementation**. This scope decision alone does not claim the artwork/XEX is in the repository or production-ready.
 
 
 ### Stage 1 — Restaurant escape
@@ -276,6 +280,7 @@ We should avoid mixing two incompatible loss systems (pressure meter and separat
 |---|---|
 | Game title | **Gas Blasters '82** |
 | Main character | **Billy Blaster** (young male protagonist); exact introductory quote required within the game |
+| Opening sequence | **One** static Billy-and-crew screen after 1 PLAYER start, Billy centered, exact quote shown, then **directly to Stage 1: Taco Smell**; separate parking-lot and dinner-table cutscenes deferred, not required |
 | Lead restaurant | **Taco Smell** (replaces early working name Taco Hell) |
 | Level sequence | Taco Smell → Casa de Gas → The Bean Machine → The Blazing Burrito → repeat |
 | Stage count | Nine per level **for now**; may be reduced |
@@ -306,11 +311,12 @@ We should avoid mixing two incompatible loss systems (pressure meter and separat
 8. **Blaster implementation:** test the confirmed **hold-Fire + cardinal direction** blast mode (steering disabled, car coasts), settle diagonal joystick-input handling without diagonal attacks, blast cadence/range/knockback, and jeans-clad backside/window/cloud sprite readability. Indoor gas mechanics remain open.
 9. **Progression:** how do restaurants/cycles become visually and mechanically distinct?
 10. **Score/lives:** scoring, bonuses, and continuation rules.
-11. **Intro implementation:** where and how should Billy Blaster's required introduction appear in-game without changing its wording?
+11. **Intro implementation:** the **single post-start crew screen and exact quote** are confirmed; decide the practical Atari rendering, caption legibility, screen-advance input, loading/timing and whether to offer a replay skip. No separate parking-lot or dinner cutscenes in current scope.
 12. **Hardware plan:** graphics, sound, memory, development and testing.
 
 ## 10. Change log
 
+- **v0.17 — 2026-10-28:** Confirms a **single** post–1 PLAYER introductory screen featuring Billy centered with his crew and the exact approved quote, followed directly by the Taco Smell restaurant-escape stage. Defers earlier parking-lot (Screen 2) and dinner-table (Screen 3) cutscene ideas, without permanently rejecting them. Version 2 illustration remains art direction; ANTIC E XEX has been user-launched but production technique and controls remain open.
 - **v0.16 — 2026-10-27:** Selects four-way car gas blasting as the current design with no diagonal attacks, confirms one-joystick **hold Fire + Up/Down/Left/Right** blast mode that suspends steering while car coasts, and approves a brief jeans-clad backside popping out the selected car window with gas cloud emanating from it. Two-joystick control is deferred; exact visual implementation and blast tuning remain prototype work. Historical diagonal-evaluation proposals below are superseded.
 - **v0.15 — 2026-10-27:** Replaces the earlier wrong-fork mileage slowdown with a **one-time +1.0-mile remaining-distance penalty** when the wrong branch is chosen; normal countdown speed resumes while gas pressure continues rising. Fork branches automatically merge back relatively soon into a single normal 75%-width road, **before the extra mile is traveled**. Exact visual merge timing/geometry left to prototype. Earlier v0.5 slowdown descriptions below are historical, superseded by this version.
 - **v0.14 — 2026-10-26:** Approves green fork-arrow flash cadence (0.25s ON / 0.25s OFF), continuing through island approach until Billy passes the fork decision point; retains arrow start ~2 seconds before island first enters screen. Defers pixel positions, frame-based timing and physical decision-point coordinates to architecture/prototype.
