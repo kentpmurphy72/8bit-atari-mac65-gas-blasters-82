@@ -1,17 +1,17 @@
 # Gas Blasters '82 — Project To-Do List
 
-**Version:** 0.18  
-**Date:** 2026-10-27  
+**Version:** 0.19  
+**Date:** 2026-10-28  
 **Target:** Atari 800XL  
 **Status:** Planning and early design  
 **Companion documents:** [Game Design](GAME_DESIGN.md) · [Art Assets](ART_ASSETS.md)
 
 > Living checklist. An unchecked item is not necessarily an approved requirement; some items are proposed work that depends on design decisions. Update this file as tasks are finished or scope changes.
 
-## Status update — 2026-10-26 (following 2026-10-25 audit)
+## Status update — 2026-10-28 (following 2026-10-25 audit)
 
-- **37 of 151 checklist items completed (25%).** Another **114 remain open**. Road-stage gas blasting is **four-way only (front/rear/left/right)** with **hold Fire + direction** aiming; **holding Fire disables steering while the car coasts**. A **jeans-covered backside pops from the matching window and emits a gas cloud**. Diagonal blasting and two-joystick mode are not planned for the current prototype. Actual mechanics, sprites and usability still need implementation/testing.
-- **Phase totals:** Game Design 31/44; Technical Architecture 3/15; First Playable Prototype 0/26; Indoor Gameplay 0/12; Graphics & Animation 3/16; Sound & Music 0/10; Build All Four Levels 0/10; Testing & Release 0/12; Ongoing Maintenance 0/6.
+- **38 of 151 checklist items completed (25%).** Another **113 remain open**. The opening scope is now **one static “Meet the Crew” screen after 1 PLAYER start**, with Billy centered, his friends around him and the **exact approved introductory line**; then **directly enter Stage 1 at Taco Smell**. Separate parking-lot and dinner-table cutscenes are deferred. Actual Atari art/text implementation and screen advancement remain unchecked.
+- **Phase totals:** Game Design 32/44; Technical Architecture 3/15; First Playable Prototype 0/26; Indoor Gameplay 0/12; Graphics & Animation 3/16; Sound & Music 0/10; Build All Four Levels 0/10; Testing & Release 0/12; Ongoing Maintenance 0/6.
 - **Evidence reviewed:** current Game Design and Art Assets documents, repository files and available commit history. The repository contains the foundational design files and initial directory structure, but does not yet contain a committed playable game implementation.
 - **Still empty:** `AGENTS.md` and `docs/TECHNICAL_DESIGN.md`; do not mark them complete merely because the files exist.
 - **Partially specified, not complete:** road-stage **four-way blast controls** and jeans-clad-backside/cloud visual concept are agreed upon, but **implementation and playtesting remain open**, as do precise blast timing/range/knockback, indoor controls and blasts, indoor camera, HUD presentation, failure handling, and final art.
@@ -55,7 +55,7 @@ This audit preserves the existing checked states and should not be interpreted a
 - [ ] Finalize HUD visual presentation and arrangement of lives, score, miles and gas meter (right-third placement is already confirmed).
 - [x] Choose a name for the main character: **Billy Blaster**.
 - [x] Approve Billy Blaster's introductory line (exact wording captured in GAME_DESIGN.md).
-- [ ] Decide where and how to show Billy Blaster's required introduction within the game.
+- [x] Decide **one** post–1 PLAYER **“Meet the Crew”** introductory screen (Billy centered with four friends and the exact approved quote), followed **directly by Taco Smell Stage 1**; **parking-lot and dinner-table cutscenes are deferred**.
 - [ ] Choose overhead or side-view gameplay for indoor stages.
 - [ ] Define **indoor-stage** movement and joystick/fire-button controls (road-stage control mapping is confirmed).
 - [ ] Define remaining gas-blast details (range, cooldown, repeat rate and knockback strength) and effects against **indoor** enemies; four-way road blasts already knock back police/hazmat vehicles.
@@ -155,7 +155,7 @@ This audit preserves the existing checked states and should not be interpreted a
 - [ ] Design temporary narrowing/weaving road transitions and return-to-baseline, center-divider island forks, shoulder/off-road cues, left/right-positioned flashing GREEN upward arrow, **early branch merging to a 75%-width road**, and **+1.0-mile HUD wrong-turn feedback**.
 - [ ] Create off-road skid, shake, smoke, critical smoke and two-second explosion/lost-life visual effects.
 - [ ] Design **four** car-window gas-blast animations, each showing a **jeans-covered backside popping out the window** and a cloud originating from it, with enemy ramming/knockback cues; **no diagonal art planned**.
-- [ ] Design title, stage introduction (including Billy Blaster's exact quote), game-over, and victory screens.
+- [ ] Design title, **single post-start “Meet the Crew” introduction** (complete exact Billy quote on the same screen), game-over, and victory screens; no separate Taco Smell parking-lot or dinner-table introduction screens in current scope.
 - [ ] Finalize box and cartridge artwork for production.
 
 ## Phase 6 — Sound and Music
@@ -183,7 +183,7 @@ This audit preserves the existing checked states and should not be interpreted a
 - [ ] Implement the loop from Level 4 back to Level 1.
 - [ ] Apply difficulty adjustments between levels and cycles.
 - [ ] Complete scoring, lives, and game-over logic.
-- [ ] Add intro, transition, and ending sequences; display Billy Blaster's approved line in-game with exact wording.
+- [ ] Implement **one post-start static “Meet the Crew” screen** displaying Billy Blaster's exact line, then proceed **directly into Taco Smell Stage 1**; implement other necessary in-game transitions and ending sequences without adding separate arrival or dinner cutscenes.
 - [ ] Play through a complete four-level cycle.
 
 ## Phase 8 — Testing and Release
@@ -213,6 +213,7 @@ This audit preserves the existing checked states and should not be interpreted a
 
 ## Change Log
 
+- **v0.19 — 2026-10-28:** Confirms **one** “Meet the Crew” introduction screen after 1 PLAYER start (Billy centered, friends, exact quote), then Stage 1 Taco Smell. Defers Screen 2 parking-lot and Screen 3 dinner-table cutscenes; no new production requirement for either. Checks off intro placement/scope decision while leaving Atari graphics, caption readability and screen implementation open. 38/151 complete.
 - **v0.18 — 2026-10-27:** Confirms four-way-only road gas blasts (no diagonal mode), hold Fire + cardinal direction to blast instead of steer while the car coasts, and the jeans-clad backside popping from the selected window with a gas cloud. Defers two-joystick option, clarifies indoor controls remain open, and replaces the obsolete prototype diagonal task with four-way blast FX implementation. Marks two Phase 1 design decisions complete: 37/151.
 - **v0.17 — 2026-10-27:** Finalizes wrong-fork rule: add **+1.0 mile once** only on a wrong turn, retain normal miles-countdown speed and continuing gas pressure, and automatically merge branches soon into a normal 75%-width road before the extra mile is traveled. Supersedes previously recorded slower-mileage behavior; implementation/prototype merge geometry remains open. 35/151 complete.
 - **v0.16 — 2026-10-26:** Confirms green fork-arrow cadence (0.25s ON / 0.25s OFF), ~2-second advance warning and disappearance after passing fork decision point. Marks Phase 1 arrow-design task complete and adds a Phase 2 timing/coordinate-mapping task; retains Phase 3 prototype implementation. 34/151 complete.
