@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Art Assets and Visual Direction
 
-**Version:** 0.17  
+**Version:** 0.18  
 **Date:** 2026-10-28  
 **Status:** Early art direction / living asset inventory  
 **Primary target:** Atari 800XL  
@@ -70,6 +70,20 @@ The hero is **Billy Blaster** (**confirmed name**), a **young adult man**, not t
 **Consistency requirement:** the small hero in the **grocery-store scene** and the small hero **running toward/into the house** must look like the same young man shown in the center of the box, with the same cap, outfit, general build and colors. The cartridge hero must also match.
 
 **Still needed:** authoritative character turnaround, pixel-sprite proportions, walk/run poses, driving representation, direction-facing frames, and gas-blast animation.
+
+### Title screen — selected Option 3 visual direction (confirmed design, implementation open)
+
+The **selected title-screen composition is Option 3**, the **third / middle-ground rendering** in the latest group of ANTIC E + display-list interrupt (DLI) concepts. It is **not** the more detailed high-fidelity Option 1 or rear-view/minimal Option 2. Its design elements are:
+
+- **Upper region:** a large, legible stylized **GAS BLASTERS '82** logo, in high-contrast yellow/orange/red with blue '82 and dark outlines.
+- **Backdrop:** horizontally banded purple/blue-to-orange sunset with chunky Atari-style city/trees silhouettes; modest detail, no photorealism.
+- **Main subject:** **Billy Blaster grinning and giving a thumbs-up** from his **red muscle car**, in a **front three-quarter view**; car centered/lower-middle, with restrained cartoon green gas clouds trailing leftward.
+- **Right:** a clear **TACO SMELL** roadside sign and modest restaurant facade; avoid excess minor cars/scenery if they compromise legibility.
+- **Lower region:** dark road/foreground with a readable **1 PLAYER** choice and **PRESS START** text. The selection/start controls must be implemented later; illustration is not interactive by itself.
+
+**Rendering target (not yet hardware-validated):** Atari 800XL **ANTIC E**, nominal **160 × 192, four graphics color indices per scanline**, with **selected horizontal DLI palette changes** as needed. Carefully re-pixel and adjust each color band to hardware restrictions; the recent generated low-resolution-looking concept is a **visual reference only**, **not** proof of a valid native four-colors-per-scanline bitmap or a tested XEX. Exact palette values, DLI number/timing, bitmap layout, use of text mode for menu, memory and conversion are **Phase 2 / graphics implementation decisions**. The Atari title need not be identical to the concept art at a one-to-one pixel level.
+
+The title screen is **separate from** the single **“Meet the Crew”** introductory screen and precedes it: **Title → 1 PLAYER start → Meet the Crew → Taco Smell Stage 1**. Preserve the previously approved **Version 2** art direction for **Meet the Crew**, not for this separate title screen. No separate parking-lot or dinner-table cinematic screens are in current scope.
 
 ### Introductory text requirement
 
@@ -161,7 +175,7 @@ The game currently proposes nine stages per restaurant but may consolidate some 
 - Clear distinction among the player's car, the friends' car and police vehicles.
 - Signals for collision/capture, pressure relief and stage completion.
 - Distinct **off-road warning** effects (skid, shake, smoke, critical smoke, sound, explosion and lost-life cue) separate from gas-meter warnings.
-- **Single opening “Meet the Crew” screen** (after 1 PLAYER start, before Taco Smell Stage 1) displaying Billy Blaster's exact quote; separate parking-lot and dinner illustrations are deferred. Generic stage transitions may still be required for gameplay.
+- **Selected Option 3 title screen**, with logo, red car/Billy, gas cloud, sunset, Taco Smell sign and **1 PLAYER / PRESS START**; then the distinct **single “Meet the Crew” intro screen** after 1 PLAYER start, before Taco Smell Stage 1, displaying Billy Blaster's exact quote; parking-lot and dinner illustrations deferred. Generic stage transitions may still be required for gameplay.
 - Bathroom success moment and repeat-cycle transition.
 
 **Open:** exact HUD panel orientation and dimensions, pressure-meter styling, lives/other indicators, exact colors, font, animation frames and sound-linked effects.
@@ -209,6 +223,7 @@ These are **planned assets, not completed assets**.
 | P0 | Fork arrow | GREEN upward arrow near top on preferred left/right side; starts ~2s before island appears; flashes 0.25s ON / 0.25s OFF and vanishes after Billy passes fork decision point |
 | P0 | Driving screen layout | Left 2/3 playfield: nominal 6.25% grass + 6.25% shoulder + 75% road + 6.25% shoulder + 6.25% grass; right 1/3 fixed HUD for lives, score, miles remaining, gas |
 | P0 | Gas pressure HUD | Meter and critical warning |
+| P1 | Title screen (Option 3 selected) | Red front three-quarter muscle car with Billy giving thumbs-up, gas trail, sunset, logo, Taco Smell sign and 1 PLAYER / PRESS START menu; create genuine Atari-compatible graphic / title controls (reference art alone is not runnable) |
 | P1 | Single “Meet the Crew” opening screen | One static post-start scene: Billy centered with four friends, exact approved quote, then Stage 1; arcade-style Version 2 composition is visual target; parking-lot/dinner cutscenes deferred |
 | P1 | Taco Smell exterior/interior | Playable Stage 1 environment and restaurant visuals (no separate arrival/dinner intro art required) |
 | P1 | Hazmat crew | Small readable enemy sprites |
@@ -243,11 +258,12 @@ Priorities describe a **proposed prototype sequence**, not a development commitm
 9. Decide final package brand/logo use and production dimensions.
 10. Create the **center-island two-branch fork** and **flashing green upward arrow** near top on the selected left/right side; **implement the confirmed 0.25s ON / 0.25s OFF cadence, ~2-second pre-island start and removal after Billy passes the decision point**. Determine exact pixel placement, sprite measurements and practical timing/collision implementation. Design a legible **+1.0-mile remaining-distance change** on the wrong fork (specific text/animation still open); draw the two branches **merging soon back into one normal 75%-width road**, independent of the extra mileage. Implement the confirmed **right-side HUD** within the 2/3-left / 1/3-right layout; decide final pixel dimensions.
 11. Design police-car and hazmat-van ramming effects plus **four** window-based gas-blast poses: a simple **blue-jeans backside** briefly sticks out each corresponding front/rear/side window and emits a recognizable gas cloud; specify legibility, frame count and sprite budget after choosing graphics mode. **No diagonal sprites** in the current plan.
-12. Refine the **single post-start “Meet the Crew” introductory screen** for actual Atari hardware and readable display of Billy Blaster's exact quote, using Version 2 artwork as the visual target. Determine final graphics/text technique, advance control and screen loading; do **not** create separate parking-lot or dinner-table cutscenes in current scope.
+12. Convert **selected title Option 3** to a real ANTIC E bitmap/palette/DLI layout, evaluate text readability and actual Atari memory/display constraints, build/run test XEX and implement **1 PLAYER / PRESS START** behavior. Separately refine the **single post-start “Meet the Crew” introductory screen** for actual Atari hardware and readable display of Billy Blaster's exact quote, using Version 2 artwork as the visual target. Determine final graphics/text technique, advance control and screen loading; do **not** create separate parking-lot or dinner-table cutscenes in current scope.
 13. Design narrowing/weaving tiles and road-edge transitions for the confirmed **75%→40% (~4s)** and **40%→75% (~4s)** changes; keep shoulders 6.25% each and validate the effect during prototyping.
 
 ## 12. Change log
 
+- **v0.18 — 2026-10-28:** Selects the **third (Option 3) title-screen concept**, distinct from the Version 2 Meet the Crew introductory art: arcade logo, vivid banded sunset, Billy giving thumbs-up in a red front three-quarter-view muscle car, green gas trail, Taco Smell sign and bottom 1 PLAYER/PRESS START. Aims for ANTIC E + DLIs but requires hardware-constrained pixel conversion and emulator testing; artwork not uploaded to repo by this documentation change.
 - **v0.17 — 2026-10-28:** Limits the opening cinematic to **one** post-start “Meet the Crew” static screen based on the Version 2 visual reference, with Billy centered, friends and the exact quote. The Taco Smell parking-lot and dinner-table screens are removed from current scope and may be revisited later. Artwork/ANTIC E proof of concept is not a finalized in-repo asset.
 - **v0.16 — 2026-10-27:** Locks road-stage four-way window gas blasts (no diagonal art), one-joystick hold-Fire+direction mode with no simultaneous steering/coasting car, and the cartoon visual of a jeans-clad backside popping out the selected window with a gas cloud emanating outward. Sprite size, timing and hardware technique await prototyping.
 - **v0.15 — 2026-10-27:** Updates wrong-fork visuals to a one-time +1.0-mile HUD penalty with normal distance countdown; branches automatically merge relatively soon into a normal-width road without remaining separate for the extra mile. Exact merge animation timing and any optional HUD message remain open. Supersedes historical v0.5 mileage-slowdown concept.
