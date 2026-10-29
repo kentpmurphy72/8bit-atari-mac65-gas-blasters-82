@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Art Assets and Visual Direction
 
-**Version:** 0.21  
+**Version:** 0.22  
 **Date:** 2026-10-29  
 **Status:** Early art direction / living asset inventory  
 **Primary target:** Atari 800XL  
@@ -107,7 +107,7 @@ The game must display the exact following text on **one static “Meet the Crew�
 
 The user loaded a newly rebuilt **v4 mixed-mode XEX** in an Atari 800 emulator and confirmed it displays. It uses an **ANTIC E bitmap illustration + 40-column text area** with DLI color bands (a **standalone visual proof of concept**, not a finalized engine). The new caption layout is better separated from the artwork, but **individual glyph spacing/baseline legibility and line wrapping still need work**. **Polishing the text is intentionally deferred until later**; do not treat the preview as production-approved typography.
 
-**Still required for implementation:** Keep the Meet the Crew introduction quote unchanged; later improve its text legibility. **The arrival graphic, exact three-line narration and standalone mixed ANTIC E/ANTIC 2 XEX are complete as an emulator-tested visual prototype**, but **not integrated**. Implement functional Fire-to-continue and scene-loading progression for **Title → Meet the Crew → Arriving at Taco Smell → Stage 1**, confirm final timing/memory constraints and test the integrated experience. Neither the XEX nor bitmap/build artifacts are in this GitHub repo yet; this update is documentation-only. Do not lock ANTIC E as the game-wide graphics mode.
+**Still required for implementation:** Keep the Meet the Crew introduction quote unchanged; later improve its text legibility. **The arrival graphic, exact three-line narration and standalone mixed ANTIC E/ANTIC 2 XEX are complete as an emulator-tested visual prototype**, but **not integrated**. Implement functional Fire-to-continue and scene-loading progression for **Title → Meet the Crew → Arriving at Taco Smell → Stage 1**, confirm final timing/memory constraints and test the integrated experience. Both tested XEX files, original artwork, native ANTIC E bitmap data, palettes, display lists, custom character sets, text row data and previews are now versioned in [`assets/intro/`](../assets/intro/) and [`assets/arrival/`](../assets/arrival/); build scripts live in [`tools/`](../tools/). The scripts have been verified to reproduce the exact tested XEX binaries, but Fire controls and game integration remain open. Do not lock ANTIC E as the game-wide graphics mode.
 
 ## 4. Supporting characters and entities
 
@@ -236,7 +236,7 @@ These are **planned assets, not completed assets**.
 | P0 | Driving screen layout | Left 2/3 playfield: nominal 6.25% grass + 6.25% shoulder + 75% road + 6.25% shoulder + 6.25% grass; right 1/3 fixed HUD for lives, score, miles remaining, gas |
 | P0 | Gas pressure HUD | Meter and critical warning |
 | P1 | Title screen (Option 3 selected) | Red front three-quarter muscle car with Billy giving thumbs-up, gas trail, sunset, logo, Taco Smell sign and 1 PLAYER / PRESS START menu; create genuine Atari-compatible graphic / title controls (reference art alone is not runnable) |
-| P1 | Single “Meet the Crew” opening screen | **v4 standalone ANTIC E/DLI XEX displayed in emulator**; Billy/four friends, no game logo, background Taco Smell sign, or name labels; quote and FIRE TO CONTINUE below art. **Font/legibility and working Fire/scene transition remain open**; not yet integrated or uploaded to repo |
+| P1 | Single “Meet the Crew” opening screen | **v4 standalone ANTIC E/DLI XEX displayed in emulator**; Billy/four friends, no game logo, background Taco Smell sign, or name labels; quote and FIRE TO CONTINUE below art. **Font/legibility and working Fire/scene transition remain open**; native XEX/artwork committed in `assets/intro/`, but not yet game-integrated |
 | P1 | Arriving at Taco Smell static cutscene (selected Option 3) | **v3 mixed-mode XEX emulator-tested and visually accepted 2026-10-29:** 160×128 ANTIC E art + eight 40-column text rows, exact three-line burrito/beans warning, heading and visual Fire prompt; **input, transitions and repository asset handoff remain open** |
 | P1 | Taco Smell exterior/interior | Playable Stage 1 environment and restaurant visuals, separate from the now-required arrival still; dinner-table scene still deferred |
 | P1 | Hazmat crew | Small readable enemy sprites |
@@ -276,6 +276,7 @@ Priorities describe a **proposed prototype sequence**, not a development commitm
 
 ## 12. Change log
 
+- **v0.22 — 2026-10-29:** Checks in the **Meet the Crew v4** and **Arriving at Taco Smell v3** screen assets under `assets/intro/` and `assets/arrival/`. Includes full-resolution source art, emulator-tested mixed-mode XEX, rendered constrained-color preview, ANTIC E 2bpp data, GTIA palette bands, display list, font and text bytes, plus reproducible Python builders under `tools/`. The tested executables reproduced byte-for-byte when rebuilt. Actual game scene changes/Fire control remain unimplemented.
 - **v0.21 — 2026-10-29:** Confirms actual user emulator screenshot/test of **Arriving at Taco Smell v3 standalone XEX** and visual acceptance. Implements a **160×128 ANTIC E picture + eight rows of 40-column ANTIC 2** with 12 palette bands/11 DLIs and the approved exact three-line story (“Billy came for a killer burrito.” / “The beans came with a warning.” / “Nobody read it. Especially Billy.”). The Fire prompt is display-only; integration/controls and copying binary/source art into the repository remain future work.
 - **v0.20 — 2026-10-28:** Approves a **second static story image** after the Meet the Crew intro: the **third, medium-detail arrival concept** of five friends walking past their parked car into Taco Smell at sunset. Adds the arrival image to art inventory; dinner-table scene remains deferred. Native Atari ANTIC E+DLI conversion and XEX/emulator validation remain open, while the existing v4 crew XEX status is unchanged.
 - **v0.19 — 2026-10-28:** Documents emulator-tested **Meet the Crew v4** intro: removes intro-only logo, background Taco Smell sign and character-name labels; heading below illustration; exact quote and FIRE TO CONTINUE displayed. Text spacing/legibility remains imperfect and is deferred until later. Only the standalone visual prototype was tested; no functioning Fire control, complete game integration or GitHub asset commit is claimed.

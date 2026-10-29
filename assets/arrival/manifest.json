@@ -1,0 +1,37 @@
+{
+  "source": "source_art_original.png",
+  "mixed": {
+    "art_dimensions": [
+      160,
+      128
+    ],
+    "art_bytes": 5120,
+    "text_columns": 40,
+    "text_rows": 8,
+    "text_bytes": 320,
+    "custom_font_bytes": 1024,
+    "mode": "ANTIC E + ANTIC 2",
+    "palette_bands": 12,
+    "dlis": 11
+  },
+  "full": {
+    "dimensions": [
+      160,
+      192
+    ],
+    "bytes": 7680,
+    "mode": "ANTIC E",
+    "palette_bands": 12,
+    "dlis": 11
+  },
+  "memory": {
+    "code": "$2000",
+    "display_list": "$3C00",
+    "bitmap_0": "$4000-$4EFF",
+    "bitmap_1": "$5000-$54FF (mixed) / $5000-$5EFF (full)",
+    "text": "$5800",
+    "font": "$6000",
+    "run_vector": "$02E0"
+  },
+  "note": "Generated and structurally validated; emulator test still needed."
+}

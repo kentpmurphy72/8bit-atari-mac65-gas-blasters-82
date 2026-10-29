@@ -1,0 +1,44 @@
+{
+  "source": "source_art_original.png",
+  "native_full": {
+    "dimensions": [
+      160,
+      192
+    ],
+    "bytes": 7680,
+    "gtia_registers_per_band": [
+      "COLBK",
+      "COLPF0",
+      "COLPF1",
+      "COLPF2"
+    ],
+    "palette_bands": 12,
+    "dlis": 11,
+    "mode": "ANTIC E"
+  },
+  "native_mixed": {
+    "art_dimensions": [
+      160,
+      128
+    ],
+    "art_bytes": 5120,
+    "text_columns": 40,
+    "text_rows": 8,
+    "text_bytes": 320,
+    "custom_font_bytes": 1024,
+    "mode": "ANTIC E + ANTIC 2",
+    "palette_bands": 12,
+    "dlis": 11
+  },
+  "memory": {
+    "code": "$2000",
+    "display_list": "$3C00",
+    "bitmap_0": "$4000 - $4EFF",
+    "bitmap_1": "$5000 - $5EFF (full image) / $5000 - $54FF (mixed)",
+    "text": "$5800",
+    "font": "$6000",
+    "run_vector": "$02E0"
+  },
+  "warning": "Generated and structurally validated; XEX display not emulator-tested. Palette RGB shown is approximate. Names in source image are unapproved placeholders.",
+  "text": "Meet Billy Blaster. He's got a fast car, great friends, and a stomach that's about to become a national emergency."
+}
