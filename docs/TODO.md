@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Project To-Do List
 
-**Version:** 0.21  
+**Version:** 0.22  
 **Date:** 2026-10-28  
 **Target:** Atari 800XL  
 **Status:** Planning and early design  
@@ -10,8 +10,8 @@
 
 ## Status update — 2026-10-28 (following 2026-10-25 audit)
 
-- **40 of 154 checklist items completed (26%).** Another **114 remain open**. The **single “Meet the Crew” intro** has an emulator-tested **standalone ANTIC E+DLI v4 XEX**: game logo, background Taco Smell sign and character-name labels removed; heading/quote and FIRE TO CONTINUE below art. **Text legibility is still rough and intentionally deferred**; the Fire prompt is not interactive, and the intro is not integrated into the game. Separately, **title-screen Option 3** remains the approved visual choice but has **not** been converted/tested as an Atari title XEX.
-- **Phase totals:** Game Design 32/44; Technical Architecture 3/15; First Playable Prototype 0/26; Indoor Gameplay 0/12; Graphics & Animation 5/19; Sound & Music 0/10; Build All Four Levels 0/10; Testing & Release 0/12; Ongoing Maintenance 0/6.
+- **41 of 156 checklist items completed (26%).** Another **115 remain open**. The opening flow now includes **two illustrated screens** after the independently selected title: emulator-tested standalone **Meet the Crew v4**, then the **new selected medium-detail Option 3 Arriving at Taco Smell still** before Stage 1. The arrival concept is **not yet a native Atari bitmap or XEX**. The tested crew intro still needs deferred text cleanup and working Fire input; the title Option 3 also remains unimplemented. **Only the dinner-table screen is deferred**.
+- **Phase totals:** Game Design 33/45; Technical Architecture 3/15; First Playable Prototype 0/26; Indoor Gameplay 0/12; Graphics & Animation 5/20; Sound & Music 0/10; Build All Four Levels 0/10; Testing & Release 0/12; Ongoing Maintenance 0/6.
 - **Evidence reviewed:** current Game Design and Art Assets documents, repository files and available commit history. The repository contains the foundational design files and initial directory structure, but does not yet contain a committed playable game implementation.
 - **Still empty:** `AGENTS.md` and `docs/TECHNICAL_DESIGN.md`; do not mark them complete merely because the files exist.
 - **Partially specified, not complete:** road-stage **four-way blast controls** and jeans-clad-backside/cloud visual concept are agreed upon, but **implementation and playtesting remain open**, as do precise blast timing/range/knockback, indoor controls and blasts, indoor camera, HUD presentation, failure handling, and final art. The **Meet the Crew demo** was tested visually in an emulator, but this does **not** constitute testing or integration of a playable game.
@@ -55,7 +55,8 @@ This checklist distinguishes the **user-tested standalone Meet the Crew visual X
 - [ ] Finalize HUD visual presentation and arrangement of lives, score, miles and gas meter (right-third placement is already confirmed).
 - [x] Choose a name for the main character: **Billy Blaster**.
 - [x] Approve Billy Blaster's introductory line (exact wording captured in GAME_DESIGN.md).
-- [x] Decide **one** post–1 PLAYER **“Meet the Crew”** introductory screen (Billy centered with four friends and the exact approved quote), followed **directly by Taco Smell Stage 1**; **parking-lot and dinner-table cutscenes are deferred**.
+- [x] Decide **Meet the Crew** is the first post–1 PLAYER intro (Billy centered with four friends and exact quote); it now leads to **the separate Taco Smell arrival still** and then Stage 1. Dinner-table scene remains deferred.
+- [x] Select **Option 3 (third, medium-detail concept)** for a separate **Arriving at Taco Smell** static screen after Meet the Crew: Billy and four friends walk from their parked car toward the lit restaurant under the evening sky; not yet a converted ANTIC E asset.
 - [ ] Choose overhead or side-view gameplay for indoor stages.
 - [ ] Define **indoor-stage** movement and joystick/fire-button controls (road-stage control mapping is confirmed).
 - [ ] Define remaining gas-blast details (range, cooldown, repeat rate and knockback strength) and effects against **indoor** enemies; four-way road blasts already knock back police/hazmat vehicles.
@@ -157,7 +158,8 @@ This checklist distinguishes the **user-tested standalone Meet the Crew visual X
 - [ ] Design temporary narrowing/weaving road transitions and return-to-baseline, center-divider island forks, shoulder/off-road cues, left/right-positioned flashing GREEN upward arrow, **early branch merging to a 75%-width road**, and **+1.0-mile HUD wrong-turn feedback**.
 - [ ] Create off-road skid, shake, smoke, critical smoke and two-second explosion/lost-life visual effects.
 - [ ] Design **four** car-window gas-blast animations, each showing a **jeans-covered backside popping out the window** and a cloud originating from it, with enemy ramming/knockback cues; **no diagonal art planned**.
-- [ ] **Implement and validate** the selected **Option 3 title screen** as a hardware-compatible Atari bitmap, palette/DLI strategy, and usable **1 PLAYER / PRESS START** control; separately integrate the **single post-start “Meet the Crew” intro** (exact quote on the same screen) with actual Fire-to-continue input, plus game-over and victory screens. The intro's standalone XEX exists but is **not integrated**. No separate parking-lot/dinner intros.
+- [ ] **Implement and validate** the selected **Option 3 title screen** as a hardware-compatible Atari bitmap, palette/DLI strategy, and usable **1 PLAYER / PRESS START** control; separately integrate **Meet the Crew** (exact quote) with actual Fire-to-continue input and the new arrival still before Stage 1, plus game-over and victory screens. The crew intro's standalone XEX exists but is **not integrated**; dinner-table screen still excluded.
+- [ ] **Convert selected Taco Smell arrival Option 3 to a real Atari image and test XEX:** reduce to ANTIC E resolution/palette with horizontal DLI bands as needed, ensure all five friends/parked car/restaurant doorway and sign read clearly, build standalone executable, test in Atari emulator and tune if necessary. The generated concept image is not the verified bitmap.
 - [ ] **Later polish Meet the Crew text legibility:** consistent glyph sizes/baselines and spacing; clearer line wrapping/left alignment; comfortable separation of **MEET THE CREW**, the exact introductory quote and **FIRE TO CONTINUE**. Preserve the current image composition without game logo, background Taco Smell sign or character-name labels.
 - [ ] Finalize box and cartridge artwork for production.
 
@@ -186,7 +188,7 @@ This checklist distinguishes the **user-tested standalone Meet the Crew visual X
 - [ ] Implement the loop from Level 4 back to Level 1.
 - [ ] Apply difficulty adjustments between levels and cycles.
 - [ ] Complete scoring, lives, and game-over logic.
-- [ ] Implement **one post-start static “Meet the Crew” screen** displaying Billy Blaster's exact line, then proceed **directly into Taco Smell Stage 1**; implement other necessary in-game transitions and ending sequences without adding separate arrival or dinner cutscenes.
+- [ ] Integrate the opening scene flow **Title → Meet the Crew** (Billy's exact quote) **→ Arriving at Taco Smell** (five friends walking from their car) **→ Taco Smell Stage 1**; implement Fire-to-continue and any other necessary transitions/endings. **Do not add the deferred dinner-table cutscene.**
 - [ ] Play through a complete four-level cycle.
 
 ## Phase 8 — Testing and Release
@@ -216,6 +218,7 @@ This checklist distinguishes the **user-tested standalone Meet the Crew visual X
 
 ## Change Log
 
+- **v0.22 — 2026-10-28:** Confirms **one additional static arrival scene** after Meet the Crew and before Stage 1 using the **third medium-detail concept**; restores the earlier deferred parking-lot idea but not the dinner-table scene. Adds completed Game Design selection and open Phase 5 ANTIC E+DLI bitmap/XEX/emulator-validation task. 41/156 complete; no arrival bitmap or XEX committed.
 - **v0.21 — 2026-10-28:** Records user-run standalone **Meet the Crew v4 ANTIC E/DLI XEX**, with game logo, background restaurant sign and name labels removed, heading moved into caption area and approved quote shown. Checks off **prototype displayed in emulator**, but retains a new **deferred text-readability polish task** and game integration/working Fire-input tasks. Atari title screen Option 3 remains selected but not implemented. 40/154 complete; no art/XEX files committed.
 - **v0.20 — 2026-10-28:** Selects **Option 3 (the third, middle-ground Atari-inspired title illustration)** as the title-screen visual target, with Billy in a red front three-quarter-view car, green gas cloud, sunset, Taco Smell and 1 PLAYER/PRESS START. Keeps this separate from the one-screen Meet the Crew introduction. Adds a checked Phase 5 concept-selection task and leaves real ANTIC E+DLI conversion, title controls and hardware testing open. 39/152 complete.
 - **v0.19 — 2026-10-28:** Confirms **one** “Meet the Crew” introduction screen after 1 PLAYER start (Billy centered, friends, exact quote), then Stage 1 Taco Smell. Defers Screen 2 parking-lot and Screen 3 dinner-table cutscenes; no new production requirement for either. Checks off intro placement/scope decision while leaving Atari graphics, caption readability and screen implementation open. 38/151 complete.
