@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Game Design Document
 
-**Version:** 0.17  
+**Version:** 0.18  
 **Date:** 2026-10-28  
 **Status:** Early design / living document  
 **Primary target:** Atari 800XL (Atari 8-bit family)  
@@ -72,7 +72,7 @@ Stage titles are working labels. It remains possible to **merge or remove stages
 
 **Confirmed introduction scope and placement (current design):** After the player selects **1 PLAYER / starts the game**, show **one static introductory screen — Screen 1: “Meet the Crew.”** It features **Billy Blaster prominently in the center** with his four friends around him, along with the complete required introductory line above. The existing arcade-style Version 2 artwork is the **visual reference**, not a finalized Atari bitmap or production asset; names on that concept art (Dave, Tracy, Mike, Jen) remain **placeholders**, not confirmed character names.
 
-**Flow:** Title / 1 PLAYER start → **one Billy-and-crew introduction screen** → **Stage 1: Taco Smell restaurant escape**. The Taco Smell sign and the restaurant-escape opening supply the dinner/story setup; do **not** require a separate illustration of the crew pulling into the parking lot or sitting down to eat. **Screens 2 and 3 (parking lot and dinner table) are removed from current scope**, not permanently rejected; they can be reconsidered after core game design and gameplay are further along. Do not require the cinematic to repeat on every restaurant/level loop.
+**Flow:** **Title Screen (selected Option 3 art direction)** / 1 PLAYER start → **one Billy-and-crew “Meet the Crew” introduction screen** → **Stage 1: Taco Smell restaurant escape**. The **title screen is separate from the intro** and uses the selected **third, middle-ground Atari-style title composition**: large GAS BLASTERS '82 logo at top; purple/orange sunset and simple skyline; **Billy in his red car viewed from a front three-quarter angle, giving a thumbs-up**, with a small green gas trail; **TACO SMELL** sign/store at right; dark roadway; **1 PLAYER / PRESS START** menu at the bottom. Target **ANTIC E with selective DLI palette bands** for title conversion, subject to actual pixel/frame/scanline and emulator validation—not a game-wide locked graphics-mode decision. The Taco Smell sign and the restaurant-escape opening supply the dinner/story setup; do **not** require a separate illustration of the crew pulling into the parking lot or sitting down to eat. **Screens 2 and 3 (parking lot and dinner table) are removed from current scope**, not permanently rejected; they can be reconsidered after core game design and gameplay are further along. Do not require the cinematic to repeat on every restaurant/level loop.
 
 **Presentation and implementation notes:** Display the **exact quote in-game** without altering its wording, punctuation or sequence; use readable text lines/area on that **same single intro screen** as needed for Atari limitations. The user has already launched an ANTIC E Screen 1 XEX proof of concept, but **the final introduction graphics mode, bitmap quality, display-list/color technique, memory/loading plan, advancement control, and timing are still to be finalized/tested in Technical Architecture and implementation**. This scope decision alone does not claim the artwork/XEX is in the repository or production-ready.
 
@@ -280,7 +280,8 @@ We should avoid mixing two incompatible loss systems (pressure meter and separat
 |---|---|
 | Game title | **Gas Blasters '82** |
 | Main character | **Billy Blaster** (young male protagonist); exact introductory quote required within the game |
-| Opening sequence | **One** static Billy-and-crew screen after 1 PLAYER start, Billy centered, exact quote shown, then **directly to Stage 1: Taco Smell**; separate parking-lot and dinner-table cutscenes deferred, not required |
+| Title-screen art direction | **Selected Option 3 (third/latest ANTIC E + DLIs concept):** blocky Atari-style illustrated logo, sunset/skyline, Billy smiling in red car from front three-quarter view, green gas trail, Taco Smell roadside sign and bottom **1 PLAYER / PRESS START** menu. A visual target; hardware conversion and runnable screen remain open |
+| Opening sequence | **One** static Billy-and-crew **“Meet the Crew”** intro screen **after** the separate title/1 PLAYER start, Billy centered, exact quote shown, then **directly to Stage 1: Taco Smell**; parking-lot and dinner-table cutscenes deferred |
 | Lead restaurant | **Taco Smell** (replaces early working name Taco Hell) |
 | Level sequence | Taco Smell → Casa de Gas → The Bean Machine → The Blazing Burrito → repeat |
 | Stage count | Nine per level **for now**; may be reduced |
@@ -311,11 +312,12 @@ We should avoid mixing two incompatible loss systems (pressure meter and separat
 8. **Blaster implementation:** test the confirmed **hold-Fire + cardinal direction** blast mode (steering disabled, car coasts), settle diagonal joystick-input handling without diagonal attacks, blast cadence/range/knockback, and jeans-clad backside/window/cloud sprite readability. Indoor gas mechanics remain open.
 9. **Progression:** how do restaurants/cycles become visually and mechanically distinct?
 10. **Score/lives:** scoring, bonuses, and continuation rules.
-11. **Intro implementation:** the **single post-start crew screen and exact quote** are confirmed; decide the practical Atari rendering, caption legibility, screen-advance input, loading/timing and whether to offer a replay skip. No separate parking-lot or dinner cutscenes in current scope.
+11. **Title and intro implementation:** the **Option 3 Atari-inspired title composition** and separate **single post-start crew intro with exact quote** are confirmed. Implement the title's **1 PLAYER / PRESS START** controls, validate **ANTIC E + DLI** pixel/palette feasibility in an emulator, and decide intro caption legibility, loading, advance input/timing and replay skip. No separate parking-lot or dinner cutscenes in current scope.
 12. **Hardware plan:** graphics, sound, memory, development and testing.
 
 ## 10. Change log
 
+- **v0.18 — 2026-10-28:** Selects **Option 3, the third middle-ground Atari-inspired title-screen composition** from the ANTIC E + DLIs concept review: large logo, purple/orange sunset, Billy in a red front three-quarter-view car with thumbs-up, green gas trail, Taco Smell sign and 1 PLAYER / PRESS START. Separate from the one-screen Meet the Crew introduction. Selection is a visual/design decision; native Atari bitmap conversion, DLI timings and title controls remain implementation work.
 - **v0.17 — 2026-10-28:** Confirms a **single** post–1 PLAYER introductory screen featuring Billy centered with his crew and the exact approved quote, followed directly by the Taco Smell restaurant-escape stage. Defers earlier parking-lot (Screen 2) and dinner-table (Screen 3) cutscene ideas, without permanently rejecting them. Version 2 illustration remains art direction; ANTIC E XEX has been user-launched but production technique and controls remain open.
 - **v0.16 — 2026-10-27:** Selects four-way car gas blasting as the current design with no diagonal attacks, confirms one-joystick **hold Fire + Up/Down/Left/Right** blast mode that suspends steering while car coasts, and approves a brief jeans-clad backside popping out the selected car window with gas cloud emanating from it. Two-joystick control is deferred; exact visual implementation and blast tuning remain prototype work. Historical diagonal-evaluation proposals below are superseded.
 - **v0.15 — 2026-10-27:** Replaces the earlier wrong-fork mileage slowdown with a **one-time +1.0-mile remaining-distance penalty** when the wrong branch is chosen; normal countdown speed resumes while gas pressure continues rising. Fork branches automatically merge back relatively soon into a single normal 75%-width road, **before the extra mile is traveled**. Exact visual merge timing/geometry left to prototype. Earlier v0.5 slowdown descriptions below are historical, superseded by this version.
