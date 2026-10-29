@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Project To-Do List
 
-**Version:** 0.20  
+**Version:** 0.21  
 **Date:** 2026-10-28  
 **Target:** Atari 800XL  
 **Status:** Planning and early design  
@@ -10,14 +10,14 @@
 
 ## Status update — 2026-10-28 (following 2026-10-25 audit)
 
-- **39 of 152 checklist items completed (26%).** Another **113 remain open**. **Title-screen Option 3 (middle-ground Atari-style illustration)** is the confirmed visual choice: red front three-quarter car with Billy, green gas trail, sunset, Taco Smell sign, big logo, and **1 PLAYER / PRESS START**. The separate **one-screen “Meet the Crew”** introduction follows player start, then Stage 1. **ANTIC E + DLI** conversion is a target, **not yet a verified runnable title screen**.
-- **Phase totals:** Game Design 32/44; Technical Architecture 3/15; First Playable Prototype 0/26; Indoor Gameplay 0/12; Graphics & Animation 4/17; Sound & Music 0/10; Build All Four Levels 0/10; Testing & Release 0/12; Ongoing Maintenance 0/6.
+- **40 of 154 checklist items completed (26%).** Another **114 remain open**. The **single “Meet the Crew” intro** has an emulator-tested **standalone ANTIC E+DLI v4 XEX**: game logo, background Taco Smell sign and character-name labels removed; heading/quote and FIRE TO CONTINUE below art. **Text legibility is still rough and intentionally deferred**; the Fire prompt is not interactive, and the intro is not integrated into the game. Separately, **title-screen Option 3** remains the approved visual choice but has **not** been converted/tested as an Atari title XEX.
+- **Phase totals:** Game Design 32/44; Technical Architecture 3/15; First Playable Prototype 0/26; Indoor Gameplay 0/12; Graphics & Animation 5/19; Sound & Music 0/10; Build All Four Levels 0/10; Testing & Release 0/12; Ongoing Maintenance 0/6.
 - **Evidence reviewed:** current Game Design and Art Assets documents, repository files and available commit history. The repository contains the foundational design files and initial directory structure, but does not yet contain a committed playable game implementation.
 - **Still empty:** `AGENTS.md` and `docs/TECHNICAL_DESIGN.md`; do not mark them complete merely because the files exist.
-- **Partially specified, not complete:** road-stage **four-way blast controls** and jeans-clad-backside/cloud visual concept are agreed upon, but **implementation and playtesting remain open**, as do precise blast timing/range/knockback, indoor controls and blasts, indoor camera, HUD presentation, failure handling, and final art.
+- **Partially specified, not complete:** road-stage **four-way blast controls** and jeans-clad-backside/cloud visual concept are agreed upon, but **implementation and playtesting remain open**, as do precise blast timing/range/knockback, indoor controls and blasts, indoor camera, HUD presentation, failure handling, and final art. The **Meet the Crew demo** was tested visually in an emulator, but this does **not** constitute testing or integration of a playable game.
 - **Ongoing maintenance checkboxes remain open intentionally:** documentation updates to date do not make recurring maintenance tasks permanently finished.
 
-This audit preserves the existing checked states and should not be interpreted as proof that emulator or physical hardware testing has taken place.
+This checklist distinguishes the **user-tested standalone Meet the Crew visual XEX** from testing the **playable game**. The game-wide emulator/hardware-testing tasks remain unchecked; **no physical Atari hardware test is claimed**.
 
 ## Phase 1 — Game Design
 *Goal: Finalize the fundamental gameplay rules.*
@@ -145,6 +145,7 @@ This audit preserves the existing checked states and should not be interpreted a
 - [x] Select a preferred packaging-art direction.
 - [x] Establish the younger protagonist's general appearance.
 - [x] Select **Option 3** as the title-screen visual direction (third ANTIC E + DLI concept): large logo, Billy in red car, sunset, green gas trail, Taco Smell sign, **1 PLAYER / PRESS START**. Separate from the “Meet the Crew” intro; this is **concept selection**, not a final Atari bitmap.
+- [x] Build and visually test a **standalone “Meet the Crew” ANTIC E+DLI XEX** in an Atari emulator: v4 has the game logo, roadside Taco Smell sign and placeholder character labels removed, with heading/quote/prompt below the art; **not** a tested full-game screen flow.
 - [ ] Finalize the protagonist's character design.
 - [ ] Create player movement and gas-blast sprite animations.
 - [ ] Design player, friends', police, and hazmat-van vehicles.
@@ -156,7 +157,8 @@ This audit preserves the existing checked states and should not be interpreted a
 - [ ] Design temporary narrowing/weaving road transitions and return-to-baseline, center-divider island forks, shoulder/off-road cues, left/right-positioned flashing GREEN upward arrow, **early branch merging to a 75%-width road**, and **+1.0-mile HUD wrong-turn feedback**.
 - [ ] Create off-road skid, shake, smoke, critical smoke and two-second explosion/lost-life visual effects.
 - [ ] Design **four** car-window gas-blast animations, each showing a **jeans-covered backside popping out the window** and a cloud originating from it, with enemy ramming/knockback cues; **no diagonal art planned**.
-- [ ] **Implement and validate** the selected **Option 3 title screen** as a hardware-compatible Atari bitmap, palette/DLI strategy, and usable **1 PLAYER / PRESS START** control; separately produce the **single post-start “Meet the Crew” intro** (exact quote on the same screen), game-over, and victory screens. No separate parking-lot/dinner intros.
+- [ ] **Implement and validate** the selected **Option 3 title screen** as a hardware-compatible Atari bitmap, palette/DLI strategy, and usable **1 PLAYER / PRESS START** control; separately integrate the **single post-start “Meet the Crew” intro** (exact quote on the same screen) with actual Fire-to-continue input, plus game-over and victory screens. The intro's standalone XEX exists but is **not integrated**. No separate parking-lot/dinner intros.
+- [ ] **Later polish Meet the Crew text legibility:** consistent glyph sizes/baselines and spacing; clearer line wrapping/left alignment; comfortable separation of **MEET THE CREW**, the exact introductory quote and **FIRE TO CONTINUE**. Preserve the current image composition without game logo, background Taco Smell sign or character-name labels.
 - [ ] Finalize box and cartridge artwork for production.
 
 ## Phase 6 — Sound and Music
@@ -214,6 +216,7 @@ This audit preserves the existing checked states and should not be interpreted a
 
 ## Change Log
 
+- **v0.21 — 2026-10-28:** Records user-run standalone **Meet the Crew v4 ANTIC E/DLI XEX**, with game logo, background restaurant sign and name labels removed, heading moved into caption area and approved quote shown. Checks off **prototype displayed in emulator**, but retains a new **deferred text-readability polish task** and game integration/working Fire-input tasks. Atari title screen Option 3 remains selected but not implemented. 40/154 complete; no art/XEX files committed.
 - **v0.20 — 2026-10-28:** Selects **Option 3 (the third, middle-ground Atari-inspired title illustration)** as the title-screen visual target, with Billy in a red front three-quarter-view car, green gas cloud, sunset, Taco Smell and 1 PLAYER/PRESS START. Keeps this separate from the one-screen Meet the Crew introduction. Adds a checked Phase 5 concept-selection task and leaves real ANTIC E+DLI conversion, title controls and hardware testing open. 39/152 complete.
 - **v0.19 — 2026-10-28:** Confirms **one** “Meet the Crew” introduction screen after 1 PLAYER start (Billy centered, friends, exact quote), then Stage 1 Taco Smell. Defers Screen 2 parking-lot and Screen 3 dinner-table cutscenes; no new production requirement for either. Checks off intro placement/scope decision while leaving Atari graphics, caption readability and screen implementation open. 38/151 complete.
 - **v0.18 — 2026-10-27:** Confirms four-way-only road gas blasts (no diagonal mode), hold Fire + cardinal direction to blast instead of steer while the car coasts, and the jeans-clad backside popping from the selected window with a gas cloud. Defers two-joystick option, clarifies indoor controls remain open, and replaces the obsolete prototype diagonal task with four-way blast FX implementation. Marks two Phase 1 design decisions complete: 37/151.
