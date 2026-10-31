@@ -94,7 +94,7 @@ class Emit:
     def __init__(self,base):self.base=base;self.data=bytearray();self.labels={};self.absfix=[];self.relfix=[];self.lines=[]
     def label(self,l):self.labels[l]=self.base+len(self.data);self.lines.append(l)
     def op(self,name,*values):self.lines.append('    '+name);self.data.extend(values)
-    def a(self,mnem,opcode,label):self.lines.append(f'    {mnem} {label}');self.data.extend([opcode,0,0]);self.absfix.append((len(self.data)-2,label))
+    def a(self,mnem,opcode,label):self.lines.append(f'    {mnem} {label}' + (',X' if opcode==0xBD else ''));self.data.extend([opcode,0,0]);self.absfix.append((len(self.data)-2,label))
     def b(self,mnem,opcode,label):self.lines.append(f'    {mnem} {label}');self.data.extend([opcode,0]);self.relfix.append((len(self.data)-1,label))
     def imm(self,mnem,opcode,value):self.lines.append(f'    {mnem} #${value:02X}');self.data.extend([opcode,value])
     def abs(self,mnem,opcode,addr):self.lines.append(f'    {mnem} ${addr:04X}');self.data.extend([opcode,addr&255,addr>>8])
