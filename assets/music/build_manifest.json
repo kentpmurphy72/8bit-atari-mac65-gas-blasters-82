@@ -1,0 +1,75 @@
+{
+  "title": {
+    "file": "GasBlasters82_Title_ArcadeRock_POKEY.xex",
+    "bytes": 8709,
+    "sha256": "38808ccd0cb44a2025f92ae3894a2fd1628418b9591e6f07ea5808bfa7795dd3",
+    "music_address": "$7000",
+    "patch_address": "$2046",
+    "screen_source": "title_original.xex",
+    "start_key": "mutes, displays START PRESSED"
+  },
+  "rock": {
+    "title": "Arcade Rock",
+    "bpm": 148,
+    "ticks": 192,
+    "duration_s": 19.46,
+    "frame_increment": 10777,
+    "music_bytes": 1710,
+    "audio_clock_hz": 63921,
+    "audctl": 0,
+    "register_order": [
+      "AUDF1",
+      "AUDC1",
+      "AUDF2",
+      "AUDC2",
+      "AUDF3",
+      "AUDC3",
+      "AUDF4",
+      "AUDC4"
+    ],
+    "song_source": "compose_demos.py",
+    "preview_mp3": "01_Arcade_Rock_POKEY_Approx.mp3",
+    "bass_octave_shift": "+1 octave (8-bit divider limitation)"
+  },
+  "crew": {
+    "file": "GasBlasters82_MeetTheCrew_Funky_POKEY.xex",
+    "bytes": 7993,
+    "sha256": "138264f06fb04c2c915ad3040fe415229f86474caa9793a76a637fa8d54c2706",
+    "music_address": "$7000",
+    "patch_address": "$2046",
+    "screen_source": "crew_original.xex",
+    "start_key": "not yet wired"
+  },
+  "arrival": {
+    "file": "GasBlasters82_Arrival_Funky_POKEY.xex",
+    "bytes": 7993,
+    "sha256": "24dbda1429b79fe7c4d03132ee357a96213e23c5b1cab08cba807fc9d257d069",
+    "music_address": "$7000",
+    "patch_address": "$2046",
+    "screen_source": "arrival_original.xex",
+    "start_key": "not yet wired"
+  },
+  "funk": {
+    "title": "Funky Gas Attack",
+    "bpm": 110,
+    "ticks": 128,
+    "duration_s": 17.45,
+    "frame_increment": 8010,
+    "music_bytes": 1174,
+    "audio_clock_hz": 63921,
+    "audctl": 0,
+    "register_order": [
+      "AUDF1",
+      "AUDC1",
+      "AUDF2",
+      "AUDC2",
+      "AUDF3",
+      "AUDC3",
+      "AUDF4",
+      "AUDC4"
+    ],
+    "song_source": "compose_demos.py",
+    "preview_mp3": "02_Funky_Gas_Attack_POKEY_Approx.mp3",
+    "bass_octave_shift": "+1 octave (8-bit divider limitation)"
+  }
+}
