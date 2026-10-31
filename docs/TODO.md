@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Project To-Do List
 
-**Version:** 0.27  
+**Version:** 0.28  
 **Date:** 2026-10-30  
 **Target:** Atari 800XL  
 **Status:** Planning and early design  
@@ -8,6 +8,7 @@
 
 > Living checklist. An unchecked item is not necessarily an approved requirement; some items are proposed work that depends on design decisions. Update this file as tasks are finished or scope changes.
 
+- **PMG regression and v2.1 hotfix — 2026-10-30:** The first real Atari800 test of the alternate PMG title **v2 failed visually** (stray cyan/white pixels overlapping text/background). Bug confirmed: DMACTL set to $2E **double-line** although 2 KB PMG data was built for **single-line**. The v2 validator mistakenly expected $2E as well. A separate v2.1 XEX and corrected source now use $3E, an adjusted 56-line vertical origin, and explicit tests for correct DMACTL and cleared PM rows over the text. **v2.1 is not yet emulator-verified**; re-test its logo, Billy, car, menu, music, and all transitions. **Known-good v1 is unaffected**. Checklist completion count is unchanged until the corrected PMG screen passes visually.
 ## Status update — 2026-10-30 (following 2026-10-25 audit)
 
 - **48 of 163 checklist items completed (29%).** Another **115 remain open**. The user **ran the integrated opening v1 in Atari800 and said it worked great**, including START/FIRE screen progression and the selected POKEY soundtrack sequence. An optional **Title v2 with 4 PMG players + 4 missiles** is now separately packaged and committed: fine visual highlights in logo/Billy/car/sign only; the title bitmap/music and all subsequent screen assets remain byte-identical. **The alternate v2 XEX has passed 6502 simulation and structural validation but has not yet been displayed in Atari800.** Stage 1 remains a temporary static placeholder, not gameplay.
@@ -224,6 +225,8 @@ This checklist distinguishes **the two user-tested standalone visual XEX files (
 - [ ] Keep source code, art, and documentation synchronized in GitHub.
 
 ## Change Log
+
+- **v0.28 — 2026-10-30:** Fixes broken PMG v2 DMACTL single-line mismatch ($2E→$3E), adjusts 24 blank-line vertical origin and strengthens the visual-text-clearance test; corrected v2.1 binary/source committed, pending real Atari800 visual evaluation. Earlier v2 screenshot exhibited stray pixels. v1 unaffected.
 
 - **v0.27 — 2026-10-30:** Records successful user Atari800 test of the full continuous opening v1. Builds and commits **Title v2 PMG** alternative with 4 single-line players and four missiles ($A000 DMA) adding ~220 controlled highlights to the original title while retaining original bitmaps, GTIA palettes, text, Arcade Rock/Funky Gas Attack, and subsequent scenes. CPU, DLI, scene-state and reproducible SHA validations pass; **awaits separate Atari800 visual test of PMG v2**. Updates checklist to **48/163 complete, 115 open**.
 - **v0.26 — 2026-10-30:** Builds and commits a **single native 6502 Atari 800XL opening-sequence XEX** with four states: title (Arcade Rock) → Meet the Crew (Funky Gas Attack) → arrival (same continuously playing Funky Gas Attack) → static Stage 1 screen (silent), with START/FIRE/release debouncing and START replay. Reuses exact approved artwork, texts, and ANTIC E/DLI color bands. XEX, Python byte emitter, reference assembly, manifest and 6502 CPU/DLI validation are in `assets/opening/` and `tools/`. Checks off integrated-prototype build and opens separate full emulator test; **46/161 checked, 115 open**. The user previously played all three standalone music-enhanced XEXs and liked them; the **combined** XEX is not yet tested in Atari800.
