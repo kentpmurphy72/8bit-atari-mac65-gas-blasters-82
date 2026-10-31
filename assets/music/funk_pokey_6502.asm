@@ -39,21 +39,21 @@ NO_STEP
     JMP MAIN_LOOP
 WRITE_STEP
     LDX STEP_INDEX
-    LDA DATA_0
+    LDA DATA_0,X
     STA $D200
-    LDA DATA_1
+    LDA DATA_1,X
     STA $D201
-    LDA DATA_2
+    LDA DATA_2,X
     STA $D202
-    LDA DATA_3
+    LDA DATA_3,X
     STA $D203
-    LDA DATA_4
+    LDA DATA_4,X
     STA $D204
-    LDA DATA_5
+    LDA DATA_5,X
     STA $D205
-    LDA DATA_6
+    LDA DATA_6,X
     STA $D206
-    LDA DATA_7
+    LDA DATA_7,X
     STA $D207
     INX
     CPX #$80
