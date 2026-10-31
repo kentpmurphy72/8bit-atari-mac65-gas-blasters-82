@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Art Assets and Visual Direction
 
-**Version:** 0.25  
+**Version:** 0.26  
 **Date:** 2026-10-30  
 **Status:** Early art direction / living asset inventory  
 **Primary target:** Atari 800XL  
@@ -112,6 +112,8 @@ The user loaded a newly rebuilt **v4 mixed-mode XEX** in an Atari 800 emulator a
 ### Audio pairing for opening screens (confirmed musical direction)
 
 The **title screen** pairs with the original **Arcade Rock** POKEY melody (148 BPM); **Meet the Crew** and **Arriving at Taco Smell** both pair with the original **Funky Gas Attack** POKEY melody (110 BPM). Three standalone music-enabled screen XEX binaries, converted POKEY note/register data, original composition MP3s, approximation MP3s, and source are versioned under [`assets/music/`](../assets/music/). The existing 160×160 title and two 160×128 intro illustrations are preserved. The user has accepted these image layouts, but **the user has heard all three standalone music XEX builds in Atari800 and approved their sound**. The new **combined** XEX implements START/FIRE scene changes and continuous Funk across cutscenes; its audio/visual timing and inputs still need emulator verification.
+
+**PMG corrective follow-up (v2.1, 2026-10-30):** First real Atari800 screenshot of v2 showed isolated cyan/white artifacts, including contamination of title text and bottom margin. Source review found a mismatched PMG DMA mode ($2E double-line instead of required $3E single-line) and PM vertical origin 32 rather than calculated 56 (32 offscreen rows plus 24 display-list blank rows). Corrected v2.1 XEX, raw sprite data and build/validation source are in `assets/title_v2/` and `tools/`; automated tests pass. **The corrected image has not been evaluated in the emulator yet.** The known-good non-PMG v1 remains unchanged. Sparse glints are also intrinsically a modest enhancement; further artistic revision may be needed even with correct timing.
 
 ### Title screen v2 — optional Player/Missile Graphics detail overlay
 
@@ -283,6 +285,8 @@ Priorities describe a **proposed prototype sequence**, not a development commitm
 13. Design narrowing/weaving tiles and road-edge transitions for the confirmed **75%→40% (~4s)** and **40%→75% (~4s)** changes; keep shoulders 6.25% each and validate the effect during prototyping.
 
 ## 12. Change log
+
+- **v0.26 — 2026-10-30:** Fixes broken PMG v2 DMACTL single-line mismatch ($2E→$3E), adjusts 24 blank-line vertical origin and strengthens the visual-text-clearance test; corrected v2.1 binary/source committed, pending real Atari800 visual evaluation. Earlier v2 screenshot exhibited stray pixels. v1 unaffected.
 
 - **v0.25 — 2026-10-30:** User reports the integrated opening v1 works great in the emulator. Builds a separate title v2 using four DLI-repositioned players and four missiles for limited extra highlighted detail, leaving original title bitmap/colors/menu and all subsequent scenes/music unchanged. Reproducible XEX, native PMG data and comparison preview committed under `assets/title_v2/`; v2 visual/emulator check pending.
 - **v0.24 — 2026-10-30:** Adds continuous title/crew/arrival XEX with native START/FIRE transitions, music handoff/continuity and static Stage 1 screen, reusing exact earlier ANTIC E bitmap, font/text, and GTIA DLI color assets. Build and CPU-flow/DLI tests pass. User confirmed individual music versions sound great, but the integrated XEX still needs emulator inspection; game stage and visual polish remain open.
