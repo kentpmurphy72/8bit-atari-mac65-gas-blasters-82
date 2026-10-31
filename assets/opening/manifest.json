@@ -1,0 +1,136 @@
+{
+  "output": "GasBlasters82_OpeningSequence_v1.xex",
+  "sha256": "08971fa2ca324e1e5e36bbc7c7d0fe891cb23c568230abb70c93a4f6de3d7e29",
+  "bytes": 23537,
+  "scene_order": [
+    "title",
+    "meet_the_crew",
+    "arrival",
+    "stage1_placeholder"
+  ],
+  "controls": {
+    "title": "console START",
+    "meet_the_crew": "joystick 1 FIRE",
+    "arrival": "joystick 1 FIRE",
+    "stage1_placeholder": "console START to replay"
+  },
+  "music": {
+    "title": "Arcade Rock (148 BPM)",
+    "meet_the_crew": "Funky Gas Attack (110 BPM)",
+    "arrival": "Funky Gas Attack (continuous from crew)",
+    "stage1_placeholder": "silence"
+  },
+  "segments": [
+    {
+      "start": "$02E0",
+      "end": "$02E1",
+      "bytes": 2
+    },
+    {
+      "start": "$2000",
+      "end": "$2338",
+      "bytes": 825
+    },
+    {
+      "start": "$2A00",
+      "end": "$2FFF",
+      "bytes": 1536
+    },
+    {
+      "start": "$3000",
+      "end": "$33FF",
+      "bytes": 1024
+    },
+    {
+      "start": "$3500",
+      "end": "$352B",
+      "bytes": 44
+    },
+    {
+      "start": "$3530",
+      "end": "$355B",
+      "bytes": 44
+    },
+    {
+      "start": "$3560",
+      "end": "$358B",
+      "bytes": 44
+    },
+    {
+      "start": "$3800",
+      "end": "$3BFF",
+      "bytes": 1024
+    },
+    {
+      "start": "$3C00",
+      "end": "$3CAF",
+      "bytes": 176
+    },
+    {
+      "start": "$3D00",
+      "end": "$3D93",
+      "bytes": 148
+    },
+    {
+      "start": "$3E00",
+      "end": "$3E93",
+      "bytes": 148
+    },
+    {
+      "start": "$3F00",
+      "end": "$3F1F",
+      "bytes": 32
+    },
+    {
+      "start": "$4000",
+      "end": "$4EFF",
+      "bytes": 3840
+    },
+    {
+      "start": "$5000",
+      "end": "$59FF",
+      "bytes": 2560
+    },
+    {
+      "start": "$5A00",
+      "end": "$5A9F",
+      "bytes": 160
+    },
+    {
+      "start": "$6000",
+      "end": "$6EFF",
+      "bytes": 3840
+    },
+    {
+      "start": "$7000",
+      "end": "$74FF",
+      "bytes": 1280
+    },
+    {
+      "start": "$7600",
+      "end": "$773F",
+      "bytes": 320
+    },
+    {
+      "start": "$8000",
+      "end": "$8EFF",
+      "bytes": 3840
+    },
+    {
+      "start": "$9000",
+      "end": "$94FF",
+      "bytes": 1280
+    },
+    {
+      "start": "$9600",
+      "end": "$973F",
+      "bytes": 320
+    },
+    {
+      "start": "$9800",
+      "end": "$9BBF",
+      "bytes": 960
+    }
+  ],
+  "notes": "Emulator run pending; source XEX artwork/palette/data reused exactly."
+}
