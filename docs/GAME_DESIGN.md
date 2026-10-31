@@ -1,7 +1,7 @@
 # Gas Blasters '82 — Game Design Document
 
-**Version:** 0.22  
-**Date:** 2026-10-29  
+**Version:** 0.23  
+**Date:** 2026-10-30  
 **Status:** Early design / living document  
 **Primary target:** Atari 800XL (Atari 8-bit family)  
 **Purpose:** Record the current concept for design discussions and eventual Codex implementation.
@@ -282,7 +282,9 @@ We should avoid mixing two incompatible loss systems (pressure meter and separat
 
 **Current development context:** user has started a GitHub repository and a Codex discussion; MAC/65 and 6502 assembly are the intended learning/development direction.
 
-**Not locked:** assembly toolchain/build method, disk vs. cartridge distribution, exact minimum RAM beyond the 800XL target, ANTIC graphics mode, player/missile graphics usage, memory map, sound design, and emulator test workflow. These belong in **docs/TECHNICAL_DESIGN.md** after decisions are made.
+**Not locked:** assembly toolchain/build method, disk vs. cartridge distribution, exact minimum RAM beyond the 800XL target, ANTIC graphics mode, player/missile graphics usage, memory map, sound-effects design, and emulator test workflow. These belong in **docs/TECHNICAL_DESIGN.md** after decisions are made.
+
+**Music direction — Confirmed 2026-10-30:** **Arcade Rock** (original theme, 148 BPM) is the **title-screen music**, with possible reuse/adaptation during gameplay; **Funky Gas Attack** (original theme, 110 BPM) accompanies both **Meet the Crew** and **Arriving at Taco Smell** cutscenes. Reference MP3s, POKEY-register approximated MP3s, original note data, 6502 music-engine source, and **three music-enabled standalone XEX binaries** are committed under [`assets/music/`](../assets/music/). The music engine uses four POKEY channels at $D200-$D207 and a video-frame step counter. Title START mutes music and changes the title prompt to **START PRESSED**, but does not enter the intro; cutscene FIRE prompts still do not advance. **The new music-enhanced XEXs have been structurally validated and not yet played by the user in an Atari emulator**; sound quality, tempo and volume remain subject to actual POKEY listening tests. These selected themes do not lock all in-game music or sound effects.
 
 **Recommended prototype (proposed):** build a small vertical road chase with gas-meter rise, an explosion threshold, and—on a later-stage variant—Gas-Nix pickups. This tests the central mechanic before building all 36 stages.
 
@@ -330,6 +332,7 @@ We should avoid mixing two incompatible loss systems (pressure meter and separat
 
 ## 10. Change log
 
+- **v0.23 — 2026-10-30:** Selects **Arcade Rock** for title (potential gameplay motif) and **Funky Gas Attack** for both opening stills; records real 4-channel POKEY playback XEX demos, corresponding reference/conversion-preview MP3s, note and register data, and reproducible Python/6502 source added to GitHub. The title's prior visual standalone XEX was user-viewed; the music-enhanced variants are **not yet emulator-auditioned**. Fire/scene transitions remain unimplemented.
 - **v0.22 — 2026-10-29:** Commits both approved **standalone emulator-tested screen packages** to the repo, including `assets/intro/meet_the_crew_v4.xex` and `assets/arrival/arrival_v3.xex`, each original full-resolution PNG and native Atari art/charset/text/palette/DLI/preview data. Adds reproducible build scripts under `tools/`; both scripts were checked locally to regenerate the exact tested XEX bytes. No Fire handling or full-game scene integration added; existing task completion counts unchanged.
 - **v0.21 — 2026-10-29:** Records user-tested and visually accepted **Taco Smell arrival v3 standalone XEX** (Atari 800 Emulator 5.2.0). Uses **160×128 ANTIC E artwork + eight 40-column text rows**, **12 palette bands/11 DLIs**, heading and static Fire prompt. Confirms exact **three-line** story: “Billy came for a killer burrito.” / “The beans came with a warning.” / “Nobody read it. Especially Billy.” Hardware-specific screen prototype only; no Fire input, full-game integration or GitHub binary commit implied. Meet the Crew v4's text polish remains deferred.
 - **v0.20 — 2026-10-28:** Reintroduces **one Taco Smell arrival still** after Meet the Crew and before Stage 1, selecting the **third, medium-detail arrival concept** (all five friends walking from their parked car to the lit Taco Smell entrance at sunset). The prior "directly to Stage 1" rule is superseded; the dinner-table scene remains deferred. True ANTIC E+DLI conversion, standalone XEX and emulator testing are still open; title-screen Option 3 is a separate art choice.
