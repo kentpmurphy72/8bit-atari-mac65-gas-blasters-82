@@ -9,7 +9,7 @@ The 160x160 bitmap, palettes, music tables, screen texts and stage flow remain b
 Requires Python 3 and Pillow (for the optional visual comparison preview). `build_opening_sequence.py` next to this script
 and four existing Atari XEX/data assets in the repository.
 
-PMBASE=$A000 with single-line DMA ($2E); player data at $A400/$A500/$A600/$A700,
+PMBASE=$A000 with single-line DMA ($3E); player data at $A400/$A500/$A600/$A700,
 missile bits at $A300. Atari800 -xl -nobasic is the tested CONFIGURATION, but this
 particular program still needs an emulator image-and-sound playtest.
 """
@@ -27,7 +27,7 @@ HOOK_BASE=0x2400
 POS_TABLE=0x3600
 COLOR_TABLE=0x3630
 MISSILE_POS=[76,120,132,145] # in 160-cc image coordinate (converted to GTIA HPOS)
-ART_START_SCANLINE=32 # 8 ANTIC top + three blank (8-scanline) DL instructions
+ART_START_SCANLINE=56 # 32 off-screen PM rows + 3*8 display-list blank rows
 
 # per 16-scanline band: the chosen 8-clock-wide player windows and color values.
 # Band numbers 0-9 cover original art; 10/11 are the original menu text area.
@@ -173,7 +173,7 @@ def make_hook_code(base_labels,original):
   a.imm('LDA',0xA9,48+MISSILE_POS[p]);a.abs('STA',0x8D,0xD004+p)
   a.imm('LDA',0xA9,c);a.abs('STA',0x8D,0x02C0+p);a.abs('STA',0x8D,0xD012+p)
  a.imm('LDA',0xA9,3);a.abs('STA',0x8D,0xD01D) # both players and missiles
- a.imm('LDA',0xA9,0x2E);a.abs('STA',0x8D,0x022F);a.abs('STA',0x8D,0xD400)
+ a.imm('LDA',0xA9,0x3E);a.abs('STA',0x8D,0x022F);a.abs('STA',0x8D,0xD400)
  # Original DRAW_TITLE starts LDA #<DL_TITLE, STA SDLSTL. Restore these exact ops.
  a.imm('LDA',0xA9,base_labels['DRAW_TITLE_ORIGINAL_LOW'])
  a.abs('STA',0x8D,0x0230)
@@ -263,7 +263,7 @@ def build(repo=REPO,out=OUT,origin=ART_START_SCANLINE):
  parts[COLOR_TABLE]=col
  parts[PMG_BASE]=pmg
  xex=v1.encode_xex(parts)
- name='GasBlasters82_TitleV2_PMG_OpeningSequence.xex'
+ name='GasBlasters82_TitleV2_1_PMG_OpeningSequence.xex'
  (out/name).write_bytes(xex)
  (out/'pmg_2kb.bin').write_bytes(pmg)
  (out/'pmg_position_11x4.bin').write_bytes(pos)
@@ -277,12 +277,12 @@ def build(repo=REPO,out=OUT,origin=ART_START_SCANLINE):
  'modified_code':'$2000 controller receives 3 branch hooks, $2400 PMG extension',
  'new_segments':['$2400','$3600','$3630','$A000'],'player_bands':BANDS,
  'plays':'Title v2 PMG (Arcade Rock) -> original Crew (Funky Gas Attack) -> original Arrival (continuous Funk) -> Stage 1 placeholder (silent)',
- 'test_status':'CPU hook and binary validations only; requires user Atari800 screenshot/listening test'}
+ 'test_status':'DMACTL=$3E and adjusted vertical position; CPU/binary validation only, requires actual Atari800 screenshot to verify alignment'}
  (out/'manifest.json').write_text(json.dumps(meta,indent=2)+'\n')
  print(json.dumps({'file':name,'bytes':len(xex),'sha256':meta['sha256'],'overlay_pixels':count,'pmg_pixels_per_player':pixcount,'hooks':entries},indent=2))
  return meta
 
 def main():
- p=argparse.ArgumentParser();p.add_argument('--repo',type=Path,default=REPO);p.add_argument('--output',type=Path,default=OUT);p.add_argument('--pmg-y-offset',type=int,default=32)
+ p=argparse.ArgumentParser();p.add_argument('--repo',type=Path,default=REPO);p.add_argument('--output',type=Path,default=OUT);p.add_argument('--pmg-y-offset',type=int,default=56)
  a=p.parse_args();build(a.repo,a.output,a.pmg_y_offset)
 if __name__=='__main__':main()

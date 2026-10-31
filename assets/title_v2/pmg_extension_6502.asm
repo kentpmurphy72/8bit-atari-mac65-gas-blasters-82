@@ -51,7 +51,7 @@ PM_TITLE_SETUP:
     STA $D015
     LDA #$03
     STA $D01D
-    LDA #$2E
+    LDA #$3E
     STA $022F
     STA $D400
     LDA #$00

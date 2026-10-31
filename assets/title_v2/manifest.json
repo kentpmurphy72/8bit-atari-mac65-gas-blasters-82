@@ -1,10 +1,10 @@
 {
-  "file": "GasBlasters82_TitleV2_PMG_OpeningSequence.xex",
-  "sha256": "88bb64e636266bbb18c9e3d7ad3821d058e92331966862ba9fc6682e59a1e385",
+  "file": "GasBlasters82_TitleV2_1_PMG_OpeningSequence.xex",
+  "sha256": "6df9c6014cfb4e9c353c2d55963a1c827ca9e4b8b80fce4971576b364515bdf7",
   "bytes": 25911,
   "original_v1_sha256": "08971fa2ca324e1e5e36bbc7c7d0fe891cb23c568230abb70c93a4f6de3d7e29",
   "pmg": "four players and four missiles; one-line $A000 DMA",
-  "pmg_origin_scanline": 32,
+  "pmg_origin_scanline": 56,
   "pmg_pixels_approx": 220,
   "original_title_bitmap_sha256": "1d3d01823936081ca47a46440b49cfed7e78c4944c183ee7f80f6ad02aed35a5",
   "unmodified_segments": [
@@ -256,5 +256,5 @@
     ]
   ],
   "plays": "Title v2 PMG (Arcade Rock) -> original Crew (Funky Gas Attack) -> original Arrival (continuous Funk) -> Stage 1 placeholder (silent)",
-  "test_status": "CPU hook and binary validations only; requires user Atari800 screenshot/listening test"
+  "test_status": "DMACTL=$3E and adjusted vertical position; CPU/binary validation only, requires actual Atari800 screenshot to verify alignment"
 }

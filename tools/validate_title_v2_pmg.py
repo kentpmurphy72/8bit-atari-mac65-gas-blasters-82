@@ -30,6 +30,10 @@ def check(repo,out):
  for p in range(4):
   assert any(rom[0xA000][0x400+p*256:0x500+p*256])
  assert any(rom[0xA000][0x300:0x400])
+ # Artwork finishes at PM memory row 216; no sprite bits should exist in text scanlines.
+ for p in range(4):
+  assert not any(rom[0xA000][0x400+p*256+216:0x500+p*256])
+ assert not any(rom[0xA000][0x300+216:0x400])
  # Confirm that no user-modded code is needed for original screen sequence.
  originals={kind:original.xex_segments(repo/f'assets/{folder}/{name}')[0x2000] for kind,folder,name in (
   ('title','title','Title_Option3_Original.xex'),('crew','intro','meet_the_crew_v4.xex'),('arrival','arrival','arrival_v3.xex'))}
@@ -39,7 +43,8 @@ def check(repo,out):
  sim=CPU(rom,0x2000)
  sim.run_until(L['FRAME_WAIT'])
  assert sim.mem[0xD407]==0xA0
- assert sim.mem[0xD400]==0x2E and sim.mem[0x22F]==0x2E
+ assert title.ART_START_SCANLINE==56, 'PMG origin should account for 32 pre-visible rows plus 24 DL blank lines'
+ assert sim.mem[0xD400]==0x3E and sim.mem[0x22F]==0x3E
  assert sim.mem[0xD01D]==3 and sim.mem[0x26F]==0
  assert [sim.mem[0xD000+p] for p in range(4)]==[48+title.BANDS[0][p][0] for p in range(4)]
  assert [sim.mem[0xD012+p] for p in range(4)]==[title.BANDS[0][p][1] for p in range(4)]
@@ -85,7 +90,8 @@ def check(repo,out):
  for _ in range(5):frame()
  frame(console=True)
  assert sim.mem[L['SCENE']]==0 and sim.mem[L['TRACK']]==0
- assert sim.mem[0xD407]==0xA0 and sim.mem[0xD01D]==3 and sim.mem[0xD400]==0x2E
+ assert sim.mem[0xD407]==0xA0
+ assert title.ART_START_SCANLINE==56, 'PMG origin should account for 32 pre-visible rows plus 24 DL blank lines' and sim.mem[0xD01D]==3 and sim.mem[0xD400]==0x3E
  simulate_dli('title',0x3500)
  print('PASS: 26 XEX segments, original artwork and 6502 scene controller intact')
  print('PASS: 4 one-line players + 4 missiles at $A000; 11 title DLI bands + frame reset')
