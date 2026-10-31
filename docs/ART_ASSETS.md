@@ -1,7 +1,7 @@
 # Gas Blasters '82 — Art Assets and Visual Direction
 
-**Version:** 0.22  
-**Date:** 2026-10-29  
+**Version:** 0.23  
+**Date:** 2026-10-30  
 **Status:** Early art direction / living asset inventory  
 **Primary target:** Atari 800XL  
 **Companion document:** docs/GAME_DESIGN.md
@@ -108,6 +108,10 @@ The game must display the exact following text on **one static “Meet the Crew�
 The user loaded a newly rebuilt **v4 mixed-mode XEX** in an Atari 800 emulator and confirmed it displays. It uses an **ANTIC E bitmap illustration + 40-column text area** with DLI color bands (a **standalone visual proof of concept**, not a finalized engine). The new caption layout is better separated from the artwork, but **individual glyph spacing/baseline legibility and line wrapping still need work**. **Polishing the text is intentionally deferred until later**; do not treat the preview as production-approved typography.
 
 **Still required for implementation:** Keep the Meet the Crew introduction quote unchanged; later improve its text legibility. **The arrival graphic, exact three-line narration and standalone mixed ANTIC E/ANTIC 2 XEX are complete as an emulator-tested visual prototype**, but **not integrated**. Implement functional Fire-to-continue and scene-loading progression for **Title → Meet the Crew → Arriving at Taco Smell → Stage 1**, confirm final timing/memory constraints and test the integrated experience. Both tested XEX files, original artwork, native ANTIC E bitmap data, palettes, display lists, custom character sets, text row data and previews are now versioned in [`assets/intro/`](../assets/intro/) and [`assets/arrival/`](../assets/arrival/); build scripts live in [`tools/`](../tools/). The scripts have been verified to reproduce the exact tested XEX binaries, but Fire controls and game integration remain open. Do not lock ANTIC E as the game-wide graphics mode.
+
+### Audio pairing for opening screens (confirmed musical direction)
+
+The **title screen** pairs with the original **Arcade Rock** POKEY melody (148 BPM); **Meet the Crew** and **Arriving at Taco Smell** both pair with the original **Funky Gas Attack** POKEY melody (110 BPM). Three standalone music-enabled screen XEX binaries, converted POKEY note/register data, original composition MP3s, approximation MP3s, and source are versioned under [`assets/music/`](../assets/music/). The existing 160×160 title and two 160×128 intro illustrations are preserved. The user has accepted these image layouts, but **the music-enabled builds have not yet been heard in the emulator**; title START acknowledges and mutes, and neither cutscene's Fire prompt advances. No full sequence integration yet.
 
 ## 4. Supporting characters and entities
 
@@ -276,6 +280,7 @@ Priorities describe a **proposed prototype sequence**, not a development commitm
 
 ## 12. Change log
 
+- **v0.23 — 2026-10-30:** Documents **Arcade Rock** title music and **Funky Gas Attack** shared cutscene music. Actual POKEY-register XEX variants and both reference/converted-preview MP3 sets are in `assets/music/`; original approved title art/source also added to `assets/title/`. Music-on-hardware/emulator listening and opening-flow transitions remain open.
 - **v0.22 — 2026-10-29:** Checks in the **Meet the Crew v4** and **Arriving at Taco Smell v3** screen assets under `assets/intro/` and `assets/arrival/`. Includes full-resolution source art, emulator-tested mixed-mode XEX, rendered constrained-color preview, ANTIC E 2bpp data, GTIA palette bands, display list, font and text bytes, plus reproducible Python builders under `tools/`. The tested executables reproduced byte-for-byte when rebuilt. Actual game scene changes/Fire control remain unimplemented.
 - **v0.21 — 2026-10-29:** Confirms actual user emulator screenshot/test of **Arriving at Taco Smell v3 standalone XEX** and visual acceptance. Implements a **160×128 ANTIC E picture + eight rows of 40-column ANTIC 2** with 12 palette bands/11 DLIs and the approved exact three-line story (“Billy came for a killer burrito.” / “The beans came with a warning.” / “Nobody read it. Especially Billy.”). The Fire prompt is display-only; integration/controls and copying binary/source art into the repository remain future work.
 - **v0.20 — 2026-10-28:** Approves a **second static story image** after the Meet the Crew intro: the **third, medium-detail arrival concept** of five friends walking past their parked car into Taco Smell at sunset. Adds the arrival image to art inventory; dinner-table scene remains deferred. Native Atari ANTIC E+DLI conversion and XEX/emulator validation remain open, while the existing v4 crew XEX status is unchanged.
