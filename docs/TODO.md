@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Project To-Do List
 
-**Version:** 0.25  
+**Version:** 0.26  
 **Date:** 2026-10-30  
 **Target:** Atari 800XL  
 **Status:** Planning and early design  
@@ -10,9 +10,9 @@
 
 ## Status update — 2026-10-30 (following 2026-10-25 audit)
 
-- **45 of 159 checklist items completed (28%).** Another **114 remain open**. **Title Option 3** has been visually viewed by the user in Atari800, while **Meet the Crew v4** and **Arriving at Taco Smell v3** are also emulator-tested visual prototypes. Selected soundtracks: **Arcade Rock** (title/potential gameplay) and **Funky Gas Attack** (both stills). Three **new music-enabled XEXs**, their real POKEY register data and source, plus original/converted approximation MP3s are committed under `assets/music/`. **The new sound-enabled XEXs await an emulator listening test**, and START still does not transition into the intro. **FIRE TO CONTINUE remains nonfunctional** on the cutscenes. The Meet the Crew font cleanup and complete game integration remain open.
-- **Phase totals:** Game Design 34/46; Technical Architecture 3/15; First Playable Prototype 0/26; Indoor Gameplay 0/12; Graphics & Animation 6/20; Sound & Music 2/12; Build All Four Levels 0/10; Testing & Release 0/12; Ongoing Maintenance 0/6.
-- **Repository assets (2026-10-30):** Emulator-tested intro visual assets and exact reproducible builders remain in `assets/intro/`, `assets/arrival/` and `tools/`; selected title artwork and build script are in `assets/title/`; original MP3s, approximate POKEY audio previews, 6502 engine, register/note data, and three standalone music-enabled XEX files are in `assets/music/`. **Music-enabled XEXs are structurally checked but have not been auditioned in the emulator**. The full game and screen progression remain unimplemented.
+- **46 of 161 checklist items completed (29%).** Another **115 remain open**. The user has **tested and liked all three standalone music-enabled XEXs in Atari800** (Arcade Rock on title; Funky Gas Attack on the two cutscenes). A new **single 23,537-byte continuous opening v1 XEX** is now committed under `assets/opening/`: console START → Meet the Crew, joystick FIRE → Arriving at Taco Smell, FIRE → **static Stage 1 placeholder**, START → replay. Funk continues through both stills without restarting. **Structural tests, simulated 6502 control flow and DLI/POKEY checks pass; the combined XEX itself has NOT yet been tried in Atari800.** Stage 1 gameplay, rest of game integration, and Meet the Crew typography polish remain open.
+- **Phase totals:** Game Design 34/46; Technical Architecture 3/15; First Playable Prototype 0/26; Indoor Gameplay 0/12; Graphics & Animation 7/21; Sound & Music 2/12; Build All Four Levels 0/10; Testing & Release 0/13; Ongoing Maintenance 0/6.
+- **Repository assets (2026-10-30):** Standalone title/crew/arrival source artwork, XEXs and exact builders remain in `assets/title/`, `assets/intro/`, `assets/arrival/` and `tools/`. POKEY music, original/approximation MP3s and standalone sound-enabled XEXs are in `assets/music/` and **were heard and liked by the user**. The new unified XEX, source, manifest and checks are committed in [`assets/opening/`](../assets/opening/) and `tools/`; **combined visual/music/joystick transitions await a real emulator check**. No playable Stage 1 exists yet.
 - **Still empty:** `AGENTS.md` and `docs/TECHNICAL_DESIGN.md`; do not mark them complete merely because the files exist.
 - **Partially specified, not complete:** road-stage **four-way blast controls** and jeans-clad-backside/cloud visual concept are agreed upon, but **implementation and playtesting remain open**, as do precise blast timing/range/knockback, indoor controls and blasts, indoor camera, HUD presentation, failure handling, and final art. **Both standalone intro stills** have been inspected in an emulator; this does **not** constitute testing or integration of a playable game.
 - **Ongoing maintenance checkboxes remain open intentionally:** documentation updates to date do not make recurring maintenance tasks permanently finished.
@@ -148,6 +148,7 @@ This checklist distinguishes **the two user-tested standalone visual XEX files (
 - [x] Establish the younger protagonist's general appearance.
 - [x] Select **Option 3** as the title-screen visual direction (third ANTIC E + DLI concept): large logo, Billy in red car, sunset, green gas trail, Taco Smell sign, **1 PLAYER / PRESS START**. Separate from the “Meet the Crew” intro; this is **concept selection**, not a final Atari bitmap.
 - [x] Build and visually test a **standalone “Meet the Crew” ANTIC E+DLI XEX** in an Atari emulator: v4 has the game logo, roadside Taco Smell sign and placeholder character labels removed, with heading/quote/prompt below the art; **not** a tested full-game screen flow.
+- [x] Build a **unified, standalone title → crew → arrival → static Stage 1 placeholder XEX**, featuring actual START/FIRE controls and release-to-rearm logic, original Arcade Rock/Funky Gas Attack POKEY song data, and continuous cutscene music. **6502 instruction-level and DLI/POKEY tests passed; real emulator test of this combined XEX remains open.**
 - [ ] Finalize the protagonist's character design.
 - [ ] Create player movement and gas-blast sprite animations.
 - [ ] Design player, friends', police, and hazmat-van vehicles.
@@ -197,6 +198,7 @@ This checklist distinguishes **the two user-tested standalone visual XEX files (
 ## Phase 8 — Testing and Release
 *Goal: Produce a stable game that works on Atari 800XL hardware.*
 
+- [ ] **Test the integrated opening-sequence v1 XEX in Atari800**: title START, crew/arrival FIRE, release-to-rearm (no accidental skipping), proper palette/text rendering, Arcade Rock→Funky Gas Attack, continuous Funk across both cutscenes, Stage 1 silence and START replay.
 - [ ] Test the game in an Atari 8-bit emulator.
 - [ ] Test on a real Atari 800XL, if available.
 - [ ] Verify performance, memory use, and frame timing.
@@ -221,6 +223,7 @@ This checklist distinguishes **the two user-tested standalone visual XEX files (
 
 ## Change Log
 
+- **v0.26 — 2026-10-30:** Builds and commits a **single native 6502 Atari 800XL opening-sequence XEX** with four states: title (Arcade Rock) → Meet the Crew (Funky Gas Attack) → arrival (same continuously playing Funky Gas Attack) → static Stage 1 screen (silent), with START/FIRE/release debouncing and START replay. Reuses exact approved artwork, texts, and ANTIC E/DLI color bands. XEX, Python byte emitter, reference assembly, manifest and 6502 CPU/DLI validation are in `assets/opening/` and `tools/`. Checks off integrated-prototype build and opens separate full emulator test; **46/161 checked, 115 open**. The user previously played all three standalone music-enhanced XEXs and liked them; the **combined** XEX is not yet tested in Atari800.
 - **v0.25 — 2026-10-30:** Approves **Arcade Rock** for title/potential gameplay and **Funky Gas Attack** for both cutscenes. Commits three genuine POKEY music-enabled standalone XEXs, original and register-derived approximation MP3s, four-channel sequencer, event/POKEY register data and reproducible build sources under `assets/music/`, plus original title source under `assets/title/`. **No emulator audio test yet**. Closes the title and cutscene composition/conversion tasks and opens music-audition task; **45/159 completed, 114 open**, Sound & Music 2/12.
 - **v0.24 — 2026-10-29:** Adds **27 versioned source and native asset files** for the two emulator-tested intro stills under `assets/intro/`, `assets/arrival/`, and `tools/`: XEX, original full-resolution artwork, raw ANTIC E bitmaps, constrained-color PNGs, palette tables, screen text, custom fonts, display lists, previews, manifests, READMEs and reproducible builders. Both builders reproduced the approved XEX files byte-for-byte. Maintains **43/157 complete (114 open)**; actual Fire controls/scene integration and full-game testing remain open.
 - **v0.23 — 2026-10-29:** Marks the **standalone Taco Smell arrival-screen bitmap/XEX and emulator visual test complete**. User approved v3 with **160×128 ANTIC E art + eight ANTIC 2 text rows** and the exact **three-line** burrito/beans warning, including a display-only Fire prompt. Adds completed Phase 1 text-selection item and checks off Phase 5 arrival-XEX visual test; keeps Fire input, screen-to-screen integration and game-wide emulator testing open. **43/157 complete; 114 open**. No source art/XEX binary checked into GitHub.
