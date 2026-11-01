@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Project To-Do List
 
-**Version:** 0.29  
+**Version:** 0.30  
 **Date:** 2026-11-01  
 **Target:** Atari 800XL  
 **Status:** Planning and early design  
@@ -9,10 +9,10 @@
 > Living checklist. An unchecked item is not necessarily an approved requirement; some items are proposed work that depends on design decisions. Update this file as tasks are finished or scope changes.
 
 - **PMG regression and v2.1 hotfix — 2026-10-30:** The first real Atari800 test of the alternate PMG title **v2 failed visually** (stray cyan/white pixels overlapping text/background). Bug confirmed: DMACTL set to $2E **double-line** although 2 KB PMG data was built for **single-line**. The v2 validator mistakenly expected $2E as well. A separate v2.1 XEX and corrected source now use $3E, an adjusted 56-line vertical origin, and explicit tests for correct DMACTL and cleared PM rows over the text. **v2.1 was tested in Atari800 on 2026-11-01 and was visually rejected:** scattered PMG highlights still degrade the logo, Billy and car. The overlay intentionally adds about 220 disconnected pixels; a heavy DLI handler also has insufficient cycle headroom for one scanline. Do not adopt v2/v2.1; preserve the accepted v1 title. No checklist completion change. **Known-good v1 is unaffected**. Checklist completion count is unchanged until the corrected PMG screen passes visually.
-## Status update — 2026-10-30 (following 2026-10-25 audit)
+## Status update — 2026-11-01 (following 2026-10-25 audit)
 
-- **48 of 163 checklist items completed (29%).** Another **115 remain open**. The user **ran the integrated opening v1 in Atari800 and said it worked great**, including START/FIRE screen progression and the selected POKEY soundtrack sequence. An optional **Title v2 with 4 PMG players + 4 missiles** is now separately packaged and committed: fine visual highlights in logo/Billy/car/sign only; the title bitmap/music and all subsequent screen assets remain byte-identical. **Both v2 and corrected v2.1 PMG title XEXs have now been tested and rejected visually in Atari800**; the working v1 intro remains approved. Stage 1 remains a temporary static placeholder, not gameplay.
-- **Phase totals:** Game Design 34/46; Technical Architecture 3/15; First Playable Prototype 0/26; Indoor Gameplay 0/12; Graphics & Animation 8/22; Sound & Music 2/12; Build All Four Levels 0/10; Testing & Release 1/14; Ongoing Maintenance 0/6.
+- **49 of 164 checklist items completed (30%).** Another **115 remain open**. The user **ran the integrated opening v1 in Atari800 and said it worked great**, including START/FIRE screen progression and the selected POKEY soundtrack sequence. An optional **Title v2 with 4 PMG players + 4 missiles** is now separately packaged and committed: fine visual highlights in logo/Billy/car/sign only; the title bitmap/music and all subsequent screen assets remain byte-identical. **Both v2 and corrected v2.1 PMG title XEXs have now been tested and rejected visually in Atari800**; the working v1 intro remains approved. Stage 1 remains a temporary static placeholder, not gameplay. A **formal Taco Smell Stage 1 48×22 tile-map spec and validator** have now been committed in `docs/STAGE1_TILEMAP_SPEC.md`, `assets/maps/` and `tools/`: 3 zones, two passable chokepoints, 751 connected walkable tiles, Billy/hazmat spawns and a rear exit. This is **floor-plan design, not a playable Atari stage**.
+- **Phase totals:** Game Design 34/46; Technical Architecture 3/15; First Playable Prototype 0/26; Indoor Gameplay 1/13; Graphics & Animation 8/22; Sound & Music 2/12; Build All Four Levels 0/10; Testing & Release 1/14; Ongoing Maintenance 0/6.
 - **Repository assets (2026-10-30):** Standalone title/crew/arrival source artwork, XEXs and exact builders remain in `assets/title/`, `assets/intro/`, `assets/arrival/` and `tools/`. POKEY music, original/approximation MP3s and standalone sound-enabled XEXs are in `assets/music/` and **were heard and liked by the user**. The new unified XEX, source, manifest and checks are committed in [`assets/opening/`](../assets/opening/) and `tools/`; **combined visual/music/joystick transitions were tested successfully in the emulator**. The **separate title v2 PMG XEX** and source are tracked under `assets/title_v2/`, with **v2 and v2.1 now visually rejected after emulator tests**. No playable Stage 1 exists yet.
 - **Still empty:** `AGENTS.md` and `docs/TECHNICAL_DESIGN.md`; do not mark them complete merely because the files exist.
 - **Partially specified, not complete:** road-stage **four-way blast controls** and jeans-clad-backside/cloud visual concept are agreed upon, but **implementation and playtesting remain open**, as do precise blast timing/range/knockback, indoor controls and blasts, indoor camera, HUD presentation, failure handling, and final art. **Both standalone intro stills** have been inspected in an emulator; this does **not** constitute testing or integration of a playable game.
@@ -126,6 +126,7 @@ This checklist distinguishes **the two user-tested standalone visual XEX files (
 ## Phase 4 — Indoor Gameplay
 *Goal: Build the reusable engine for the restaurant, pharmacy, grocery store, and house.*
 
+- [x] **Draft and validate a formal Taco Smell restaurant tile-map spec**: overhead 48×22 layout; connected dining/kitchen/storage; exact tile and entity coordinates; solid/walkable collisions; exit and two chokepoints; machine validator confirms 751 reachable floor cells. **Provisional layout only — Stage 1 gameplay, art and Atari800 playtesting remain open.**
 - [ ] Implement the chosen indoor perspective.
 - [ ] Create a basic room and obstacle layout.
 - [ ] Implement player movement and wall collisions.
@@ -225,6 +226,8 @@ This checklist distinguishes **the two user-tested standalone visual XEX files (
 - [ ] Keep source code, art, and documentation synchronized in GitHub.
 
 ## Change Log
+
+- **v0.30 — 2026-11-01:** Creates and commits Codex-ready **Taco Smell Stage 1 tile-map contract** (`docs/STAGE1_TILEMAP_SPEC.md`, `assets/maps/taco_smell_stage1_v01.map`, JSON metadata and technical preview, and `tools/validate_taco_smell_stage1.py`). Validated 48×22 dimensions, two room passages, spawns, exit and cardinal reachability of all 751 traversable tiles. Marks map-design artifact complete; no playable stage XEX exists. **49/164 complete, 115 open**; Indoor Gameplay 1/13.
 
 - **v0.29 — 2026-11-01:** User tested the corrected PMG v2.1 in Atari800 and supplied a screenshot; although the original single-line DMA glitch is reduced, ~220 isolated overlay highlights across the title degrade the artwork. The v2.1 DLI extension also contains excessive per-band register operations for one bitmap scanline, leaving additional raster-timing risk. Both PMG versions are **not accepted**. Keep v1 as the working baseline and pursue a deliberate pixel-art/palette enhancement instead; no checklist completion count changes.
 
