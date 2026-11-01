@@ -1,0 +1,205 @@
+{
+  "schema_version": 1,
+  "map_id": "taco_smell_stage1_v01",
+  "name": "Taco Smell — Restaurant Escape (Stage 1)",
+  "design_status": "prototype layout, subject to emulator playtesting",
+  "terrain_file": "taco_smell_stage1_v01.map",
+  "width_tiles": 48,
+  "height_tiles": 22,
+  "coordinate_system": "(0,0) top-left, x increases right, y increases down; integers only",
+  "tile_pixels_prototype": 8,
+  "terrain": {
+    "#": {
+      "name": "wall",
+      "solid": true
+    },
+    ".": {
+      "name": "floor",
+      "solid": false
+    },
+    "B": {
+      "name": "booth",
+      "solid": true
+    },
+    "T": {
+      "name": "table",
+      "solid": true
+    },
+    "C": {
+      "name": "service_counter",
+      "solid": true
+    },
+    "R": {
+      "name": "drink_station",
+      "solid": true
+    },
+    "K": {
+      "name": "kitchen_equipment",
+      "solid": true
+    },
+    "S": {
+      "name": "shelf_or_crate",
+      "solid": true
+    },
+    "G": {
+      "name": "grease_spill",
+      "solid": false,
+      "effect_v01": "none; reserved for slip mechanics in later build"
+    },
+    "D": {
+      "name": "open_indoor_doorway",
+      "solid": false
+    },
+    "F": {
+      "name": "front_entrance",
+      "solid": false,
+      "effect_v01": "passage/spawn marker; leaving map is forbidden"
+    },
+    "N": {
+      "name": "kitchen_side_entrance",
+      "solid": false,
+      "effect_v01": "later-stage hazmat entrance; leaving map is forbidden"
+    },
+    "X": {
+      "name": "rear_escape_exit",
+      "solid": false,
+      "effect_v01": "touching tile with Billy completes Stage 1"
+    }
+  },
+  "zones": [
+    {
+      "id": "dining",
+      "label": "Dining room",
+      "x_min": 0,
+      "x_max": 17,
+      "y_min": 0,
+      "y_max": 21
+    },
+    {
+      "id": "kitchen",
+      "label": "Kitchen and service",
+      "x_min": 18,
+      "x_max": 33,
+      "y_min": 0,
+      "y_max": 21
+    },
+    {
+      "id": "storage",
+      "label": "Storage and rear exit",
+      "x_min": 34,
+      "x_max": 47,
+      "y_min": 0,
+      "y_max": 21
+    }
+  ],
+  "connections": [
+    {
+      "id": "counter_passage",
+      "zone_from": "dining",
+      "zone_to": "kitchen",
+      "tiles": [
+        [
+          17,
+          12
+        ],
+        [
+          17,
+          13
+        ]
+      ],
+      "open_in_v01": true
+    },
+    {
+      "id": "storage_passage",
+      "zone_from": "kitchen",
+      "zone_to": "storage",
+      "tiles": [
+        [
+          33,
+          9
+        ],
+        [
+          33,
+          10
+        ]
+      ],
+      "open_in_v01": true
+    }
+  ],
+  "actors": [
+    {
+      "id": "billy",
+      "kind": "player",
+      "spawn": [
+        7,
+        13
+      ],
+      "active_in_v01": true
+    },
+    {
+      "id": "hazmat_front",
+      "kind": "hazmat",
+      "spawn": [
+        2,
+        10
+      ],
+      "spawn_delay_seconds": 3,
+      "active_in_v01": true
+    },
+    {
+      "id": "hazmat_service",
+      "kind": "hazmat",
+      "spawn": [
+        27,
+        1
+      ],
+      "spawn_delay_seconds": 35,
+      "active_in_v01": false
+    },
+    {
+      "id": "hazmat_rear",
+      "kind": "hazmat",
+      "spawn": [
+        45,
+        19
+      ],
+      "spawn_delay_seconds": 65,
+      "active_in_v01": false
+    }
+  ],
+  "exit": {
+    "tile": [
+      47,
+      10
+    ],
+    "trigger": "billy_enters_tile",
+    "result": "stage_complete_placeholder"
+  },
+  "prototype_render": {
+    "mode": "40-column Atari character-mode mockup; actual ANTIC choice deferred",
+    "map_window_tiles": [
+      30,
+      22
+    ],
+    "side_panel_columns": 10,
+    "bottom_status_rows": 2,
+    "horizontal_camera": "camera_x = clamp(billy_x - 14, 0, 18); camera_y = 0",
+    "render_order": [
+      "terrain",
+      "hazmat_actors",
+      "billy",
+      "hud"
+    ],
+    "map_tile_glyphs": "Debug glyphs only; final visual charset not selected"
+  },
+  "prototype_rules": {
+    "player_movement": "four cardinal directions; block moves entering a solid tile or leaving map bounds; no diagonal movement",
+    "player_collision": "tile-based for first playable; smoother/sub-tile movement is later work",
+    "enemy_v01": "one hazmat worker appears at 3s, moves toward Billy on non-solid cardinal tiles; pursuit tick/speed requires playtesting",
+    "caught_v01": "show CAUGHT and restart the stage; no life deduction in prototype",
+    "win_v01": "Billy enters X at (47,10); show STAGE COMPLETE rather than launching Road 1 yet",
+    "fire_v01": "not implemented; indoor directional gas-blast controls to be designed/tested later",
+    "grease_v01": "walkable ordinary floor for now",
+    "timing": "70–105 second full-stage pacing is a design target, not guaranteed by this first layout"
+  }
+}
