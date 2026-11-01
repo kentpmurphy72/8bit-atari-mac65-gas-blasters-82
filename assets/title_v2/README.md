@@ -1,3 +1,7 @@
+## EMULATOR TEST RESULT — V2.1 REJECTED (2026-11-01)
+
+The user tested `GasBlasters82_TitleV2_1_PMG_OpeningSequence.xex` in Atari800 and supplied a screenshot. The DMA-memory-layout corruption from v2 is improved, but **v2.1 is not a successful visual enhancement**: disconnected high-contrast glints appear across logo, face and car, making the title worse than v1. The P/M art source deliberately generates approximately **220 independent overlay pixels** from `STROKES` and `MISSILE_ROWS`; these do not increase the underlying ANTIC bitmap detail. In addition, the title DLI extension performs 12 indexed table-load + color/position store pairs per 16-line band (four playfield colors, four player X positions, four player colors), which exceeds a single ANTIC E scanline's available CPU time, introducing raster-timing risk. **Neither PMG v2 nor v2.1 should be adopted.** The proven-good title is `assets/opening/GasBlasters82_OpeningSequence_v1.xex`. Keep these PMG builds only as experiments for future reference. A future title revision should prioritize deliberate ANTIC E artwork/palette refinements, with PMG reserved for coherent shapes rather than scattered highlights.
+
 ## IMPORTANT CORRECTION (v2.1)
 
 **Do not use the earlier `GasBlasters82_TitleV2_PMG_OpeningSequence.xex` from v2.** Its authoring code set DMACTL to `$2E`, which enables **double-line** PM graphics while storing PM data in the **single-line** layout ($A300 for missiles, $A400-$A7FF for players). This makes ANTIC fetch the wrong graphics bytes and produces stray pixels in the title caption/black area. The old validation test erroneously expected `$2E` too.
@@ -6,7 +10,7 @@
 
 # Gas Blasters ’82 — Title Screen v2.1 (PMG bug fix)
 
-**Status:** Corrected alternate PMG XEX for Atari 800XL 64 KB. **Still awaits a visual test in Atari800.** The 6502 instruction-level simulator, XEX layout, PM DMA setup, scene transition and 11 DLI-band tests pass. The original v1 XEX remains untouched.
+**Status:** Retired experimental PMG v2.1 XEX for Atari 800XL 64 KB. **Tested in Atari800 and rejected visually.** The 6502 instruction-level simulator, XEX layout, PM DMA setup, scene transition and 11 DLI-band tests pass. The original v1 XEX remains untouched.
 
 ## What changed
 
