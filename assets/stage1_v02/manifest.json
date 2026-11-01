@@ -1,0 +1,321 @@
+{
+  "output": "GasBlasters82_Stage1_Playable_v02.xex",
+  "sha256": "c42662a012108e5d2850df30fdbb2eefc4aff86dabf2c16ebceed08abdbcad98",
+  "baseline_sha256": "08971fa2ca324e1e5e36bbc7c7d0fe891cb23c568230abb70c93a4f6de3d7e29",
+  "stage_code_bytes": 1984,
+  "labels": {
+    "INPUT": 4096,
+    "FRAME": 4109,
+    "HAVE_ELAPSED": 4119,
+    "START_DOWN": 4142,
+    "FRAME_PLAY": 4151,
+    "PLAY": 4157,
+    "SPAWN_NOW": 4179,
+    "SPAWN_DONE": 4192,
+    "NO_1": 4236,
+    "NO_2": 4249,
+    "NO_4": 4262,
+    "NO_8": 4275,
+    "PLAYER_STEP": 4278,
+    "ENEMY_TICK": 4315,
+    "SAME_ROOM": 4339,
+    "NEW_CHASE": 4358,
+    "RENDER_FRAME": 4379,
+    "RENDER_NOW": 4391,
+    "FRAME_DONE": 4394,
+    "CHECK_CAUGHT": 4395,
+    "CC_DONE": 4429,
+    "INIT": 4430,
+    "MAP_PTR": 4582,
+    "SEEN_PTR": 4614,
+    "WALK": 4633,
+    "BLOCK": 4659,
+    "CHASE": 4662,
+    "CLEAR_PAGE": 4681,
+    "CLEAR_TAIL": 4691,
+    "SEARCH_STEP": 4752,
+    "BFS_LOOP": 4757,
+    "POP": 4775,
+    "PI_693": 4793,
+    "PI_699": 4799,
+    "NEXT_0": 4833,
+    "NEXT_1": 4867,
+    "NEXT_2": 4901,
+    "NEXT_3": 4935,
+    "SEARCH_YIELD": 4943,
+    "VISIT": 4944,
+    "VISIT_DONE": 4990,
+    "ENQUEUE": 4991,
+    "PI_909": 5009,
+    "PI_915": 5015,
+    "FOLLOW": 5016,
+    "FOLLOW_1": 5046,
+    "FOLLOW_2": 5054,
+    "FOLLOW_3": 5062,
+    "FOLLOW_4": 5070,
+    "TRY_MOVE": 5071,
+    "MOVE_PASSABLE": 5077,
+    "DOOR_MOVE": 5101,
+    "LINK_0": 5101,
+    "LINK_OK_0": 5148,
+    "LINK_DONE_0": 5192,
+    "LINK_1": 5193,
+    "LINK_OK_1": 5240,
+    "LINK_DONE_1": 5284,
+    "LINK_2": 5285,
+    "LINK_OK_2": 5332,
+    "LINK_DONE_2": 5376,
+    "LINK_3": 5377,
+    "LINK_OK_3": 5424,
+    "LINK_DONE_3": 5468,
+    "LINK_4": 5469,
+    "FIND_ENTRY": 5470,
+    "ENTRY_ALTERNATES": 5488,
+    "ENTRY_NEXT_0": 5512,
+    "ENTRY_NEXT_1": 5536,
+    "ENTRY_NEXT_2": 5560,
+    "ENTRY_NEXT_3": 5584,
+    "ENTRY_OK": 5587,
+    "ENTRY_WALKABLE": 5593,
+    "AVOID_PLAYER": 5645,
+    "ENTRY_BAD": 5669,
+    "ENTRY_GOOD": 5672,
+    "ROOM_FOLLOW": 5675,
+    "QUEUE_LEFT": 5715,
+    "USE_12": 5736,
+    "USE_01": 5742,
+    "QUEUE_FOLLOW": 5745,
+    "FOLLOW_COUNTDOWN": 5754,
+    "FOLLOW_EXPIRED": 5769,
+    "FOLLOW_ARRIVE": 5774,
+    "FOLLOW_RETRY": 5828,
+    "FOLLOW_RESTORE": 5833,
+    "DRAW": 5843,
+    "DRAW_ROW": 5854,
+    "DRAW_CELL": 5885,
+    "DRAW_ACTORS": 5909,
+    "OVERLAY_PLAYER": 5942,
+    "DRAW_ACTOR": 5965,
+    "DRAW_STATUS": 5989,
+    "STATUS_LOOP": 5991,
+    "CAUGHT_LOOP": 6013,
+    "SUCCESS_TEXT": 6025,
+    "SUCCESS_LOOP": 6027,
+    "DRAW_DONE": 6038,
+    "PX": 6039,
+    "PY": 6040,
+    "EX": 6041,
+    "EY": 6042,
+    "NX": 6043,
+    "NY": 6044,
+    "CX": 6045,
+    "CY": 6046,
+    "STATE": 6047,
+    "TICKS": 6048,
+    "DELAY": 6049,
+    "ACTIVE": 6050,
+    "ARM": 6051,
+    "ENEMY_TIMER": 6052,
+    "JOY": 6053,
+    "DIR": 6054,
+    "FOUND": 6055,
+    "RX": 6056,
+    "RY": 6057,
+    "GLYPH": 6058,
+    "SEARCH": 6059,
+    "BUDGET": 6060,
+    "ROOM": 6061,
+    "EROOM": 6062,
+    "LOOK_ROOM": 6063,
+    "ROW_OFFSET": 6064,
+    "FOLLOW_TIMER": 6065,
+    "FROOM": 6066,
+    "FX": 6067,
+    "FY": 6068,
+    "WHO": 6069,
+    "ENTRY_X": 6070,
+    "ENTRY_Y": 6071,
+    "DOOR_Y_01": 6072,
+    "DOOR_Y_12": 6073,
+    "LINK_Y": 6074,
+    "PREV_FRAME": 6075,
+    "ELAPSED": 6076,
+    "ROOM_OFFSETS": 6077
+  },
+  "opening_labels": {
+    "STARTUP": 8192,
+    "FRAME_WAIT": 8232,
+    "HANDLE_INPUT": 8251,
+    "CHECK_START": 8268,
+    "KEY_STATE": 8273,
+    "BUTTON_DOWN": 8281,
+    "START_FUNK": 8316,
+    "STOP_MUSIC": 8328,
+    "START_OVER": 8340,
+    "BUTTON_DONE": 8354,
+    "SET_SCENE": 8355,
+    "TO_TITLE": 8399,
+    "TO_CREW": 8402,
+    "TO_ARRIVAL": 8405,
+    "DRAW_TITLE": 8408,
+    "DRAW_CREW": 8470,
+    "DRAW_ARRIVAL": 8532,
+    "DRAW_STAGE": 8594,
+    "RESTART_MUSIC": 8656,
+    "ROCK_TEMPO": 8674,
+    "RESET_PHASE": 8684,
+    "SILENCE": 8702,
+    "MUSIC_FRAME": 8717,
+    "MUSIC_DONE": 8748,
+    "WRITE_NOTE": 8749,
+    "ROCK_NOTE": 8759,
+    "ROCK_INC_DONE": 8817,
+    "FUNK_NOTE": 8821,
+    "FUNK_INC_DONE": 8879,
+    "DLI_HANDLER": 8883,
+    "DLI_TITLE": 8908,
+    "DLI_CREW": 8935,
+    "DLI_ARRIVAL": 8962,
+    "DLI_DONE": 8989,
+    "DLI_SAVE": 8996,
+    "SCENE": 9005,
+    "TRACK": 9006,
+    "ARMED": 9007,
+    "DLI_POS": 9008,
+    "FRAME_OLD": 9009,
+    "PHASE_LO": 9010,
+    "PHASE_HI": 9011,
+    "NOTE_INDEX": 9012,
+    "INC_LO": 9013,
+    "INC_HI": 9014,
+    "DLI_VECTOR_LO": 9015,
+    "DLI_VECTOR_HI": 9016
+  },
+  "emulator_tested": false,
+  "segments": [
+    {
+      "start": 736,
+      "bytes": 2
+    },
+    {
+      "start": 4096,
+      "bytes": 1984
+    },
+    {
+      "start": 8192,
+      "bytes": 825
+    },
+    {
+      "start": 10240,
+      "bytes": 80
+    },
+    {
+      "start": 10320,
+      "bytes": 40
+    },
+    {
+      "start": 10360,
+      "bytes": 40
+    },
+    {
+      "start": 10752,
+      "bytes": 1536
+    },
+    {
+      "start": 12288,
+      "bytes": 1024
+    },
+    {
+      "start": 13568,
+      "bytes": 44
+    },
+    {
+      "start": 13616,
+      "bytes": 44
+    },
+    {
+      "start": 13664,
+      "bytes": 44
+    },
+    {
+      "start": 14336,
+      "bytes": 1024
+    },
+    {
+      "start": 15360,
+      "bytes": 176
+    },
+    {
+      "start": 15616,
+      "bytes": 148
+    },
+    {
+      "start": 15872,
+      "bytes": 148
+    },
+    {
+      "start": 16128,
+      "bytes": 32
+    },
+    {
+      "start": 16384,
+      "bytes": 3840
+    },
+    {
+      "start": 20480,
+      "bytes": 2560
+    },
+    {
+      "start": 23040,
+      "bytes": 160
+    },
+    {
+      "start": 24576,
+      "bytes": 3840
+    },
+    {
+      "start": 28672,
+      "bytes": 1280
+    },
+    {
+      "start": 30208,
+      "bytes": 320
+    },
+    {
+      "start": 32768,
+      "bytes": 3840
+    },
+    {
+      "start": 36864,
+      "bytes": 1280
+    },
+    {
+      "start": 38400,
+      "bytes": 320
+    },
+    {
+      "start": 40960,
+      "bytes": 2640
+    },
+    {
+      "start": 43648,
+      "bytes": 132
+    },
+    {
+      "start": 43792,
+      "bytes": 44
+    },
+    {
+      "start": 43840,
+      "bytes": 44
+    },
+    {
+      "start": 44032,
+      "bytes": 1024
+    },
+    {
+      "start": 45056,
+      "bytes": 960
+    }
+  ]
+}

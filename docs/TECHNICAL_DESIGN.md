@@ -26,3 +26,21 @@ Run both map validators, CPU/runtime tests of four doors, y-preserving spawn, tr
 ## Other stages
 
 The room-to-room design is **specific to Taco Smell Stage 1**. Pharmacy scrolling is an available design option; a scrolling grocery aisle chase with police, hazmat workers and townspeople is the intended direction but not yet technically specified. Driving road stages still use the separate overhead-scrolling driving/HUD design. All game-wide technical decisions remain open (final graphics modes, PMG for moving sprites, global memory map and frame timing, game distribution, lives, score and other levels).
+
+## Implemented v0.2 prototype (feature branch, awaiting Atari800)
+
+- Runtime byte-emitter source: `tools/build_stage1_v02.py`; generated listing,
+  manifest, XEX and full memory/timing/build notes: [assets/stage1_v02/README.md](../assets/stage1_v02/README.md).
+- Three immutable 880-byte maps at $A000–$AA4F; room-indexed row pointers; shared
+  40×24 ANTIC 2 framebuffer at $B000. No camera. All segments remain below $C000; BASIC off.
+- Persistent `ROOM`/`EROOM`, one active flag, one queued adjacent follow link and
+  90-frame timer. Backtracking to the worker's room cancels that link. Intermediate
+  room arrivals precede subsequent follow scheduling; no cloning or spawn reset.
+- Shared collision-aware entry selection avoids the other actor's tile. In-room
+  BFS is incremental; room changes invalidate stale search data. Spawn/follow
+  timers subtract elapsed RTCLOK/VBI ticks, including wraparound.
+- Sixteen v0.2 6502 CPU tests, nine retained v0.1 tests, both map validators and
+  opening regression validation pass. This is automated CPU/data validation,
+  not Atari800 visual/audio/controller acceptance or real-hardware validation.
+- v0.1 maps/builder/tests/XEX and the original opening-v1 XEX remain unchanged.
+  The v0.2 feature branch is not merged into main.

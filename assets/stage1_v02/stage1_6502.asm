@@ -1,0 +1,984 @@
+; Generated from tools/build_stage1_v02.py; authoritative source is byte emitter
+    *= $1000
+INPUT:
+    LDA $232D
+    CMP #$03
+    BEQ FRAME
+    LDA $232D
+    JMP $203E
+FRAME:
+    LDA $14
+    SEC
+    SBC PREV_FRAME
+    BNE HAVE_ELAPSED
+    LDA #$01
+HAVE_ELAPSED:
+    STA ELAPSED
+    LDA $14
+    STA PREV_FRAME
+    LDA $D01F
+    AND #$01
+    BEQ START_DOWN
+    LDA #$01
+    STA ARM
+    JMP FRAME_PLAY
+START_DOWN:
+    LDA ARM
+    BEQ FRAME_PLAY
+    JSR INIT
+    RTS
+FRAME_PLAY:
+    LDA STATE
+    BEQ PLAY
+    RTS
+PLAY:
+    INC TICKS
+    LDA ACTIVE
+    BNE SPAWN_DONE
+    LDA DELAY
+    SEC
+    SBC ELAPSED
+    BCC SPAWN_NOW
+    STA DELAY
+    BNE SPAWN_DONE
+SPAWN_NOW:
+    LDA #$00
+    STA DELAY
+    LDA #$01
+    STA ACTIVE
+    JSR CHECK_CAUGHT
+SPAWN_DONE:
+    LDA ROOM
+    STA LOOK_ROOM
+    LDA TICKS
+    AND #$07
+    BNE ENEMY_TICK
+    LDA PX
+    STA NX
+    LDA PY
+    STA NY
+    LDA $D300
+    STA JOY
+    LDA JOY
+    AND #$01
+    BNE NO_1
+    DEC NY
+    JMP PLAYER_STEP
+NO_1:
+    LDA JOY
+    AND #$02
+    BNE NO_2
+    INC NY
+    JMP PLAYER_STEP
+NO_2:
+    LDA JOY
+    AND #$04
+    BNE NO_4
+    DEC NX
+    JMP PLAYER_STEP
+NO_4:
+    LDA JOY
+    AND #$08
+    BNE NO_8
+    INC NX
+    JMP PLAYER_STEP
+NO_8:
+    JMP ENEMY_TICK
+PLAYER_STEP:
+    JSR TRY_MOVE
+    JSR CHECK_CAUGHT
+    LDA STATE
+    BNE ENEMY_TICK
+    LDA ROOM
+    CMP #$02
+    BNE ENEMY_TICK
+    LDA PX
+    CMP #$27
+    BNE ENEMY_TICK
+    LDA PY
+    CMP #$0A
+    BNE ENEMY_TICK
+    LDA #$02
+    STA STATE
+ENEMY_TICK:
+    LDA STATE
+    BNE RENDER_FRAME
+    LDA ACTIVE
+    BEQ RENDER_FRAME
+    LDA ROOM
+    CMP EROOM
+    BEQ SAME_ROOM
+    JSR ROOM_FOLLOW
+    JMP RENDER_FRAME
+SAME_ROOM:
+    LDA #$00
+    STA FOLLOW_TIMER
+    LDA SEARCH
+    BEQ NEW_CHASE
+    JSR SEARCH_STEP
+    JSR CHECK_CAUGHT
+    JMP RENDER_FRAME
+NEW_CHASE:
+    INC ENEMY_TIMER
+    LDA ENEMY_TIMER
+    CMP #$10
+    BCC RENDER_FRAME
+    LDA #$00
+    STA ENEMY_TIMER
+    JSR CHASE
+    JSR CHECK_CAUGHT
+RENDER_FRAME:
+    LDA STATE
+    BNE RENDER_NOW
+    LDA TICKS
+    AND #$07
+    BNE FRAME_DONE
+RENDER_NOW:
+    JSR DRAW
+FRAME_DONE:
+    RTS
+CHECK_CAUGHT:
+    LDA ACTIVE
+    BEQ CC_DONE
+    LDA ROOM
+    CMP EROOM
+    BNE CC_DONE
+    LDA PX
+    CMP EX
+    BNE CC_DONE
+    LDA PY
+    CMP EY
+    BNE CC_DONE
+    LDA #$01
+    STA STATE
+CC_DONE:
+    RTS
+INIT:
+    LDA #$00
+    STA $D40E
+    STA STATE
+    STA TICKS
+    STA ACTIVE
+    STA ARM
+    STA ENEMY_TIMER
+    STA SEARCH
+    STA ROOM
+    STA EROOM
+    STA LOOK_ROOM
+    STA FOLLOW_TIMER
+    LDA $14
+    STA PREV_FRAME
+    LDA #$B4
+    STA DELAY
+    LDA #$0A
+    STA DOOR_Y_01
+    STA DOOR_Y_12
+    LDA #$07
+    STA PX
+    LDA #$0F
+    STA PY
+    LDA #$02
+    STA EX
+    LDA #$0A
+    STA EY
+    LDA #$00
+    STA $0230
+    LDA #$3F
+    STA $0231
+    LDA #$00
+    STA $D402
+    LDA #$3F
+    STA $D403
+    LDA #$AC
+    STA $02F4
+    LDA #$AC
+    STA $D409
+    LDA #$22
+    STA $022F
+    LDA #$22
+    STA $D400
+    LDA #$0E
+    STA $02C5
+    LDA #$0E
+    STA $D017
+    LDA #$00
+    STA $02C6
+    LDA #$00
+    STA $D018
+    LDA #$00
+    STA $02C8
+    LDA #$00
+    STA $D01A
+    LDA #$40
+    STA $D40E
+    JSR DRAW
+    RTS
+MAP_PTR:
+    LDA NY
+    ASL A
+    STA ROW_OFFSET
+    LDX LOOK_ROOM
+    LDA ROOM_OFFSETS,X
+    CLC
+    ADC ROW_OFFSET
+    TAX
+    LDA $AA80
+    STA $80
+    LDA $AA81
+    STA $81
+    LDY NX
+    RTS
+SEEN_PTR:
+    LDA NY
+    ASL A
+    TAX
+    LDA $AB40
+    STA $82
+    LDA $AB41
+    STA $83
+    LDY NX
+    RTS
+WALK:
+    LDA NX
+    CMP #$28
+    BCS BLOCK
+    LDA NY
+    CMP #$16
+    BCS BLOCK
+    JSR MAP_PTR
+    LDA ($80),Y
+    AND #$80
+    BNE BLOCK
+    LDA #$01
+    RTS
+BLOCK:
+    LDA #$00
+    RTS
+CHASE:
+    LDA #$01
+    STA SEARCH
+    LDA #$00
+    STA $82
+    LDA #$98
+    STA $83
+    LDY #$00
+    LDA #$00
+    LDX #$03
+CLEAR_PAGE:
+    STA ($82),Y
+    INY
+    BNE CLEAR_PAGE
+    INC $83
+    DEX
+    BNE CLEAR_PAGE
+CLEAR_TAIL:
+    STA ($82),Y
+    INY
+    CPY #$70
+    BNE CLEAR_TAIL
+    LDA #$00
+    STA $84
+    LDA #$B4
+    STA $85
+    LDA #$00
+    STA $86
+    LDA #$B9
+    STA $87
+    LDA #$00
+    STA $88
+    LDA #$B4
+    STA $89
+    LDA #$00
+    STA $8A
+    LDA #$B9
+    STA $8B
+    LDA PX
+    STA NX
+    LDA PY
+    STA NY
+    JSR SEEN_PTR
+    LDA #$05
+    STA ($82),Y
+    JSR ENQUEUE
+SEARCH_STEP:
+    LDA #$08
+    STA BUDGET
+BFS_LOOP:
+    LDA $84
+    CMP $88
+    BNE POP
+    LDA $85
+    CMP $89
+    BNE POP
+    LDA #$00
+    STA SEARCH
+    RTS
+POP:
+    LDY #$00
+    LDA ($88),Y
+    STA CX
+    LDA ($8A),Y
+    STA CY
+    INC $88
+    BNE PI_693
+    INC $89
+PI_693:
+    INC $8A
+    BNE PI_699
+    INC $8B
+PI_699:
+    LDA CX
+    CLC
+    ADC #$00
+    STA NX
+    LDA CY
+    CLC
+    ADC #$FF
+    STA NY
+    LDA #$02
+    STA DIR
+    JSR VISIT
+    LDA FOUND
+    BEQ NEXT_0
+    JMP FOLLOW
+NEXT_0:
+    LDA CX
+    CLC
+    ADC #$00
+    STA NX
+    LDA CY
+    CLC
+    ADC #$01
+    STA NY
+    LDA #$01
+    STA DIR
+    JSR VISIT
+    LDA FOUND
+    BEQ NEXT_1
+    JMP FOLLOW
+NEXT_1:
+    LDA CX
+    CLC
+    ADC #$FF
+    STA NX
+    LDA CY
+    CLC
+    ADC #$00
+    STA NY
+    LDA #$04
+    STA DIR
+    JSR VISIT
+    LDA FOUND
+    BEQ NEXT_2
+    JMP FOLLOW
+NEXT_2:
+    LDA CX
+    CLC
+    ADC #$01
+    STA NX
+    LDA CY
+    CLC
+    ADC #$00
+    STA NY
+    LDA #$03
+    STA DIR
+    JSR VISIT
+    LDA FOUND
+    BEQ NEXT_3
+    JMP FOLLOW
+NEXT_3:
+    DEC BUDGET
+    BEQ SEARCH_YIELD
+    JMP BFS_LOOP
+SEARCH_YIELD:
+    RTS
+VISIT:
+    LDA #$00
+    STA FOUND
+    JSR WALK
+    BEQ VISIT_DONE
+    JSR SEEN_PTR
+    LDA ($82),Y
+    BNE VISIT_DONE
+    LDA DIR
+    STA ($82),Y
+    JSR ENQUEUE
+    LDA NX
+    CMP EX
+    BNE VISIT_DONE
+    LDA NY
+    CMP EY
+    BNE VISIT_DONE
+    LDA #$01
+    STA FOUND
+VISIT_DONE:
+    RTS
+ENQUEUE:
+    LDY #$00
+    LDA NX
+    STA ($84),Y
+    LDA NY
+    STA ($86),Y
+    INC $84
+    BNE PI_909
+    INC $85
+PI_909:
+    INC $86
+    BNE PI_915
+    INC $87
+PI_915:
+    RTS
+FOLLOW:
+    LDA #$00
+    STA SEARCH
+    LDA EX
+    STA NX
+    LDA EY
+    STA NY
+    JSR SEEN_PTR
+    LDA ($82),Y
+    CMP #$01
+    BNE FOLLOW_1
+    DEC EY
+    RTS
+FOLLOW_1:
+    CMP #$02
+    BNE FOLLOW_2
+    INC EY
+    RTS
+FOLLOW_2:
+    CMP #$03
+    BNE FOLLOW_3
+    DEC EX
+    RTS
+FOLLOW_3:
+    CMP #$04
+    BNE FOLLOW_4
+    INC EX
+    RTS
+FOLLOW_4:
+    RTS
+TRY_MOVE:
+    JSR WALK
+    BNE MOVE_PASSABLE
+    RTS
+MOVE_PASSABLE:
+    JSR MAP_PTR
+    LDA ($80),Y
+    AND #$7F
+    CMP #$09
+    BEQ DOOR_MOVE
+    LDA NX
+    STA PX
+    LDA NY
+    STA PY
+    RTS
+DOOR_MOVE:
+LINK_0:
+    LDA ROOM
+    CMP #$00
+    BNE LINK_1
+    LDA NX
+    CMP #$27
+    BNE LINK_1
+    LDA NY
+    STA LINK_Y
+    LDA #$01
+    STA LOOK_ROOM
+    LDA #$01
+    STA NX
+    LDA #$00
+    STA WHO
+    JSR FIND_ENTRY
+    BNE LINK_OK_0
+    LDA ROOM
+    STA LOOK_ROOM
+    RTS
+LINK_OK_0:
+    LDA LINK_Y
+    STA DOOR_Y_01
+    LDA #$01
+    STA ROOM
+    LDA NX
+    STA PX
+    LDA NY
+    STA PY
+    LDA #$00
+    STA SEARCH
+    STA ENEMY_TIMER
+    LDA ROOM
+    CMP EROOM
+    BNE LINK_DONE_0
+    LDA #$00
+    STA FOLLOW_TIMER
+LINK_DONE_0:
+    RTS
+LINK_1:
+    LDA ROOM
+    CMP #$01
+    BNE LINK_2
+    LDA NX
+    CMP #$00
+    BNE LINK_2
+    LDA NY
+    STA LINK_Y
+    LDA #$00
+    STA LOOK_ROOM
+    LDA #$26
+    STA NX
+    LDA #$00
+    STA WHO
+    JSR FIND_ENTRY
+    BNE LINK_OK_1
+    LDA ROOM
+    STA LOOK_ROOM
+    RTS
+LINK_OK_1:
+    LDA LINK_Y
+    STA DOOR_Y_01
+    LDA #$00
+    STA ROOM
+    LDA NX
+    STA PX
+    LDA NY
+    STA PY
+    LDA #$00
+    STA SEARCH
+    STA ENEMY_TIMER
+    LDA ROOM
+    CMP EROOM
+    BNE LINK_DONE_1
+    LDA #$00
+    STA FOLLOW_TIMER
+LINK_DONE_1:
+    RTS
+LINK_2:
+    LDA ROOM
+    CMP #$01
+    BNE LINK_3
+    LDA NX
+    CMP #$27
+    BNE LINK_3
+    LDA NY
+    STA LINK_Y
+    LDA #$02
+    STA LOOK_ROOM
+    LDA #$01
+    STA NX
+    LDA #$00
+    STA WHO
+    JSR FIND_ENTRY
+    BNE LINK_OK_2
+    LDA ROOM
+    STA LOOK_ROOM
+    RTS
+LINK_OK_2:
+    LDA LINK_Y
+    STA DOOR_Y_12
+    LDA #$02
+    STA ROOM
+    LDA NX
+    STA PX
+    LDA NY
+    STA PY
+    LDA #$00
+    STA SEARCH
+    STA ENEMY_TIMER
+    LDA ROOM
+    CMP EROOM
+    BNE LINK_DONE_2
+    LDA #$00
+    STA FOLLOW_TIMER
+LINK_DONE_2:
+    RTS
+LINK_3:
+    LDA ROOM
+    CMP #$02
+    BNE LINK_4
+    LDA NX
+    CMP #$00
+    BNE LINK_4
+    LDA NY
+    STA LINK_Y
+    LDA #$01
+    STA LOOK_ROOM
+    LDA #$26
+    STA NX
+    LDA #$00
+    STA WHO
+    JSR FIND_ENTRY
+    BNE LINK_OK_3
+    LDA ROOM
+    STA LOOK_ROOM
+    RTS
+LINK_OK_3:
+    LDA LINK_Y
+    STA DOOR_Y_12
+    LDA #$01
+    STA ROOM
+    LDA NX
+    STA PX
+    LDA NY
+    STA PY
+    LDA #$00
+    STA SEARCH
+    STA ENEMY_TIMER
+    LDA ROOM
+    CMP EROOM
+    BNE LINK_DONE_3
+    LDA #$00
+    STA FOLLOW_TIMER
+LINK_DONE_3:
+    RTS
+LINK_4:
+    RTS
+FIND_ENTRY:
+    LDA NX
+    STA ENTRY_X
+    LDA NY
+    STA ENTRY_Y
+    JSR ENTRY_OK
+    BEQ ENTRY_ALTERNATES
+    RTS
+ENTRY_ALTERNATES:
+    LDA ENTRY_X
+    CLC
+    ADC #$00
+    STA NX
+    LDA ENTRY_Y
+    CLC
+    ADC #$FF
+    STA NY
+    JSR ENTRY_OK
+    BEQ ENTRY_NEXT_0
+    RTS
+ENTRY_NEXT_0:
+    LDA ENTRY_X
+    CLC
+    ADC #$00
+    STA NX
+    LDA ENTRY_Y
+    CLC
+    ADC #$01
+    STA NY
+    JSR ENTRY_OK
+    BEQ ENTRY_NEXT_1
+    RTS
+ENTRY_NEXT_1:
+    LDA ENTRY_X
+    CLC
+    ADC #$01
+    STA NX
+    LDA ENTRY_Y
+    CLC
+    ADC #$00
+    STA NY
+    JSR ENTRY_OK
+    BEQ ENTRY_NEXT_2
+    RTS
+ENTRY_NEXT_2:
+    LDA ENTRY_X
+    CLC
+    ADC #$FF
+    STA NX
+    LDA ENTRY_Y
+    CLC
+    ADC #$00
+    STA NY
+    JSR ENTRY_OK
+    BEQ ENTRY_NEXT_3
+    RTS
+ENTRY_NEXT_3:
+    LDA #$00
+    RTS
+ENTRY_OK:
+    JSR WALK
+    BNE ENTRY_WALKABLE
+    RTS
+ENTRY_WALKABLE:
+    JSR MAP_PTR
+    LDA ($80),Y
+    AND #$7F
+    CMP #$09
+    BEQ ENTRY_BAD
+    CMP #$0C
+    BEQ ENTRY_BAD
+    LDA WHO
+    BNE AVOID_PLAYER
+    LDA ACTIVE
+    BEQ ENTRY_GOOD
+    LDA EROOM
+    CMP LOOK_ROOM
+    BNE ENTRY_GOOD
+    LDA EX
+    CMP NX
+    BNE ENTRY_GOOD
+    LDA EY
+    CMP NY
+    BNE ENTRY_GOOD
+    JMP ENTRY_BAD
+AVOID_PLAYER:
+    LDA ROOM
+    CMP LOOK_ROOM
+    BNE ENTRY_GOOD
+    LDA PX
+    CMP NX
+    BNE ENTRY_GOOD
+    LDA PY
+    CMP NY
+    BNE ENTRY_GOOD
+ENTRY_BAD:
+    LDA #$00
+    RTS
+ENTRY_GOOD:
+    LDA #$01
+    RTS
+ROOM_FOLLOW:
+    LDA #$00
+    STA SEARCH
+    LDA FOLLOW_TIMER
+    BNE FOLLOW_COUNTDOWN
+    LDA EROOM
+    CMP ROOM
+    BCS QUEUE_LEFT
+    LDA EROOM
+    CLC
+    ADC #$01
+    STA FROOM
+    LDA #$01
+    STA FX
+    LDA EROOM
+    BEQ USE_01
+    JMP USE_12
+QUEUE_LEFT:
+    LDA EROOM
+    CLC
+    ADC #$FF
+    STA FROOM
+    LDA #$26
+    STA FX
+    LDA EROOM
+    CMP #$01
+    BEQ USE_01
+USE_12:
+    LDA DOOR_Y_12
+    JMP QUEUE_FOLLOW
+USE_01:
+    LDA DOOR_Y_01
+QUEUE_FOLLOW:
+    STA FY
+    LDA #$5A
+    STA FOLLOW_TIMER
+    RTS
+FOLLOW_COUNTDOWN:
+    LDA FOLLOW_TIMER
+    SEC
+    SBC ELAPSED
+    BCC FOLLOW_EXPIRED
+    STA FOLLOW_TIMER
+    BEQ FOLLOW_ARRIVE
+    RTS
+FOLLOW_EXPIRED:
+    LDA #$00
+    STA FOLLOW_TIMER
+FOLLOW_ARRIVE:
+    LDA FROOM
+    STA LOOK_ROOM
+    LDA FX
+    STA NX
+    LDA FY
+    STA NY
+    LDA #$01
+    STA WHO
+    JSR FIND_ENTRY
+    BEQ FOLLOW_RETRY
+    LDA FROOM
+    STA EROOM
+    LDA NX
+    STA EX
+    LDA NY
+    STA EY
+    LDA #$00
+    STA ENEMY_TIMER
+    JMP FOLLOW_RESTORE
+FOLLOW_RETRY:
+    LDA #$01
+    STA FOLLOW_TIMER
+FOLLOW_RESTORE:
+    LDA ROOM
+    STA LOOK_ROOM
+    JSR CHECK_CAUGHT
+    RTS
+DRAW:
+    LDA ROOM
+    STA LOOK_ROOM
+    LDA #$00
+    STA RY
+DRAW_ROW:
+    LDA RY
+    STA NY
+    LDA #$00
+    STA NX
+    JSR MAP_PTR
+    LDA RY
+    ASL A
+    TAX
+    LDA $AB10
+    STA $82
+    LDA $AB11
+    STA $83
+    LDY #$00
+DRAW_CELL:
+    LDA ($80),Y
+    AND #$7F
+    STA ($82),Y
+    INY
+    CPY #$28
+    BCC DRAW_CELL
+    INC RY
+    LDA RY
+    CMP #$16
+    BCS DRAW_ACTORS
+    JMP DRAW_ROW
+DRAW_ACTORS:
+    LDA ACTIVE
+    BEQ OVERLAY_PLAYER
+    LDA EROOM
+    CMP ROOM
+    BNE OVERLAY_PLAYER
+    LDA EX
+    STA NX
+    LDA EY
+    STA NY
+    LDA #$0F
+    STA GLYPH
+    JSR DRAW_ACTOR
+OVERLAY_PLAYER:
+    LDA PX
+    STA NX
+    LDA PY
+    STA NY
+    LDA #$0E
+    STA GLYPH
+    JSR DRAW_ACTOR
+    JMP DRAW_STATUS
+DRAW_ACTOR:
+    LDA NY
+    ASL A
+    TAX
+    LDA $AB10
+    STA $82
+    LDA $AB11
+    STA $83
+    LDY NX
+    LDA GLYPH
+    STA ($82),Y
+    RTS
+DRAW_STATUS:
+    LDX #$00
+STATUS_LOOP:
+    LDA $2800
+    STA $B370
+    INX
+    CPX #$50
+    BCC STATUS_LOOP
+    LDA STATE
+    BEQ DRAW_DONE
+    CMP #$01
+    BNE SUCCESS_TEXT
+    LDX #$00
+CAUGHT_LOOP:
+    LDA $2850
+    STA $B370
+    INX
+    CPX #$28
+    BCC CAUGHT_LOOP
+    RTS
+SUCCESS_TEXT:
+    LDX #$00
+SUCCESS_LOOP:
+    LDA $2878
+    STA $B370
+    INX
+    CPX #$28
+    BCC SUCCESS_LOOP
+DRAW_DONE:
+    RTS
+PX:
+    .BYTE $00
+PY:
+    .BYTE $00
+EX:
+    .BYTE $00
+EY:
+    .BYTE $00
+NX:
+    .BYTE $00
+NY:
+    .BYTE $00
+CX:
+    .BYTE $00
+CY:
+    .BYTE $00
+STATE:
+    .BYTE $00
+TICKS:
+    .BYTE $00
+DELAY:
+    .BYTE $00
+ACTIVE:
+    .BYTE $00
+ARM:
+    .BYTE $00
+ENEMY_TIMER:
+    .BYTE $00
+JOY:
+    .BYTE $00
+DIR:
+    .BYTE $00
+FOUND:
+    .BYTE $00
+RX:
+    .BYTE $00
+RY:
+    .BYTE $00
+GLYPH:
+    .BYTE $00
+SEARCH:
+    .BYTE $00
+BUDGET:
+    .BYTE $00
+ROOM:
+    .BYTE $00
+EROOM:
+    .BYTE $00
+LOOK_ROOM:
+    .BYTE $00
+ROW_OFFSET:
+    .BYTE $00
+FOLLOW_TIMER:
+    .BYTE $00
+FROOM:
+    .BYTE $00
+FX:
+    .BYTE $00
+FY:
+    .BYTE $00
+WHO:
+    .BYTE $00
+ENTRY_X:
+    .BYTE $00
+ENTRY_Y:
+    .BYTE $00
+DOOR_Y_01:
+    .BYTE $00
+DOOR_Y_12:
+    .BYTE $00
+LINK_Y:
+    .BYTE $00
+PREV_FRAME:
+    .BYTE $00
+ELAPSED:
+    .BYTE $00
+ROOM_OFFSETS:
+    .BYTE $00,$2C,$58
