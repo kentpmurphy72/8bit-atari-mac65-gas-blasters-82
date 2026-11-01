@@ -1,5 +1,7 @@
 # Gas Blasters '82 — Stage 1 Tile-Map Contract v0.1
 
+> **Legacy scrolling v0.1 contract.** Retained for the user-played prototype and regression tests. **For Stage 1 v0.2, use [three fixed-room maps](STAGE1_ROOMMAP_SPEC_V02.md) and the [Codex v0.2 handoff](CODEX_STAGE1_V02_HANDOFF.md).** Do not use the v0.1 48×22 scrolling layout as the authoritative v0.2 plan.
+
 **Status:** Proposed implementation-ready prototype layout; not yet approved by gameplay testing.  
 **Date:** 2026-11-01  
 **Target:** Atari 800XL, 6502 assembly, MAC/65-friendly data.  
