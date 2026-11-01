@@ -1,0 +1,325 @@
+{
+  "schema_version": 2,
+  "level_id": "taco_smell_stage1",
+  "map_version": "v02",
+  "design_status": "approved room-to-room concept; exact layout provisional until playtested",
+  "display": {
+    "tile_columns": 40,
+    "tile_rows": 22,
+    "tile_pixels": [
+      8,
+      8
+    ],
+    "status_rows": 2,
+    "atari_text_columns": 40,
+    "atari_text_rows": 24,
+    "scrolling": false,
+    "room_replaces_screen": true,
+    "viewport_origin": [
+      0,
+      0
+    ]
+  },
+  "coordinate_system": "zero-based per-room (x,y), top-left origin, x right, y down",
+  "terrain": {
+    "#": {
+      "label": "wall",
+      "solid": true
+    },
+    ".": {
+      "label": "floor",
+      "solid": false
+    },
+    "B": {
+      "label": "booth",
+      "solid": true
+    },
+    "T": {
+      "label": "table_or_prep_table",
+      "solid": true
+    },
+    "C": {
+      "label": "counter",
+      "solid": true
+    },
+    "R": {
+      "label": "drink_station_or_cooler",
+      "solid": true
+    },
+    "K": {
+      "label": "kitchen_equipment",
+      "solid": true
+    },
+    "S": {
+      "label": "storage_shelves_and_crates",
+      "solid": true
+    },
+    "G": {
+      "label": "grease",
+      "solid": false,
+      "effect_v02": "normal walkable floor; slipping deferred"
+    },
+    "D": {
+      "label": "room_doorway",
+      "solid": false,
+      "effect_v02": "trigger linked room transition on player entering tile"
+    },
+    "F": {
+      "label": "front_entrance",
+      "solid": false,
+      "effect_v02": "hazmat spawn; no player room transition"
+    },
+    "N": {
+      "label": "side_service_entrance",
+      "solid": false,
+      "effect_v02": "future hazmat spawn; no transition"
+    },
+    "X": {
+      "label": "rear_exit",
+      "solid": false,
+      "effect_v02": "Stage 1 complete on Billy entering tile"
+    }
+  },
+  "room_order": [
+    "dining",
+    "kitchen",
+    "storage"
+  ],
+  "rooms": {
+    "dining": {
+      "label": "Dining Room",
+      "map_file": "taco_smell_stage1_v02_dining.map",
+      "player_spawn": [
+        7,
+        15
+      ],
+      "entry_from_kitchen": [
+        38,
+        10
+      ],
+      "hazmat_spawns": [
+        {
+          "id": "hazmat_front",
+          "xy": [
+            2,
+            10
+          ],
+          "delay_frames_ntsc": 180,
+          "enabled": true
+        }
+      ],
+      "door_tiles": [
+        [
+          39,
+          10
+        ],
+        [
+          39,
+          11
+        ]
+      ],
+      "front_entrance": [
+        0,
+        10
+      ],
+      "challenge": "open maneuvering, tables, booths, hazmat introduction"
+    },
+    "kitchen": {
+      "label": "Kitchen / Service",
+      "map_file": "taco_smell_stage1_v02_kitchen.map",
+      "entry_from_dining": [
+        1,
+        10
+      ],
+      "entry_from_storage": [
+        38,
+        10
+      ],
+      "hazmat_spawns": [
+        {
+          "id": "hazmat_side_future",
+          "xy": [
+            22,
+            1
+          ],
+          "enabled": false
+        }
+      ],
+      "door_tiles": [
+        [
+          0,
+          10
+        ],
+        [
+          0,
+          11
+        ],
+        [
+          39,
+          10
+        ],
+        [
+          39,
+          11
+        ]
+      ],
+      "side_entrance": [
+        22,
+        0
+      ],
+      "challenge": "tighter lanes, fixed fryers and prep tables; grease inert in v0.2"
+    },
+    "storage": {
+      "label": "Storage / Back Exit",
+      "map_file": "taco_smell_stage1_v02_storage.map",
+      "entry_from_kitchen": [
+        1,
+        10
+      ],
+      "hazmat_spawns": [
+        {
+          "id": "hazmat_rear_future",
+          "xy": [
+            35,
+            19
+          ],
+          "enabled": false
+        }
+      ],
+      "door_tiles": [
+        [
+          0,
+          10
+        ],
+        [
+          0,
+          11
+        ]
+      ],
+      "rear_exit": [
+        39,
+        10
+      ],
+      "challenge": "shelving/slalom and final escape; no added hazmat in v0.2"
+    }
+  },
+  "transitions": [
+    {
+      "from": "dining",
+      "trigger_tiles": [
+        [
+          39,
+          10
+        ],
+        [
+          39,
+          11
+        ]
+      ],
+      "to": "kitchen",
+      "entry_x": 1,
+      "preserve_y": true,
+      "entry_fallback": [
+        1,
+        10
+      ]
+    },
+    {
+      "from": "kitchen",
+      "trigger_tiles": [
+        [
+          0,
+          10
+        ],
+        [
+          0,
+          11
+        ]
+      ],
+      "to": "dining",
+      "entry_x": 38,
+      "preserve_y": true,
+      "entry_fallback": [
+        38,
+        10
+      ]
+    },
+    {
+      "from": "kitchen",
+      "trigger_tiles": [
+        [
+          39,
+          10
+        ],
+        [
+          39,
+          11
+        ]
+      ],
+      "to": "storage",
+      "entry_x": 1,
+      "preserve_y": true,
+      "entry_fallback": [
+        1,
+        10
+      ]
+    },
+    {
+      "from": "storage",
+      "trigger_tiles": [
+        [
+          0,
+          10
+        ],
+        [
+          0,
+          11
+        ]
+      ],
+      "to": "kitchen",
+      "entry_x": 38,
+      "preserve_y": true,
+      "entry_fallback": [
+        38,
+        10
+      ]
+    }
+  ],
+  "objective": {
+    "kind": "touch_tile",
+    "room": "storage",
+    "tile": [
+      39,
+      10
+    ],
+    "result": "stage_complete_placeholder_no_road1"
+  },
+  "gameplay_v02": {
+    "input": "one joystick cardinal step per movement tick; Fire NOT used for a gas attack yet; cutscene Fire unchanged",
+    "player_collision": "solid tiles and map bounds block; D and X are walkable triggers; one axis per tick",
+    "movement": "tile steps acceptable; preserve responsive cadence from v0.1 if practical",
+    "hazmat": "One initial hazmat pursuer, activated at 180 NTSC frames (~3 seconds); cardinal walkable pursuit within its room. Preserve the same entity across room transitions; it must not vanish or duplicate.",
+    "hazmat_room_follow": "When Billy crosses a linked doorway with the pursuer in the old room, keep the pursuer state and queue a chase through the same doorway 90 NTSC frames (~1.5s) later. Enter through the adjacent room's inward spawn (x=1 or x=38, same doorway y), finding a neighboring walkable unoccupied tile if required. If Billy backtracks before this follow completes, cancel the pending follow and resume the preserved original-room pursuer. A pursuer in an intermediate room must follow subsequent linked rooms sequentially, never teleport across nonadjacent rooms. Do not respawn from the initial spawn on room load.",
+    "optional_future_hazmat": "Side kitchen and storage markers remain disabled in this prototype.",
+    "restart": "Caught -> show CAUGHT and allow START stage-only reset (room dining, Billy and one pursuer reset); no life deduction yet.",
+    "backtrack": "Player may reverse through the same D doorway; do not reset fixed room layout or pursuer state.",
+    "exit": "Billy entering X in storage displays STAGE COMPLETE, silent placeholder; do not launch Road 1 yet.",
+    "non_goals": [
+      "camera scrolling",
+      "gas blast",
+      "grease sliding",
+      "multiple live enemies",
+      "time gates",
+      "collectible keys",
+      "new cutscenes",
+      "new title graphics"
+    ]
+  },
+  "preservation": {
+    "opening": "assets/opening/GasBlasters82_OpeningSequence_v1.xex",
+    "source_branch": "feature/stage1-playable-v0.1",
+    "reference_map_v01": "assets/maps/taco_smell_stage1_v01.map",
+    "edit_v01": false,
+    "edit_opening": false
+  }
+}
