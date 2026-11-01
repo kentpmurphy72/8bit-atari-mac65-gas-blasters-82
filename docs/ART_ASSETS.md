@@ -1,7 +1,7 @@
 # Gas Blasters '82 — Art Assets and Visual Direction
 
-**Version:** 0.26  
-**Date:** 2026-10-30  
+**Version:** 0.27  
+**Date:** 2026-11-01  
 **Status:** Early art direction / living asset inventory  
 **Primary target:** Atari 800XL  
 **Companion document:** docs/GAME_DESIGN.md
@@ -171,10 +171,10 @@ Road stages (2, 4, and 6) use a **Spy Hunter-style overhead/top-down view**:
 
 ### Reusable environment categories
 
-- **Restaurant interior:** tables, counters, exits, hazmat-friendly paths.
+- **Taco Smell interior:** three distinct **full-screen 40×22 fixed rooms**: dining (tables/booths), kitchen (equipment/counters/grease), storage (shelves/rear exit). **No scrolling within Stage 1**; immediate whole-room replacement on doorway entry, forward or backward. Reserve two footer rows; gameplay fills all 40 character columns. See [room maps/visualization](../assets/maps/taco_smell_stage1_v02_preview.svg), [JSON](../assets/maps/taco_smell_stage1_v02.json) and [spec](STAGE1_ROOMMAP_SPEC_V02.md). v0.1 scrolling artwork/map remains archived.
 - **Highway:** confirmed overhead/upward-facing vehicle perspective with downward-scrolling winding roads, occasional two-way forks and indicated route, roadside/shoulder graphics, traffic, and player/friends/police/hazmat-van vehicles. Choosing the wrong branch **adds +1.0 mile once** to the remaining distance, **without slowing the countdown** or causing an immediate wreck. **Branches visually rejoin soon afterward as one normal 75%-width road**, rather than staying split for the entire extra mile. Free lateral steering and four-sided blast knockback are confirmed. Actual display-pixel dimensions await graphics-mode selection.
-- **Pharmacy:** aisles, shelves, Gas-Nix product display/collection location.
-- **Grocery store:** aisles, shelves, toilet-paper pickup location.
+- **Pharmacy:** aisles/shelves and Gas-Nix display, with **scrolling still a valid candidate**; camera selection pending.
+- **Grocery store:** a possible **scrolling aisle chase** past shelves/toilet paper, pursued by police, hazmat workers and townspeople; layout and sprite details pending.
 - **House exterior:** yard/driveway/front door, hazmat positions.
 - **House interior:** rooms, corridors, officers, bathroom approach.
 - **Bathroom:** final destination / victory presentation.
@@ -271,7 +271,7 @@ Priorities describe a **proposed prototype sequence**, not a development commitm
 ## 11. Open art decisions
 
 1. Lock the protagonist's final model sheet so every scene/sprite matches.
-2. Decide visual perspective for indoor sections (overhead or side view).
+2. Stage 1 is confirmed top-down fixed-room; decide perspective/camera details for pharmacy, grocery aisle chase and other interiors.
 3. Select 800XL graphics modes, sprite/tile dimensions, palette and animation budget.
 4. Draw a distinctive **Gas-Nix** box/pickup.
 5. Select car appearances and friends' visual identity; derive exact Atari pixel widths and implement center-of-car boundary checks when the graphics mode and vehicle representation are chosen. **Detection rule and grass/shoulder/road timer transitions are already confirmed**.
@@ -285,6 +285,8 @@ Priorities describe a **proposed prototype sequence**, not a development commitm
 13. Design narrowing/weaving tiles and road-edge transitions for the confirmed **75%→40% (~4s)** and **40%→75% (~4s)** changes; keep shoulders 6.25% each and validate the effect during prototyping.
 
 ## 12. Change log
+
+- **v0.27 — 2026-11-01:** Adopts three non-scrolling, full-width 40×22 Taco Smell rooms with distinct dining/kitchen/storage furniture, door swaps and two footer rows. Pharmacy and grocery may use scrolling; grocery aisle chase envisions police, hazmat workers and townspeople. Links canonical v0.2 map/preview. No finished gameplay art added.
 
 - **v0.26 — 2026-10-30:** Fixes broken PMG v2 DMACTL single-line mismatch ($2E→$3E), adjusts 24 blank-line vertical origin and strengthens the visual-text-clearance test; corrected v2.1 binary/source committed, pending real Atari800 visual evaluation. Earlier v2 screenshot exhibited stray pixels. v1 unaffected.
 
