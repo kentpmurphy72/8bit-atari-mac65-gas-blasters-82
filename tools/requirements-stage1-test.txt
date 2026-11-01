@@ -1,0 +1,2 @@
+# Test-only CPU emulator; build itself uses Python standard library only.
+py65==1.2.0

@@ -1,0 +1,268 @@
+{
+  "output": "GasBlasters82_Stage1_Playable_v01.xex",
+  "sha256": "8b9cc8155d2c2534350fb44b4bd310eaedc9b59c71989623dd3ab99e5e9341f7",
+  "baseline_sha256": "08971fa2ca324e1e5e36bbc7c7d0fe891cb23c568230abb70c93a4f6de3d7e29",
+  "stage_code_bytes": 1124,
+  "labels": {
+    "INPUT": 4096,
+    "FRAME": 4109,
+    "START_DOWN": 4124,
+    "FRAME_PLAY": 4133,
+    "PLAY": 4139,
+    "SPAWN_DONE": 4160,
+    "NO_1": 4198,
+    "NO_2": 4211,
+    "NO_4": 4224,
+    "NO_8": 4237,
+    "PLAYER_STEP": 4240,
+    "ENEMY_TICK": 4284,
+    "NEW_CHASE": 4308,
+    "RENDER_FRAME": 4329,
+    "RENDER_NOW": 4341,
+    "FRAME_DONE": 4344,
+    "CHECK_CAUGHT": 4345,
+    "CC_DONE": 4371,
+    "INIT": 4372,
+    "MAP_PTR": 4499,
+    "SEEN_PTR": 4518,
+    "WALK": 4537,
+    "BLOCK": 4563,
+    "CHASE": 4566,
+    "CLEAR_PAGE": 4585,
+    "CLEAR_TAIL": 4595,
+    "SEARCH_STEP": 4656,
+    "BFS_LOOP": 4661,
+    "POP": 4679,
+    "PI_597": 4697,
+    "PI_603": 4703,
+    "NEXT_0": 4737,
+    "NEXT_1": 4771,
+    "NEXT_2": 4805,
+    "NEXT_3": 4839,
+    "SEARCH_YIELD": 4847,
+    "VISIT": 4848,
+    "VISIT_DONE": 4894,
+    "ENQUEUE": 4895,
+    "PI_813": 4913,
+    "PI_819": 4919,
+    "FOLLOW": 4920,
+    "FOLLOW_1": 4950,
+    "FOLLOW_2": 4958,
+    "FOLLOW_3": 4966,
+    "FOLLOW_4": 4974,
+    "DRAW": 4975,
+    "CAM_SUB": 4987,
+    "CAM_SET": 4996,
+    "DRAW_ROW": 5004,
+    "DRAW_CELL": 5039,
+    "DRAW_PLAYER": 5083,
+    "DRAW_PUT": 5104,
+    "PANEL": 5124,
+    "DRAW_STATUS": 5146,
+    "STATUS_LOOP": 5148,
+    "CAUGHT_LOOP": 5170,
+    "SUCCESS_TEXT": 5182,
+    "SUCCESS_LOOP": 5184,
+    "DRAW_DONE": 5195,
+    "PX": 5196,
+    "PY": 5197,
+    "EX": 5198,
+    "EY": 5199,
+    "NX": 5200,
+    "NY": 5201,
+    "CX": 5202,
+    "CY": 5203,
+    "STATE": 5204,
+    "TICKS": 5205,
+    "DELAY": 5206,
+    "ACTIVE": 5207,
+    "ARM": 5208,
+    "ENEMY_TIMER": 5209,
+    "JOY": 5210,
+    "DIR": 5211,
+    "FOUND": 5212,
+    "CAM": 5213,
+    "RX": 5214,
+    "RY": 5215,
+    "WX": 5216,
+    "GLYPH": 5217,
+    "SEARCH": 5218,
+    "BUDGET": 5219
+  },
+  "opening_labels": {
+    "STARTUP": 8192,
+    "FRAME_WAIT": 8232,
+    "HANDLE_INPUT": 8251,
+    "CHECK_START": 8268,
+    "KEY_STATE": 8273,
+    "BUTTON_DOWN": 8281,
+    "START_FUNK": 8316,
+    "STOP_MUSIC": 8328,
+    "START_OVER": 8340,
+    "BUTTON_DONE": 8354,
+    "SET_SCENE": 8355,
+    "TO_TITLE": 8399,
+    "TO_CREW": 8402,
+    "TO_ARRIVAL": 8405,
+    "DRAW_TITLE": 8408,
+    "DRAW_CREW": 8470,
+    "DRAW_ARRIVAL": 8532,
+    "DRAW_STAGE": 8594,
+    "RESTART_MUSIC": 8656,
+    "ROCK_TEMPO": 8674,
+    "RESET_PHASE": 8684,
+    "SILENCE": 8702,
+    "MUSIC_FRAME": 8717,
+    "MUSIC_DONE": 8748,
+    "WRITE_NOTE": 8749,
+    "ROCK_NOTE": 8759,
+    "ROCK_INC_DONE": 8817,
+    "FUNK_NOTE": 8821,
+    "FUNK_INC_DONE": 8879,
+    "DLI_HANDLER": 8883,
+    "DLI_TITLE": 8908,
+    "DLI_CREW": 8935,
+    "DLI_ARRIVAL": 8962,
+    "DLI_DONE": 8989,
+    "DLI_SAVE": 8996,
+    "SCENE": 9005,
+    "TRACK": 9006,
+    "ARMED": 9007,
+    "DLI_POS": 9008,
+    "FRAME_OLD": 9009,
+    "PHASE_LO": 9010,
+    "PHASE_HI": 9011,
+    "NOTE_INDEX": 9012,
+    "INC_LO": 9013,
+    "INC_HI": 9014,
+    "DLI_VECTOR_LO": 9015,
+    "DLI_VECTOR_HI": 9016
+  },
+  "emulator_tested": false,
+  "segments": [
+    {
+      "start": 736,
+      "bytes": 2
+    },
+    {
+      "start": 4096,
+      "bytes": 1124
+    },
+    {
+      "start": 8192,
+      "bytes": 825
+    },
+    {
+      "start": 10752,
+      "bytes": 1536
+    },
+    {
+      "start": 12288,
+      "bytes": 1024
+    },
+    {
+      "start": 13568,
+      "bytes": 44
+    },
+    {
+      "start": 13616,
+      "bytes": 44
+    },
+    {
+      "start": 13664,
+      "bytes": 44
+    },
+    {
+      "start": 14336,
+      "bytes": 1024
+    },
+    {
+      "start": 15360,
+      "bytes": 176
+    },
+    {
+      "start": 15616,
+      "bytes": 148
+    },
+    {
+      "start": 15872,
+      "bytes": 148
+    },
+    {
+      "start": 16128,
+      "bytes": 32
+    },
+    {
+      "start": 16384,
+      "bytes": 3840
+    },
+    {
+      "start": 20480,
+      "bytes": 2560
+    },
+    {
+      "start": 23040,
+      "bytes": 160
+    },
+    {
+      "start": 24576,
+      "bytes": 3840
+    },
+    {
+      "start": 28672,
+      "bytes": 1280
+    },
+    {
+      "start": 30208,
+      "bytes": 320
+    },
+    {
+      "start": 32768,
+      "bytes": 3840
+    },
+    {
+      "start": 36864,
+      "bytes": 1280
+    },
+    {
+      "start": 38400,
+      "bytes": 320
+    },
+    {
+      "start": 40960,
+      "bytes": 1056
+    },
+    {
+      "start": 42240,
+      "bytes": 44
+    },
+    {
+      "start": 42304,
+      "bytes": 44
+    },
+    {
+      "start": 42368,
+      "bytes": 44
+    },
+    {
+      "start": 42496,
+      "bytes": 80
+    },
+    {
+      "start": 42576,
+      "bytes": 40
+    },
+    {
+      "start": 42616,
+      "bytes": 40
+    },
+    {
+      "start": 44032,
+      "bytes": 1024
+    },
+    {
+      "start": 45056,
+      "bytes": 960
+    }
+  ]
+}
