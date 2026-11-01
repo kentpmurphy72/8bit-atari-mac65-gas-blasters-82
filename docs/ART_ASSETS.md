@@ -271,7 +271,7 @@ Priorities describe a **proposed prototype sequence**, not a development commitm
 ## 11. Open art decisions
 
 1. Lock the protagonist's final model sheet so every scene/sprite matches.
-2. Stage 1 is confirmed top-down fixed-room; decide perspective/camera details for pharmacy, grocery aisle chase and other interiors.
+2. Stage 1 v0.2 uses fixed-room screens. For pharmacy, grocery and other interiors, **room-to-room, scrolling areas, or a mix of both** remain available; decide layouts and camera transitions during their own design work.
 3. Select 800XL graphics modes, sprite/tile dimensions, palette and animation budget.
 4. Draw a distinctive **Gas-Nix** box/pickup.
 5. Select car appearances and friends' visual identity; derive exact Atari pixel widths and implement center-of-car boundary checks when the graphics mode and vehicle representation are chosen. **Detection rule and grass/shoulder/road timer transitions are already confirmed**.
