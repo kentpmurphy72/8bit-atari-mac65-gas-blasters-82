@@ -323,7 +323,7 @@ We should avoid mixing two incompatible loss systems (pressure meter and separat
 
 ## 9. Open questions — prioritized
 
-1. **Other indoor stages:** Taco Smell is confirmed fixed top-down room-to-room. Should pharmacy use scrolling, and how should the scrolling grocery aisle chase be structured? Perspectives for other indoor locations remain open.
+1. **Other indoor stages:** Taco Smell Stage 1 v0.2 is confirmed fixed-screen room-to-room. For pharmacy, grocery, and other interiors, **room transitions, scrolling within an area, or combinations of room-to-room plus scrolling** remain options. How should the grocery aisle chase and pharmacy be structured?
 2. **Pressure outside driving:** does the meter keep rising indoors, pause, or follow stage-specific rules?
 3. **Pressure vs. gas attacks:** do attacks relieve pressure, and at what cost?
 4. **Pressure failure:** what exactly happens at 100% (life lost, stage restart, game over)?
