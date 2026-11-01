@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Game Design Document
 
-**Version:** 0.27  
+**Version:** 0.28  
 **Date:** 2026-11-01  
 **Status:** Early design / living document  
 **Primary target:** Atari 800XL (Atari 8-bit family)  
@@ -96,7 +96,7 @@ Stage titles are working labels. It remains possible to **merge or remove stages
 The player and friends have eaten a huge meal at the current level's restaurant. An apparent gas leak is traced to the player, and a hazmat team arrives. The player's objective is to escape the building using movement, evasion and secret gas powers.
 
 **Confirmed:** friends are part of the restaurant outing; hazmat personnel try to catch the player; the player escapes toward a car.  
-**Provisional Stage 1 layout (2026-11-01):** For the **first playable prototype**, use a **top-down restaurant floor plan** with dining room → kitchen → storage/rear exit, realistic obstacles and escalating hazmat pressure rather than artificial maze length. The formal, machine-readable **48×22 tile map** is defined by [`docs/STAGE1_TILEMAP_SPEC.md`](STAGE1_TILEMAP_SPEC.md) and [`assets/maps/taco_smell_stage1_v01.map`](../assets/maps/taco_smell_stage1_v01.map) + [JSON semantics](../assets/maps/taco_smell_stage1_v01.json); its Python validator confirms both passages and all 751 walkable cells are connected (43 minimum cardinal moves from player start to exit). **This is a design/validation artifact, not a playable XEX or an approved 70–105-second stage.** Indoor camera, enemy speed/behavior, Fire/indoor gas-blast mapping, art and difficulty pacing remain to be evaluated in the emulator; top-down for all other locations is not yet locked.
+**Stage 1 camera/room structure — confirmed 2026-11-01:** Taco Smell uses **three independent, overhead, fixed full-screen 40×22 tile rooms**, with two small status rows: **Dining → Kitchen / Service → Storage / Rear Exit**. Billy enters a doorway to swap the entire screen; both forward movement and **backtracking** work. The first hazmat pursuer persists and follows through linked doors rather than disappearing. The active [v0.2 room-map specification](STAGE1_ROOMMAP_SPEC_V02.md), [JSON](../assets/maps/taco_smell_stage1_v02.json), three room maps and [Codex handoff](CODEX_STAGE1_V02_HANDOFF.md) supersede the old [48×22 scrolling v0.1 map](STAGE1_TILEMAP_SPEC.md) **for v0.2 only**. The known-good XEX/source remain on `feature/stage1-playable-v0.1`; v0.2 is **design-only until Codex builds and the user plays it**. Hazard timing, art, gas-blast controls, 70–105s stage pacing and other gameplay remain open for testing.
 
 ### Stage 2 — First road chase: race to the pharmacy
 
@@ -117,7 +117,7 @@ Two cars leave the restaurant: the player's car and a separate car driven by fri
 The player enters a pharmacy to find **Gas-Nix**, a fictional over-the-counter-style **gas-relief medicine**. Staff, patrons and the store manager attempt to prevent the player from getting it.
 
 **Confirmed:** this objective is gas relief, **not laxatives**.  
-**Open:** pharmacy layout, how the item is picked up, whether a supply quantity matters, and how the friends receive enough Gas-Nix to dispense on later drives.
+**Open:** pharmacy layout (**scrolling remains an option**), how the item is picked up, whether a supply quantity matters, and how the friends receive enough Gas-Nix to dispense on later drives.
 
 ### Stage 4 — Second road chase: to the grocery store
 
@@ -129,7 +129,7 @@ The friends' car drives ahead near the **top of the vertically oriented road scr
 
 ### Stage 5 — Grocery store: obtain toilet paper
 
-The player must acquire toilet paper while avoiding employees, shoppers and/or a store manager trying to stop the player.
+The player must acquire toilet paper. **Current gameplay direction:** a **scrolling grocery aisle chase**, with police, hazmat workers and townspeople pursuing Billy while he navigates shoppers and shelves. The exact chase camera, pursuit patterns and route are still open.
 
 **Confirmed:** toilet paper is required for the journey home.  
 **Open:** grocery layout, number of items to collect, and exact enemy roster.
@@ -323,7 +323,7 @@ We should avoid mixing two incompatible loss systems (pressure meter and separat
 
 ## 9. Open questions — prioritized
 
-1. **Indoor perspective:** overhead maze or side-view action?
+1. **Other indoor stages:** Taco Smell is confirmed fixed top-down room-to-room. Should pharmacy use scrolling, and how should the scrolling grocery aisle chase be structured? Perspectives for other indoor locations remain open.
 2. **Pressure outside driving:** does the meter keep rising indoors, pause, or follow stage-specific rules?
 3. **Pressure vs. gas attacks:** do attacks relieve pressure, and at what cost?
 4. **Pressure failure:** what exactly happens at 100% (life lost, stage restart, game over)?
@@ -337,6 +337,8 @@ We should avoid mixing two incompatible loss systems (pressure meter and separat
 12. **Hardware plan:** graphics, sound, memory, development and testing.
 
 ## 10. Change log
+
+- **v0.28 — 2026-11-01:** Confirms Stage 1 v0.2 as three fixed full-screen 40×22 maps (dining/kitchen/storage) rather than the v0.1 scrolling map, with reciprocal door transitions, backtracking and persistent hazmat pursuit. Documents scrolling as an option for pharmacy and as the intended grocery aisle chase with police, hazmat workers and townspeople. New map/JSON, validator and Codex handoff committed; no v0.2 XEX built by this documentation update.
 
 - **v0.27 — 2026-11-01:** Adds formal Taco Smell Stage 1 48×22 overhead prototype tile-map specification: 3 connected zones, obstacle tiles, tile semantics, actor spawn coordinates, passable passages, rear exit, camera proposal, and machine validator confirming 751 connected walkable cells/43-step shortest route. Design is implementation-ready for a Codex Stage 1 v0.1 test but is **not implemented or emulator-playtested as gameplay**. No change to known-good opening title/cutscenes/music.
 
