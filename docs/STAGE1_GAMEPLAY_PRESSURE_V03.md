@@ -3,7 +3,7 @@
 **Design date:** 2026-11-01  
 **Status:** First-playable balancing proposal after user tested v0.2 in Atari800 and reported **works, but too easy and too short**.  
 **Camera decision:** Keep **three non-scrolling, full-screen, linked rooms**. Their transitions were not a problem in playtesting.  
-**Scope:** Gameplay difficulty and Billy's first indoor gas blast. **No v0.3 XEX exists from this design work.**
+**Scope:** Historical gameplay-pressure and first gas-blast specification; its XEX was subsequently built by Codex on `feature/stage1-pressure-v0.3` and **playtested by the user**. User feedback: pressure somewhat better, **Billy slow/cumbersome, gas-blast terrible**. **Current v0.4 movement milestone** is [here](STAGE1_MOVEMENT_V04.md); v0.5 will redesign blasting. Keep this document for v0.3 regression and provenance.
 
 ## Why v0.3
 
@@ -74,4 +74,4 @@ Also execute v0.2 CPU/6502 regression tests and add v0.3 executable-level tests 
 
 See [`docs/CODEX_STAGE1_V03_HANDOFF.md`](CODEX_STAGE1_V03_HANDOFF.md) for the specific implementation order, versioned binary/source expectations and reporting format.
 
-**Status summary:** the user has **playtested v0.2** and approved the technical implementation while asking for increased difficulty/length. v0.3 numeric attack and enemy settings are **starting points requiring actual Atari800 tuning**; these documents do **not** represent a working v0.3 XEX.
+**Historical status:** Codex implemented the v0.3 source/XEX on `feature/stage1-pressure-v0.3`, and the user later played it successfully in Atari800. The added pressure felt somewhat better but the movement and blast were **not approved**. See the current v0.4 movement spec and subsequent planned v0.5 blast redesign. This is retained for version history and repeatable regression checks.

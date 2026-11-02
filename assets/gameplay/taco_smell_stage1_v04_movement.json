@@ -1,0 +1,139 @@
+{
+  "schema_version": 4,
+  "game": "Gas Blasters '82",
+  "level": "Taco Smell — Stage 1",
+  "milestone": "v0.4 — movement feel",
+  "status": "Design baseline for Codex; numeric settings provisional until Atari800 playtest",
+  "source_branch": "feature/stage1-pressure-v0.3",
+  "implementation_branch": "feature/stage1-movement-v0.4",
+  "source_rules": "assets/gameplay/taco_smell_stage1_v03_rules.json",
+  "room_maps": "assets/maps/taco_smell_stage1_v02.json",
+  "frame_clock": {
+    "video_system": "NTSC",
+    "nominal_frames_per_second": 60,
+    "simulation": "exactly one movement update per observed VBI tick; no repeated moves in same tick",
+    "max_simulated_delta_frames_per_dispatch": 2,
+    "accumulated_delta_policy": "bounded catch-up; do not skip wall collisions or let one stalled frame tunnel across walls"
+  },
+  "coordinate_space": {
+    "tile_size_logical_pixels": [
+      8,
+      8
+    ],
+    "room_size_tiles": [
+      40,
+      22
+    ],
+    "room_size_logical_pixels": [
+      320,
+      176
+    ],
+    "fraction_bits": 4,
+    "position_representation": "player top-left in 1/16 logical pixel units; renderer must show sub-tile motion",
+    "player_visible_dimensions_pixels": [
+      8,
+      8
+    ],
+    "player_collision_box_inset_pixels": {
+      "left": 1,
+      "right": 1,
+      "top": 1,
+      "bottom": 1
+    },
+    "collidable_box_pixels": [
+      6,
+      6
+    ]
+  },
+  "player_movement": {
+    "movement_control": "joystick 1, continuous movement while held, immediate change on direction",
+    "movement_input_polling": "read joystick once per game tick; do not gate reads or movement on legacy 8-frame tile step timer",
+    "cardinal_speed_sixteenths_px_per_frame": 24,
+    "diagonal_speed_each_axis_sixteenths_px_per_frame": 17,
+    "diagonal_behavior": "allow 8-way walking with speed normalization; keep blast 4-direction only in future v0.5",
+    "start_stop": "instant for v0.4; no acceleration or inertia",
+    "priority": "movement processed before enemy collision resolution on each frame; caught if hitboxes overlap after both movement updates",
+    "diagonal_corner_policy": "no corner clipping; resolve axes against full inset AABB, attempt permitted axis independently for wall slide",
+    "wall_slide": "when one component blocked, allow free component at cardinal speed (24/16 px per frame), including along counters and shelving",
+    "solid_tiles": [
+      "#",
+      "B",
+      "T",
+      "C",
+      "R",
+      "K",
+      "S"
+    ],
+    "passthrough_tiles": [
+      ".",
+      "D",
+      "F",
+      "N",
+      "G",
+      "X"
+    ],
+    "room_transition": {
+      "trigger": "Billy collision-box center first enters mapped D tile",
+      "entry_position": "top-left aligns to destination x=1 or x=38 tile, and doorway y=10 or 11; reset fractional position",
+      "backtrack": true,
+      "door_guard": "do not permit automatic immediate reverse transition without entering another doorway after spawn"
+    },
+    "finish": {
+      "trigger": "Billy collision-box center enters storage X=(39,10)",
+      "result": "existing STAGE COMPLETE"
+    }
+  },
+  "enemy_interactions": {
+    "inherit": "Preserve v0.3 three hazmat worker identities, activation delays, room follow, BFS scheduling, stunned state legacy internal data and win/restart",
+    "enemy_motion": "retain existing tile-based chase and v0.3 timings; do not tune difficulty in movement-only iteration",
+    "catch_rule": "Billy inset 6x6 pixel hitbox intersects the enemy's inset 6x6 hitbox centered on its 8x8 tile, if enemy is active, not stunned, and contact grace is exhausted",
+    "no_duplicate_catches": true,
+    "restore_player_state": "Stage restart returns dining Billy spawn (7,15) in exact pixel alignment, clears x/y fractional state, and resets old Stage 1 state"
+  },
+  "blast_v04": {
+    "enabled": false,
+    "reason": "v0.3 blast was unsatisfying; isolate movement feel now, redesign fire/aim/visual/knockback in v0.5",
+    "fire_button_in_gameplay": "ignored for v0.4 movement; holding Fire must not stop walking or trigger cooldown",
+    "prior_behavior_preservation": "Keep v0.3 source and XEX available on its feature branch; no deletion of prior feature or tests. Do not change earlier cutscene Fire progression.",
+    "later": "v0.5 will separately specify four-cardinal-direction indoor gas attacks; road controls unchanged"
+  },
+  "display": {
+    "stage1_camera": "three fixed full-screen 40x22 rooms, plus two footer rows, no scrolling",
+    "visible_subtile_motion_required": true,
+    "implementation_choices": "Use actual hardware PMG for Billy alone if memory/display timing is safe, or a correctly clipped software sprite with background restoration; no character-cell snapping masquerading as pixel movement",
+    "graphics_scope": "temporary sprite allowed; no redesign of title/cutscenes/art/music"
+  },
+  "playtest": {
+    "target": "smooth, fast, responsive movement rather than elapsed stage duration",
+    "nominal_distance_60_frames_cardinal_pixels": 90,
+    "nominal_distance_60_frames_diagonal_axis_pixels": 63.75,
+    "compare_to_v03": "v0.3 nominal 8 pixels per 8 frames => approximately 60 pixels over 60 frames",
+    "tests": [
+      "continuous motion within a tile, not whole-cell jumps",
+      "instant reverse when changing direction",
+      "diagonal speed comparable to cardinal speed",
+      "wall slide against long counter",
+      "no diagonal corner tunneling",
+      "no crossing of 2-tile doorway at invalid y",
+      "all 4 forward/reverse room transitions and backtracking",
+      "room transition from fractional position resets cleanly",
+      "no repeated transition on held input",
+      "enemy overlap at sub-tile positions, stun/contact grace correctness",
+      "three hazmat workers keep unique IDs and state",
+      "CAUGHT and START reset at exact aligned spawn",
+      "storage X triggers at hitbox center",
+      "Fire is inert and does not freeze movement",
+      "opening START/FIRE and both original POKEY songs remain unchanged",
+      "CPU/frame budget and XEX segment overlaps verified"
+    ],
+    "metrics": [
+      "felt speed vs v0.3",
+      "can steer precisely around a table",
+      "diagonal corner behavior",
+      "visible sprite flicker/tearing",
+      "ability to dodge a pursuer without gas blast",
+      "catch fairness",
+      "any VBI stalls during room change"
+    ]
+  }
+}
