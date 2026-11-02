@@ -250,7 +250,8 @@ These are **planned assets, not completed assets**.
 | P1 | Arriving at Taco Smell static cutscene (selected Option 3) | **v3 mixed-mode XEX emulator-tested and visually accepted 2026-10-29:** 160×128 ANTIC E art + eight 40-column text rows, exact three-line burrito/beans warning, heading and visual Fire prompt; **input, transitions and repository asset handoff remain open** |
 | P1 | Taco Smell exterior/interior | Playable Stage 1 environment and restaurant visuals, separate from the now-required arrival still; dinner-table scene still deferred |
 | P1 | Hazmat crew | Small readable enemy sprites |
-| P1 | Gas blast effect | Four cardinal directions only: jeans-clad backside pops from front/rear/left/right window, with greenish cloud emanating outward and readable knockback cue; no diagonal artwork |
+| P1 | **Road/car** gas-blast effect | Four cardinal window directions only (front/rear/left/right); jeans-clad backside and greenish cloud with readable car knockback; no diagonal **car** artwork |
+| P1 | **Stage 1 on-foot** gas-blast effect | Eight cardinal/diagonal jeans-clad-backside orientations, 3-wave growing gas cone, animated diagonal/cardinal knockback, BONK furniture collision and dazed hazard reaction; validate against gameplay PMG limits |
 | P1 | Pharmacy environment | Playable room/map and medicine location |
 | P1 | Grocery environment | Playable room/map and toilet paper |
 | P2 | Home exterior/interior/bathroom | Final stage visuals |
