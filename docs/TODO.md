@@ -60,7 +60,7 @@ This checklist distinguishes **the two user-tested standalone visual XEX files (
 - [x] Select **Option 3 (third, medium-detail concept)** for a separate **Arriving at Taco Smell** static screen after Meet the Crew: Billy and four friends walk from their parked car toward the lit restaurant under the evening sky; now realized as an emulator-tested standalone mixed ANTIC E/ANTIC 2 scene.
 - [x] Approve exact **three-line Taco Smell arrival story text** for 40 columns: “Billy came for a killer burrito.” / “The beans came with a warning.” / “Nobody read it. Especially Billy.”
 - [ ] Choose overhead or side-view gameplay for indoor stages.
-- [ ] Define **indoor-stage** movement and joystick/fire-button controls (road-stage control mapping is confirmed).
+- [ ] **Playtest/finalize indoor-stage controls:** Stage 1 has proposed and documented **eight-way FIRE-held gas blasts** plus tested eight-way walking; ensure actual v0.5 controller/animation feel works in Atari800 before considering those controls finalized for other indoor stages. **Road car blasting remains four-way.**
 - [ ] Define remaining gas-blast details (range, cooldown, repeat rate and knockback strength) and effects against **indoor** enemies; four-way road blasts already knock back police/hazmat vehicles.
 - [ ] Determine whether using gas powers reduces gas pressure.
 - [ ] Define gas-pressure behavior inside buildings.
