@@ -1,0 +1,64 @@
+{
+  "xex_sha256": "33d6aae522f26e161bba12291fc28ca3d431055f83d6eb0206808f872d16fd87",
+  "model": "py65 CPU only, excludes ANTIC DMA and OS interrupts",
+  "atari800_tested": false,
+  "search_budget_cells_per_dispatch": 8,
+  "max_movement_catchup_ticks": 2,
+  "samples": {
+    "restart_with_pmg_clear": 34240,
+    "cardinal_three_workers": {
+      "max_cpu_cycles": 23741,
+      "cycles_per_dispatch": [
+        23741,
+        13722,
+        13678,
+        13604,
+        13566,
+        13505,
+        13730,
+        13720
+      ]
+    },
+    "diagonal_three_workers": {
+      "max_cpu_cycles": 25069,
+      "cycles_per_dispatch": [
+        25069,
+        15713,
+        15669,
+        15595,
+        15759,
+        15698,
+        14673,
+        14423
+      ]
+    },
+    "wall_slide_three_workers": {
+      "max_cpu_cycles": 26534,
+      "cycles_per_dispatch": [
+        26534,
+        17679,
+        17458,
+        17620,
+        17130,
+        14555,
+        14968,
+        15452
+      ]
+    },
+    "bounded_two_tick_catchup": {
+      "max_cpu_cycles": 25296,
+      "cycles_per_dispatch": [
+        25296,
+        15277,
+        14829,
+        15159,
+        16923,
+        15078,
+        15303,
+        15091
+      ]
+    },
+    "door_entry_full_room_draw": 42918
+  },
+  "notes": "Measured scenarios, not exhaustive worst-case timing. Room redraw can span video frames. Verify control feel/PMG alignment in Atari800."
+}

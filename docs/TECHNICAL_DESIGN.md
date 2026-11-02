@@ -25,10 +25,10 @@ The accepted game opening is `assets/opening/GasBlasters82_OpeningSequence_v1.xe
 - **6502 performance warning:** v0.2 runs one incremental BFS at eight nodes per observed frame. Three independent BFS workers may exceed available processing or make pursuit unresponsive. Codex should implement a bounded multi-enemy scheduling/cached-distance strategy, preserve room-follow identity, and instrument input responsiveness and visual behavior.
 - Preserve all v0.2/v0.3 versioned binaries, builders and test fixtures unchanged. v0.3 already supplies its own `tools/build_stage1_v03.py`, `tools/test_stage1_v03.py`, `assets/stage1_v03/`, manifest and CPU-only profile. The user's playtest confirms v0.3 runs but **not** that its control feel is approved. The old timing numbers remain historical defaults.
 
-## Stage 1 v0.4 movement-control prototype (proposed, not yet coded)
+## Stage 1 v0.4 movement-control requirements
 
 - **Active spec:** [v0.4 movement contract](STAGE1_MOVEMENT_V04.md), [tuning data](../assets/gameplay/taco_smell_stage1_v04_movement.json), and [Codex handoff](CODEX_STAGE1_V04_HANDOFF.md).
-- **Source branch:** User-played `feature/stage1-pressure-v0.3`. Create `feature/stage1-movement-v0.4` from this baseline; keep prior v0.3 XEX and source intact. V0.4 code does **not** exist yet.
+- **Source branch:** User-played `feature/stage1-pressure-v0.3`. Create `feature/stage1-movement-v0.4` from this baseline; keep prior v0.3 XEX and source intact. V0.4 is implemented separately on the feature branch; actual Atari800 acceptance is pending.
 - **Problem:** The old movement is one full **8×8 tile every 8 NTSC frames**, and the existing renderer snaps Billy to character-cell positions. User finds this awkward and sluggish.
 - **Movement target:** Keep three 40×22 fixed-screen maps, but represent Billy with **4-bit fractional logical-pixel precision per axis** (1/16-pixel units; use 16-bit coordinate components). Cardinal **24/16 = 1.5 px/frame**; diagonal **17/16 px/frame per axis**, for normalized 8-way joystick walking. Poll at each observed video tick, not every eighth; stop/reverse immediately.
 - **Sprite rendering requirement:** Actually display Billy moving *within* a tile. Consider a hardware **gameplay** PMG sprite for Billy, or clipped software sprite with correct restoration and full RAM/DLI validation; do **not** alter the retired PMG *title* art. Character-cell-only drawing is not acceptable.
@@ -76,3 +76,27 @@ opening at $2000. Prior v0.1/v0.2 runtime sources, maps, tests, binaries and ope
 assets are unchanged. All 23 v0.3 CPU tests, 16 v0.2 tests, 9 v0.1 tests, three
 validators and opening validation pass. Atari800 playtesting and merging remain
 pending; no stage duration or final difficulty is claimed.
+
+## Implemented v0.4 movement extension (pending Atari800)
+
+- `tools/build_stage1_v04.py` builds the retained v0.3 core into a temporary directory
+  and applies checked entry-point patches plus a separate $0400 movement/PMG
+  extension. All earlier sources/binaries remain unchanged. Exact segments and
+  build/run instructions: [assets/stage1_v04/README.md](../assets/stage1_v04/README.md).
+- 16-bit Q4 top-left coordinates, per-video-tick cardinal/diagonal speeds 24/17,
+  duplicate-clock rejection and at most two collision-tested catch-up ticks.
+  <=1px axis substeps and bounded binary search resolve the 6x6 half-open AABB;
+  wall sliding adjusts the free component to cardinal speed. Center tiles feed
+  unchanged room links/AI; entering a room aligns/reset fractions to its inward tile.
+- Billy uses GTIA P0 single-line PMG at $BC00, PMBASE $B8, DMACTL $3A, GRACTL 2.
+  Four active horizontal bits span eight logical pixels: horizontal hardware
+  positioning is 2 logical pixels, vertical positioning 1 scanline. Position
+  origins are 48 color clocks / 32 scanlines, subject to actual emulator alignment.
+  No title PMG or DLI changes. The old Y FIFO is relocated from $B900 to $9C00
+  to avoid the $B800-$BFFF PMG block.
+- Gameplay FIRE ignores the old attack path entirely and cannot lock walking.
+  Pixel-aware worker contact retains stun/grace; all prior encounter tuning stays.
+- 15 v0.4 CPU tests and 23 unchanged v0.3 tests pass, plus three validators.
+  CPU-only profile includes pursuit, wall slide, catch-up, restart and room redraw.
+  Room redraws may span video frames; DMA/VBI costs, visible sprite alignment,
+  flicker, responsiveness and real Atari800/800XL behavior remain unverified.
