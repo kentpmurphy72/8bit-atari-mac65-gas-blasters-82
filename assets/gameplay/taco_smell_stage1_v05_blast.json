@@ -2,8 +2,8 @@
   "schema_version": 5,
   "game": "Gas Blasters '82",
   "stage": "Taco Smell — Stage 1",
-  "milestone": "v0.5 gas blast feel",
-  "status": "prototype defaults, tuning requires Atari800 playtest",
+  "milestone": "v0.5 eight-way indoor gas blast feel",
+  "status": "Eight-way on-foot attack approved, prototype numeric values provisional until Atari800 playtest; road gas attack remains four-way",
   "implementation_branch": "feature/stage1-blast-v0.5",
   "baseline_branch": "feature/stage1-movement-v0.4",
   "baseline_files": [
@@ -23,24 +23,68 @@
   },
   "controls": {
     "fire_held": "stop walking, enter aim stance, read joystick each frame",
-    "aim": "up/down/left/right only; setting/changing a valid cardinal direction starts/restarts windup",
-    "diagonal_joystick": "if a valid cardinal aim was previously chosen during current hold, keep it; otherwise show undecided stance and do not fire",
+    "aim": "Eight directions: up, up-right, right, down-right, down, down-left, left, up-left; a new valid direction starts/restarts the four-frame windup.",
+    "diagonal_joystick": "A two-axis joystick diagonal is its own valid aim (never converted to a cardinal direction); maintain exactly one chosen direction while held.",
     "no_direction": "show undecided aiming pose; do not attack or consume gas",
     "windup_frames": 4,
     "release_before_windup": "cancel with no attack, no resource cost, immediate walking",
-    "automatic_discharge": "one burst occurs when a stable cardinal direction has been held for 4 observed video frames during same FIRE hold",
+    "automatic_discharge": "One burst occurs after the chosen valid cardinal OR diagonal direction remains stable for 4 observed video frames during the same FIRE hold.",
     "after_discharge": "holding FIRE holds stance but NEVER repeats; releasing FIRE permits walking once recovery expires",
     "fire_pressed_during_cooldown_or_empty": "enter aiming stance, show READY/SUPPLY feedback; never queue a later discharge automatically while same press is held",
     "release_to_rearm": true,
-    "directional_attack_count": 4,
+    "directional_attack_count": 8,
     "walk_while_fire_held": false,
     "eight_way_walk_when_released": true,
     "stage1_fire_active": true,
     "cutscene_fire_unchanged": true,
-    "road_blast_unaffected": true
+    "road_blast_unaffected": true,
+    "aim_directions": [
+      {
+        "name": "up",
+        "dx": 0,
+        "dy": -1
+      },
+      {
+        "name": "up_right",
+        "dx": 1,
+        "dy": -1
+      },
+      {
+        "name": "right",
+        "dx": 1,
+        "dy": 0
+      },
+      {
+        "name": "down_right",
+        "dx": 1,
+        "dy": 1
+      },
+      {
+        "name": "down",
+        "dx": 0,
+        "dy": 1
+      },
+      {
+        "name": "down_left",
+        "dx": -1,
+        "dy": 1
+      },
+      {
+        "name": "left",
+        "dx": -1,
+        "dy": 0
+      },
+      {
+        "name": "up_left",
+        "dx": -1,
+        "dy": -1
+      }
+    ],
+    "diagonal_attack_enabled": true,
+    "road_attack_directions": 4
   },
   "animation": {
-    "orientation": "face away from aimed direction; jeans-clad backside points toward gas target",
+    "orientation": "Face away from one of eight aimed directions; jeans-clad backside points toward chosen cardinal or diagonal target.",
     "windup": "pose rotates and rear visibly protrudes; 4 frame windup; at least 2 pose frames or corresponding temporary PMG overlay",
     "visual": "animated expanding GAS CLOUD, not a projectile or single narrow ray",
     "cloud_waves": [
@@ -83,7 +127,7 @@
     ],
     "no_room_leak": true,
     "no_solid_overdraw": true,
-    "cloud_candidates": "depth1 central; depth2 center and +/-1 lateral; depth3 center and +/-1 lateral; advance through walkable predecessor tiles only and clip at room edges/doors",
+    "cloud_candidates": "For aim vector (dx,dy), perpendicular (-dy,dx), generate center+flanks at p+d*aim+k*perp; wave1 d=1 k=0; wave2 d=2 k=-1,0,+1; wave3 d=3 k=-1,0,+1; clip to bounds and traverse only through passable/visible predecessors.",
     "cloud_damage": "each enemy contacted at most once per burst, including if it remains inside expanding cloud",
     "final_pose_recovery_frames": 8,
     "rendering": "v0.4 uses Billy GTIA player0 PMG at BC00; add pose frames and optional player1 rear overlay ONLY during Stage 1 if PMG memory/OS budget safe; gas cloud as temporary overlay glyphs with underlying terrain/actors restored",
@@ -92,13 +136,63 @@
       "description": "short original POKEY airy/noisy 10-frame puff whoosh on discharge, protect accepted title/cutscene music registers and timings",
       "duration_frames": 10,
       "if_unavailable": "clearly document and leave SFX separately tunable; gameplay must remain playable"
+    },
+    "pose_requirements": "Eight distinguishable blast orientations (four cardinal + four diagonal) and visible backside during windup; safe original in-game PMG solutions welcome.",
+    "cloud_geometry": {
+      "coordinate_space": "integer tile cells; Billy hitbox center tile is origin",
+      "aim_basis": "f=(dx,dy) from controls.aim_directions",
+      "flank_basis": "p=(-dy,dx)",
+      "depth_to_offsets": [
+        {
+          "depth": 1,
+          "flanks": [
+            0
+          ]
+        },
+        {
+          "depth": 2,
+          "flanks": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "depth": 3,
+          "flanks": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ],
+      "candidate_formula": "origin + depth*f + flank*p",
+      "max_cells_per_burst": 7,
+      "diagonal_occlusion": "supercover line-of-sight from origin to each candidate, with D/X and solid tiles treated as opaque; each diagonal step additionally requires both adjacent orthogonal cells passable (no corner clipping)",
+      "soft_terrain": [
+        ".",
+        "G",
+        "F",
+        "N"
+      ],
+      "hard_boundaries": [
+        "D",
+        "X",
+        "#",
+        "B",
+        "T",
+        "C",
+        "R",
+        "K",
+        "S"
+      ]
     }
   },
   "combat": {
-    "area": "animated orientation-locked 7-cell cone max, may hit multiple current-room hazmat entities",
+    "area": "Eight-direction growing cloud: 7-cell cone at max for each cardinal or diagonal aim; multiple current-room workers may be hit.",
     "collision": "tile or inset AABB contact with cloud cells when each wave becomes active; only current room; no hit through solid or door/exit markers",
     "enemy_hit_limit": "each affected worker can be hit once per burst; multiple workers may be affected",
-    "knockback_direction": "same cardinal direction as gas cloud, away from Billy",
+    "knockback_direction": "Same one of eight (dx,dy) unit tile-step directions as the cloud; worker moves away from Billy.",
     "max_knockback_tiles": 3,
     "knockback_frames_per_tile": 3,
     "collision_solid": "stop at last walkable tile and show 4-frame bonk/splat; stun still applies",
@@ -109,7 +203,8 @@
     "blocking_enemy_stagger_frames": 24,
     "impact_flash_frames": 4,
     "knockback_persist": "worker global coordinates and room state persist, frame-by-frame during push; no teleport or duplicate",
-    "controls_during_knockback": "Billy may move after required recovery/release even if effect still active"
+    "controls_during_knockback": "Billy may move after required recovery/release even if effect still active",
+    "diagonal_knockback": "Each diagonal push step checks target tile and both axis-adjacent orthogonal corner-clearance tiles (all walkable and non-door/non-exit); stop before obstacles, D/X, room border or another worker."
   },
   "resource": {
     "model": "regenerating charges, no permanent softlock",
@@ -145,17 +240,18 @@
   },
   "acceptance": {
     "numeric_contract_checks": [
-      "4 aim directions",
+      "8 aim directions, exact joystick vector mapping, diagonals are independent valid aims",
       "no movement during FIRE hold",
       "aim after pressing FIRE still produces one shot",
       "exactly one shot per FIRE press regardless of hold length",
-      "no trigger on diagonal without established aim",
+      "diagonal aim directly triggers after 4 stable frames, including FIRE pressed before direction",
       "release early does not spend a charge",
       "recovery and cooldown independent of FIRE release",
       "3 distinct expanding waves and occlusion",
       "max3-tile animated knockback and impact checks",
       "three charges and 120-frame one-charge refill",
-      "never trapped with permanently zero gas"
+      "never trapped with permanently zero gas",
+      "no diagonal corner clipping in cloud supercover occlusion or knockback; four-way road attacks unchanged"
     ],
     "runtime_tests": [
       "v0.4 smooth movement exact speed and diagonals preserved",
@@ -174,7 +270,8 @@
       "title/crew/arrival and POKEY songs unchanged",
       "in-game POKEY effect does not corrupt intro music",
       "rendering correct with active PMG and cloud",
-      "XEX segments safe, CPU bounded on Atari800 64KB"
+      "XEX segments safe, CPU bounded on Atari800 64KB",
+      "all 8 blast directions individually and joystick diagonal before/after FIRE; distinct pose/gas/knockback vectors and blocked diagonal corners"
     ],
     "playtest_metrics": [
       "ease of aiming",
@@ -184,7 +281,8 @@
       "number of shots and empty charge waits",
       "stun/charge balance",
       "sprite flicker or POKEY artifacts",
-      "overall fun"
+      "overall fun",
+      "diagonal aim discoverability and blast coverage without corner clipping"
     ]
   }
 }
