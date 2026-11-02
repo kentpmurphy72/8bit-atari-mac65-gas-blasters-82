@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Art Assets and Visual Direction
 
-**Version:** 0.27  
+**Version:** 0.28  
 **Date:** 2026-11-01  
 **Status:** Early art direction / living asset inventory  
 **Primary target:** Atari 800XL  
@@ -171,7 +171,7 @@ Road stages (2, 4, and 6) use a **Spy Hunter-style overhead/top-down view**:
 
 ### Reusable environment categories
 
-- **Taco Smell interior:** three distinct **full-screen 40×22 fixed rooms**: dining (tables/booths), kitchen (equipment/counters/grease), storage (shelves/rear exit). **No scrolling within Stage 1**; immediate whole-room replacement on doorway entry, forward or backward. Reserve two footer rows; gameplay fills all 40 character columns. See [room maps/visualization](../assets/maps/taco_smell_stage1_v02_preview.svg), [JSON](../assets/maps/taco_smell_stage1_v02.json) and [spec](STAGE1_ROOMMAP_SPEC_V02.md). v0.1 scrolling artwork/map remains archived.
+- **Taco Smell interior:** three distinct **full-screen 40×22 fixed rooms**: dining (tables/booths), kitchen (equipment/counters/grease), storage (shelves/rear exit). **Stage 1 v0.3 design:** differentiated enemy encounter beats—dining pursuer, kitchen interceptor, storage exit blocker—and a short, legible **cardinal-direction gas-cloud** animation that restores underlying floor tiles after expiring. These are *prototype gameplay effects*, not approved final artwork. **No scrolling within Stage 1**; immediate whole-room replacement on doorway entry, forward or backward. Reserve two footer rows; gameplay fills all 40 character columns. See [room maps/visualization](../assets/maps/taco_smell_stage1_v02_preview.svg), [JSON](../assets/maps/taco_smell_stage1_v02.json) and [spec](STAGE1_ROOMMAP_SPEC_V02.md). v0.1 scrolling artwork/map remains archived.
 - **Highway:** confirmed overhead/upward-facing vehicle perspective with downward-scrolling winding roads, occasional two-way forks and indicated route, roadside/shoulder graphics, traffic, and player/friends/police/hazmat-van vehicles. Choosing the wrong branch **adds +1.0 mile once** to the remaining distance, **without slowing the countdown** or causing an immediate wreck. **Branches visually rejoin soon afterward as one normal 75%-width road**, rather than staying split for the entire extra mile. Free lateral steering and four-sided blast knockback are confirmed. Actual display-pixel dimensions await graphics-mode selection.
 - **Pharmacy:** aisles/shelves and Gas-Nix display, with **scrolling still a valid candidate**; camera selection pending.
 - **Grocery store:** a possible **scrolling aisle chase** past shelves/toilet paper, pursued by police, hazmat workers and townspeople; layout and sprite details pending.
@@ -285,6 +285,8 @@ Priorities describe a **proposed prototype sequence**, not a development commitm
 13. Design narrowing/weaving tiles and road-edge transitions for the confirmed **75%→40% (~4s)** and **40%→75% (~4s)** changes; keep shoulders 6.25% each and validate the effect during prototyping.
 
 ## 12. Change log
+
+- **v0.28 — 2026-11-01:** Plans v0.3 dining/kitchen/storage encounter variation (three hazmat workers total) and a brief 8-frame indoor directional gas-cloud placeholder. Preserve approved title/intro art and music; no finished gas-blast graphics yet. Source of truth is [v0.3 gameplay pressure specification](STAGE1_GAMEPLAY_PRESSURE_V03.md).
 
 - **v0.27 — 2026-11-01:** Adopts three non-scrolling, full-width 40×22 Taco Smell rooms with distinct dining/kitchen/storage furniture, door swaps and two footer rows. Pharmacy and grocery may use scrolling; grocery aisle chase envisions police, hazmat workers and townspeople. Links canonical v0.2 map/preview. No finished gameplay art added.
 
