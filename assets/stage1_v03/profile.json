@@ -1,0 +1,48 @@
+{
+  "xex_sha256": "41ec9fffc963e93b4e8dd8c1c68eff67090b23f2cdcaad6ba694870eb16a0007",
+  "model": "py65 6502, no ANTIC DMA or OS interrupt cycles",
+  "atari800_tested": false,
+  "samples_cpu_cycles": {
+    "stage_initialization_full_draw": 22319,
+    "three_worker_normal_frame_max": 21020,
+    "three_worker_blast_hit_frame": 13381,
+    "occupied_room_transition_full_draw": 42195
+  },
+  "worker_move_frames_in_45_frame_sample": [
+    [
+      10,
+      22,
+      34
+    ],
+    [
+      10,
+      20,
+      30,
+      40
+    ],
+    [
+      10,
+      20,
+      30,
+      40
+    ]
+  ],
+  "observed_move_intervals": [
+    [
+      12,
+      12
+    ],
+    [
+      10,
+      10,
+      10
+    ],
+    [
+      10,
+      10,
+      10
+    ]
+  ],
+  "search_budget_cells_per_frame": 8,
+  "notes": "Sampled costs, not an exhaustive worst-case proof or real Atari frame-time measurement. Full room draw is limited to transitions/restart."
+}

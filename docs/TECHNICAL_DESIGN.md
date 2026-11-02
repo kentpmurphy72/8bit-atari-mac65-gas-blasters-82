@@ -17,7 +17,7 @@ The accepted game opening is `assets/opening/GasBlasters82_OpeningSequence_v1.xe
 - One hazmat worker spawns 180 NTSC frames after Stage 1 begins in dining. Preserve its unique identity across transitions; after a door crossing it follows through the matching doorway after approximately 90 frames, without cloning, disappearing or teleporting across nonadjacent rooms. If Billy immediately returns before the follow completes, cancel that pending follow. Future side/rear spawns remain inactive.
 - Preserve CAUGHT/restart, input behavior, intro assets/POKEY songs, and the exit success state. No indoor gas-blast/grease mechanics for v0.2.
 
-## Stage 1 v0.3 pressure extension (planned, not implemented)
+## Stage 1 v0.3 pressure extension requirements
 
 - The user successfully played v0.2, but found the single pursuer ineffective and Stage 1 too short. Keep the three fixed 40×22 rooms and reuse the currently playable `feature/stage1-room-screen-v0.2` code branch.
 - Add three persistent enemy IDs across the restaurant: dining (2,10) at 60 frames, kitchen (29,11) at +30 frames from entry, storage (30,10) at +30 frames from entry. Movement cadence targets 12/10/10 frames and follow delay 45 frames; all are **tuning defaults**, not verified Atari800 behavior.
@@ -52,3 +52,33 @@ The **fixed-screen, non-scrolling** room behavior is specific to **Taco Smell St
   not Atari800 visual/audio/controller acceptance or real-hardware validation.
 - v0.1 maps/builder/tests/XEX and the original opening-v1 XEX remain unchanged.
   The v0.2 feature branch is not merged into main.
+
+## Implemented v0.3 prototype (awaiting Atari800)
+
+Source: `tools/build_stage1_v03.py`; executable/listing/manifest and measured
+CPU-only profile: `assets/stage1_v03/`. See its [README](../assets/stage1_v03/README.md)
+for build commands, exact memory allocations, launch controls and pending tests.
+
+Three indexed persistent workers share one reverse-BFS field, with at most eight
+dequeued cells per iteration total. A validated cardinal fallback keeps worker
+movement active while the field fills; cached directions guide subsequent steps.
+Worker move timers use per-entity JSON cadences (12/10/10 ticks). Off-screen follow
+is a per-worker adjacent-room queue with cancellation, including while stunned.
+
+Only room changes/restart redraw the entire terrain. Normal frames restore the
+previous four actor cells and up to three effect cells, then overlay workers, Billy
+and the transient blast. Sampled three-worker normal-loop maximum is 21,020 CPU
+cycles; occupied room entry is 42,195 cycles and may span multiple video frames.
+These exclude ANTIC DMA and OS interrupts; they do not prove emulator frame times.
+
+FIRE edge and direction select one collision-occluded ray; nearest-worker targeting,
+knockback occupancy, stun, cooldown and visual cleanup execute on the Atari. Contact
+is checked both before and after worker motion. Stun-expiry overlap permits one
+player movement opportunity; entry grace applies only to the worker at a preferred
+destination tile. START clears all per-worker and attack states.
+
+The new stage-only code/state budget is $1000–$1FFF, separate from the retained
+opening at $2000. Prior v0.1/v0.2 runtime sources, maps, tests, binaries and opening
+assets are unchanged. All 23 v0.3 CPU tests, 16 v0.2 tests, 9 v0.1 tests, three
+validators and opening validation pass. Atari800 playtesting and merging remain
+pending; no stage duration or final difficulty is claimed.
