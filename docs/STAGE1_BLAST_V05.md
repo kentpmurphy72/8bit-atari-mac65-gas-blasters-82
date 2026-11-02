@@ -13,7 +13,7 @@ The authoritative machine-readable values and state descriptions are in [v0.5 bl
 
 **Keep the known-good:** v0.4 Q4 smooth movement, immediate turns, eight-direction walking and 6×6 inset hitboxes; three fixed 40×22 dining/kitchen/storage rooms, all four doorway transitions; three persistent v0.3 hazmat workers, their schedule, enemy AI, room following, CAUGHT/START and X exit; the original Title v1 / Meet the Crew / Arrival and POKEY songs.
 
-**Keep earlier versions immutable:** v0.4 code/XEX on \`feature/stage1-movement-v0.4\`; v0.3 and earlier binaries/builders remain available. New implementation goes on \`feature/stage1-blast-v0.5\` *branched from v0.4*, with current main's design files brought across. No merge into main without a user playtest.
+**Keep earlier versions immutable:** v0.4 code/XEX on `feature/stage1-movement-v0.4`; v0.3 and earlier binaries/builders remain available. New implementation goes on `feature/stage1-blast-v0.5` *branched from v0.4*, with current main's design files brought across. No merge into main without a user playtest.
 
 ## 2. One Atari joystick + FIRE — controls
 
@@ -42,13 +42,13 @@ The effect must clearly communicate the gag: **Billy pivots so his jeans-clad ba
 - **Feedback:** cloud shape should clearly grow, waver and dissipate (not instantly vanish or leave ghost tiles); briefly change animation on a successful hit or furniture bonk. The two existing bottom status rows may show **GAS 3/3**, **COOLING**, **EMPTY**, etc.
 - **Sound:** add a brief **original POKEY airy/noisy fart-whoosh** (~10 frames) on discharge. Do not modify the approved title/cutscene music data or trigger an opening-audio regression.
 
-**Implementation notes tied to the real v0.4 renderer:** Billy is a gameplay **GTIA Player 0** sprite using single-line PMG, **PMBASE=$B8**, player-0 glyph plane \`$BC00–$BCFF\`. It is intentionally low resolution (two logical pixels per PMG bit horizontally). The other PMG planes are currently available but must be memory-checked; **Codex may** add an in-game Player 1 butt overlay or temporally change player-0 pose frames. For the cloud, prefer temporary ANTIC character overlays plus careful background/actor restoration (or another demonstrably safe design). Do **not** fake the effect with an unchanged single-character shot, change the accepted title display, or re-enable retired *title* PMG experiments.
+**Implementation notes tied to the real v0.4 renderer:** Billy is a gameplay **GTIA Player 0** sprite using single-line PMG, **PMBASE=$B8**, player-0 glyph plane `$BC00–$BCFF`. It is intentionally low resolution (two logical pixels per PMG bit horizontally). The other PMG planes are currently available but must be memory-checked; **Codex may** add an in-game Player 1 butt overlay or temporally change player-0 pose frames. For the cloud, prefer temporary ANTIC character overlays plus careful background/actor restoration (or another demonstrably safe design). Do **not** fake the effect with an unchanged single-character shot, change the accepted title display, or re-enable retired *title* PMG experiments.
 
 ## 4. Cloud geometry and targets
 
 The cloud is a **forward cone**, tied to Billy's chosen **cardinal** attack direction. Its origin is **immediately outside Billy's backside** at the center-adjacent tile; use his current 6×6-box center to find the origin tile. One cell straight forward at depth 1; three at depth 2 (center plus 1-cell flanks); three at depth 3. Candidate cells are walkable and visible; enforce predecessor-based outward propagation through walkable cells, so the cloud **cannot appear on the far side of an opaque wall**.
 
-**Blockers:** \`# B T C R K S\` occlude; no gas effect through walls/counters/shelves/tables or out of the room. A doorway/exit (\`D\` or \`X\`) is a hard **cloud boundary**: no cloud travel into another room, no trigger of doorway or level win via gas. The \`G\` grease tile remains inert and walkable. Keep the room's camera fixed.
+**Blockers:** `# B T C R K S` occlude; no gas effect through walls/counters/shelves/tables or out of the room. A doorway/exit (`D` or `X`) is a hard **cloud boundary**: no cloud travel into another room, no trigger of doorway or level win via gas. The `G` grease tile remains inert and walkable. Keep the room's camera fixed.
 
 **Enemy hits:** All eligible hazmat workers **in the same room** and actually reached by a cloud wave can be affected, **once each per burst**. If two are within the same expanding cloud, both should react. Enemies on the edge of a cell use their current actual tile/hitbox; no hidden off-screen damage. A stunned worker can be refreshed by a new legitimate blast; do not apply a burst twice to the same worker when the cloud expands.
 
@@ -81,12 +81,12 @@ These numbers are deliberately adjustable; if the player feels forced to wait fo
 
 Preserve the previous **smooth movement** test results first. Build a **separate XEX** and source set on v0.5's branch, with replayable 6502 tests. Run:
 
-\`\`\`bash
+```bash
 python3 tools/validate_taco_smell_stage1.py
 python3 tools/validate_taco_smell_stage1_v02.py
 python3 tools/validate_stage1_pressure_v03.py
 python3 tools/validate_stage1_blast_v05.py
-\`\`\`
+```
 
 **Automated acceptance** must cover: FIRE-before-direction, simultaneous FIRE+direction, no-direction/diagonal aim, stable aim 4 frames, changing aim cancels wind-up, one blast per hold, release/rearm and recovery, charge/cooldown/refill semantics, 3 cloud waves and block/door occlusion, multi-worker single-hit tracking, up-to-3-cell animated push, collision with furniture and other worker without overlap, all 3-worker AI/state and frame wrap, inset AABB contact while stunned, all room doors and storage exit, no leaked cloud graphics or PMG trails, unchanged opening/music, safe XEX segments and measured CPU budget.
 
