@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Project To-Do List
 
-**Version:** 0.34  
+**Version:** 0.35  
 **Date:** 2026-11-01  
 **Target:** Atari 800XL  
 **Status:** Planning and early design  
@@ -130,7 +130,7 @@ This checklist distinguishes **the two user-tested standalone visual XEX files (
 - [x] **Design three room-sized Stage 1 v0.2 maps and transitions**: Dining/Kitchen/Storage are independent 40×22 fixed screens, four reciprocal door links, backtracking, one persistent pursuer, usable map/JSON, and new validator. This is **design only**; Codex needs to implement/playtest the v0.2 XEX.
 - [x] **Specify Stage 1 v0.3 gameplay-pressure prototype**: three persistent hazmat encounters, faster room following, four-direction FIRE+joystick gas blast, knockback/stun/cooldown and machine-readable tuning/validation. **Design milestone complete; Codex subsequently built v0.3 and the user playtested it.**
 - [x] **Specify Stage 1 v0.4 responsive movement prototype**: 4-bit fixed-point fractional-position character movement, 1.5px/frame cardinal/normalized diagonal, inset 6×6 hitboxes, wall sliding, doorway-center triggers, real sub-tile rendering expectations, user feedback, and Codex handoff. **Design only; v0.4 XEX and Atari800 playtest are open.**
-- [x] **Specify Stage 1 v0.5 entertaining gas-blast prototype**: hold-FIRE + later cardinal aim, release-to-walk and one shot per hold; Billy's backside pose, three expanding gas-cloud waves, animated 3-tile knockback with furniture/worker collisions, renewable three-charge supply, cooldown/recovery, status/SFX, JSON validator and Codex handoff. **Design done; runnable XEX and user playtest still open.**
+- [x] **Specify Stage 1 v0.5 entertaining gas-blast prototype**: hold-FIRE + any of eight cardinal/diagonal aims, release-to-walk and one shot per hold; Billy's backside pose, three expanding gas-cloud waves, animated 3-tile knockback with furniture/worker collisions, renewable three-charge supply, cooldown/recovery, status/SFX, JSON validator and Codex handoff. **Design done; runnable XEX and user playtest still open.**
 - [ ] Implement the chosen indoor perspective.
 - [ ] Create a basic room and obstacle layout.
 - [ ] Implement player movement and wall collisions.
@@ -235,7 +235,9 @@ This checklist distinguishes **the two user-tested standalone visual XEX files (
 
 ## Change Log
 
-- **v0.34 — 2026-11-01:** User played Codex's **v0.4** XEX and approved smooth Billy walking and diagonal controls. Preserves that baseline and defines v0.5's signature gas-blast redesign: hold FIRE with four-cardinal aiming (FIRE-first supported), butt-pivot/jeans pose, 3-wave expanding cloud, 3-tile animated knockback, furniture/worker collision gags, stun, three renewable charges, cooldown, HUD and short POKEY effect. JSON, design specification, validator and Codex handoff committed. Marks v0.4 **movement-feel** test complete, not exhaustive v0.4 regression, and adds pending v0.5 Atari800 test. **56/172 complete, 116 open**; v0.5 XEX not built here.
+- **v0.35 — 2026-11-01:** Confirms **eight-way indoor gas blasting for Stage 1 v0.5**, matching Billy's eight-direction walking. Updated Codex guidance, spec, numeric JSON, validator, cloud/knockback diagonal vectors and corner-blocking tests. **Four-way driving/car blasts remain unchanged**. Checklist remains **56/172 complete, 116 open**; this changes a design requirement, not an implementation milestone, and no v0.5 XEX was built.
+
+- **v0.34 — 2026-11-01:** User played Codex's **v0.4** XEX and approved smooth Billy walking and diagonal controls. Preserves that baseline and defines v0.5's signature gas-blast redesign: hold FIRE with eight-way aiming (FIRE-first supported), butt-pivot/jeans pose, 3-wave expanding cloud, 3-tile animated knockback, furniture/worker collision gags, stun, three renewable charges, cooldown, HUD and short POKEY effect. JSON, design specification, validator and Codex handoff committed. Marks v0.4 **movement-feel** test complete, not exhaustive v0.4 regression, and adds pending v0.5 Atari800 test. **56/172 complete, 116 open**; v0.5 XEX not built here.
 
 - **v0.33 — 2026-11-01:** Records user's completed v0.3 Atari800 playtest: pressure improved slightly, **movement slow/cumbersome, indoor blast terrible**. Adds **Stage 1 v0.4 movement spec**, numeric rules JSON and Codex handoff: smooth fractional movement, 8-way walking, normalized diagonal speed, wall-slide, pixel-aware collisions, 3-room topology/3-worker pursuit preserved, temporary inactive gameplay FIRE and v0.5 blast redesign. Marks v0.3 experiential playtest complete but not all detailed mechanics verified; adds pending v0.4 test. **54/170 complete, 116 open**. No v0.4 XEX built here.
 
