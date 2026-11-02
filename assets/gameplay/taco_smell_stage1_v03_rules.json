@@ -1,0 +1,136 @@
+{
+  "schema_version": 3,
+  "game": "Gas Blasters '82",
+  "level": "Taco Smell — Stage 1",
+  "design_status": "v0.3 balancing proposal, approved direction but timing to be evaluated in Atari800",
+  "base_room_maps": "assets/maps/taco_smell_stage1_v02.json",
+  "base_branch": "feature/stage1-room-screen-v0.2",
+  "room_order": [
+    "dining",
+    "kitchen",
+    "storage"
+  ],
+  "ntsc_fps_nominal": 60,
+  "controls": {
+    "move": "joystick 1, up/down/left/right, one cardinal step each existing 8-frame player movement tick",
+    "fire": "FIRE + cardinal joystick direction, one blast on rising FIRE edge only; Fire blocks movement while held",
+    "fire_without_direction": "no blast; no movement until Fire released",
+    "diagonal": "use same deterministic single-axis priority as v0.2 movement; no diagonal blast",
+    "fire_during_cooldown": "no blast; release and press again after cooldown",
+    "opening_sequence": "START, FIRE scene transitions retained, unchanged"
+  },
+  "hazmat": {
+    "active_at_once_max": 3,
+    "units": [
+      {
+        "id": "hazmat_front",
+        "room": "dining",
+        "spawn": [
+          2,
+          10
+        ],
+        "activation": "60 NTSC frames after Stage 1 begins; even if Billy has left dining",
+        "activate_after_frames": 60,
+        "move_every_frames": 12,
+        "role": "opening-room pursuer"
+      },
+      {
+        "id": "hazmat_kitchen",
+        "room": "kitchen",
+        "spawn": [
+          29,
+          11
+        ],
+        "activation": "30 frames after Billy first enters kitchen",
+        "activate_after_first_room_entry_frames": 30,
+        "move_every_frames": 10,
+        "role": "interceptor positioned ahead of the direct path"
+      },
+      {
+        "id": "hazmat_storage",
+        "room": "storage",
+        "spawn": [
+          30,
+          10
+        ],
+        "activation": "30 frames after Billy first enters storage",
+        "activate_after_first_room_entry_frames": 30,
+        "move_every_frames": 10,
+        "role": "final exit-area blocker"
+      }
+    ],
+    "door_follow_delay_frames": 45,
+    "door_follow_behavior": "persistent unique worker IDs; follow one adjacent room at a time through linked D passage, never teleport across multiple rooms; no duplicates; preserve their timers, stun and positions when revisiting",
+    "collision": "CAUGHT when Billy overlaps a non-stunned worker; stunned worker can be passed through harmlessly",
+    "chase": "cardinal navigation on non-solid tiles; prioritize Billy if in same room; bounded pathfinding and regular turns; cannot pass walls/equipment; avoid freezing movement during search",
+    "player_entry_grace_frames": 15,
+    "grace_only_for": "collision with a worker that already occupies Billy's destination tile immediately on a room transition; choose another valid spawn tile first; do not grant immunity throughout a room"
+  },
+  "blast": {
+    "range_tiles": 3,
+    "geometry": "one-tile-wide ray along one cardinal joystick direction starting at adjacent tile",
+    "wall_occlusion": true,
+    "targeting": "nearest first non-stunned or stunned hazmat worker along ray in current room; affect at most one",
+    "max_knockback_tiles": 2,
+    "knockback": "each tile away must be in bounds and non-solid; stop before a solid obstacle; never shove through D to another room or through X to win",
+    "stun_frames": 60,
+    "cooldown_frames": 72,
+    "visual_frames": 8,
+    "visual": "temporary distinctive directional gas-cloud glyph or tile highlight; restore underlying terrain after effect expires",
+    "stun_collision": "stunned worker cannot catch Billy; overlap allowed until stun ends, then if overlap persists resolve catch only after giving player one movement tick to leave",
+    "pressure_meter": "no indoor gas-pressure cost or meter yet; leave road gas rules untouched"
+  },
+  "other": {
+    "layout": "no room geometry/door changes; use exactly the three v0.2 40x22 maps",
+    "room_roles": {
+      "dining": "one activated pursuer, teach evade/blast",
+      "kitchen": "additional worker intercepts central travel corridor; plan a route or gas blast",
+      "storage": "third blocker near final exit, forcing a deliberate evade or gas blast"
+    },
+    "caught": "same Stage 1 restart as v0.2, no lives loss",
+    "complete": "same Stage Complete when storage X at (39,10), no Road 1",
+    "no_time_gate": true,
+    "pacing": "Record skilled and first-clear times from actual emulator tests; prior 70–105 second concept is aspirational only, not an enforced countdown",
+    "non_goals": [
+      "camera scrolling",
+      "map rewrites",
+      "grease sliding",
+      "customer panic AI",
+      "new cutscenes",
+      "gas-pressure rules indoors",
+      "extra levels",
+      "new score/lives system",
+      "replacing title v1",
+      "replacing v0.2 binary"
+    ]
+  },
+  "acceptance": {
+    "map_validators": [
+      "tools/validate_taco_smell_stage1.py",
+      "tools/validate_taco_smell_stage1_v02.py"
+    ],
+    "new_validator": "tools/validate_stage1_pressure_v03.py",
+    "runtime_tests": [
+      "start and input/fire rearm",
+      "all four room transitions",
+      "three distinct enemies with bounded spawns",
+      "door-follow and cancellation",
+      "blast line of sight and occlusion",
+      "push to walls and map bounds",
+      "stun and cooldown time",
+      "collision with stunned enemy",
+      "CAUGHT/restart",
+      "STAGE COMPLETE",
+      "no regression to opening/music",
+      "safe Atari memory/CPU budgets"
+    ],
+    "playtest_metrics": [
+      "room elapsed times",
+      "clear time",
+      "number of catches/restarts",
+      "number of blasts used",
+      "enemy chase responsiveness",
+      "fairness of final room"
+    ]
+  }
+}
