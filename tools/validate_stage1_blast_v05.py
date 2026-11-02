@@ -55,7 +55,7 @@ assert supply["enabled"] is True
 assert supply["start_charges"] == supply["max_charges"] == 3
 assert supply["cost_per_successful_discharge"] == 1
 assert supply["regenerate_one_charge_every_frames"] > supply["cooldown_frames_from_discharge"] >= 1
-assert supply["recovery_frames_from_discharge"] >= anim["windup_frames"] // 2
+assert supply["recovery_frames_from_discharge"] >= r["controls"]["windup_frames"] // 2
 assert supply["regenerate_while_moving"] and supply["regenerate_while_aiming"]
 assert "restart" in supply["refill_policy"]
 assert r["preservation"]["player_movement"] and r["preservation"]["opening"]
