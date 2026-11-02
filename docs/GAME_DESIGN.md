@@ -182,7 +182,7 @@ Reach the bathroom before the impending explosion/implosion. Successful completi
 
 **Balancing values are not specified**; do not hardcode speculative percentages as canonical game rules.
 
-### 5.3 Gas-blasting abilities — Four-way window blasts and one-joystick controls confirmed
+### 5.3 Gas-blasting abilities — Four-way **car window** blasts and one-joystick controls confirmed
 
 Billy has secret gas powers to evade hazmat personnel and police. **Driving stages use exactly four gas-blast directions: front, rear, left and right** (no diagonal blasts in the current design). The vehicle's front, rear and side windows are the gag's natural blast outlets. A blast knocks pursuing police cars and hazmat vans away from Billy's car, helping counter intentional ramming and off-road shoves.
 
@@ -197,7 +197,7 @@ Billy has secret gas powers to evade hazmat personnel and police. **Driving stag
 
 **Confirmed visual gag:** each directional blast briefly shows a **jeans-covered backside sticking out of the corresponding window/edge of the car**, followed by a **gas cloud emanating from the backside** in the selected cardinal direction. The butt and cloud should be comedic, readable from the top-down Atari perspective, and kept visually clear even for the front-window blast. A simple pop-out pose and cloud burst are the initial art direction, not a requirement for detailed anatomy.
 
-**Scope decisions:** four-way blasting is the chosen design, not merely a temporary step toward eight-way. **No diagonal blast mechanics or art are planned.** The Atari joystick can physically register diagonal inputs, but that does **not** imply diagonal attacks; how to resolve simultaneous direction inputs in blast mode is a small implementation/test detail. A **second joystick dedicated to blasting is deferred**; start with one joystick and one Fire button. Either idea may be revisited only if later playtesting justifies a deliberate change.
+**Driving scope decisions:** four-way **car** blasting is the chosen design, not merely a temporary step toward eight-way. **No diagonal car-blast mechanics or artwork are planned**; Stage 1 **on-foot** blasts now use eight directions. The Atari joystick can physically register diagonal inputs, but that does **not** imply diagonal attacks; how to resolve simultaneous direction inputs in blast mode is a small implementation/test detail. A **second joystick dedicated to blasting is deferred**; start with one joystick and one Fire button. Either idea may be revisited only if later playtesting justifies a deliberate change.
 
 **Still open for prototype tuning:** responsiveness/feel while unable to steer, blast duration and repetition while holding Fire, range, cooldown, strength and enemy knockback; sprite placement, animation frame count, cloud appearance and memory budget; interactions with player gas pressure and Gas-Nix; and indoor-stage blast controls/effects.
 
