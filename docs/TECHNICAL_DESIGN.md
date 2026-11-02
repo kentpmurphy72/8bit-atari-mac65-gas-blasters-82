@@ -37,7 +37,7 @@ The accepted game opening is `assets/opening/GasBlasters82_OpeningSequence_v1.xe
 - **FIRE:** v0.4 gameplay intentionally ignores FIRE; pre-game intro FIRE is unchanged. v0.5 specifically reinstates and redesigns **eight-direction indoor blasting** without regressing movement.
 - **Performance:** Need true video-cadenced movement even while the shared BFS/three-worker logic runs, without full-screen redraw per frame. 6502 cycle and memory-segment checks mandatory; py65 measurement is not a stand-in for user Atari800 playtesting.
 
-## Stage 1 v0.5 gas-blast extension (proposed; XEX pending)
+## Stage 1 v0.5 gas-blast requirements
 
 **Authority:** [v0.5 blast gameplay specification](STAGE1_BLAST_V05.md), [machine-readable tuning](../assets/gameplay/taco_smell_stage1_v05_blast.json), [Codex handoff](CODEX_STAGE1_V05_HANDOFF.md).
 
@@ -86,3 +86,29 @@ The **fixed-screen, non-scrolling** room behavior is specific to **Taco Smell St
   CPU-only profile includes pursuit, wall slide, catch-up, restart and room redraw.
   Room redraws may span video frames; DMA/VBI costs, visible sprite alignment,
   flicker, responsiveness and real Atari800/800XL behavior remain unverified.
+
+## Implemented v0.5 blast prototype (pending Atari800)
+
+Source/build/tests: `tools/build_stage1_v05.py`, `tools/test_stage1_v05.py`; XEX,
+listings, hash/segments, profile and run instructions: [assets/stage1_v05/README.md](../assets/stage1_v05/README.md).
+The v0.4 builder runs in a temporary directory; its walking/collision/AI code is
+retained, with checked stage-only input/render/PMG dispatch hooks. All earlier
+versioned XEXs/builders/tests remain unchanged.
+
+The blast state machine handles eight stable aims, FIRE-first ordering, four-tick
+wind-up, consumed blocked holds, renewable charges, cooldown and recovery. Seven
+cone cells use precomputed relative supercover paths translated to the burst origin;
+solids and D/X occlude, including both diagonal corner cells. Visibility is cached
+per burst; dirty restoration precedes retained actor rendering. Three per-worker
+hit/push/BONK timers animate collision-safe knockback without duplicate entities.
+
+New state uses $2900, static path/pose/vector tables the $5B00 artwork gap, and
+attack code the $7800 gap. Billy retains P0 at $BC00; blue jeans use P1 at $BD00,
+with transparent P0 holes to respect GTIA priority. Two pose phases/eight directions
+and cloud/impact glyphs are temporary art, not visually verified. A ten-tick
+original noise effect uses POKEY channel 1 during Stage 1 and is silenced on results.
+
+All 18 v0.5 CPU tests, 15 unchanged v0.4 tests and four validators pass. The
+three-worker/cloud/PMG walking scenario peaks at 20,689 sampled CPU cycles,
+excluding ANTIC DMA/OS interrupts. Real Atari800 smoothness, sound, comedy,
+charge balance and overall feel remain unverified. No merge into main.

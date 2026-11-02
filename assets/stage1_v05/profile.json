@@ -1,0 +1,35 @@
+{
+  "xex_sha256": "b7e1c423b25f7cb10cd90cd063090579eaea4bd27b7310c70e8ea5f02e169753",
+  "model": "py65 CPU, excludes ANTIC DMA / OS interrupts",
+  "atari800_tested": false,
+  "three_active_workers": true,
+  "scenario": "Dining (24,12), aim right 4 ticks; hold 8; release and walk up 8 while cloud completes",
+  "windup_and_discharge_cpu_cycles": [
+    14282,
+    13994,
+    14141,
+    20689
+  ],
+  "cloud_and_knockback_cpu_cycles": [
+    14485,
+    14586,
+    16159,
+    14588,
+    14691,
+    16702,
+    15461,
+    15396
+  ],
+  "cloud_plus_pmg_walking_cpu_cycles": [
+    19411,
+    16142,
+    16070,
+    18226,
+    15992,
+    16276,
+    19677,
+    16493
+  ],
+  "max_sample_cpu_cycles": 20689,
+  "notes": "Sampled native runtime costs, not an exhaustive timing bound or real Atari frame-rate measurement."
+}
