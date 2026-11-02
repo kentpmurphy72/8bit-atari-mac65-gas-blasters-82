@@ -1,7 +1,7 @@
 # Gas Blasters '82 — Technical Design (Incremental)
 
 **Date:** 2026-11-01  
-**Status:** Partial Stage 1 v0.2 engine + v0.3 encounter plan; **not** complete architecture for the whole game.
+**Status:** Partial Stage 1 v0.2–v0.4 engine/encounter/movement plans; **not** a complete game-wide technical architecture.
 
 ## Existing baselines
 
@@ -17,19 +17,31 @@ The accepted game opening is `assets/opening/GasBlasters82_OpeningSequence_v1.xe
 - One hazmat worker spawns 180 NTSC frames after Stage 1 begins in dining. Preserve its unique identity across transitions; after a door crossing it follows through the matching doorway after approximately 90 frames, without cloning, disappearing or teleporting across nonadjacent rooms. If Billy immediately returns before the follow completes, cancel that pending follow. Future side/rear spawns remain inactive.
 - Preserve CAUGHT/restart, input behavior, intro assets/POKEY songs, and the exit success state. No indoor gas-blast/grease mechanics for v0.2.
 
-## Stage 1 v0.3 pressure extension (planned, not implemented)
+## Stage 1 v0.3 pressure extension (implemented on feature branch; playtested with issues)
 
-- The user successfully played v0.2, but found the single pursuer ineffective and Stage 1 too short. Keep the three fixed 40×22 rooms and reuse the currently playable `feature/stage1-room-screen-v0.2` code branch.
+- Following the user's successful v0.2 test, Codex built and the user played **v0.3** on `feature/stage1-pressure-v0.3`. The three fixed 40×22 rooms remain. The user reports pressure is somewhat better, but player movement remains slow/cumbersome and the blast unsatisfying. This section records the v0.3 baseline, not an upcoming task.
 - Add three persistent enemy IDs across the restaurant: dining (2,10) at 60 frames, kitchen (29,11) at +30 frames from entry, storage (30,10) at +30 frames from entry. Movement cadence targets 12/10/10 frames and follow delay 45 frames; all are **tuning defaults**, not verified Atari800 behavior.
 - One direction-aimed blast on each **new FIRE press**, block movement while FIRE held, ray up to three tiles blocked by solid terrain, knockback up to two cells, stun 60 frames, cooldown 72 frames and short visual effect. Stunned enemy cannot catch Billy. Follow the [v0.3 gameplay contract](STAGE1_GAMEPLAY_PRESSURE_V03.md) and its [machine-readable rules](../assets/gameplay/taco_smell_stage1_v03_rules.json).
 - **6502 performance warning:** v0.2 runs one incremental BFS at eight nodes per observed frame. Three independent BFS workers may exceed available processing or make pursuit unresponsive. Codex should implement a bounded multi-enemy scheduling/cached-distance strategy, preserve room-follow identity, and instrument input responsiveness and visual behavior.
-- Keep the actual v0.2 XEX and compiler untouched. New `feature/stage1-pressure-v0.3` is expected to produce separate versioned build artifacts, run all v0.1/v0.2 regression tests plus the new tuning validator, and undergo real Atari800 playtesting. Do not claim the tuning works until tested.
+- Preserve all v0.2/v0.3 versioned binaries, builders and test fixtures unchanged. v0.3 already supplies its own `tools/build_stage1_v03.py`, `tools/test_stage1_v03.py`, `assets/stage1_v03/`, manifest and CPU-only profile. The user's playtest confirms v0.3 runs but **not** that its control feel is approved. The old timing numbers remain historical defaults.
+
+## Stage 1 v0.4 movement-control prototype (proposed, not yet coded)
+
+- **Active spec:** [v0.4 movement contract](STAGE1_MOVEMENT_V04.md), [tuning data](../assets/gameplay/taco_smell_stage1_v04_movement.json), and [Codex handoff](CODEX_STAGE1_V04_HANDOFF.md).
+- **Source branch:** User-played `feature/stage1-pressure-v0.3`. Create `feature/stage1-movement-v0.4` from this baseline; keep prior v0.3 XEX and source intact. V0.4 code does **not** exist yet.
+- **Problem:** The old movement is one full **8×8 tile every 8 NTSC frames**, and the existing renderer snaps Billy to character-cell positions. User finds this awkward and sluggish.
+- **Movement target:** Keep three 40×22 fixed-screen maps, but represent Billy with **4-bit fractional logical-pixel precision per axis** (1/16-pixel units; use 16-bit coordinate components). Cardinal **24/16 = 1.5 px/frame**; diagonal **17/16 px/frame per axis**, for normalized 8-way joystick walking. Poll at each observed video tick, not every eighth; stop/reverse immediately.
+- **Sprite rendering requirement:** Actually display Billy moving *within* a tile. Consider a hardware **gameplay** PMG sprite for Billy, or clipped software sprite with correct restoration and full RAM/DLI validation; do **not** alter the retired PMG *title* art. Character-cell-only drawing is not acceptable.
+- **Hitboxes:** 8×8 visible sprite, **6×6 inset collision** rectangle. Resolve X and Y per-axis with swept/substeps to avoid wall tunneling; if one axis is obstructed, slide along the other at full cardinal speed. Enemy tiles remain at existing integer grid positions, but collision against Billy becomes overlapping AABBs rather than exact tile equality. Keep stun/contact grace.
+- **Door triggers:** Billy's hitbox **center** enters D/X; after a room swap align Billy with x=1 or x=38 destination tile (8px/integer alignment), preserving doorway row (10/11). Do not bounce repeatedly on held input. Keep all room/enemy states.
+- **FIRE:** v0.3 indoor blast is suspended in this **isolated movement test**. FIRE must not freeze Billy; pre-game intro FIRE remains. v0.5 separately redesigns 4-way indoor blasting.
+- **Performance:** Need true video-cadenced movement even while the shared BFS/three-worker logic runs, without full-screen redraw per frame. 6502 cycle and memory-segment checks mandatory; py65 measurement is not a stand-in for user Atari800 playtesting.
 
 ## Memory and runtime checks required of Codex
 
 v0.1 uses buffers/data in the high RAM area (starting around `$A000`) and a 6502 extension. Three new maps cannot simply be appended without checking the Atari 64 KB memory map. Derive actual safe allocation from the v0.1 branch's `tools/build_stage1.py` and `assets/stage1/manifest.json`. Validate every XEX segment for overlap and avoid overwriting the working title/cutscene memory, video screen, character set, OS-reserved regions, and music buffers. Preserve the active display-list/DLI behavior.
 
-Run both map validators, CPU/runtime tests of four doors, y-preserving spawn, transitions without auto-reentry, solid collision, unique hazmat, safe row lookup and stage completion. Then the user must test the v0.2 XEX in Atari800; simulation is not a substitute for that emulator check.
+Run both map validators, CPU/runtime tests of four doors, y-preserving spawn, transitions without auto-reentry, solid collision, unique hazmat, safe row lookup and stage completion. The user has already played v0.2 and v0.3 in Atari800. New versions still require their own actual Atari800 playtests; CPU simulation alone cannot establish visual motion, music or controller feel.
 
 ## Other stages
 
