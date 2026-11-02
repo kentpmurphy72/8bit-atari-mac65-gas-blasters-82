@@ -17,7 +17,19 @@ assert r["schema_version"] == 5
 assert r["baseline_branch"] == "feature/stage1-movement-v0.4"
 assert r["implementation_branch"] == "feature/stage1-blast-v0.5"
 assert r["timing"]["frames_per_second_nominal"] == m["frame_clock"]["nominal_frames_per_second"]
-assert r["controls"]["directional_attack_count"] == 4
+assert r["controls"]["directional_attack_count"] == 8
+assert r["controls"]["diagonal_attack_enabled"] is True
+assert r["controls"]["road_attack_directions"] == 4
+expected = {
+    "up": (0, -1), "up_right": (1, -1), "right": (1, 0),
+    "down_right": (1, 1), "down": (0, 1), "down_left": (-1, 1),
+    "left": (-1, 0), "up_left": (-1, -1)
+}
+directions = r["controls"]["aim_directions"]
+assert len(directions) == 8
+assert {d["name"]: (d["dx"], d["dy"]) for d in directions} == expected
+assert len(set(expected.values())) == 8
+assert r["controls"]["automatic_discharge"].find("diagonal") >= 0
 assert r["controls"]["walk_while_fire_held"] is False
 assert r["controls"]["eight_way_walk_when_released"] is True
 assert r["controls"]["release_to_rearm"] is True
@@ -40,9 +52,45 @@ assert [anim["width_by_depth"][str(i)] for i in (1, 2, 3)] == [0, 1, 1]
 assert anim["solid_occlusion"] and anim["no_room_leak"] and anim["no_solid_overdraw"]
 assert set(anim["solid_tiles"]) == {k for k, v in rooms["terrain"].items() if v["solid"]}
 assert anim["sfx"]["duration_frames"] <= anim["cloud_live_frames"]
+geo = anim["cloud_geometry"]
+assert geo["max_cells_per_burst"] == 7
+assert [w["depth"] for w in geo["depth_to_offsets"]] == [1, 2, 3]
+assert [w["flanks"] for w in geo["depth_to_offsets"]] == [[0], [-1, 0, 1], [-1, 0, 1]]
+assert "orthogonal" in geo["diagonal_occlusion"]
+assert set(geo["hard_boundaries"]) == set(anim["solid_tiles"]) | {"D", "X"}
+assert "diagonal" in anim["pose_requirements"]
+# In each direction the 3 consecutive waves define 7 unique, offset-correct cells.
+# Opposite vectors have symmetric coverage and diagonal axes are not aliased to cardinals.
+clouds = {}
+for name, (dx, dy) in expected.items():
+    cells = set()
+    for wave in geo["depth_to_offsets"]:
+        depth = wave["depth"]
+        for k in wave["flanks"]:
+            cells.add((depth * dx - k * dy, depth * dy + k * dx))
+    assert len(cells) == 7, (name, cells)
+    assert (dx, dy) in cells
+    clouds[name] = cells
+assert clouds["up_right"] != clouds["up"] and clouds["down_left"] != clouds["down"]
+assert clouds["up_right"] == {(-x, -y) for x, y in clouds["down_left"]}
+assert clouds["up_left"] == {(-x, -y) for x, y in clouds["down_right"]}
+# Diagonal knockback may never cut a corner: both orthogonal neighbors must be clear.
+def diagonal_step_allowed(x, y, dx, dy, blocked):
+    target = (x + dx, y + dy)
+    if target in blocked:
+        return False
+    if dx and dy:
+        return (x + dx, y) not in blocked and (x, y + dy) not in blocked
+    return True
+assert diagonal_step_allowed(2, 2, 1, -1, set())
+assert not diagonal_step_allowed(2, 2, 1, -1, {(3, 2)})
+assert not diagonal_step_allowed(2, 2, 1, -1, {(2, 1)})
+assert not diagonal_step_allowed(2, 2, 1, -1, {(3, 1)})
 
 combat = r["combat"]
 assert combat["max_knockback_tiles"] == 3
+assert "diagonal" in combat["diagonal_knockback"]
+assert "eight" in combat["knockback_direction"]
 assert combat["knockback_frames_per_tile"] >= 2
 assert combat["collision_solid"] and combat["collision_other_worker"]
 assert combat["enemies_cannot_be_forced_through_doors_or_exit"] is True
@@ -62,6 +110,6 @@ assert r["preservation"]["player_movement"] and r["preservation"]["opening"]
 assert len(e["hazmat"]["units"]) == 3
 assert rooms["display"]["tile_columns"] == 40 and rooms["display"]["tile_rows"] == 22
 
-print("PASS: Stage 1 v0.5 has 4 aim directions, 3 timed cloud waves, occlusion,")
-print("      3 animated knockback tiles, 3 regenerating charges, and intact v0.4/v0.3 baselines.")
+print("PASS: Stage 1 v0.5 has 8 aim directions (4 cardinal + 4 diagonal),")
+print("      7-cell cones, diagonal corner blocking, 3-tile knockback and 3 gas charges.")
 print("NOTE: This validates JSON, NOT the resulting 6502 gameplay or Atari800 presentation.")
