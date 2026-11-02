@@ -1,7 +1,7 @@
 # Gas Blasters '82 — Technical Design (Incremental)
 
 **Date:** 2026-11-01  
-**Status:** Partial Stage 1 v0.2 technical plan; **not** complete architecture for the whole game.
+**Status:** Partial Stage 1 v0.2 engine + v0.3 encounter plan; **not** complete architecture for the whole game.
 
 ## Existing baselines
 
@@ -17,6 +17,14 @@ The accepted game opening is `assets/opening/GasBlasters82_OpeningSequence_v1.xe
 - One hazmat worker spawns 180 NTSC frames after Stage 1 begins in dining. Preserve its unique identity across transitions; after a door crossing it follows through the matching doorway after approximately 90 frames, without cloning, disappearing or teleporting across nonadjacent rooms. If Billy immediately returns before the follow completes, cancel that pending follow. Future side/rear spawns remain inactive.
 - Preserve CAUGHT/restart, input behavior, intro assets/POKEY songs, and the exit success state. No indoor gas-blast/grease mechanics for v0.2.
 
+## Stage 1 v0.3 pressure extension (planned, not implemented)
+
+- The user successfully played v0.2, but found the single pursuer ineffective and Stage 1 too short. Keep the three fixed 40×22 rooms and reuse the currently playable `feature/stage1-room-screen-v0.2` code branch.
+- Add three persistent enemy IDs across the restaurant: dining (2,10) at 60 frames, kitchen (29,11) at +30 frames from entry, storage (30,10) at +30 frames from entry. Movement cadence targets 12/10/10 frames and follow delay 45 frames; all are **tuning defaults**, not verified Atari800 behavior.
+- One direction-aimed blast on each **new FIRE press**, block movement while FIRE held, ray up to three tiles blocked by solid terrain, knockback up to two cells, stun 60 frames, cooldown 72 frames and short visual effect. Stunned enemy cannot catch Billy. Follow the [v0.3 gameplay contract](STAGE1_GAMEPLAY_PRESSURE_V03.md) and its [machine-readable rules](../assets/gameplay/taco_smell_stage1_v03_rules.json).
+- **6502 performance warning:** v0.2 runs one incremental BFS at eight nodes per observed frame. Three independent BFS workers may exceed available processing or make pursuit unresponsive. Codex should implement a bounded multi-enemy scheduling/cached-distance strategy, preserve room-follow identity, and instrument input responsiveness and visual behavior.
+- Keep the actual v0.2 XEX and compiler untouched. New `feature/stage1-pressure-v0.3` is expected to produce separate versioned build artifacts, run all v0.1/v0.2 regression tests plus the new tuning validator, and undergo real Atari800 playtesting. Do not claim the tuning works until tested.
+
 ## Memory and runtime checks required of Codex
 
 v0.1 uses buffers/data in the high RAM area (starting around `$A000`) and a 6502 extension. Three new maps cannot simply be appended without checking the Atari 64 KB memory map. Derive actual safe allocation from the v0.1 branch's `tools/build_stage1.py` and `assets/stage1/manifest.json`. Validate every XEX segment for overlap and avoid overwriting the working title/cutscene memory, video screen, character set, OS-reserved regions, and music buffers. Preserve the active display-list/DLI behavior.
@@ -25,7 +33,7 @@ Run both map validators, CPU/runtime tests of four doors, y-preserving spawn, tr
 
 ## Other stages
 
-The room-to-room design is **specific to Taco Smell Stage 1**. Pharmacy scrolling is an available design option; a scrolling grocery aisle chase with police, hazmat workers and townspeople is the intended direction but not yet technically specified. Driving road stages still use the separate overhead-scrolling driving/HUD design. All game-wide technical decisions remain open (final graphics modes, PMG for moving sprites, global memory map and frame timing, game distribution, lives, score and other levels).
+The **fixed-screen, non-scrolling** room behavior is specific to **Taco Smell Stage 1 v0.2**, not a restriction on room transitions elsewhere. Later indoor stages—including pharmacy and grocery—may use **room-to-room transitions, camera scrolling inside an area, or a hybrid of both**. A grocery aisle pursuit with police, hazmat workers and townspeople could scroll and then switch sections via a room transition; this remains a design possibility, not a completed technical specification. Driving road stages still use the separate overhead-scrolling driving/HUD design. All game-wide technical decisions remain open (final graphics modes, PMG for moving sprites, global memory map and frame timing, game distribution, lives, score and other levels).
 
 ## Implemented v0.2 prototype (feature branch, awaiting Atari800)
 

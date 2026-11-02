@@ -9,7 +9,7 @@
 
 Taco Smell uses a **fixed, full-screen, room-to-room** overhead perspective: **Dining Room → Kitchen / Service → Storage / Rear Exit**. No horizontal/vertical scrolling within Stage 1. Billy may go backward through doorways. Transition is immediate on entering the doorway tile, with the entire next room replacing the screen.
 
-This is a **Stage 1-only** decision. Scrolling remains available for pharmacy gameplay and particularly a **grocery aisle chase with police, hazmat workers and townspeople pursuing Billy**. Their layouts and exact mechanics are still to be designed; do not force the Taco Smell room engine onto those stages.
+This **non-scrolling, fixed-screen implementation decision is for Stage 1 v0.2 only**. Later indoor stages, including pharmacy and grocery, may use **room-to-room transitions, scrolling within rooms/areas, or both together**. For example, Billy could run down a **scrolling grocery aisle** while pursued by police, hazmat workers and townspeople, then transition into another department or room. Exact layouts and camera mechanics are still open; do not impose a single camera style on all indoor stages.
 
 ## 2. Canonical files
 
