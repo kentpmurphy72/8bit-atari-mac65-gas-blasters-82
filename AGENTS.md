@@ -1,17 +1,21 @@
 # Gas Blasters '82 — Codex Instructions
 
-## Current Stage 1 v0.2 task
+## Current implementation: Stage 1 playable v0.3
 
-- Target a stock **Atari 800XL, 64 KB**, native **6502 machine code** and a runnable Atari XEX. Python tooling is **offline only**, not Atari runtime.
-- Read [the Codex Stage 1 v0.2 handoff](docs/CODEX_STAGE1_V02_HANDOFF.md), [the room-map contract](docs/STAGE1_ROOMMAP_SPEC_V02.md), and the canonical three room-map files with [JSON metadata](assets/maps/taco_smell_stage1_v02.json).
-- **Start from the user-played v0.1 implementation** on branch `feature/stage1-playable-v0.1`. Create `feature/stage1-room-screen-v0.2` from it, then bring v0.2 design files from `main`. Do not merge without user approval.
-- Preserve v0.1 XEX, map, builder/tests and the approved `assets/opening/GasBlasters82_OpeningSequence_v1.xex`. The old scrolling v0.1 map is **historical** for v0.2. Do not use rejected PMG title v2 or v2.1.
+- Target stock **Atari 800XL, 64 KB**, actual **6502 machine code** and runnable XEX. Python is offline build/test tooling, never Atari runtime.
+- Read [Codex v0.3 handoff](docs/CODEX_STAGE1_V03_HANDOFF.md), [gameplay-pressure spec](docs/STAGE1_GAMEPLAY_PRESSURE_V03.md), [JSON tuning rules](assets/gameplay/taco_smell_stage1_v03_rules.json), and the existing [room map spec](docs/STAGE1_ROOMMAP_SPEC_V02.md) before coding.
+- **Start from the user-playtested v0.2** on `feature/stage1-room-screen-v0.2`, create **`feature/stage1-pressure-v0.3`**, and bring current v0.3 design files from main. Keep the v0.1 and v0.2 XEXs/builders/tests and the original opening sequence unchanged. Do **not** merge to main without user approval.
+- Preserve Title v1 → Meet the Crew → Arriving at Taco Smell, original artwork, text, Arcade Rock/Funky Gas Attack POKEY music and controls. Rejected PMG title experiments v2/v2.1 remain retired.
 
-## Implementation scope and quality gates
+## Scope
 
-- Replace Stage 1 scrolling with three **40×22** fixed-screen maps (dining, kitchen, storage) using the full 40-column gameplay width and two footer/status rows.
-- Implement linked door transitions in both directions, 1-tile-inside destination spawn, original movement and collision, **one** hazmat pursuer that follows across rooms without respawning/duplicating, CAUGHT/restart and X exit completion.
-- Do not add gas attack, grease physics, new enemies, final art, extra gameplay stages, changes to title/intro/music, or a finalized lives system.
-- Run `python3 tools/validate_taco_smell_stage1.py` and `python3 tools/validate_taco_smell_stage1_v02.py`, then add/run real 6502 tests for movement, room transitions (both directions), enemy continuity, debounce and XEX memory safety.
-- Commit new v0.2 source/build/XEX **on the feature branch only**. Clearly distinguish automated test results from genuine Atari800 visual/audio testing; include the exact `atari800 -xl -nobasic -run ./YOUR_FILE.xex` command and build instructions.
-- **Stage 1 v0.2 specifically uses non-scrolling, full-screen room-to-room transitions.** For later stages (including pharmacy and grocery), **room-to-room transitions, scrolling within a room/area, or a combination of both** remain viable. For example, a grocery aisle pursuit could scroll before transitioning to another section. Do not prematurely lock later-stage camera designs.
+- **Keep the three non-scrolling 40×22 fixed rooms**, two status rows, all doorway/backtrack transitions, collision rules, CAUGHT restart and X exit.
+- Add **three persistent hazmat entities total**: existing front worker, new kitchen interceptor and storage blocker; quicker activity and room following. Avoid duplicate spawns and improve search scheduling to maintain responsiveness on the 6502.
+- Add **FIRE + cardinal direction indoor gas blast**, one per FIRE press, 3-tile line of sight, 2-tile maximum knockback, 60-frame stun and 72-frame cooldown; movement pauses with FIRE held. Use simple temporary graphics. See JSON/spec for details.
+- Do **not** add scrolling, grease slipping, new rooms, crowd AI, arbitrary time gates, gas-pressure rules, final graphics, scoring/lives, road gameplay or other features.
+
+## Validation and handoff
+
+- Run both prior map validators plus `python3 tools/validate_stage1_pressure_v03.py`. Preserve prior 6502 test coverage and add multiple-worker/blast/performance/memory-safety tests.
+- Commit versioned new source/build/XEX to **v0.3 feature branch only**; document testing and supply Atari800 launch instructions. **CPU unit tests do not equal full Atari800 playtesting.**
+- The **Taco Smell camera choice applies to Stage 1**, not every interior. Pharmacy and grocery can use room-to-room, scrolling within rooms, or a hybrid; a grocery aisle pursuit is an option.
