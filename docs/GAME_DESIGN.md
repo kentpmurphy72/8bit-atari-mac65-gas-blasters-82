@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Game Design Document
 
-**Version:** 0.28  
+**Version:** 0.29  
 **Date:** 2026-11-01  
 **Status:** Early design / living document  
 **Primary target:** Atari 800XL (Atari 8-bit family)  
@@ -97,6 +97,8 @@ The player and friends have eaten a huge meal at the current level's restaurant.
 
 **Confirmed:** friends are part of the restaurant outing; hazmat personnel try to catch the player; the player escapes toward a car.  
 **Stage 1 camera/room structure — confirmed 2026-11-01:** Taco Smell uses **three independent, overhead, fixed full-screen 40×22 tile rooms**, with two small status rows: **Dining → Kitchen / Service → Storage / Rear Exit**. Billy enters a doorway to swap the entire screen; both forward movement and **backtracking** work. The first hazmat pursuer persists and follows through linked doors rather than disappearing. The active [v0.2 room-map specification](STAGE1_ROOMMAP_SPEC_V02.md), [JSON](../assets/maps/taco_smell_stage1_v02.json), three room maps and [Codex handoff](CODEX_STAGE1_V02_HANDOFF.md) supersede the old [48×22 scrolling v0.1 map](STAGE1_TILEMAP_SPEC.md) **for v0.2 only**. The known-good XEX/source remain on `feature/stage1-playable-v0.1`; v0.2 is **design-only until Codex builds and the user plays it**. Hazard timing, art, gas-blast controls, 70–105s stage pacing and other gameplay remain open for testing.
+
+**Stage 1 playtest and v0.3 direction (2026-11-01):** The user has now played **v0.2** and reports the room transitions work and are not distracting, but Stage 1 is **too easy and too short**. Keep the fixed room-to-room camera; introduce **more aggressive, persistent hazmat pursuit** (existing dining worker, new kitchen and storage interceptors) and Billy's first **indoor FIRE+cardinal-direction gas blast** to push and briefly stun pursuers. [Versioned v0.3 encounter specification](STAGE1_GAMEPLAY_PRESSURE_V03.md), [JSON tuning](../assets/gameplay/taco_smell_stage1_v03_rules.json) and [Codex implementation handoff](CODEX_STAGE1_V03_HANDOFF.md) describe **provisional timings** to validate in Atari800. The direct route is only 117 moves (~15.6s at v0.2's 8-frame-per-tile cadence), so increasing danger and decision-making—not arbitrary wait timers—is the priority. **v0.3 is not built or playtested yet.** These indoor gas rules do **not** replace the already confirmed road-stage gas-blast controls.
 
 ### Stage 2 — First road chase: race to the pharmacy
 
@@ -337,6 +339,8 @@ We should avoid mixing two incompatible loss systems (pressure meter and separat
 12. **Hardware plan:** graphics, sound, memory, development and testing.
 
 ## 10. Change log
+
+- **v0.29 — 2026-11-01:** Following user Atari800 playtest of working v0.2 (too easy and too short; transitions acceptable), specifies provisional Stage 1 v0.3 difficulty and three-room identity: three persistent hazmat workers placed as pursuers/interceptors and a 4-direction indoor gas blast with line of sight, knockback, stun/cooldown. No artificial time gates; tuning is pending. v0.3 spec/JSON/validator/Codex handoff added; original intro and room maps unchanged.
 
 - **v0.28 — 2026-11-01:** Confirms Stage 1 v0.2 as three fixed full-screen 40×22 maps (dining/kitchen/storage) rather than the v0.1 scrolling map, with reciprocal door transitions, backtracking and persistent hazmat pursuit. Documents scrolling as an option for pharmacy and as the intended grocery aisle chase with police, hazmat workers and townspeople. New map/JSON, validator and Codex handoff committed; no v0.2 XEX built by this documentation update.
 
