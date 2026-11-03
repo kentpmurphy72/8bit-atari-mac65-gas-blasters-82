@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Technical Design (Current)
 
-**Updated:** 2026-11-02  
+**Updated:** 2026-11-03  
 **Status:** Stage 1 v0.5 engine/prototype is implemented on `main` and broadly user-playtested; **game-wide technical architecture remains incomplete**. For authoritative Stage 1 *game rules*, use [STAGE1_DESIGN.md](STAGE1_DESIGN.md). Superseded plans/handoffs are in [archive/stage1](archive/stage1/README.md).
 
 ## Platform, runtime and accepted baseline
@@ -48,6 +48,8 @@ Before a shared code change, follow [Stage 1 Regression Checklist](STAGE1_REGRES
 Open issues, refinements and untested scenarios: [STAGE1_DEFERRED_WORK.md](STAGE1_DEFERRED_WORK.md). Earlier versions: [archive](archive/stage1/README.md) and five tagged commits.
 
 ## Subsequent stages and technical decisions still open
+
+**Stage 2 v0.1 — designed, not implemented:** The approved [Stage 2 Driving Design](STAGE2_DESIGN.md) specifies a **standalone** straight-road scrolling XEX, free left/right car steering, automatic forward scrolling, UP acceleration, DOWN braking to a positive minimum, combinable diagonal inputs, a left ~2/3 driving pane, and a **stationary** right ~1/3 placeholder HUD. The exact ANTIC mode, split-pane implementation, PMG/sprite strategy, physical pixel boundaries, tuning and memory map are engineering decisions for Codex to document. ANTIC hardware scrolling cannot be blindly applied across rows if the right-side HUD must remain stationary. Do not claim a playable Stage 2 XEX exists until built and verified; preserve Stage 1 v0.5 unchanged.
 
 Road 1 uses an upward-facing car on a downward-scrolling road, with a separate **left two-thirds road field + right one-third fixed HUD**; the first drive to pharmacy builds gas pressure toward a 100% failure limit, with no Gas-Nix drops yet. Steering, road narrowing/forks, pursuing vehicles, off-road timing and car blasts need their own driving prototypes, performance budget and memory allocation. **Do not generalize Stage 1's fixed rooms or eight-direction blast behavior to driving.**
 

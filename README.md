@@ -11,6 +11,10 @@ A work-in-progress comedy action game for the **Atari 800XL (64 KB)**, written i
 - Original continuous **Title → Meet the Crew → Arriving at Taco Smell → Stage 1** sequence and POKEY music.
 - Stage 1 stops at its completion screen. **There is no connected Stage 2 driving gameplay in the Stage 1 XEX.**
 
+## Next milestone: Stage 2 v0.1 — Driving (design approved)
+
+The [Stage 2 Driving Design](docs/STAGE2_DESIGN.md) specifies the **next standalone Atari 800XL driving prototype**, planned on `feature/stage2-driving-v0.1`. The approved **Option A** controls use continuous automatic forward motion, left/right steering, **UP** to accelerate and **DOWN** to brake while preserving a positive minimum speed. The initial display has a scrolling straight road on the left two-thirds and a stationary placeholder HUD on the right third. **Stage 2 v0.1 is design-only at this point; no driving XEX has been accepted or integrated.**
+
 ## Run the prototype
 
 Download [`GasBlasters82_Stage1_Playable_v05.xex`](assets/stage1_v05/GasBlasters82_Stage1_Playable_v05.xex) or use the repository copy. Configure the Atari800 emulator with an appropriate Atari XL OS ROM and BASIC disabled:
@@ -51,6 +55,7 @@ On Windows, use the corresponding `.venv\Scripts\python.exe` and `.venv\Scripts\
 | Document | Purpose |
 | --- | --- |
 | [Stage 1 Design](docs/STAGE1_DESIGN.md) | **Authoritative current Stage 1 gameplay/controls**; implemented vs provisional |
+| [Stage 2 Driving Design](docs/STAGE2_DESIGN.md) | **Authoritative Stage 2 v0.1 scope and acceptance criteria**; design-only until implemented |
 | [Stage 1 Deferred Work](docs/STAGE1_DEFERRED_WORK.md) | Known limitations, unverified behavior and optional improvements |
 | [Stage 1 Regression Checklist](docs/STAGE1_REGRESSION_CHECKLIST.md) | Build, automated and manual emulator test gates |
 | [Game Design](docs/GAME_DESIGN.md) | Whole-game concept, restaurants, stage sequence and road rules |

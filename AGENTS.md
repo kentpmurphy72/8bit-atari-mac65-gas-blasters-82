@@ -5,7 +5,7 @@
 ## Read-first sources (current, not historical)
 
 1. [Root README](README.md) — what's playable, launch/build steps and current baseline.
-2. [Whole-game design](docs/GAME_DESIGN.md) for stage sequence / car rules; [current Stage 1 design](docs/STAGE1_DESIGN.md) for accepted restaurant controls and gameplay. Do **not** implement obsolete v0.1–v0.5 handoff text as a new task.
+2. [Whole-game design](docs/GAME_DESIGN.md) for stage sequence / car rules; [current Stage 1 design](docs/STAGE1_DESIGN.md) for accepted restaurant controls and gameplay; [Stage 2 design](docs/STAGE2_DESIGN.md) for the approved driving v0.1 scope and acceptance gates. Do **not** implement obsolete v0.1–v0.5 handoff text as a new task.
 3. [Technical design](docs/TECHNICAL_DESIGN.md), [art inventory](docs/ART_ASSETS.md), [Stage 1 regression tests](docs/STAGE1_REGRESSION_CHECKLIST.md), [deferred work](docs/STAGE1_DEFERRED_WORK.md) and [project TODO](docs/TODO.md).
 4. [Repository workflow](docs/REPOSITORY_WORKFLOW.md) — branch naming, immutable tags, artifact versions, reporting and responsibilities.
 
@@ -23,4 +23,4 @@
 
 ## Current milestone discipline
 
-Stage 1 v0.5 is **functionally complete for prototype purposes**, not a final production-ready stage. Its fine-tuning remains in [deferred work](docs/STAGE1_DEFERRED_WORK.md). Future Stage 2 driving work should start from the latest authorized branch state and remain separate until validated; do not alter the Stage 1 baseline as an incidental effect.
+Stage 1 v0.5 is **functionally complete for prototype purposes**, not a final production-ready stage. Its fine-tuning remains in [deferred work](docs/STAGE1_DEFERRED_WORK.md). Stage 2 v0.1 is now **designed, not implemented**. Develop it on the existing `feature/stage2-driving-v0.1` branch, using [STAGE2_DESIGN.md](docs/STAGE2_DESIGN.md) as the v0.1 requirements source. Do not change Stage 1 as an incidental effect; do not merge, tag or delete the Stage 2 branch before review and user authorization.

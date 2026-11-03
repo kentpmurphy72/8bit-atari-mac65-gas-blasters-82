@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Project To-Do List
 
-**Version:** 0.37  
+**Version:** 0.38  
 **Date:** 2026-11-03  
 **Target:** Atari 800XL  
 **Status:** Stage 1 v0.5 implemented and accepted as a playable prototype; remaining full game in design/development  
@@ -9,6 +9,11 @@
 > Living checklist. An unchecked item is not necessarily an approved requirement; some items are proposed work that depends on design decisions. Update this file as tasks are finished or scope changes.
 
 - **PMG regression and v2.1 hotfix — 2026-10-30:** The first real Atari800 test of the alternate PMG title **v2 failed visually** (stray cyan/white pixels overlapping text/background). Bug confirmed: DMACTL set to $2E **double-line** although 2 KB PMG data was built for **single-line**. The v2 validator mistakenly expected $2E as well. A separate v2.1 XEX and corrected source now use $3E, an adjusted 56-line vertical origin, and explicit tests for correct DMACTL and cleared PM rows over the text. **v2.1 was tested in Atari800 on 2026-11-01 and was visually rejected:** scattered PMG highlights still degrade the logo, Billy and car. The overlay intentionally adds about 220 disconnected pixels; a heavy DLI handler also has insufficient cycle headroom for one scanline. Do not adopt v2/v2.1; preserve the accepted v1 title. No checklist completion change. **Known-good v1 is unaffected**. Checklist completion count is unchanged until the corrected PMG screen passes visually.
+## Stage 2 v0.1 design update — 2026-11-03
+
+- **Design approved, implementation pending:** [STAGE2_DESIGN.md](STAGE2_DESIGN.md) is now the active first-driving-prototype specification. Option A controls are automatic forward motion, smooth free left/right steering, UP acceleration, DOWN braking to a positive minimum, and combined diagonal inputs. v0.1 targets a downward-scrolling straight road, distinct grass/shoulder/pavement zones, car sprite, and fixed right HUD with GAS/MI/SCORE/LIVES **placeholders**.
+- **Next implementation branch:** existing `feature/stage2-driving-v0.1`. Codex should build a standalone XEX and report evidence; gas pressure, pharmacy arrival, police, forks, off-road penalties and vehicle blasts remain later work. **No prototype checkboxes are marked complete on the strength of a design-only commit.**
+
 ## Status update — 2026-11-02
 
 - **71 of 175 checklist items completed (41%), 104 open.** Stage 1 is **built, on `main`, tagged `stage1-v0.5`, and accepted as a playable prototype**. The user confirmed smooth v0.4 movement and, after playing v0.5, said gas blasting is **good enough for now**, with tuning deferred. This does **not** certify all edge cases or real hardware.
@@ -90,7 +95,7 @@
 ## Phase 3 — First Playable Prototype
 *Goal: Prove that the central game mechanic is fun.*
 
-**Recommended starting point: Stage 2 — First Road Chase.**
+**Recommended starting point: Stage 2 — First Road Chase.** The *immediate* implementation scope is the **v0.1 basic-driving demo** in [STAGE2_DESIGN.md](STAGE2_DESIGN.md); the fuller list below spans later versions and is not the v0.1 acceptance checklist.
 
 - [ ] Display a basic overhead roadway scrolling downward.
 - [ ] Implement continuous side-to-side steering (no fixed-lane snapping).

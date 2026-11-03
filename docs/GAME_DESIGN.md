@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Game Design Document
 
-**Version:** 0.34  
+**Version:** 0.35  
 **Date:** 2026-11-03  
 **Status:** Early design / living document  
 **Primary target:** Atari 800XL (Atari 8-bit family)  
@@ -103,6 +103,8 @@ The player and friends have eaten a huge meal at the current level's restaurant.
 
 
 ### Stage 2 — First road chase: race to the pharmacy
+
+**Stage 2 v0.1 design approved (2026-11-03):** See [Stage 2 Driving Design](STAGE2_DESIGN.md) for the authoritative *first* prototype scope and acceptance criteria. The approved **Option A** driving controls are continuous automatic forward travel, free left/right steering, **UP** to accelerate and **DOWN** to brake to a positive minimum speed, with diagonal inputs combining speed control and steering. v0.1 is a standalone straight-road driving feel test with a fixed placeholder HUD; active gas pressure, pharmacy arrival, traffic, forks, off-road penalties and car blasts remain deferred. **This specification is designed only, not implemented or playtested.**
 
 Two cars leave the restaurant: the player's car and a separate car driven by friends. Police pursue the player. **The view is overhead, with the player's car pointing upward near the bottom of the screen as the road scrolls downward** (see Section 5.6).
 
@@ -243,7 +245,7 @@ Billy has secret gas powers to evade hazmat personnel and police. **Driving stag
 - **Each 12.5% roadside strip is divided evenly:** **6.25% shoulder adjacent to the roadway** and **6.25% grass farther out**. On the shoulder, handling is degraded and the grass timer **pauses**; reaching grass makes that timer **run/resume** toward two seconds. The **center of Billy's car** determines which zone it occupies at its current vertical position. Returning to the paved road **resets the timer to zero**. Compute concrete boundary coordinates from these approved percentages **after selecting the Atari graphics mode**; actual display-pixel locations remain open.
 - Atari 800XL display mode, concrete screen-pixel allocations and HUD styling are still open; the percentages are game-design proportions rather than an approved memory/display-list implementation.
 
-**Still open for driving:** precise display-pixel boundary coordinates and their graphics-mode-dependent representation (center-of-car classification is confirmed), **playtesting/adjustment of the approved 40%-minimum and ~4-second narrowing/widening**, duration of winding sections at minimum width, curve severity, center-island dimensions/fork generation and placement, precise arrow pixel placement, frame timing and detecting passage beyond the confirmed decision-point disappearance trigger (~2-second lead, 0.25s ON/OFF cadence and disappearance rule are confirmed), wrong-fork merge timing/visual geometry (the +1.0-mile one-time penalty and normal countdown speed are confirmed), restart/respawn after an off-road explosion, precise player vertical-position freedom, acceleration/braking, speed, enemy/traffic collisions, blast-mode feel and timing (hold-Fire mapping is confirmed), gas-blast range/cooldown/knockback, and whether the HUD includes additional stage details. *Spy Hunter* is a perspective/gameplay reference, **not** a requirement to duplicate all its mechanics.
+**Still open for driving:** precise display-pixel boundary coordinates and their graphics-mode-dependent representation (center-of-car classification is confirmed), **playtesting/adjustment of the approved 40%-minimum and ~4-second narrowing/widening**, duration of winding sections at minimum width, curve severity, center-island dimensions/fork generation and placement, precise arrow pixel placement, frame timing and detecting passage beyond the confirmed decision-point disappearance trigger (~2-second lead, 0.25s ON/OFF cadence and disappearance rule are confirmed), wrong-fork merge timing/visual geometry (the +1.0-mile one-time penalty and normal countdown speed are confirmed), restart/respawn after an off-road explosion, precise player vertical-position freedom, exact acceleration/braking and speed tuning, enemy/traffic collisions, blast-mode feel and timing (hold-Fire mapping is confirmed), gas-blast range/cooldown/knockback, and whether the HUD includes additional stage details. *Spy Hunter* is a perspective/gameplay reference, **not** a requirement to duplicate all its mechanics.
 
 **Indoor controls:** Stage 1 v0.5 on-foot eight-way walking and FIRE-held eight-way blast aiming have been **implemented and broadly user-playtested**; fine-tuning, complete regression and other indoor locations remain open. **Road-stage hold-Fire-to-blast mapping remains four-way**, with no steering while Fire is held. Other indoor locations remain open.
 

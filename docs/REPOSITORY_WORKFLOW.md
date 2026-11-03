@@ -5,7 +5,7 @@
 
 ## Source of truth and ownership
 
-- **Game design:** `docs/GAME_DESIGN.md` covers the whole game; `docs/STAGE1_DESIGN.md` is authoritative for **current Stage 1**; `docs/TECHNICAL_DESIGN.md` covers implementation; `docs/ART_ASSETS.md` covers final art plans; machine JSON and the actual executable define concrete version-specific values.
+- **Game design:** `docs/GAME_DESIGN.md` covers the whole game; `docs/STAGE1_DESIGN.md` is authoritative for **current Stage 1**; `docs/STAGE2_DESIGN.md` is authoritative for the **Stage 2 v0.1 driving design/acceptance**; `docs/TECHNICAL_DESIGN.md` covers implementation; `docs/ART_ASSETS.md` covers final art plans; machine JSON and the actual executable define concrete version-specific values.
 - **ChatGPT/design work:** Specify requirements, update authoritative docs, list open decisions, and give a clear acceptance checklist. When asked, make documentation-only GitHub commits.
 - **Codex/implementation:** Branch, implement native 6502 code and reproducible Python offline tooling, build a distinct playable XEX, test, provide exact commit/commands/results; **never claim an Atari800/real-hardware test without running it**.
 - **User:** Evaluate actual game feel in Atari800 and decide acceptance. Do not assume acceptance of provisional numbers implies final art or exhaustive test coverage.
