@@ -1,7 +1,7 @@
 # Gas Blasters '82 — Project To-Do List
 
-**Version:** 0.35  
-**Date:** 2026-11-01  
+**Version:** 0.36  
+**Date:** 2026-11-02  
 **Target:** Atari 800XL  
 **Status:** Planning and early design  
 **Companion documents:** [Game Design](GAME_DESIGN.md) · [Art Assets](ART_ASSETS.md)
@@ -9,16 +9,14 @@
 > Living checklist. An unchecked item is not necessarily an approved requirement; some items are proposed work that depends on design decisions. Update this file as tasks are finished or scope changes.
 
 - **PMG regression and v2.1 hotfix — 2026-10-30:** The first real Atari800 test of the alternate PMG title **v2 failed visually** (stray cyan/white pixels overlapping text/background). Bug confirmed: DMACTL set to $2E **double-line** although 2 KB PMG data was built for **single-line**. The v2 validator mistakenly expected $2E as well. A separate v2.1 XEX and corrected source now use $3E, an adjusted 56-line vertical origin, and explicit tests for correct DMACTL and cleared PM rows over the text. **v2.1 was tested in Atari800 on 2026-11-01 and was visually rejected:** scattered PMG highlights still degrade the logo, Billy and car. The overlay intentionally adds about 220 disconnected pixels; a heavy DLI handler also has insufficient cycle headroom for one scanline. Do not adopt v2/v2.1; preserve the accepted v1 title. No checklist completion change. **Known-good v1 is unaffected**. Checklist completion count is unchanged until the corrected PMG screen passes visually.
-## Status update — 2026-11-01 (following 2026-10-25 audit)
+## Status update — 2026-11-02
 
-- **56 of 172 checklist items completed (33%).** Another **116 remain open**. The user **ran the integrated opening v1 in Atari800 and said it worked great**, including START/FIRE screen progression and the selected POKEY soundtrack sequence. An optional **Title v2 with 4 PMG players + 4 missiles** is now separately packaged and committed: fine visual highlights in logo/Billy/car/sign only; the title bitmap/music and all subsequent screen assets remain byte-identical. **Both v2 and corrected v2.1 PMG title XEXs have now been tested and rejected visually in Atari800**; the working v1 intro remains approved. That opening originally ended at a static Stage 1 placeholder; Codex has since built playable Stage 1 v0.1 and v0.2 on separate feature branches. A **formal Taco Smell Stage 1 48×22 tile-map spec and validator** have now been committed in `docs/STAGE1_TILEMAP_SPEC.md`, `assets/maps/` and `tools/`: 3 zones, two passable chokepoints, 751 connected walkable tiles, Billy/hazmat spawns and a rear exit. This **v0.1 scrolling map remains historical**. The user has already played the Stage 1 v0.1 XEX on the unmerged `feature/stage1-playable-v0.1` branch. New **v0.2 room-to-room design** is committed: three 40×22 full-screen maps (Dining → Kitchen → Storage), two bottom status rows, four reciprocal doorways, backtracking and a single persistent hazmat chaser. See `docs/STAGE1_ROOMMAP_SPEC_V02.md`, `docs/CODEX_STAGE1_V02_HANDOFF.md`, `assets/maps/taco_smell_stage1_v02.json` and `tools/validate_taco_smell_stage1_v02.py`. **The user has now played** `assets/stage1_v02/GasBlasters82_Stage1_Playable_v02.xex` from `feature/stage1-room-screen-v0.2` in Atari800 and says it works, but is too easy and too short; room-to-room transitions were fine. Stage 1 v0.3 **was built by Codex and played by the user in Atari800** on `feature/stage1-pressure-v0.3`: added pressure feels somewhat better, but **Billy is slow/cumbersome and the indoor gas blast feels terrible**. The current **v0.4 design** is a tightly focused movement prototype: visibly continuous sub-tile motion, normalized 8-way walking, 6×6 hitbox, sliding along walls, unchanged rooms/enemies, and temporarily inert FIRE while indoor blasting is redesigned for v0.5. See `docs/STAGE1_MOVEMENT_V04.md`, `assets/gameplay/taco_smell_stage1_v04_movement.json`, and `docs/CODEX_STAGE1_V04_HANDOFF.md`. Codex subsequently built v0.4 on `feature/stage1-movement-v0.4`, and **the user played it in Atari800 and said Billy moves smoothly, including diagonals**. The next `v0.5` design reintroduces the **eight-way** indoor gas blast with hold-FIRE aiming, visible backside animation, a growing three-wave cone, knockback with furniture/enemy impacts, renewable three-charge supply, short recovery and sound. See `docs/STAGE1_BLAST_V05.md`, `assets/gameplay/taco_smell_stage1_v05_blast.json`, `tools/validate_stage1_blast_v05.py` and `docs/CODEX_STAGE1_V05_HANDOFF.md`. **v0.5 is now built on `feature/stage1-blast-v0.5`** at `assets/stage1_v05/GasBlasters82_Stage1_Playable_v05.xex`; all 18 new CPU tests, all 15 unchanged v0.4 movement tests and all four validators pass. Atari800 visual/audio/game-feel acceptance and merging remain pending.
-- **Phase totals:** Game Design 34/46; Technical Architecture 4/15; First Playable Prototype 0/26; Indoor Gameplay 5/17; Graphics & Animation 8/22; Sound & Music 2/12; Build All Four Levels 0/10; Testing & Release 3/18; Ongoing Maintenance 0/6.
-- **Repository assets (2026-10-30):** Standalone title/crew/arrival source artwork, XEXs and exact builders remain in `assets/title/`, `assets/intro/`, `assets/arrival/` and `tools/`. POKEY music, original/approximation MP3s and standalone sound-enabled XEXs are in `assets/music/` and **were heard and liked by the user**. The new unified XEX, source, manifest and checks are committed in [`assets/opening/`](../assets/opening/) and `tools/`; **combined visual/music/joystick transitions were tested successfully in the emulator**. The **separate title v2 PMG XEX** and source are tracked under `assets/title_v2/`, with **v2 and v2.1 now visually rejected after emulator tests**. Playable Stage 1 v0.2 is on `feature/stage1-room-screen-v0.2`; Stage 1 v0.3 is on `feature/stage1-pressure-v0.3`, **both tested in Atari800 by the user**. Stage 1 v0.4 was built on `feature/stage1-movement-v0.4` and its **smooth/diagonal walking tested successfully by the user**. The separate v0.5 blast prototype is now built, with automated tests passing and Atari800 playtesting pending.
-- **Technical notes:** `AGENTS.md` now documents Codex workflow; `docs/TECHNICAL_DESIGN.md` covers **Stage 1 v0.2/v0.3, implemented v0.4 movement and proposed v0.5 combat** and does **not** close the game-wide technical architecture milestone.
-- **Partially specified, not complete:** road-stage **four-way blast controls** and jeans-clad-backside/cloud visual concept are agreed upon, but **implementation and playtesting remain open**, as do precise blast timing/range/knockback, indoor controls and blasts, indoor camera, HUD presentation, failure handling, and final art. **Both standalone intro stills** have been inspected in an emulator; this does **not** constitute testing or integration of a playable game.
-- **Ongoing maintenance checkboxes remain open intentionally:** documentation updates to date do not make recurring maintenance tasks permanently finished.
-
-This checklist distinguishes **the two user-tested standalone visual XEX files (Meet the Crew v4 and arrival v3)** from testing the **playable game**. The game-wide emulator/hardware-testing tasks remain unchecked; **no physical Atari hardware test is claimed**.
+- **68 of 172 checklist items completed (40%), 104 open.** Stage 1 is **built, on `main`, tagged `stage1-v0.5`, and accepted as a playable prototype**. The user confirmed smooth v0.4 movement and, after playing v0.5, said gas blasting is **good enough for now**, with tuning deferred. This does **not** certify all edge cases or real hardware.
+- **Phase totals:** Game Design 34/46; Technical Architecture 4/15; First Playable Prototype (driving) 0/26; Indoor Gameplay 13/17; Graphics & Animation 8/22; Sound & Music 2/12; Build All Four Levels 1/10; Testing & Release 6/18; Ongoing Maintenance 0/6.
+- **Current Stage 1 source of truth:** [STAGE1_DESIGN.md](STAGE1_DESIGN.md); [deferred issues and polish](STAGE1_DEFERRED_WORK.md); [regression checklist](STAGE1_REGRESSION_CHECKLIST.md). Historical proposals and handoffs are [archived](archive/stage1/README.md), with five immutable Git tags and all versioned XEX/build tools preserved.
+- **What remains open:** final polish/balance, detailed end-to-end regression, physical Atari 800XL and PAL coverage; later driving/pharmacy/grocery/home stages; full-game systems and Stage 2 handoff. Stage 1 gas shots are a renewable indoor charge mechanic and **not** the road pressure meter; indoor blasts aim in eight directions and **car blasts remain four-way**.
+- **Title assets:** original continuous opening v1 remains approved. Alternate title PMG v2/v2.1 were visually tested and rejected; preserve for history but do not adopt. Original POKEY songs remain approved; do not claim physical hardware testing.
+- **Maintenance tasks remain open intentionally**, because future documentation and synchronization are recurring responsibilities.
 
 ## Phase 1 — Game Design
 *Goal: Finalize the fundamental gameplay rules.*
@@ -59,8 +57,8 @@ This checklist distinguishes **the two user-tested standalone visual XEX files (
 - [x] Decide **Meet the Crew** is the first post–1 PLAYER intro (Billy centered with four friends and exact quote); it now leads to **the separate Taco Smell arrival still** and then Stage 1. Dinner-table scene remains deferred.
 - [x] Select **Option 3 (third, medium-detail concept)** for a separate **Arriving at Taco Smell** static screen after Meet the Crew: Billy and four friends walk from their parked car toward the lit restaurant under the evening sky; now realized as an emulator-tested standalone mixed ANTIC E/ANTIC 2 scene.
 - [x] Approve exact **three-line Taco Smell arrival story text** for 40 columns: “Billy came for a killer burrito.” / “The beans came with a warning.” / “Nobody read it. Especially Billy.”
-- [ ] Choose overhead or side-view gameplay for indoor stages.
-- [ ] **Playtest/finalize indoor-stage controls:** Stage 1 has proposed and documented **eight-way FIRE-held gas blasts** plus tested eight-way walking; ensure actual v0.5 controller/animation feel works in Atari800 before considering those controls finalized for other indoor stages. **Road car blasting remains four-way.**
+- [ ] Choose camera/perspective for **future** indoor stages (pharmacy/grocery/house); Taco Smell Stage 1 is already implemented as three overhead fixed-room screens.
+- [ ] Finalize **indoor controls for future locations** and tune Stage 1 further if needed; Stage 1 v0.5 eight-way walking/blasting has been implemented and broadly user-playtested, but exhaustive regression/polish is still open. Car blasting remains four-way.
 - [ ] Define remaining gas-blast details (range, cooldown, repeat rate and knockback strength) and effects against **indoor** enemies; four-way road blasts already knock back police/hazmat vehicles.
 - [ ] Determine whether using gas powers reduces gas pressure.
 - [ ] Define gas-pressure behavior inside buildings.
@@ -128,18 +126,18 @@ This checklist distinguishes **the two user-tested standalone visual XEX files (
 
 - [x] **Draft and validate a formal Taco Smell restaurant tile-map spec**: overhead 48×22 layout; connected dining/kitchen/storage; exact tile and entity coordinates; solid/walkable collisions; exit and two chokepoints; machine validator confirms 751 reachable floor cells. **Provisional layout only — Stage 1 gameplay, art and Atari800 playtesting remain open.**
 - [x] **Design three room-sized Stage 1 v0.2 maps and transitions**: Dining/Kitchen/Storage are independent 40×22 fixed screens, four reciprocal door links, backtracking, one persistent pursuer, usable map/JSON, and new validator. This is **design only**; Codex needs to implement/playtest the v0.2 XEX.
-- [x] **Specify Stage 1 v0.3 gameplay-pressure prototype**: three persistent hazmat encounters, faster room following, four-direction FIRE+joystick gas blast, knockback/stun/cooldown and machine-readable tuning/validation. **Design milestone complete; Codex subsequently built v0.3 and the user playtested it.**
-- [x] **Specify Stage 1 v0.4 responsive movement prototype**: 4-bit fixed-point fractional-position character movement, 1.5px/frame cardinal/normalized diagonal, inset 6×6 hitboxes, wall sliding, doorway-center triggers, real sub-tile rendering expectations, user feedback, and Codex handoff. **Design only; v0.4 XEX and Atari800 playtest are open.**
-- [x] **Specify Stage 1 v0.5 entertaining gas-blast prototype**: hold-FIRE + any of eight cardinal/diagonal aims, release-to-walk and one shot per hold; Billy's backside pose, three expanding gas-cloud waves, animated 3-tile knockback with furniture/worker collisions, renewable three-charge supply, cooldown/recovery, status/SFX, JSON validator and Codex handoff. **Design done; runnable v0.5 XEX now built on its feature branch, user playtest still open.**
-- [ ] Implement the chosen indoor perspective.
-- [ ] Create a basic room and obstacle layout.
-- [ ] Implement player movement and wall collisions.
-- [ ] Create the gas-blast attack.
-- [ ] Implement basic enemy movement and pursuit.
-- [ ] Add enemy interactions with gas blasts.
+- [x] **Specify Stage 1 v0.3 gameplay-pressure prototype**: three persistent hazmat encounters and original four-way blast experiment. **Historical design and playable XEX tagged `stage1-v0.3`**; superseded by v0.5 mechanics.
+- [x] **Specify Stage 1 v0.4 responsive movement prototype**: native Q4 eight-way walking, normalized diagonal, wall slides, inset 6×6 hitbox and gameplay PMG. **Built and user-playtested successfully; archived spec and tag `stage1-v0.4`**.
+- [x] **Specify Stage 1 v0.5 eight-way indoor gas blasting**: FIRE-held cardinal/diagonal aim, backside pose, three expanding cloud waves, 3-step knockback, BONK/stun, 3 renewable charges, recovery/cooldown and POKEY effect. **Built, on main, tagged `stage1-v0.5` and broadly user-playtested; fine-tuning deferred**.
+- [x] **Stage 1:** Implement three fixed-screen overhead restaurant rooms. Future indoor cameras remain open.
+- [x] **Stage 1:** Implement Dining/Kitchen/Storage terrain and solid/passable tile collision from canonical v0.2 maps.
+- [x] **Stage 1:** Implement user-approved smooth eight-way Q4 movement, inset hitbox, furniture collision and wall slides.
+- [x] **Stage 1:** Implement eight-direction FIRE-held gas blasts, expanding cloud, cooldown and regenerating charges; user accepted feel provisionally.
+- [x] **Stage 1:** Implement three persistent room-linked hazmat pursuers with bounded BFS processing.
+- [x] **Stage 1:** Implement stun, animated eight-direction knockback, corner/worker collision and impact feedback.
 - [ ] Implement item collection.
-- [ ] Add exits and stage-completion conditions.
-- [ ] Prototype the Taco Smell escape.
+- [x] **Stage 1:** Implement storage X exit, CAUGHT/COMPLETE states and START restart.
+- [x] **Stage 1:** Build, integrate and user-playtest the accepted v0.5 playable Taco Smell escape.
 - [ ] Prototype the pharmacy Gas-Nix retrieval.
 - [ ] Prototype the grocery-store toilet-paper retrieval.
 - [ ] Prototype the final bathroom objective.
@@ -199,18 +197,18 @@ This checklist distinguishes **the two user-tested standalone visual XEX files (
 - [ ] Implement the loop from Level 4 back to Level 1.
 - [ ] Apply difficulty adjustments between levels and cycles.
 - [ ] Complete scoring, lives, and game-over logic.
-- [ ] Integrate the opening scene flow **Title → Meet the Crew** (Billy's exact quote) **→ Arriving at Taco Smell** (five friends walking from their car) **→ Taco Smell Stage 1**; implement Fire-to-continue and any other necessary transitions/endings. **Do not add the deferred dinner-table cutscene.**
+- [x] **Stage 1 prototype:** Integrate Title → Meet the Crew → Arrival → Taco Smell escape with START/FIRE and original POKEY music. Dinner-table scene intentionally excluded; full-game transitions still open.
 - [ ] Play through a complete four-level cycle.
 
 ## Phase 8 — Testing and Release
 *Goal: Produce a stable game that works on Atari 800XL hardware.*
 
 - [x] **Test the integrated opening-sequence v1 XEX in Atari800**: user confirmed the single continuous introduction worked great with title START, crew/arrival FIRE, and the temporary Stage 1 screen (2026-10-30).
-- [ ] **Test Stage 1 v0.2 in Atari800 after Codex builds it**: all 3 screens fill horizontal view, no camera scroll; four doors forward/back, y-preserving spawn, collision, single hazmat following between rooms, CAUGHT/restart, exit, original opening/music retained, acceptable stage pacing.
+- [x] **Playtest Stage 1 v0.2 basic room-to-room design in Atari800:** User confirmed room transitions work and reported stage too easy/short; this is **not** exhaustive validation of every room/AI/door edge.
 - [x] **Playtest Stage 1 v0.3 in Atari800 (game-feel evaluation)**: user completed the prototype trial; pressure feels somewhat better, but Billy is slow/cumbersome and gas-blast mechanics are terrible. **This is a usability verdict, not proof that every detailed v0.3 mechanic was exhaustively validated.**
 - [x] **Playtest v0.4 Billy movement feel in Atari800**: user confirmed smooth movement and diagonal walking work well. **Only movement feel was explicitly accepted; full door/enemy/collision/audio regression remains for subsequent prototype validation.**
-- [ ] **Playtest Stage 1 v0.5 after Codex builds the XEX**: FIRE-first and direction-first aim, 4 cardinal directions and single shot/release, jeans-clad backside animation, growing cloud with no rendering ghosts, powerful knockback/bonk/stun and worker collision, renewable GAS reserve/HUD, POKEY effect, preserved v0.4 smooth/diagonal walking, original intro/music, all 3 rooms/doors/restart/exit, frame timing/flicker. Report actual fun and control feel.
-- [ ] **Test the alternate title v2 PMG XEX in Atari800**: highlight alignment on logo/Billy/car/sign; no flicker or PMG bleed into later scenes; Arcade Rock and input progression unchanged; screenshot and adjust vertical origin if needed.
+- [x] **Playtest Stage 1 v0.5 gameplay feel in Atari800:** User reported gas blasting **good for now**; extensive eight-way/knockback/collision/audio/PMG/performance regression remains open in `STAGE1_REGRESSION_CHECKLIST.md`.
+- [x] **Test/reject title PMG v2 and v2.1 in Atari800:** User screenshots showed unwanted highlight/artifacts; retain original non-PMG title v1, preserve alternate artifacts only as history.
 - [ ] Test the game in an Atari 8-bit emulator.
 - [ ] Test on a real Atari 800XL, if available.
 - [ ] Verify performance, memory use, and frame timing.
@@ -234,6 +232,8 @@ This checklist distinguishes **the two user-tested standalone visual XEX files (
 - [ ] Keep source code, art, and documentation synchronized in GitHub.
 
 ## Change Log
+
+- **v0.36 — 2026-11-02:** Stage 1 cleanup: v0.5 merged/tagged and **user-playtested with acceptable gas blasting**, authoritative [STAGE1_DESIGN.md](STAGE1_DESIGN.md), deferred issues, regression checklist, root README and Codex workflow; v0.1–v0.5 design proposals/handoffs archived with redirects. Corrected Stage 1 implementation/intro/title-v2 test statuses and preserved future-stage tasks. **68/172 complete, 104 open**; no gameplay changes or physical 800XL sign-off.
 
 - **2026-11-01 v0.5 implementation update:** Built native eight-direction hold-to-aim gas cones over unchanged v0.4 movement, two-plane jeans/body poses, three-wave cloud restoration, animated collision-aware knockback/BONK/stagger, renewable charges, HUD and short POKEY whoosh. All 18 v0.5 CPU tests, 15 unchanged v0.4 tests and four validators pass. Recorded CPU-only representative profile; preserved all earlier XEXs. Atari800 pose/cloud/audio/fun acceptance remains pending, no merge and no checklist-total changes.
 
