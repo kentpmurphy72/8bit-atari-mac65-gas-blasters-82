@@ -6,6 +6,8 @@
 
 This document supersedes all numbered Stage 1 *design proposals* for **current behavior**. The historical specifications and handoffs live in [the archive](archive/stage1/README.md), and each earlier XEX/source snapshot remains in its Git tag. Keep road driving / vehicle blast requirements distinct from on-foot gameplay.
 
+**Version precedence note:** The **v0.4 movement JSON** still contains a historical design comment anticipating four-way indoor blasts in a future v0.5. That comment **was superseded** by the implemented **v0.5 eight-way blast JSON/XEX**. Use v0.4 JSON only for its current **movement/collision values**; use v0.5 JSON for **all indoor blast directions and combat rules**. Do not rewrite historical v0.4 data to conceal this progression. The v0.5 manifest/profile's `emulator_tested: false` values are **original build-time evidence**; the user subsequently played v0.5 in Atari800 and accepted the broad blast feel, not exhaustive regression/hardware verification.
+
 ## Player goal and game flow
 
 1. **Title** (console START) → **Meet the Crew** (FIRE) → **Arriving at Taco Smell** (FIRE) → restaurant escape.

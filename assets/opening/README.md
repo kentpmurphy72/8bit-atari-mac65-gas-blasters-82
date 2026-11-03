@@ -1,6 +1,6 @@
 # Gas Blasters '82 — continuous opening sequence v1
 
-**Status:** Native Atari 800XL standalone proof of concept. Binary/CPU-flow/DLI/music register tests pass, but **the combined XEX has not yet been tested by the user in the Atari800 emulator or on physical hardware**.
+**Status (updated 2026-11-03):** Native Atari 800XL standalone opening proof of concept with passing binary/CPU-flow/DLI/music checks. **The user subsequently ran the continuous opening XEX in Atari800 on 2026-10-30 and said it worked great.** The original XEX still ends in a **static Stage 1 placeholder**; the newer **Stage 1 v0.5** executable includes the same approved opening followed by playable restaurant escape. Full regression and physical-hardware verification remain open.
 
 ## Game flow
 
@@ -11,7 +11,7 @@
 | Arriving at Taco Smell | Funky Gas Attack **continues without restarting** | Joystick 1 **FIRE** |
 | Stage 1 — Taco Smell / Restaurant Escape | Music off; temporary 40-column placeholder | Console **START** to replay intro |
 
-Controls are **release-armed**: after changing screens, release and press again to advance; holding the button doesn't automatically skip scenes. The main game is not implemented. The placeholder is an intentionally static screen, not playable.
+Controls are **release-armed**: after changing screens, release and press again to advance; holding the button doesn't automatically skip scenes. **For this historical v1 XEX only**, Stage 1 is a nonplayable placeholder. The **current Stage 1 v0.5 XEX** includes playable three-room gameplay after these cutscenes; future stages and the complete game are not yet implemented.
 
 ## Load under WSL with Atari800
 
@@ -38,4 +38,4 @@ The graphics remain identical to the approved standalone XEX files; each picture
 
 Automated checks: 22 XEX segments, no overlapping RAM regions, original bitmap identity, relocated ANTIC display-list pointers, GTIA color table/DLI updates, 6502 instruction-level simulated START/FIRE transitions and debouncing, song tempo switch, continuity across cutscenes, music muting on Stage 1 and START replay.
 
-**Next:** Listen and view the combined XEX in the actual Atari800 5.2.0 emulator. Check both transitions for correct visuals/palette colors and music, especially on a real Atari 800XL keyboard/joystick mapping. This proof of concept does **not** claim a fully playable restaurant stage or complete hardware testing.
+**Test status:** A successful user Atari800 playtest of the opening sequence is already recorded. A detailed visual/audio regression, real Atari 800XL check and later-stage integration are still open. This original v1 proof of concept does **not** itself contain the playable restaurant stage; use [current Stage 1 design](../../docs/STAGE1_DESIGN.md) for that.

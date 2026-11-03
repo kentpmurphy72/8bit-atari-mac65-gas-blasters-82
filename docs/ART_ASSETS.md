@@ -1,7 +1,7 @@
 # Gas Blasters '82 — Art Assets and Visual Direction
 
-**Version:** 0.31  
-**Date:** 2026-11-02  
+**Version:** 0.32  
+**Date:** 2026-11-03  
 **Status:** Early art direction / living asset inventory  
 **Primary target:** Atari 800XL  
 **Companion document:** docs/GAME_DESIGN.md
@@ -107,7 +107,7 @@ The game must display the exact following text on **one static “Meet the Crew�
 
 The user loaded a newly rebuilt **v4 mixed-mode XEX** in an Atari 800 emulator and confirmed it displays. It uses an **ANTIC E bitmap illustration + 40-column text area** with DLI color bands (a **standalone visual proof of concept**, not a finalized engine). The new caption layout is better separated from the artwork, but **individual glyph spacing/baseline legibility and line wrapping still need work**. **Polishing the text is intentionally deferred until later**; do not treat the preview as production-approved typography.
 
-**Continuous opening v1 (2026-10-30):** The three accepted screen artworks and caption bytes are **now combined into one Atari XEX** under [`assets/opening/`](../assets/opening/). The integrated 6502 program provides console START from title to crew, joystick FIRE from crew to arrival and then to a **temporary text-only Stage 1** screen, and START-to-replay. Shared DLI/ANTIC switching reuses the original palette bands and custom font. Four-channel POKEY music switches **Arcade Rock → Funky Gas Attack**, keeps Funk continuous across both stills, and silences at Stage 1. **Combined XEX passes structural and instruction-level simulated tests; the user subsequently tested it in Atari800 and said it worked great**. The Stage 1 placeholder is not a playable restaurant environment; Meet the Crew typography polish and complete gameplay integration remain open. Earlier standalone XEX/artwork/build tools remain versioned under `assets/intro/`, `assets/arrival/` and `tools/`. Do not adopt ANTIC E as the game-wide rendering architecture solely on this prototype.
+**Continuous opening v1 (2026-10-30):** The three accepted screen artworks and caption bytes are **now combined into one Atari XEX** under [`assets/opening/`](../assets/opening/). The integrated 6502 program provides console START from title to crew, joystick FIRE from crew to arrival and then to a **temporary text-only Stage 1** screen, and START-to-replay. Shared DLI/ANTIC switching reuses the original palette bands and custom font. Four-channel POKEY music switches **Arcade Rock → Funky Gas Attack**, keeps Funk continuous across both stills, and silences at Stage 1. **Combined XEX passes structural and instruction-level simulated tests; the user subsequently tested it in Atari800 and said it worked great**. The **original opening v1** has a static Stage 1 placeholder; this was subsequently replaced by the **playable Taco Smell Stage 1 v0.5** XEX. Crew typography and future-stage transitions remain deferred. Earlier standalone XEX/artwork/build tools remain versioned under `assets/intro/`, `assets/arrival/` and `tools/`. Do not adopt ANTIC E as the game-wide rendering architecture solely on this prototype.
 
 ### Audio pairing for opening screens (confirmed musical direction)
 
@@ -230,7 +230,7 @@ The cover initially used conspicuous green gas clouds. The selected concept inte
 
 ## 9. Asset production inventory
 
-These are **planned assets, not completed assets**.
+This inventory mixes **implemented prototype assets** and **unimplemented/final-production work**. Rows explicitly state current build status. The selected art direction and working Atari graphics are not necessarily final, production-polished assets.
 
 | Priority | Asset | Minimum first-pass need |
 |---|---|---|
@@ -245,13 +245,13 @@ These are **planned assets, not completed assets**.
 | P0 | Fork arrow | GREEN upward arrow near top on preferred left/right side; starts ~2s before island appears; flashes 0.25s ON / 0.25s OFF and vanishes after Billy passes fork decision point |
 | P0 | Driving screen layout | Left 2/3 playfield: nominal 6.25% grass + 6.25% shoulder + 75% road + 6.25% shoulder + 6.25% grass; right 1/3 fixed HUD for lives, score, miles remaining, gas |
 | P0 | Gas pressure HUD | Meter and critical warning |
-| P1 | Title screen (Option 3 selected) | Red front three-quarter muscle car with Billy giving thumbs-up, gas trail, sunset, logo, Taco Smell sign and 1 PLAYER / PRESS START menu; create genuine Atari-compatible graphic / title controls (reference art alone is not runnable) |
-| P1 | Single “Meet the Crew” opening screen | **v4 standalone ANTIC E/DLI XEX displayed in emulator**; Billy/four friends, no game logo, background Taco Smell sign, or name labels; quote and FIRE TO CONTINUE below art. **Font/legibility and working Fire/scene transition remain open**; native XEX/artwork committed in `assets/intro/`, but not yet game-integrated |
-| P1 | Arriving at Taco Smell static cutscene (selected Option 3) | **v3 mixed-mode XEX emulator-tested and visually accepted 2026-10-29:** 160×128 ANTIC E art + eight 40-column text rows, exact three-line burrito/beans warning, heading and visual Fire prompt; **input, transitions and repository asset handoff remain open** |
-| P1 | Taco Smell exterior/interior | Playable Stage 1 environment and restaurant visuals, separate from the now-required arrival still; dinner-table scene still deferred |
-| P1 | Hazmat crew | Small readable enemy sprites |
+| P1 | Title screen (Option 3 selected) | **Implemented and user-tested** as original non-PMG ANTIC E/DLI title v1 with START, logo, car/Billy, gas trail, sunset and Taco Smell sign; present in **Stage 1 v0.5**. **Final art refinements remain open**; rejected PMG v2/v2.1 must not be used. |
+| P1 | Single “Meet the Crew” opening screen | **Implemented** as approved ANTIC E/DLI scene with Billy, four friends, exact quote, no game logo or name labels. Standalone v4 was tested; **functional FIRE advance is integrated into Stage 1 v0.5**. **Caption typography/legibility** remains deferred. |
+| P1 | Arriving at Taco Smell static cutscene (selected Option 3) | **Implemented:** v3 standalone mixed ANTIC E/text asset visually accepted 2026-10-29; **working FIRE transition integrated in Stage 1 v0.5**, with three approved burrito/beans warning lines. Future visual polish remains open. |
+| P1 | Taco Smell exterior/interior | **Implemented Stage 1 prototype:** three fixed Dining/Kitchen/Storage rooms, temporary character tiles, 3 hazmat workers, playable escape; final environment art/polish deferred. |
+| P1 | Hazmat crew | **Implemented prototype:** three persistent, tile-drawn hazmat workers; final animation/sprite art and differentiation deferred. |
 | P1 | **Road/car** gas-blast effect | Four cardinal window directions only (front/rear/left/right); jeans-clad backside and greenish cloud with readable car knockback; no diagonal **car** artwork |
-| P1 | **Stage 1 on-foot** gas-blast effect | Eight cardinal/diagonal jeans-clad-backside orientations, 3-wave growing gas cone, animated diagonal/cardinal knockback, BONK furniture collision and dazed hazard reaction; validate against gameplay PMG limits |
+| P1 | **Stage 1 on-foot** gas-blast effect | **Implemented and provisionally user-approved:** eight-direction gameplay PMG butt/jeans poses, 3-wave expanding cone, cardinal/diagonal knockback and BONK/stagger effects; future look-and-feel tuning deferred. |
 | P1 | Pharmacy environment | Playable room/map and medicine location |
 | P1 | Grocery environment | Playable room/map and toilet paper |
 | P2 | Home exterior/interior/bathroom | Final stage visuals |
@@ -267,7 +267,7 @@ Priorities describe a **proposed prototype sequence**, not a development commitm
 - Record the chosen image's filename and version once committed; do not assume the Markdown file itself contains the image.
 - Preserve original high-resolution art separately from crops, resized labels and possible print-ready versions.
 - Do not treat AI-generated mockups as layer-separated/editable source artwork.
-- In-game art must eventually be adapted to actual Atari 800XL graphic, palette, sprite and memory constraints. Those technical constraints have **not** yet been selected.
+- **Stage 1 prototype** art has already been adapted to Atari 800XL ANTIC/GTIA/PMG/POKEY constraints. **Final** art and the graphics modes, sprite allocation and RAM/palette budgets for later stages (especially road/HUD) remain to be selected and validated.
 
 ## 11. Open art decisions
 
@@ -282,10 +282,12 @@ Priorities describe a **proposed prototype sequence**, not a development commitm
 9. Decide final package brand/logo use and production dimensions.
 10. Create the **center-island two-branch fork** and **flashing green upward arrow** near top on the selected left/right side; **implement the confirmed 0.25s ON / 0.25s OFF cadence, ~2-second pre-island start and removal after Billy passes the decision point**. Determine exact pixel placement, sprite measurements and practical timing/collision implementation. Design a legible **+1.0-mile remaining-distance change** on the wrong fork (specific text/animation still open); draw the two branches **merging soon back into one normal 75%-width road**, independent of the extra mileage. Implement the confirmed **right-side HUD** within the 2/3-left / 1/3-right layout; decide final pixel dimensions.
 11. Design police-car and hazmat-van ramming effects plus **four** window-based gas-blast poses: a simple **blue-jeans backside** briefly sticks out each corresponding front/rear/side window and emits a recognizable gas cloud; specify legibility, frame count and sprite budget after choosing graphics mode. **No diagonal sprites** in the current plan.
-12. Convert **selected title Option 3** to a hardware-compatible bitmap/palette/DLI layout, evaluate memory/display constraints, build/run a title XEX and implement **1 PLAYER / PRESS START**. Preserve the accepted logo-free, sign-free, name-label-free **Meet the Crew v4** intro and **polish its quote typography later**. Preserve the **emulator-tested, visually accepted arrival v3** image/text arrangement (**160×128 ANTIC E + eight ANTIC 2 rows, exact three-line warning**); a standalone native XEX exists already. Make both FIRE TO CONTINUE prompts functional, implement scene loading/transitions and test the **full title→intro→arrival→Stage 1 flow**. **Do not add a dinner-table cutscene.**
+12. **Polish, do not reimplement, the accepted opening:** Option 3 title and the Meet the Crew/Arrival cutscenes are already hardware-compatible, integrated and user-tested in Stage 1 v0.5 with working START/FIRE controls. Retain current v1 title (PMG alternatives v2/v2.1 rejected); refine crew typography only when warranted and later connect the COMPLETE screen to future driving. Do not add a dinner-table cutscene.
 13. Design narrowing/weaving tiles and road-edge transitions for the confirmed **75%→40% (~4s)** and **40%→75% (~4s)** changes; keep shoulders 6.25% each and validate the effect during prototyping.
 
 ## 12. Change log
+
+- **v0.32 — 2026-11-03:** Reclassifies title, crew, arrival, three-room restaurant, hazmat and on-foot gas cloud/pose graphics as **implemented prototype assets** rather than still awaiting integration. Keeps final production artwork and later-stage visual work open; clarifies accepted original title and rejected PMG variants. No art, code or XEX binaries modified.
 
 - **v0.31 — 2026-11-02:** Marks Stage 1 v0.5's temporary eight-way red-body/blue-jeans PMG poses, expanding cloud and impact glyphs **implemented and user-playtested** as acceptable for now; final art/palette and readability remain future work. Corrects the historical **title PMG v2/v2.1 rejection** status; approved title v1 remains. Points to consolidated current Stage 1 spec.
 

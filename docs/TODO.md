@@ -1,9 +1,9 @@
 # Gas Blasters '82 — Project To-Do List
 
-**Version:** 0.36  
-**Date:** 2026-11-02  
+**Version:** 0.37  
+**Date:** 2026-11-03  
 **Target:** Atari 800XL  
-**Status:** Planning and early design  
+**Status:** Stage 1 v0.5 implemented and accepted as a playable prototype; remaining full game in design/development  
 **Companion documents:** [Game Design](GAME_DESIGN.md) · [Art Assets](ART_ASSETS.md)
 
 > Living checklist. An unchecked item is not necessarily an approved requirement; some items are proposed work that depends on design decisions. Update this file as tasks are finished or scope changes.
@@ -11,8 +11,8 @@
 - **PMG regression and v2.1 hotfix — 2026-10-30:** The first real Atari800 test of the alternate PMG title **v2 failed visually** (stray cyan/white pixels overlapping text/background). Bug confirmed: DMACTL set to $2E **double-line** although 2 KB PMG data was built for **single-line**. The v2 validator mistakenly expected $2E as well. A separate v2.1 XEX and corrected source now use $3E, an adjusted 56-line vertical origin, and explicit tests for correct DMACTL and cleared PM rows over the text. **v2.1 was tested in Atari800 on 2026-11-01 and was visually rejected:** scattered PMG highlights still degrade the logo, Billy and car. The overlay intentionally adds about 220 disconnected pixels; a heavy DLI handler also has insufficient cycle headroom for one scanline. Do not adopt v2/v2.1; preserve the accepted v1 title. No checklist completion change. **Known-good v1 is unaffected**. Checklist completion count is unchanged until the corrected PMG screen passes visually.
 ## Status update — 2026-11-02
 
-- **68 of 172 checklist items completed (40%), 104 open.** Stage 1 is **built, on `main`, tagged `stage1-v0.5`, and accepted as a playable prototype**. The user confirmed smooth v0.4 movement and, after playing v0.5, said gas blasting is **good enough for now**, with tuning deferred. This does **not** certify all edge cases or real hardware.
-- **Phase totals:** Game Design 34/46; Technical Architecture 4/15; First Playable Prototype (driving) 0/26; Indoor Gameplay 13/17; Graphics & Animation 8/22; Sound & Music 2/12; Build All Four Levels 1/10; Testing & Release 6/18; Ongoing Maintenance 0/6.
+- **71 of 175 checklist items completed (41%), 104 open.** Stage 1 is **built, on `main`, tagged `stage1-v0.5`, and accepted as a playable prototype**. The user confirmed smooth v0.4 movement and, after playing v0.5, said gas blasting is **good enough for now**, with tuning deferred. This does **not** certify all edge cases or real hardware.
+- **Phase totals:** Game Design 34/46; Technical Architecture 4/15; First Playable Prototype (driving) 0/26; Indoor Gameplay 13/17; Graphics & Animation 9/23; Sound & Music 4/14; Build All Four Levels 1/10; Testing & Release 6/18; Ongoing Maintenance 0/6.
 - **Current Stage 1 source of truth:** [STAGE1_DESIGN.md](STAGE1_DESIGN.md); [deferred issues and polish](STAGE1_DEFERRED_WORK.md); [regression checklist](STAGE1_REGRESSION_CHECKLIST.md). Historical proposals and handoffs are [archived](archive/stage1/README.md), with five immutable Git tags and all versioned XEX/build tools preserved.
 - **What remains open:** final polish/balance, detailed end-to-end regression, physical Atari 800XL and PAL coverage; later driving/pharmacy/grocery/home stages; full-game systems and Stage 2 handoff. Stage 1 gas shots are a renewable indoor charge mechanic and **not** the road pressure meter; indoor blasts aim in eight directions and **car blasts remain four-way**.
 - **Title assets:** original continuous opening v1 remains approved. Alternate title PMG v2/v2.1 were visually tested and rejected; preserve for history but do not adopt. Original POKEY songs remain approved; do not claim physical hardware testing.
@@ -153,9 +153,9 @@
 - [x] Select **Option 3** as the title-screen visual direction (third ANTIC E + DLI concept): large logo, Billy in red car, sunset, green gas trail, Taco Smell sign, **1 PLAYER / PRESS START**. Separate from the “Meet the Crew” intro; this is **concept selection**, not a final Atari bitmap.
 - [x] Build and visually test a **standalone “Meet the Crew” ANTIC E+DLI XEX** in an Atari emulator: v4 has the game logo, roadside Taco Smell sign and placeholder character labels removed, with heading/quote/prompt below the art; **not** a tested full-game screen flow.
 - [x] Build a **unified, standalone title → crew → arrival → static Stage 1 placeholder XEX**, featuring actual START/FIRE controls and release-to-rearm logic, original Arcade Rock/Funky Gas Attack POKEY song data, and continuous cutscene music. **User ran the combined v1 XEX in Atari800 and reported it worked great.**
-- [x] Build a **separate title v2 PMG detail-enhancement alternate XEX**, retaining the exact title bitmap/menu/music and all other scenes. Includes 4 players/4 missiles, repositioned/recolored by DLI and disabled on cutscenes; source and native data committed under `assets/title_v2/`. **Structural/CPU simulation passed; visual emulator validation still open.**
+- [x] **Experiment with alternative title PMG v2/v2.1 overlays:** Both compiled and passed CPU/structural checks, but **the user visually tested and rejected both in Atari800**. Preserve original v1 as the accepted title. Historical XEX/source in `assets/title_v2/`.
 - [ ] Finalize the protagonist's character design.
-- [ ] Create player movement and gas-blast sprite animations.
+- [ ] **Polish production-quality player walking and gas-blast sprite animations** across eventual indoor stages; Stage 1 v0.5 already has temporary eight-way gameplay PMG movement/backside poses and expanding cloud effects.
 - [ ] Design player, friends', police, and hazmat-van vehicles.
 - [ ] Design hazmat and other enemy sprites.
 - [ ] Design Gas-Nix and toilet-paper pickup graphics.
@@ -165,7 +165,8 @@
 - [ ] Design temporary narrowing/weaving road transitions and return-to-baseline, center-divider island forks, shoulder/off-road cues, left/right-positioned flashing GREEN upward arrow, **early branch merging to a 75%-width road**, and **+1.0-mile HUD wrong-turn feedback**.
 - [ ] Create off-road skid, shake, smoke, critical smoke and two-second explosion/lost-life visual effects.
 - [ ] Design **four** car-window gas-blast animations, each showing a **jeans-covered backside popping out the window** and a cloud originating from it, with enemy ramming/knockback cues; **no diagonal art planned**.
-- [ ] **Implement and validate** the selected **Option 3 title screen** as a hardware-compatible Atari bitmap, palette/DLI strategy, and usable **1 PLAYER / PRESS START** control; separately integrate **Meet the Crew** (exact quote) with actual Fire-to-continue input and the new arrival still before Stage 1, plus game-over and victory screens. The crew intro's standalone XEX exists but is **not integrated**; dinner-table screen still excluded.
+- [x] **Implement accepted Option 3 Atari title and opening input for the Stage 1 prototype:** Original ANTIC E/DLI title, console START and both cutscene FIRE transitions are integrated into the playable v0.5 XEX and broadly user-tested in Atari800. (The separate completed Stage 1 integration task below covers game-flow wiring.)
+- [ ] **Finalize full-game opening/result presentation:** Polish title and Meet the Crew typography/visuals as needed, and produce game-wide failure/game-over/victory/end-of-cycle screens and transitions. The selected v1 title and existing START/FIRE controls already work; do not revive visually rejected PMG title v2/v2.1 or add the deferred dinner-table scene.
 - [x] **Convert selected Taco Smell arrival Option 3 into a standalone mixed Atari scene and visually test XEX:** **160×128 ANTIC E artwork** with horizontal DLI palette bands, **eight 40-column ANTIC 2 text rows** and approved three-line story. User verified in **Atari 800 Emulator 5.2.0 (2026-10-29)** and said “looks good.” **Does not include functional Fire input or scene integration; the tested XEX and supporting binaries are now committed under `assets/arrival/`.**
 - [ ] **Later polish Meet the Crew text legibility:** consistent glyph sizes/baselines and spacing; clearer line wrapping/left alignment; comfortable separation of **MEET THE CREW**, the exact introductory quote and **FIRE TO CONTINUE**. Preserve the current image composition without game logo, background Taco Smell sign or character-name labels.
 - [ ] Finalize box and cartridge artwork for production.
@@ -173,10 +174,12 @@
 ## Phase 6 — Sound and Music
 *Goal: Give the game a distinctive 1982 arcade personality.*
 
-- [x] Compose and approve **Arcade Rock** as the original 148-BPM title theme, with potential gameplay reuse; convert into a four-channel POKEY music player and standalone title XEX (emulator music audition pending).
-- [x] Compose and approve **Funky Gas Attack** as the original 110-BPM theme for **Meet the Crew** and **Arriving at Taco Smell**; build POKEY-register versions of both standalone XEXs and save MP3/source assets in GitHub (emulator music audition pending).
-- [ ] **Audition and tune the new POKEY title/intro/arrival XEX music in Atari800**; verify pitches, balance, drum sounds, looping and START-key mute, then review sound on real Atari hardware if possible.
-- [ ] Create POKEY sound effects for gas blasts.
+- [x] Compose and approve **Arcade Rock** as the original 148-BPM title theme, convert to a four-channel POKEY player and standalone title XEX. **User auditioned it successfully in Atari800 on 2026-10-30.**
+- [x] Compose and approve **Funky Gas Attack** as the original 110-BPM crew/arrival theme, with two POKEY standalone XEXs and source/MP3 assets. **User auditioned both successfully in Atari800 on 2026-10-30.**
+- [x] **Audition standalone title/crew/arrival POKEY music in Atari800:** The user listened to all three XEXs on 2026-10-30 and said they sound great; original Arcade Rock/Funky Gas Attack melodies are approved.
+- [ ] **Perform final POKEY audio QA:** Evaluate fine pitch/mix/looping/mute behavior, interactions with gameplay SFX, PAL timing if supported and a real Atari 800XL where available; no physical-hardware audio validation has been recorded.
+- [x] **Implement Stage 1 gas-blast POKEY prototype sound:** v0.5 includes a brief original ~10-frame gas-whoosh effect; user broadly accepted gas blasting, but the individual sound is **not** separately verified by an itemized audio playtest.
+- [ ] **Finalize gas-blast sound effects for the full game:** Tune/replace indoor whoosh if necessary, produce distinct four-window **car** effects and verify audio timing/mixing alongside music and pressure warnings.
 - [ ] Create vehicle and police-pursuit sounds.
 - [ ] Create Gas-Nix pickup sound.
 - [ ] Add escalating gas-pressure warning sounds.
@@ -232,6 +235,8 @@
 - [ ] Keep source code, art, and documentation synchronized in GitHub.
 
 ## Change Log
+
+- **v0.37 — 2026-11-03:** Split mixed-status work into completed **Option 3 title implementation**, **Atari800 POKEY audition**, and **Stage 1 blast SFX prototype**, while retaining separate open full-game title/result art, detailed audio QA and final gas-SFX tasks. Correct rejected title PMG and approved music statuses. **71/175 completed (41%), 104 open**. This is documentation-only; not a new emulator/hardware test or gameplay change.
 
 - **v0.36 — 2026-11-02:** Stage 1 cleanup: v0.5 merged/tagged and **user-playtested with acceptable gas blasting**, authoritative [STAGE1_DESIGN.md](STAGE1_DESIGN.md), deferred issues, regression checklist, root README and Codex workflow; v0.1–v0.5 design proposals/handoffs archived with redirects. Corrected Stage 1 implementation/intro/title-v2 test statuses and preserved future-stage tasks. **68/172 complete, 104 open**; no gameplay changes or physical 800XL sign-off.
 

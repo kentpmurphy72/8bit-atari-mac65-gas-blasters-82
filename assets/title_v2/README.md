@@ -6,7 +6,7 @@ The user tested `GasBlasters82_TitleV2_1_PMG_OpeningSequence.xex` in Atari800 an
 
 **Do not use the earlier `GasBlasters82_TitleV2_PMG_OpeningSequence.xex` from v2.** Its authoring code set DMACTL to `$2E`, which enables **double-line** PM graphics while storing PM data in the **single-line** layout ($A300 for missiles, $A400-$A7FF for players). This makes ANTIC fetch the wrong graphics bytes and produces stray pixels in the title caption/black area. The old validation test erroneously expected `$2E` too.
 
-**v2.1 uses DMACTL `$3E`**, sets PM data origin to 56 scanlines (32 outside visible PM region + 24 title blank scanlines), and checks both settings in the 6502 simulator. This corrects the mode/layout mismatch but does **not** guarantee aesthetically good highlights or correct real-emulator timing: the first user Atari800 screenshot is needed. The original v1 introduction remains unchanged.
+**v2.1 uses DMACTL `$3E`**, sets PM data origin to 56 scanlines (32 outside visible PM region + 24 title blank scanlines), and checks both settings in the 6502 simulator. This corrects the mode/layout mismatch but **the user subsequently tested v2.1 in Atari800 and rejected the result**; further screenshots are not a prerequisite to the rejection decision. The original v1 introduction remains unchanged.
 
 # Gas Blasters ’82 — Title Screen v2.1 (PMG bug fix)
 
@@ -16,21 +16,29 @@ The user tested `GasBlasters82_TitleV2_1_PMG_OpeningSequence.xex` in Atari800 an
 
 Only the **title artwork's apparent level of detail**: four one-line-resolution GTIA/ANTIC player sprites and four missiles add approximately 220 finely placed visible color-clock highlights. Highlights cover portions of the existing **logo, Billy, car, and Taco Smell sign**. Players are repositioned and recolored using the existing 16-raster-line DLI cadence. The PMG video buffer is **2,048 bytes at `$A000`** (single-line DMA). The title's existing 160×160 ANTIC E bitmap, all original palette tables, title text, music tables, and cutscenes are **byte-for-byte unchanged**.
 
-**This is intentionally a subtle highlight pass, not an 80s-console resolution upgrade.** The original pixels and overall composition are preserved. The before/after PNG is a design approximation of the pixel overlay, **not an Atari800 screenshot**. We have not yet established whether remaining PMG alignment or OS color timing needs adjustment on the real emulator.
+**This is intentionally a subtle highlight pass, not an 80s-console resolution upgrade.** The original pixels and overall composition are preserved. The before/after PNG is a design approximation of the pixel overlay, **not an Atari800 screenshot**. The user evaluated the v2/v2.1 overlays in Atari800 and **rejected them on visual quality grounds**. Other low-level display nuances could be investigated only if this retired experiment is ever revisited.
 
-## Which XEX to run
+## Which XEX to run (historical comparison only)
 
-`GasBlasters82_TitleV2_1_PMG_OpeningSequence.xex` is a **separate alternative full-opening build** that starts with Title v2; everything after the title is identical to the approved v1 sequence:
+**For actual gameplay, use the approved non-PMG title in** `assets/stage1_v05/GasBlasters82_Stage1_Playable_v05.xex`. **Do not adopt the PMG v2/v2.1 titles.**
+
+`GasBlasters82_TitleV2_1_PMG_OpeningSequence.xex` is a **retired alternative full-opening build** that starts with Title v2; everything after the title is identical to the approved v1 sequence:
 
 1. Title: **Arcade Rock**; console **START** →
 2. Meet the Crew: **Funky Gas Attack**; joystick **FIRE** →
 3. Arriving at Taco Smell: same continuous Funky Gas Attack; joystick **FIRE** →
 4. Temporary Stage 1: music off; **START** restarts the sequence.
 
-On WSL, after extracting the archive:
+From the repository root, to inspect the **retired v2.1 comparison only**:
 
 ```bash
-atari800 -xl -nobasic -run ./GasBlasters82_TitleV2_PMG_OpeningSequence.xex
+atari800 -xl -ntsc -nobasic -run assets/title_v2/GasBlasters82_TitleV2_1_PMG_OpeningSequence.xex
+```
+
+For the **accepted playable Stage 1** instead:
+
+```bash
+atari800 -xl -ntsc -nobasic -run assets/stage1_v05/GasBlasters82_Stage1_Playable_v05.xex
 ```
 
 The `-nobasic` option is important here: PMG occupies RAM at `$A000-$A7FF` normally hidden under the Atari BASIC ROM when BASIC is enabled. The program disables PMG DMA when it leaves the title, ensuring the other graphics remain unchanged.
@@ -64,6 +72,6 @@ The builder generates the complete XEX, the exact 2 KB PMG memory image, positio
 - Other scenes disable GRACTL and restore the original playfield DMA. POKEY 4-channel playback and title/cutscene input logic are unchanged.
 - The 6502 hook logic is a generated extension. The `.asm` file is a readable reference listing; the Python byte emitter produces authoritative bytes. This is **not** a claim that the new features were independently assembled in MAC/65 or verified on physical Atari hardware.
 
-## Validation required from user
+## Historical emulator evaluation — complete
 
-In Atari800 5.2.0, check that title glints align with logo/headlights/Billy/sign; confirm that the title doesn't flicker, sprites don't appear on other cutscenes, Arcade Rock still plays, and START→FIRE→FIRE works. A screenshot will let us adjust any PMG timing/placement issues in a v2.1 pass without disturbing v1.
+The user tested both alternate title treatments in Atari800: **v2 exhibited stray cyan/white artifacts; v2.1 reduced the DMA mismatch but its disconnected glints still made the title worse than v1**. Both were **rejected**. Retain these XEXs and code as reproducible experiments only; any future title polish should be a **new, independently approved** design and must preserve the accepted v1 opening. No physical Atari hardware validation is claimed.

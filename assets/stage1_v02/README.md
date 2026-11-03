@@ -1,5 +1,8 @@
 # Gas Blasters '82 — Stage 1 Playable Prototype v0.2
 
+> **Historical prototype status (2026-11-03):** This `v0.2` milestone is preserved at immutable Git tag `stage1-v0.2`. Its work and history were integrated into `main` via the accepted `stage1-v0.5` baseline; the original feature branches were deleted after tagging. Three fixed restaurant rooms; the user playtested room transitions and found the stage too short/easy. **Any older “not merged” or “emulator test pending” language below records the original build-time status, not current repository status.** For implemented current behavior, see [Stage 1 Design](../../docs/STAGE1_DESIGN.md). This versioned artifact and build instructions are retained unchanged except for this note.
+
+
 Native 6502 XEX for a stock 64 KB Atari 800XL, BASIC disabled. Three fixed-screen
 rooms replace the Stage 1 v0.1 scrolling map. Gameplay direction is approved;
 exact maps, timing, sprites and difficulty remain provisional until Atari800 tests.

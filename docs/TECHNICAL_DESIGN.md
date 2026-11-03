@@ -26,6 +26,7 @@
 
 ## Blast extension and effect timing
 
+- **Source-of-truth precedence:** The v0.4 movement tuning JSON includes a historical comment proposing four-way gas blasts for *future* v0.5. **That blast proposal is superseded** by the current **eight-direction** v0.5 gas-blast JSON, executable and [Stage 1 gameplay specification](STAGE1_DESIGN.md). Preserve v0.4 JSON for movement values and historical reproducibility; do not treat its old blast comment as active code guidance.
 - **Stage 1 only:** FIRE held switches from WALK to eight-direction AIM. Four stable direction frames trigger **one blast per hold**, FIRE-first works, release to rearm. Eight-frame recovery, twenty-frame cooldown, three regenerating charges (one per 120 observed NTSC frames). **Car blasting remains four-way** and is a different future mechanic.
 - Three 6-tick expanding waves create a maximum **seven visible cells** using aimed direction vector and perpendicular flank vector. Cached supercover line-of-sight prevents blasts through solid tiles, D/X, walls or diagonal corner gaps. Temporary cloud/impact glyphs restore previous terrain/worker display rather than redraw full rooms each tick.
 - Same-room targets are hit once per burst; animate at most **three cardinal/diagonal 8px tile-step pushes**, one per three observed frame ticks. Stop before furniture, door, X, map edge or worker, and require both neighboring orthogonal cells clear for diagonal pushes. Apply **75-tick stun**, four-tick impact flash and 24-tick blocker stagger without chain-pushing.

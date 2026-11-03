@@ -1,5 +1,8 @@
 # Gas Blasters '82 — Stage 1 v0.4: movement feel
 
+> **Historical prototype status (2026-11-03):** This `v0.4` milestone is preserved at immutable Git tag `stage1-v0.4`. Its work and history were integrated into `main` via the accepted `stage1-v0.5` baseline; the original feature branches were deleted after tagging. Smooth eight-way movement; the user playtested and approved the movement feel and diagonals. **Any older “not merged” or “emulator test pending” language below records the original build-time status, not current repository status.** For implemented current behavior, see [Stage 1 Design](../../docs/STAGE1_DESIGN.md). This versioned artifact and build instructions are retained unchanged except for this note.
+
+
 Native 6502 XEX, stock **64 KB Atari 800XL**, BASIC disabled. Built from the
 user-playtested v0.3 implementation on `feature/stage1-movement-v0.4` plus the
 v0.4 design files from main. **Not merged. Atari800 and real-hardware tests pending.**
