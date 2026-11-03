@@ -293,7 +293,7 @@ Priorities describe a **proposed prototype sequence**, not a development commitm
 
 - **v0.29 — 2026-11-01:** Following successful smooth/diagonal Billy v0.4 playtest, expands the Stage 1 v0.5 gas-blast art direction: directional butt-pivot/jeans-clad backside, 3-wave growing seven-cell cone, knockback animation, furniture/worker collision gags, GAS charge HUD and original short Stage-only POKEY puff sound. The accepted title/intro and road blast visuals are unchanged; gameplay art awaits 6502 build and emulator validation.
 
-- **v0.28 — 2026-11-01:** Plans v0.3 dining/kitchen/storage encounter variation (three hazmat workers total) and a brief 8-frame indoor directional gas-cloud placeholder. Preserve approved title/intro art and music; no finished gas-blast graphics yet. Source of truth is [v0.3 gameplay pressure specification](STAGE1_GAMEPLAY_PRESSURE_V03.md).
+- **v0.28 — 2026-11-01:** Plans v0.3 dining/kitchen/storage encounter variation (three hazmat workers total) and a brief 8-frame indoor directional gas-cloud placeholder. Preserve approved title/intro art and music; no finished gas-blast graphics yet. Source of truth is [archived v0.3 gameplay pressure specification](archive/stage1/STAGE1_GAMEPLAY_PRESSURE_V03.md).
 
 - **v0.27 — 2026-11-01:** Adopts three non-scrolling, full-width 40×22 Taco Smell rooms with distinct dining/kitchen/storage furniture, door swaps and two footer rows. Pharmacy and grocery may use scrolling; grocery aisle chase envisions police, hazmat workers and townspeople. Links canonical v0.2 map/preview. No finished gameplay art added.
 
