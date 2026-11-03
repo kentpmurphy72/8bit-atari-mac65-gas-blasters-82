@@ -1,114 +1,53 @@
-# Gas Blasters '82 — Technical Design (Incremental)
+# Gas Blasters '82 — Technical Design (Current)
 
-**Date:** 2026-11-01  
-**Status:** Partial Stage 1 v0.2–v0.5 engine/encounter/movement/blast plans; **not** a complete game-wide technical architecture.
+**Updated:** 2026-11-02  
+**Status:** Stage 1 v0.5 engine/prototype is implemented on `main` and broadly user-playtested; **game-wide technical architecture remains incomplete**. For authoritative Stage 1 *game rules*, use [STAGE1_DESIGN.md](STAGE1_DESIGN.md). Superseded plans/handoffs are in [archive/stage1](archive/stage1/README.md).
 
-## Existing baselines
+## Platform, runtime and accepted baseline
 
-The accepted game opening is `assets/opening/GasBlasters82_OpeningSequence_v1.xex`, with Arcade Rock on title and Funky Gas Attack across the two cutscenes. The user has run the playable **Stage 1 v0.1** XEX on `feature/stage1-playable-v0.1`; this branch contains `tools/build_stage1.py`, `tools/test_stage1.py` and `assets/stage1/`, and it has not been merged to main. **Do not overwrite it.**
+- Target: **Atari 800XL, stock 64 KB**, native 6502 XEX. Python is **offline build/validation tooling**, never the target runtime.
+- Accepted playable Stage 1 XEX: `assets/stage1_v05/GasBlasters82_Stage1_Playable_v05.xex` (tag `stage1-v0.5`, manifest SHA-256 `b7e1c423b25f7cb10cd90cd063090579eaea4bd27b7310c70e8ea5f02e169753`). The user has played v0.5 and considers blasting good enough for now; this is not final performance or hardware acceptance.
+- The original `assets/opening` continuous Title v1 → Meet the Crew → Arrival sequence (ANTIC E illustrations / DLI palette bands + text), with console START and joystick FIRE cutscene transitions, retains **Arcade Rock** and **Funky Gas Attack** POKEY themes. Alternative title PMG v2/v2.1 was **rejected visually**; gameplay PMG is a separate supported technique.
 
-## Stage 1 v0.2 room engine
+## Stage 1 map, state and AI
 
-- Three independent **40×22 tile** maps, **880 bytes each** / **2,640 bytes total** uncompressed, plus two final 40-column status rows; 40×24 text characters fits a standard 192-scanline display plan. A prototype 8×8 tile footprint is proposed, not the eventual final art.
-- All 40 columns are gameplay; **no scrolling or camera position in Stage 1**. Display one room at a time in a shared display buffer. Drawing a new screen can be a whole-buffer redraw; no need for three separate video buffers.
-- Each room has its own map coordinates x=0..39, y=0..21. Access `offset=y*40+x` through a **16-bit pointer or row table** on 6502—do not overflow an 8-bit index. Fetch terrain/collision from the room selected by a room ID.
-- Four linked doorway transitions defined in `assets/maps/taco_smell_stage1_v02.json`, each `D` tile two characters tall (y=10/11). Trigger on entering the doorway, move Billy to x=1 or x=38 **one tile inside** the destination, preserve y, redraw entire room. Allow reverse crossings; do not auto-bounce.
-- `# B T C R K S` are solid; `. D F N G X` are walkable. `G` (grease) is inert v0.2 floor. `X` in storage (39,10) triggers the Stage Complete placeholder.
-- One hazmat worker spawns 180 NTSC frames after Stage 1 begins in dining. Preserve its unique identity across transitions; after a door crossing it follows through the matching doorway after approximately 90 frames, without cloning, disappearing or teleporting across nonadjacent rooms. If Billy immediately returns before the follow completes, cancel that pending follow. Future side/rear spawns remain inactive.
-- Preserve CAUGHT/restart, input behavior, intro assets/POKEY songs, and the exit success state. No indoor gas-blast/grease mechanics for v0.2.
+- Three **fixed, full-width 40×22 ANTIC 2 character-tile rooms**, two footer/status rows. No scrolling within Taco Smell, no right-side driving HUD here. Room maps/door-link metadata: `assets/maps/taco_smell_stage1_v02.json` plus three matching `.map` files.
+- Each room uses x=0–39, y=0–21; fetch 40-column row offsets using safe 16-bit addressing or precomputed tables. `# B T C R K S` are solid; `. D F N G X` passable for Billy. Grease `G` currently has no special physics.
+- Four reciprocal door transitions triggered by **Billy's hitbox center** entering a `D` tile (doorway rows y=10/11). Redraw entire destination room, align inward x=1 or x=38 at the matching row, reset fractions and prevent held-input reentry. `X` at Storage (39,10) marks COMPLETE.
+- **Three unique persistent hazmat workers**, dining/kitchen/storage encounter identities, scheduled activation, room-follow delay and bounded chase with **shared eight-cell BFS work per dispatch** (not per worker). See version-specific v0.3 rules JSON for timings and `tools/build_stage1_v05.py` for emitted implementation. CAUGHT/COMPLETE/START reset and stunned-contact grace remain.
+- Room entry and restart may require whole-screen redraws; full rendering can span video ticks. Future performance testing must include actual ANTIC DMA, OS interrupts and PMG changes.
 
-## Stage 1 v0.3 pressure extension (implemented on feature branch; playtested with issues)
+## Motion and player graphics
 
-- Following the user's successful v0.2 test, Codex built and the user played **v0.3** on `feature/stage1-pressure-v0.3`. The three fixed 40×22 rooms remain. The user reports pressure is somewhat better, but player movement remains slow/cumbersome and the blast unsatisfying. This section records the v0.3 baseline, not an upcoming task.
-- Add three persistent enemy IDs across the restaurant: dining (2,10) at 60 frames, kitchen (29,11) at +30 frames from entry, storage (30,10) at +30 frames from entry. Movement cadence targets 12/10/10 frames and follow delay 45 frames; all are **tuning defaults**, not verified Atari800 behavior.
-- One direction-aimed blast on each **new FIRE press**, block movement while FIRE held, ray up to three tiles blocked by solid terrain, knockback up to two cells, stun 60 frames, cooldown 72 frames and short visual effect. Stunned enemy cannot catch Billy. Follow the [v0.3 gameplay contract](STAGE1_GAMEPLAY_PRESSURE_V03.md) and its [machine-readable rules](../assets/gameplay/taco_smell_stage1_v03_rules.json).
-- **6502 performance warning:** v0.2 runs one incremental BFS at eight nodes per observed frame. Three independent BFS workers may exceed available processing or make pursuit unresponsive. Codex should implement a bounded multi-enemy scheduling/cached-distance strategy, preserve room-follow identity, and instrument input responsiveness and visual behavior.
-- Preserve all v0.2/v0.3 versioned binaries, builders and test fixtures unchanged. v0.3 already supplies its own `tools/build_stage1_v03.py`, `tools/test_stage1_v03.py`, `assets/stage1_v03/`, manifest and CPU-only profile. The user's playtest confirms v0.3 runs but **not** that its control feel is approved. The old timing numbers remain historical defaults.
+- 16-bit Q4 per-axis logical coordinates (1/16 pixel). **Eight-direction walking**, 24 Q4 units/frame cardinal = 1.5 px/frame, 17 units/frame *per axis* diagonal = 1.0625 px/frame. Immediate joystick sampling each observed NTSC video tick, bounded catch-up (at most two collision-tested ticks). No old eight-frame stepping.
+- Sprite is an approximately 8×8 logical-pixel **GTIA PMG Player 0** actor in Stage 1; player's hitbox is **inset 6×6 AABB**, swept substep collision/resolution, solid tiles/edges, axis-aware wall sliding and overlapping worker contact.
+- Single-line PMG **PMBASE=$B8** block `$B800–$BFFF`; Billy P0 `$BC00–$BCFF` and, in v0.5, blue-jeans/pose P1 `$BD00–$BDFF`. Horizontal positioning advances at 2 logical pixels per PMG color clock, vertically at 1 scanline. The old BFS Y queue was moved to `$9C00` away from PMG. This is intentionally *temporary* low-resolution character art.
+- No gameplay PMG changes to the accepted title sequence. The intro's rejected *title* PMG experiments must not be reactivated.
 
-## Stage 1 v0.4 movement-control prototype (implemented and user-playtested)
+## Blast extension and effect timing
 
-- **Active spec:** [v0.4 movement contract](STAGE1_MOVEMENT_V04.md), [tuning data](../assets/gameplay/taco_smell_stage1_v04_movement.json), and [Codex handoff](CODEX_STAGE1_V04_HANDOFF.md).
-- **Source branch:** Codex built `feature/stage1-movement-v0.4` from the v0.3 baseline, with `tools/build_stage1_v04.py`, `tools/test_stage1_v04.py` and `assets/stage1_v04/`. **The user played the v0.4 XEX and reports Billy moves smoothly and diagonal walking works well.** Preserve the v0.4 XEX, source, Q4 movement and GTIA sprite code unchanged for regression.
-- **Problem:** The old movement is one full **8×8 tile every 8 NTSC frames**, and the existing renderer snaps Billy to character-cell positions. User finds this awkward and sluggish.
-- **Movement target:** Keep three 40×22 fixed-screen maps, but represent Billy with **4-bit fractional logical-pixel precision per axis** (1/16-pixel units; use 16-bit coordinate components). Cardinal **24/16 = 1.5 px/frame**; diagonal **17/16 px/frame per axis**, for normalized 8-way joystick walking. Poll at each observed video tick, not every eighth; stop/reverse immediately.
-- **Sprite rendering:** Implemented using **gameplay GTIA Player 0**, single-line PMG **PMBASE=$B8**, player plane **$BC00–$BCFF**; logical 8×8 sprite footprint, 2px horizontal PMG steps, 1px vertical steps. User confirms overall control feel, not necessarily final graphics. Do **not** modify the retired PMG *title* art.
-- **Hitboxes:** 8×8 visible sprite, **6×6 inset collision** rectangle. Resolve X and Y per-axis with swept/substeps to avoid wall tunneling; if one axis is obstructed, slide along the other at full cardinal speed. Enemy tiles remain at existing integer grid positions, but collision against Billy becomes overlapping AABBs rather than exact tile equality. Keep stun/contact grace.
-- **Door triggers:** Billy's hitbox **center** enters D/X; after a room swap align Billy with x=1 or x=38 destination tile (8px/integer alignment), preserving doorway row (10/11). Do not bounce repeatedly on held input. Keep all room/enemy states.
-- **FIRE:** v0.4 gameplay intentionally ignores FIRE; pre-game intro FIRE is unchanged. v0.5 specifically reinstates and redesigns **eight-direction indoor blasting** without regressing movement.
-- **Performance:** Need true video-cadenced movement even while the shared BFS/three-worker logic runs, without full-screen redraw per frame. 6502 cycle and memory-segment checks mandatory; py65 measurement is not a stand-in for user Atari800 playtesting.
+- **Stage 1 only:** FIRE held switches from WALK to eight-direction AIM. Four stable direction frames trigger **one blast per hold**, FIRE-first works, release to rearm. Eight-frame recovery, twenty-frame cooldown, three regenerating charges (one per 120 observed NTSC frames). **Car blasting remains four-way** and is a different future mechanic.
+- Three 6-tick expanding waves create a maximum **seven visible cells** using aimed direction vector and perpendicular flank vector. Cached supercover line-of-sight prevents blasts through solid tiles, D/X, walls or diagonal corner gaps. Temporary cloud/impact glyphs restore previous terrain/worker display rather than redraw full rooms each tick.
+- Same-room targets are hit once per burst; animate at most **three cardinal/diagonal 8px tile-step pushes**, one per three observed frame ticks. Stop before furniture, door, X, map edge or worker, and require both neighboring orthogonal cells clear for diagonal pushes. Apply **75-tick stun**, four-tick impact flash and 24-tick blocker stagger without chain-pushing.
+- GAS footer status and original short ten-tick POKEY gameplay whoosh do **not** replace the road gas-pressure mechanic or opening soundtrack.
+- Authority: `assets/gameplay/taco_smell_stage1_v05_blast.json` and [current Stage 1 specification](STAGE1_DESIGN.md).
 
-## Stage 1 v0.5 gas-blast requirements
+## Native source, memory and profiling
 
-**Authority:** [v0.5 blast gameplay specification](STAGE1_BLAST_V05.md), [machine-readable tuning](../assets/gameplay/taco_smell_stage1_v05_blast.json), [Codex handoff](CODEX_STAGE1_V05_HANDOFF.md).
+The authoritative output generator is `tools/build_stage1_v05.py` (uses the v0.4/v0.3 builders via temporary directories and checked binary hooks; does not regenerate historical files in place). The XEX/source listings/manifest/profile are under `assets/stage1_v05/`. Listings document the emitted instructions, **not independently assembled MAC/65 build inputs**.
 
-- **Actual baseline:** User-tested v0.4 branch `feature/stage1-movement-v0.4`; new branch `feature/stage1-blast-v0.5`. Keep the Q4 16-bit player coordinates, 1.5px/frame cardinal movement, normalized diagonals, wall sliding and inset 6×6 player hitbox. Preserve three v0.3 workers and their BFS scheduling.
-- **Input state machine:** Gameplay-only `WALK → AIM/WINDUP → BLAST/CLOUD → RECOVERY`, with `FIRE` held switching to aiming and suppressing walking. Independently read joystick each observed frame, allow FIRE-first aiming, require **4 stable direction ticks** (cardinal or diagonal), one shot per press, release-to-rearm. Diagonal input is a **distinct valid aim**; release early cancels without cost. Cooldown and resource checks must **not queue delayed phantom shots**.
-- **Funny pose:** Billy remains GTIA **Player 0** for gameplay. Adjust frame/pose and, if safe, leverage a second in-game PMG plane for a **visible jeans-clad backside protrusion in the selected blast direction**. Must not reconfigure Title v1, DLI/PMG during cutscenes, or corrupt the fixed 40-column room display.
-- **Cloud rendering:** Three 6-frame waves within a maximum **3-step-deep, 7-cell cone in any of eight directions**, using an ephemeral overlay separate from terrain and workers. Let f=(dx,dy) be any joystick direction (both components -1, 0 or +1, not both zero), lateral p=(-dy,dx), candidate cell = origin + depth*f + flank*p, with depths/flanks (1,0), (2,-1/0/+1), (3,-1/0/+1). Enforce **supercover line-of-sight** and both orthogonal neighbor cells clear for diagonal steps to prevent cutting solid corners; clip by solids `# B T C R K S`, room bounds and D/X. No permanent edits to the authoritative room maps or overwritten worker/PMG art. Restore all affected background glyphs after every wave. Avoid full-screen redraw per wave.
-- **Collision and combat:** Affected workers in same room once per burst; animate up to **three 8px tile-step knockback moves** in the exact cardinal/diagonal aim vector (one per three video frames), stopping before furniture/other workers/D/X. For a diagonal push step, both adjacent orthogonal cells must be clear to prevent corner clipping. Apply **75-frame stun** to target and **24-frame stagger** to a worker blocking knockback, with a brief impact animation. Respect existing stunned-contact grace and global persistent worker IDs.
-- **Meter and pacing:** The prototype contains **three rechargeable indoor GAS charges**, one consumed per discharge, refill one every **120 NTSC frames**, **20-frame cooldown** from discharge and **8-frame recovery** from discharge. Display GAS 0–3/3 and status within the existing **two footer rows**. This is **not** the Stage 2 road gas-pressure system.
-- **POKEY:** Short original in-game whoosh (~10 ticks); start/stop stage-only registers safely. Approved Arcade Rock and Funky Gas Attack source and playback state stay byte-identical.
-- **CPU/memory:** v0.4's manifest already allocates PMG **$B800–$BFFF** and player code in lower RAM, with three-worker BFS and maps elsewhere. Codex must audit *all* new frame, status, sprite/cloud overlay and sound allocations against the actual v0.4 manifest; avoid modifying shared OS/display-list or enemy queue memory. Do not claim cycle safe based only on 6502 simulation.
-- **Validation:** Keep unchanged v0.4 movement tests and previous validators; add `tools/validate_stage1_blast_v05.py` and true v0.5 CPU tests for all eight cardinal/diagonal aims, input edge ordering, animation waves/occlusion, hit-once, knockback and collisions, resource refill, restart, 16-bit frame wrap, music regression and room-state continuity. The user must evaluate the actual XEX in Atari800 for comedy/impact/smoothness.
+Version-specific allocation from the existing v0.5 README: motion extension `$0400+`, main core `$1000+`, blast state `$2900+`, static aim/pose/line-of-sight tables `$5B00+`, blast engine `$7800+`, BFS field and queues near `$9800–$9FFF`, maps and font near `$A000+`, and PMG `$B800–$BFFF`. **Recheck actual manifest segment start/end before adding code**; do not infer available RAM solely from these prose ranges. Current static plus RAM allocation is not a general final-game memory map. BASIC must be disabled; OS/ANTIC/DLI/POKEY shadow safety matters.
 
-## Memory and runtime checks required of Codex
+Codex's original documented build reported 18 passing v0.5 CPU tests, 15 unchanged v0.4 tests, four passing design validators and a sampled **20,689 CPU-cycle** peak for one three-worker/active-blast scenario. These are **py65 CPU-only measurements**, excluding ANTIC DMA/OS interrupts; no physical Atari test or worst-case 60 Hz guarantee follows.
 
-v0.1 uses buffers/data in the high RAM area (starting around `$A000`) and a 6502 extension. Three new maps cannot simply be appended without checking the Atari 64 KB memory map. Derive actual safe allocation from the v0.1 branch's `tools/build_stage1.py` and `assets/stage1/manifest.json`. Validate every XEX segment for overlap and avoid overwriting the working title/cutscene memory, video screen, character set, OS-reserved regions, and music buffers. Preserve the active display-list/DLI behavior.
+## Test gates and known coverage
 
-Run both map validators, CPU/runtime tests of four doors, y-preserving spawn, transitions without auto-reentry, solid collision, unique hazmat, safe row lookup and stage completion. The user has already played v0.2 and v0.3 in Atari800. New versions still require their own actual Atari800 playtests; CPU simulation alone cannot establish visual motion, music or controller feel.
+Before a shared code change, follow [Stage 1 Regression Checklist](STAGE1_REGRESSION_CHECKLIST.md), validate both map versions/pressure/blast JSON, regenerate XEX, compare manifest hashes, run versioned py65 tests, then inspect in Atari800. The user's v0.4/v0.5 gameplay-feel reports are broad positive feedback, not proof that every effects/door/restart/POKEY edge is verified.
 
-## Other stages
+Open issues, refinements and untested scenarios: [STAGE1_DEFERRED_WORK.md](STAGE1_DEFERRED_WORK.md). Earlier versions: [archive](archive/stage1/README.md) and five tagged commits.
 
-**Gas attack distinction:** v0.5 **on-foot** aiming is eight-way, but road-stage/car attacks remain **four-way** (front/rear/left/right windows). Do not generalize the indoor diagonal attack to the car.
+## Subsequent stages and technical decisions still open
 
-The **fixed-screen, non-scrolling** room behavior is specific to **Taco Smell Stage 1 v0.2**, not a restriction on room transitions elsewhere. Later indoor stages—including pharmacy and grocery—may use **room-to-room transitions, camera scrolling inside an area, or a hybrid of both**. A grocery aisle pursuit with police, hazmat workers and townspeople could scroll and then switch sections via a room transition; this remains a design possibility, not a completed technical specification. Driving road stages still use the separate overhead-scrolling driving/HUD design. All game-wide technical decisions remain open (final graphics modes, PMG for moving sprites, global memory map and frame timing, game distribution, lives, score and other levels).
+Road 1 uses an upward-facing car on a downward-scrolling road, with a separate **left two-thirds road field + right one-third fixed HUD**; the first drive to pharmacy builds gas pressure toward a 100% failure limit, with no Gas-Nix drops yet. Steering, road narrowing/forks, pursuing vehicles, off-road timing and car blasts need their own driving prototypes, performance budget and memory allocation. **Do not generalize Stage 1's fixed rooms or eight-direction blast behavior to driving.**
 
-## Implemented v0.4 movement extension (pending Atari800)
-
-- `tools/build_stage1_v04.py` builds the retained v0.3 core into a temporary directory
-  and applies checked entry-point patches plus a separate $0400 movement/PMG
-  extension. All earlier sources/binaries remain unchanged. Exact segments and
-  build/run instructions: [assets/stage1_v04/README.md](../assets/stage1_v04/README.md).
-- 16-bit Q4 top-left coordinates, per-video-tick cardinal/diagonal speeds 24/17,
-  duplicate-clock rejection and at most two collision-tested catch-up ticks.
-  <=1px axis substeps and bounded binary search resolve the 6x6 half-open AABB;
-  wall sliding adjusts the free component to cardinal speed. Center tiles feed
-  unchanged room links/AI; entering a room aligns/reset fractions to its inward tile.
-- Billy uses GTIA P0 single-line PMG at $BC00, PMBASE $B8, DMACTL $3A, GRACTL 2.
-  Four active horizontal bits span eight logical pixels: horizontal hardware
-  positioning is 2 logical pixels, vertical positioning 1 scanline. Position
-  origins are 48 color clocks / 32 scanlines, subject to actual emulator alignment.
-  No title PMG or DLI changes. The old Y FIFO is relocated from $B900 to $9C00
-  to avoid the $B800-$BFFF PMG block.
-- Gameplay FIRE ignores the old attack path entirely and cannot lock walking.
-  Pixel-aware worker contact retains stun/grace; all prior encounter tuning stays.
-- 15 v0.4 CPU tests and 23 unchanged v0.3 tests pass, plus three validators.
-  CPU-only profile includes pursuit, wall slide, catch-up, restart and room redraw.
-  Room redraws may span video frames; DMA/VBI costs, visible sprite alignment,
-  flicker, responsiveness and real Atari800/800XL behavior remain unverified.
-
-## Implemented v0.5 blast prototype (pending Atari800)
-
-Source/build/tests: `tools/build_stage1_v05.py`, `tools/test_stage1_v05.py`; XEX,
-listings, hash/segments, profile and run instructions: [assets/stage1_v05/README.md](../assets/stage1_v05/README.md).
-The v0.4 builder runs in a temporary directory; its walking/collision/AI code is
-retained, with checked stage-only input/render/PMG dispatch hooks. All earlier
-versioned XEXs/builders/tests remain unchanged.
-
-The blast state machine handles eight stable aims, FIRE-first ordering, four-tick
-wind-up, consumed blocked holds, renewable charges, cooldown and recovery. Seven
-cone cells use precomputed relative supercover paths translated to the burst origin;
-solids and D/X occlude, including both diagonal corner cells. Visibility is cached
-per burst; dirty restoration precedes retained actor rendering. Three per-worker
-hit/push/BONK timers animate collision-safe knockback without duplicate entities.
-
-New state uses $2900, static path/pose/vector tables the $5B00 artwork gap, and
-attack code the $7800 gap. Billy retains P0 at $BC00; blue jeans use P1 at $BD00,
-with transparent P0 holes to respect GTIA priority. Two pose phases/eight directions
-and cloud/impact glyphs are temporary art, not visually verified. A ten-tick
-original noise effect uses POKEY channel 1 during Stage 1 and is silenced on results.
-
-All 18 v0.5 CPU tests, 15 unchanged v0.4 tests and four validators pass. The
-three-worker/cloud/PMG walking scenario peaks at 20,689 sampled CPU cycles,
-excluding ANTIC DMA/OS interrupts. Real Atari800 smoothness, sound, comedy,
-charge balance and overall feel remain unverified. No merge into main.
+Pharmacy/grocery interiors may use fixed rooms, scrolling, or a hybrid, unlike the deliberately fixed Taco Smell rooms. Game-wide timing/AI, memory map, lives, scoring, stages, persistence, PAL and packaging/distribution decisions remain unresolved and must not be marked delivered merely because Stage 1 is a working prototype.

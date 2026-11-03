@@ -1,8 +1,9 @@
 # Gas Blasters '82 — Stage 1 v0.5: eight-way gas blast
 
+**Current documentation:** [Stage 1 Design](../../docs/STAGE1_DESIGN.md) · [Deferred Work](../../docs/STAGE1_DEFERRED_WORK.md) · [Regression Checklist](../../docs/STAGE1_REGRESSION_CHECKLIST.md). This file remains the **version-specific implementation and original build/test record**.
+
 Native 6502 Atari XEX for **64 KB Atari 800XL**, BASIC disabled. Built on
-`feature/stage1-blast-v0.5` from the working, user-playtested v0.4 branch, plus
-current v0.5 design files from main. **Not merged; Atari800 testing pending.**
+the former `feature/stage1-blast-v0.5` from the working, user-playtested v0.4 branch. **Merged into `main` and preserved at tag `stage1-v0.5`. The user has since played v0.5 and says gas blasting is good enough for now; exhaustive visual/audio/hardware regression remains open.**
 All existing v0.1–v0.4 XEXs, sources and tests remain unchanged.
 
 ## Download / run
@@ -145,7 +146,7 @@ CPU cycles**. Full per-dispatch samples are recorded. These exclude ANTIC DMA an
 OS interrupts; they are not an exhaustive worst-case bound or an Atari frame-rate
 claim. Existing room redraw/restart can still span video frames.
 
-## Atari800 acceptance — not yet performed
+## Detailed Atari800 acceptance checklist — not yet fully evidenced
 
 1. Confirm unchanged title/cutscene graphics, START/FIRE controls and both songs.
 2. Reconfirm v0.4 smooth walking/diagonals and steering around furniture.
@@ -162,6 +163,6 @@ claim. Existing room redraw/restart can still span video frames.
 8. Check sustained three-worker input response, PMG flicker and frame pauses;
    reach X and restart repeatedly. Real 800XL and PAL checks remain outstanding.
 
-Please report aiming ease, pose/cloud readability, knockback punch, recovery feel,
+The user has given broad v0.5 gameplay acceptance, **not an itemized pass for every check above**. For future changes, please report aiming ease, pose/cloud readability, knockback punch, recovery feel,
 charge waits, flicker/sound artifacts and overall fun. Numeric values remain
 prototype tuning; no stage-duration or final-balance claim is made.
