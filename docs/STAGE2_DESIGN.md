@@ -5,7 +5,7 @@
 **Date:** 2026-11-03  
 **Target:** Atari 800XL, stock 64 KB, native 6502 Atari XEX  
 **Working branch:** `feature/stage2-driving-v0.1`  
-**Status:** Design specification — not yet implemented or playtested  
+**Status:** v0.1 standalone implemented and CPU tested on feature branch; Atari800 playtest/acceptance pending
 **Repository destination:** `docs/STAGE2_DESIGN.md`  
 
 ## 1. Purpose and authority
@@ -200,3 +200,27 @@ The prototype is ready for the user's first emulator playtest when:
 - Memory allocations, test methodology, and any actual emulator limitations discovered.
 
 **Definition of done:** A player can meaningfully test the **feel of driving** a recognizable car on a continuously scrolling road, with reliable speed controls and HUD. It is **not** the completed pharmacy chase.
+## 11. v0.1 implementation evidence — 2026-11-03
+
+The separate XEX is now built at `assets/stage2_v01/GasBlasters82_Stage2_Driving_v01.xex`.
+Source: `tools/build_stage2_v01.py`; native CPU tests: `tools/test_stage2_v01.py`.
+Build/run commands, full memory map, tuning and playtest plan are in
+[the prototype README](../assets/stage2_v01/README.md); manifest, CPU-only profile
+and validation report are alongside it. These engineering defaults are provisional:
+
+- ANTIC 4, 27 road / 13 HUD columns; 108-color-pixel road pane (216 logical pixels).
+  Character-set animation uses a double-buffered 256-byte road page with static
+  HUD glyphs; no raster-wide hardware scrolling.
+- Zones [0,7), [7,14), [14,94), [94,101), [101,108): 6.48/6.48/74.07/6.48/6.48%,
+  rounding the approved target to color pixels. Center classification is telemetry only.
+- Original two-plane PMG car, 8 color pixels ×16 scanlines, top y=144 / center y=152,
+  near 79% viewport height. Steering Q4=12 color-pixel units/tick.
+- Scroll Q4 min/default/max=8/24/56 scanlines/tick, acceleration/brake ±1 per tick.
+  GAS/MI/SCORE/LIVES stay static demo values; speed/zone alone update.
+- 12 driving tests pass, including three simulated minutes; 33 accepted Stage 1
+  tests, four validators and opening validation also pass. Sampled loop peak
+  4,614 CPU cycles excludes DMA/OS interrupts. Atari800 and hardware tests **not run**.
+
+All earlier XEX/source assets are unchanged. This standalone allocation overlaps
+Stage 1's runtime memory and must not be loaded as a naive concatenated stage.
+No merge/tag or acceptance of feel, final art or full Stage 2 gameplay is implied.

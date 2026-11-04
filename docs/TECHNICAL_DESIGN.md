@@ -49,8 +49,34 @@ Open issues, refinements and untested scenarios: [STAGE1_DEFERRED_WORK.md](STAGE
 
 ## Subsequent stages and technical decisions still open
 
-**Stage 2 v0.1 — designed, not implemented:** The approved [Stage 2 Driving Design](STAGE2_DESIGN.md) specifies a **standalone** straight-road scrolling XEX, free left/right car steering, automatic forward scrolling, UP acceleration, DOWN braking to a positive minimum, combinable diagonal inputs, a left ~2/3 driving pane, and a **stationary** right ~1/3 placeholder HUD. The exact ANTIC mode, split-pane implementation, PMG/sprite strategy, physical pixel boundaries, tuning and memory map are engineering decisions for Codex to document. ANTIC hardware scrolling cannot be blindly applied across rows if the right-side HUD must remain stationary. Do not claim a playable Stage 2 XEX exists until built and verified; preserve Stage 1 v0.5 unchanged.
+**Stage 2 v0.1 — standalone implemented/CPU tested, Atari800 pending:** The approved [Stage 2 Driving Design](STAGE2_DESIGN.md) specifies a **standalone** straight-road scrolling XEX, free left/right car steering, automatic forward scrolling, UP acceleration, DOWN braking to a positive minimum, combinable diagonal inputs, a left ~2/3 driving pane, and a **stationary** right ~1/3 placeholder HUD. The exact ANTIC mode, split-pane implementation, PMG/sprite strategy, physical pixel boundaries, tuning and memory map are engineering decisions for Codex to document. ANTIC hardware scrolling cannot be blindly applied across rows if the right-side HUD must remain stationary. A standalone native XEX has now been built and CPU tested; actual Atari800 presentation/feel remains unverified. Stage 1 v0.5 is unchanged.
 
 Road 1 uses an upward-facing car on a downward-scrolling road, with a separate **left two-thirds road field + right one-third fixed HUD**; the first drive to pharmacy builds gas pressure toward a 100% failure limit, with no Gas-Nix drops yet. Steering, road narrowing/forks, pursuing vehicles, off-road timing and car blasts need their own driving prototypes, performance budget and memory allocation. **Do not generalize Stage 1's fixed rooms or eight-direction blast behavior to driving.**
 
 Pharmacy/grocery interiors may use fixed rooms, scrolling, or a hybrid, unlike the deliberately fixed Taco Smell rooms. Game-wide timing/AI, memory map, lives, scoring, stages, persistence, PAL and packaging/distribution decisions remain unresolved and must not be marked delivered merely because Stage 1 is a working prototype.
+
+## Stage 2 v0.1 standalone implementation
+
+See [Stage 2 build/memory/timing notes](../assets/stage2_v01/README.md).
+Native source is `tools/build_stage2_v01.py`; build is deterministic and stdlib-only.
+ANTIC 4 uses fixed 27/13-column road/HUD character layout. Eight terrain categories
+with four row phases form 32 animated glyphs; 32 precomputed pages produce downward
+pixel scrolling. The inactive character bank receives 256 road bytes per tick,
+then publishes on the next VBI tick. Static HUD glyphs remain identical in both
+banks, avoiding naive whole-raster scrolling and partially visible glyph updates.
+
+Standalone allocation: code/state $2000–$22C4, screen $2400, display list $2800, fonts
+$3000/$3400, single-line PMG $3800 (red car P0 at $3C00, white highlights P1 at $3D00),
+road phase pages $4000–$5FFF, immutable font $6000, telemetry tables $6400/$6500,
+copy pointers $80–$83. This overlaps Stage 1 opening/music/font/art allocations,
+so future integration needs explicit resource switching/relocation, not XEX append.
+
+Per-new-RTCLOK dispatch: publish ready font, poll input, update fractional steering
+and positive speed, update PMG/telemetry, prepare hidden font. One observed update
+per changed clock; no duplicate update or unbounded catch-up. Sampled costs are
+4,575 neutral cycles, up to 4,614 combined-control cycles, excluding DMA/OS costs.
+
+Twelve driving CPU tests and the native three-minute simulated idle run pass;
+33 Stage 1 regression tests, four validators and opening validation pass unchanged.
+Actual Atari800 visual/audio/controller acceptance, physical 800XL and PAL remain
+pending. No pressure/distance/arrival/opponents/forks/penalties/car blasts yet.

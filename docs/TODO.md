@@ -11,8 +11,23 @@
 - **PMG regression and v2.1 hotfix — 2026-10-30:** The first real Atari800 test of the alternate PMG title **v2 failed visually** (stray cyan/white pixels overlapping text/background). Bug confirmed: DMACTL set to $2E **double-line** although 2 KB PMG data was built for **single-line**. The v2 validator mistakenly expected $2E as well. A separate v2.1 XEX and corrected source now use $3E, an adjusted 56-line vertical origin, and explicit tests for correct DMACTL and cleared PM rows over the text. **v2.1 was tested in Atari800 on 2026-11-01 and was visually rejected:** scattered PMG highlights still degrade the logo, Billy and car. The overlay intentionally adds about 220 disconnected pixels; a heavy DLI handler also has insufficient cycle headroom for one scanline. Do not adopt v2/v2.1; preserve the accepted v1 title. No checklist completion change. **Known-good v1 is unaffected**. Checklist completion count is unchanged until the corrected PMG screen passes visually.
 ## Stage 2 v0.1 design update — 2026-11-03
 
-- **Design approved, implementation pending:** [STAGE2_DESIGN.md](STAGE2_DESIGN.md) is now the active first-driving-prototype specification. Option A controls are automatic forward motion, smooth free left/right steering, UP acceleration, DOWN braking to a positive minimum, and combined diagonal inputs. v0.1 targets a downward-scrolling straight road, distinct grass/shoulder/pavement zones, car sprite, and fixed right HUD with GAS/MI/SCORE/LIVES **placeholders**.
-- **Next implementation branch:** existing `feature/stage2-driving-v0.1`. Codex should build a standalone XEX and report evidence; gas pressure, pharmacy arrival, police, forks, off-road penalties and vehicle blasts remain later work. **No prototype checkboxes are marked complete on the strength of a design-only commit.**
+- **Design approved; standalone implementation now CPU tested, playtest pending:** [STAGE2_DESIGN.md](STAGE2_DESIGN.md) is now the active first-driving-prototype specification. Option A controls are automatic forward motion, smooth free left/right steering, UP acceleration, DOWN braking to a positive minimum, and combined diagonal inputs. v0.1 targets a downward-scrolling straight road, distinct grass/shoulder/pavement zones, car sprite, and fixed right HUD with GAS/MI/SCORE/LIVES **placeholders**.
+- **Implementation branch:** existing `feature/stage2-driving-v0.1`. The standalone XEX is now built and CPU tested; user Atari800 review remains pending; gas pressure, pharmacy arrival, police, forks, off-road penalties and vehicle blasts remain later work. **The broader road-chase milestone remains open; v0.1 implementation evidence is recorded below.**
+
+## Stage 2 v0.1 implementation evidence — 2026-11-03
+
+- Standalone native XEX built on existing `feature/stage2-driving-v0.1`: scrolling
+  straight road, smooth steering, automatic positive motion, UP/DOWN speed control,
+  combined inputs, bounded car, fixed placeholder HUD with live SPD/ZONE and START reset.
+- Twelve driving CPU tests pass, including 10,800 simulated video ticks (three nominal
+  minutes); 33 retained Stage 1 CPU tests, all four design validators and opening
+  validation pass. Original Stage 1/opening/art/music/XEXs remain unchanged.
+- Source/build/run/tuning/memory/profile: [assets/stage2_v01/README.md](../assets/stage2_v01/README.md).
+  **Atari800/user playtest is not run**, physical 800XL/PAL also pending.
+- This implements the narrow v0.1 free-driving demo only. The broader Phase 3 road
+  chase milestone/checklist below is not declared complete; pressure, distance,
+  destination, opponents, curves, forks and penalties remain later work. Historical
+  completion totals below are retained; no merge/tag or gameplay acceptance claimed.
 
 ## Status update — 2026-11-02
 

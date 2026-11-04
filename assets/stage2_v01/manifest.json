@@ -1,0 +1,210 @@
+{
+  "output": "GasBlasters82_Stage2_Driving_v01.xex",
+  "sha256": "b686f523e4f8ac603a17e2939933da7cab3cc0b2d773160969d3c907aa9825b6",
+  "bytes": 15092,
+  "labels": {
+    "START": 8192,
+    "FONT_INIT_0": 8219,
+    "FONT_INIT_1": 8233,
+    "FONT_INIT_2": 8247,
+    "FONT_INIT_3": 8261,
+    "WAIT": 8426,
+    "RESET": 8443,
+    "FRAME": 8500,
+    "RELEASED": 8531,
+    "DRIVE": 8536,
+    "BRAKE": 8564,
+    "STEER": 8581,
+    "RIGHT": 8620,
+    "CLAMP_RIGHT": 8654,
+    "SCROLL": 8664,
+    "PREPARE": 8728,
+    "COPY_ROAD": 8746,
+    "TELEMETRY": 8754,
+    "GRASS": 8854,
+    "SHOULDER": 8859,
+    "SET_ZONE": 8861,
+    "ZONE_TEXT": 8873,
+    "LAST_FRAME": 8886,
+    "NEXT_BANK": 8887,
+    "TABLE_HIGH": 8888,
+    "READY_PHASE": 8889,
+    "SHOWN_PHASE": 8890,
+    "PHASE_LO": 8891,
+    "PHASE_HI": 8892,
+    "SPEED": 8893,
+    "CAR_LO": 8894,
+    "CAR_HI": 8895,
+    "ARMED": 8896,
+    "JOY": 8897,
+    "PIX_LO": 8898,
+    "PIX_HI": 8899,
+    "ZONE": 8900
+  },
+  "tuning": {
+    "status": "Provisional Stage 2 v0.1 driving-feel tuning; not final game rules",
+    "ntsc_hz_nominal": 60,
+    "driving_columns": 27,
+    "hud_columns": 13,
+    "screen_rows": 24,
+    "color_pixels_per_character": 4,
+    "scanlines_per_character": 8,
+    "zone_edges_color_pixels": [
+      0,
+      7,
+      14,
+      94,
+      101,
+      108
+    ],
+    "car_width_color_pixels": 8,
+    "car_height_scanlines": 16,
+    "car_top_scanline": 144,
+    "steering_q4_color_pixels_per_tick": 12,
+    "scroll_min_q4_scanlines_per_tick": 8,
+    "scroll_default_q4_scanlines_per_tick": 24,
+    "scroll_max_q4_scanlines_per_tick": 56,
+    "acceleration_q4_per_tick": 1,
+    "scroll_period_scanlines": 32
+  },
+  "code_bytes": 709,
+  "road_categories": [
+    [
+      1,
+      1,
+      1,
+      1
+    ],
+    [
+      1,
+      1,
+      1,
+      2
+    ],
+    [
+      2,
+      2,
+      2,
+      2
+    ],
+    [
+      2,
+      2,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      3,
+      0
+    ],
+    [
+      0,
+      0,
+      2,
+      2
+    ],
+    [
+      2,
+      1,
+      1,
+      1
+    ]
+  ],
+  "category_for_column": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    5,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    6,
+    2,
+    7,
+    0
+  ],
+  "segments": [
+    {
+      "start": 736,
+      "end": 737,
+      "bytes": 2
+    },
+    {
+      "start": 8192,
+      "end": 8900,
+      "bytes": 709
+    },
+    {
+      "start": 9216,
+      "end": 10175,
+      "bytes": 960
+    },
+    {
+      "start": 10240,
+      "end": 10271,
+      "bytes": 32
+    },
+    {
+      "start": 12288,
+      "end": 13311,
+      "bytes": 1024
+    },
+    {
+      "start": 13312,
+      "end": 14335,
+      "bytes": 1024
+    },
+    {
+      "start": 14336,
+      "end": 16383,
+      "bytes": 2048
+    },
+    {
+      "start": 16384,
+      "end": 24575,
+      "bytes": 8192
+    },
+    {
+      "start": 24576,
+      "end": 25599,
+      "bytes": 1024
+    },
+    {
+      "start": 25600,
+      "end": 25615,
+      "bytes": 16
+    },
+    {
+      "start": 25856,
+      "end": 25870,
+      "bytes": 15
+    }
+  ],
+  "atari800_tested": false,
+  "hardware_tested": false,
+  "notes": "Standalone driving-feel demo, all HUD game values are placeholders; speed/zone telemetry only."
+}

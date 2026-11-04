@@ -11,9 +11,34 @@ A work-in-progress comedy action game for the **Atari 800XL (64 KB)**, written i
 - Original continuous **Title → Meet the Crew → Arriving at Taco Smell → Stage 1** sequence and POKEY music.
 - Stage 1 stops at its completion screen. **There is no connected Stage 2 driving gameplay in the Stage 1 XEX.**
 
-## Next milestone: Stage 2 v0.1 — Driving (design approved)
+## Stage 2 v0.1 — standalone driving prototype (awaiting playtest)
 
-The [Stage 2 Driving Design](docs/STAGE2_DESIGN.md) specifies the **next standalone Atari 800XL driving prototype**, planned on `feature/stage2-driving-v0.1`. The approved **Option A** controls use continuous automatic forward motion, left/right steering, **UP** to accelerate and **DOWN** to brake while preserving a positive minimum speed. The initial display has a scrolling straight road on the left two-thirds and a stationary placeholder HUD on the right third. **Stage 2 v0.1 is design-only at this point; no driving XEX has been accepted or integrated.**
+The [Stage 2 Driving Design](docs/STAGE2_DESIGN.md) specifies the **standalone Atari 800XL driving prototype**, implemented on `feature/stage2-driving-v0.1`. The approved **Option A** controls use continuous automatic forward motion, left/right steering, **UP** to accelerate and **DOWN** to brake while preserving a positive minimum speed. The initial display has a scrolling straight road on the left two-thirds and a stationary placeholder HUD on the right third. **Stage 2 v0.1 is now implemented and CPU tested on the feature branch; Atari800 acceptance and integration are pending.** It is free driving only: no pressure simulation, pharmacy arrival, opponents or off-road penalties.
+
+## Run Stage 2 separately
+
+Download [the Stage 2 driving XEX](assets/stage2_v01/GasBlasters82_Stage2_Driving_v01.xex) and run:
+
+```bash
+atari800 -xl -ntsc -nobasic -run assets/stage2_v01/GasBlasters82_Stage2_Driving_v01.xex
+```
+
+Joystick 1: LEFT/RIGHT steer, UP accelerates, DOWN brakes to positive minimum;
+diagonals combine both. START/F4 resets; FIRE is reserved. The fixed HUD's GAS,
+MI, SCORE and LIVES are **demo placeholders**; SPD/ZONE are live telemetry only.
+
+```bash
+python3 tools/build_stage2_v01.py
+# With the existing py65 test dependency installed:
+python3 tools/test_stage2_v01.py
+python3 tools/profile_stage2_v01.py
+```
+
+Twelve driving CPU tests pass, including 10,800 simulated frames (three nominal
+NTSC minutes); 33 retained Stage 1 CPU tests, four validators and opening validation
+also pass. **No actual Atari800 run is claimed.** See [Stage 2 build/playtest notes](assets/stage2_v01/README.md)
+for tuning, memory, limitations and the manual multi-minute check. Stage 1 stays
+unchanged and has no automatic Stage 2 transition. No merge or new tag yet.
 
 ## Run the prototype
 
@@ -55,7 +80,7 @@ On Windows, use the corresponding `.venv\Scripts\python.exe` and `.venv\Scripts\
 | Document | Purpose |
 | --- | --- |
 | [Stage 1 Design](docs/STAGE1_DESIGN.md) | **Authoritative current Stage 1 gameplay/controls**; implemented vs provisional |
-| [Stage 2 Driving Design](docs/STAGE2_DESIGN.md) | **Authoritative Stage 2 v0.1 scope and acceptance criteria**; design-only until implemented |
+| [Stage 2 Driving Design](docs/STAGE2_DESIGN.md) | **Authoritative Stage 2 v0.1 scope and acceptance criteria**; implemented/CPU tested, playtest pending |
 | [Stage 1 Deferred Work](docs/STAGE1_DEFERRED_WORK.md) | Known limitations, unverified behavior and optional improvements |
 | [Stage 1 Regression Checklist](docs/STAGE1_REGRESSION_CHECKLIST.md) | Build, automated and manual emulator test gates |
 | [Game Design](docs/GAME_DESIGN.md) | Whole-game concept, restaurants, stage sequence and road rules |

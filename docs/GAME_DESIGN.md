@@ -118,6 +118,13 @@ Two cars leave the restaurant: the player's car and a separate car driven by fri
 
 **Open:** road travel speed and how game miles map to elapsed time, exact **visual merge timing/geometry** after a fork, gas growth rate, exact outcome of a **100% gas-pressure explosion** (distinct from off-road failure), respawn after an off-road explosion, and blast duration/knockback tuning (the four-way hold-Fire driving controls are confirmed). The wrong-turn penalty is **confirmed at +1.0 mile only**, with normal countdown speed.
 
+**Stage 2 v0.1 implementation boundary:** A separate free-driving XEX is now built
+and CPU tested on `feature/stage2-driving-v0.1`; Atari800 feel acceptance is pending.
+It demonstrates straight downward scrolling, free steering, UP/DOWN positive-speed
+control and a stationary demo HUD only. GAS/MI/SCORE/LIVES are placeholders; no
+pressure failure, pharmacy arrival, enemies, forks or penalties are implemented.
+It is not connected to the accepted Stage 1 XEX. See [Stage 2 design](STAGE2_DESIGN.md).
+
 ### Stage 3 — Pharmacy: obtain Gas-Nix
 
 The player enters a pharmacy to find **Gas-Nix**, a fictional over-the-counter-style **gas-relief medicine**. Staff, patrons and the store manager attempt to prevent the player from getting it.

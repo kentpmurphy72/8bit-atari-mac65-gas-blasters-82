@@ -1,0 +1,38 @@
+{
+  "xex_sha256": "b686f523e4f8ac603a17e2939933da7cab3cc0b2d773160969d3c907aa9825b6",
+  "model": "py65 CPU only, excludes ANTIC DMA and OS interrupts",
+  "atari800_tested": false,
+  "samples": {
+    "neutral_default": {
+      "min_cpu_cycles": 4575,
+      "max_cpu_cycles": 4575,
+      "last_speed_q4": 24
+    },
+    "accelerate_and_steer": {
+      "min_cpu_cycles": 4602,
+      "max_cpu_cycles": 4614,
+      "last_speed_q4": 56
+    },
+    "brake_and_steer": {
+      "min_cpu_cycles": 4591,
+      "max_cpu_cycles": 4609,
+      "last_speed_q4": 8
+    },
+    "maximum_speed": {
+      "min_cpu_cycles": 4599,
+      "max_cpu_cycles": 4609,
+      "last_speed_q4": 56
+    },
+    "minimum_speed": {
+      "min_cpu_cycles": 4583,
+      "max_cpu_cycles": 4594,
+      "last_speed_q4": 8
+    },
+    "start_reset": {
+      "cpu_cycles": 4532
+    }
+  },
+  "road_copy_bytes_per_frame": 256,
+  "hud_hardware_scrolling": false,
+  "notes": "One video-tick dispatch publishes a previously prepared font, updates controls/PMG/HUD and prepares the inactive road font. These samples do not establish real Atari timing or visual/audio behavior."
+}
