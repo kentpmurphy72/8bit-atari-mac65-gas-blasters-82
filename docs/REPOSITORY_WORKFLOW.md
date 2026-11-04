@@ -5,7 +5,7 @@
 
 ## Source of truth and ownership
 
-- **Game design:** `docs/GAME_DESIGN.md` covers the whole game; `docs/STAGE1_DESIGN.md` is authoritative for **current Stage 1**; `docs/STAGE2_DESIGN.md` is authoritative for the **Stage 2 v0.1 driving design/acceptance**; `docs/TECHNICAL_DESIGN.md` covers implementation; `docs/ART_ASSETS.md` covers final art plans; machine JSON and the actual executable define concrete version-specific values.
+- **Game design:** `docs/GAME_DESIGN.md` covers the whole game; `docs/STAGE1_DESIGN.md` is authoritative for **current Stage 1**; `docs/STAGE2_DESIGN.md` is authoritative for **accepted Stage 2 v0.1 driving and upcoming v0.2 pressure/destination design**; `docs/TECHNICAL_DESIGN.md` covers implementation; `docs/ART_ASSETS.md` covers final art plans; machine JSON and the actual executable define concrete version-specific values.
 - **ChatGPT/design work:** Specify requirements, update authoritative docs, list open decisions, and give a clear acceptance checklist. When asked, make documentation-only GitHub commits.
 - **Codex/implementation:** Branch, implement native 6502 code and reproducible Python offline tooling, build a distinct playable XEX, test, provide exact commit/commands/results; **never claim an Atari800/real-hardware test without running it**.
 - **User:** Evaluate actual game feel in Atari800 and decide acceptance. Do not assume acceptance of provisional numbers implies final art or exhaustive test coverage.
@@ -34,6 +34,13 @@ Historical Stage 1 tags (already created and verified):
 | `stage1-v0.5` | `ea9a2f9745d590e46a3b89803fa7f7830788088a` | Eight-way blast baseline |
 
 The tags and full history survive the deletion of the five old feature branches. Historical numbered designs and Codex handoffs reside in [Stage 1 Archive](archive/stage1/README.md); versioned code and XEX artifacts stay in `assets/` and `tools/`, not moved into the docs archive.
+
+## Stage 2 v0.1 → v0.2 milestone boundary (planned, not executed)
+
+- **v0.1-r3 driving feel was accepted by the user in Atari800 on 2026-11-04.** The acceptance is limited to the standalone driving mechanics; Stage 2 as a whole is unfinished. Retain all v0.1, r2 and r3 XEX/build/manifest artifacts.
+- **Recommended next Git operations, only with explicit user approval:** review the v0.1 driving feature diff and regressions; make an immutable `stage2-v0.1` tag at the final accepted documentation/implementation commit; merge/fast-forward the accepted v0.1 feature branch into `main`; verify the tag and merged tree; then create `feature/stage2-pressure-destination-v0.2` **from updated `main`**. Retire the old v0.1 feature branch only once integration and tag are verified.
+- Do not keep adding unrelated v0.2 code to the accepted v0.1 driving branch, and do not wait for the entire nine-stage adventure or even the completed pharmacy chase to preserve a tested milestone. **As of this documentation update, no Stage 2 tag, merge, branch deletion or v0.2 branch creation has been performed.**
+- Stage 2 v0.2 is **gas pressure and destination**. Final numeric rates, distance scaling, failure/lives policy and completion presentation are still design questions; do not silently treat them as decisions.
 
 ## Changes that cross stages
 

@@ -5,7 +5,7 @@
 **Date:** 2026-11-04  
 **Target:** Atari 800XL, stock 64 KB, native 6502 Atari XEX  
 **Working branch:** `feature/stage2-driving-v0.1`  
-**Status:** Original v0.1 and r2 are implemented; the user has playtested r2 in Atari800 and requested additional forward screen travel. **v0.1-r3 (Y=80) is now specified as the next playtest experiment, not yet implemented or accepted.**
+**Status:** **v0.1 driving mechanics accepted after user Atari800 playtest of r3 (2026-11-04).** r3 is the current playable driving baseline; future extra upward car travel and polish are deferred. **v0.2 gas pressure and pharmacy destination is the next design milestone, not yet implemented.**
 **Repository destination:** `docs/STAGE2_DESIGN.md`  
 
 ## 1. Purpose and authority
@@ -185,7 +185,7 @@ The prototype is ready for the user's first emulator playtest when:
 
 ## 9. Next milestones and preserved full-stage rules
 
-**v0.2 — pressure and destination:** gas pressure starts near 0%, rises toward 100%; miles count down to the pharmacy; successful arrival must precede the threshold. Determine gas growth and travel-speed-to-mile tuning, 100%-failure consequences, and a restart policy during v0.2 design. This **is not working in v0.1**.
+**v0.2 — pressure and destination (next milestone; design work commencing):** Use the accepted r3 driving baseline; change GAS % from placeholder to an active meter that starts near 0% and steadily rises toward a 100% explosion/failure threshold. Change MI from placeholder to remaining miles to the pharmacy, decreasing with forward travel and reflecting the speed selected by the player. Reaching the pharmacy before pressure reaches 100% produces a distinct success state. Reaching 100% first produces a distinct failure state. A simple START-based restart/reset must make repeated trials possible. Exact gas growth, initial miles, miles-to-speed scale, failure consequences for lives, HUD presentation, and restart/success screen details are **open v0.2 design and tuning questions**; do not treat a suggested numeric value as canon. This **is not implemented in v0.1**.
 
 **v0.3+ — driving challenges:** curving/narrowing road, road/shoulder/grass handling, **grass timer that runs/resumes on grass, pauses on shoulder, resets on paved road**, 2.0-second accumulated-grass explosion costing one life, stage warnings, police/hazmat ramming, forks with a flashing upward green arrow, wrong branch adding **exactly 1.0 mile once**, and four-direction car gas blasts using **hold FIRE + direction while steering is suspended**. Those are established future design constraints, not v0.1 deliverables.
 
@@ -283,7 +283,7 @@ Coordinates are **car-top logical scanlines** in the existing 192-scanline viewp
 5. Preserve the original v0.1 and **r2** XEX, build tools, source listings, manifests, tuning, and tests as immutable comparison baselines. Emit a separately versioned r3 prototype, suggested `assets/stage2_v01_r3/GasBlasters82_Stage2_Driving_v01_r3.xex`, with `tools/build_stage2_v01_r3.py`, `tools/test_stage2_v01_r3.py`, its own README, tuning, manifest/checksum, and observed test evidence.
 6. Run automated tests for precise Y endpoints, mapping continuity/monotonicity, min/max bounds, smooth intermediate positions, neutral holds, steering and diagonals, START reset, PMG old-row clearing, stationary HUD and preservation of earlier artifacts. The user will separately judge the actual driving feel in Atari800.
 
-**Status:** r2 has been user-playtested; this **r3 Y=80 experiment is now implemented and CPU tested**, with Atari800/user acceptance pending. Do not merge into `main` or create a milestone tag until approved.
+**Status update (2026-11-04): r3 Y=80 has now been user-playtested in Atari800 and its driving mechanics accepted for the v0.1 milestone.** Further upward screen travel remains deferred/optional. Merge, tag, or branch deletion still require separate authorization; this documentation approval is not a Git integration action.
 
 ### Section 13 implementation evidence — v0.1-r3 (2026-11-04)
 
@@ -301,6 +301,35 @@ All 21 r3, 19 preserved r2, 12 original driving and 33 Stage 1 CPU tests pass,
 plus four design validators and opening validation. Profiled neutral settling
 after default-to-max acceleration takes 54 additional ticks (~0.9s NTSC), as
 expected with retained smoothing. Sampled peak is 5,517 CPU cycles, excluding
-DMA/OS overhead. No actual Atari800 r3 acceptance or hardware claim.
+DMA/OS overhead. These are the **original build-time** CPU results, not proof of emulator operation; the user **subsequently played r3 in Atari800 and approved its driving mechanics on 2026-11-04**. Physical hardware verification remains open.
 See [r3 build/playtest notes](../assets/stage2_v01_r3/README.md) for commands,
 comparison links, scope limits and the user-review checklist. No merge/tag.
+
+## 14. v0.1 milestone acceptance and deferred driving polish — 2026-11-04
+
+**User acceptance:** After testing `assets/stage2_v01_r3/GasBlasters82_Stage2_Driving_v01_r3.xex` in Atari800, the user described the driving mechanics as **good for now** and **approved moving forward**. This accepts the **Stage 2 v0.1 free-driving mechanics**, not the whole Stage 2 pharmacy chase, finished artwork, exact balancing, all emulator edge cases, PAL or physical Atari 800XL validation.
+
+**Accepted playable baseline:** `v0.1-r3` (car-top Y mapping at min/default/max speed Q4 8/24/56: **160/144/80** scanlines). Retain the straight, downward-scrolling road, fixed HUD, freely steerable upward-facing car, positive automatic forward motion, UP/DOWN speed control, speed-linked vertical screen placement, joystick diagonals and START reset. All pre-r3 versioned files remain as historical prototypes.
+
+**Explicitly deferred:** The player may later be allowed to travel **even farther toward the top of the screen than current max-speed car-top Y=80**. This is an **optional future driving-feel refinement**, **not** an immediate requirement and **not** a blocker for v0.2. When reconsidered, assess forward visibility, threat reaction time, speed-to-Y mapping, smoothing/lag and sprite/viewport bounds, and require another user playtest before revising the approved values. Avoid silently retuning r3 during v0.2 development.
+
+**Acceptance evidence distinction:** User reports a successful **Atari800 driving-feel playtest and approval**. Codex's recorded r3 CPU tests and manifest remain build/test evidence; neither statement implies exhaustive manual regression or testing on physical hardware.
+
+**Next version control checkpoint — recommendation only, NOT executed:** Once the documentation-only acceptance commit is reviewed, preserve the accepted commit under an immutable `stage2-v0.1` tag; integrate the feature branch into `main`; verify the tag and `main` match the accepted baseline; then create `feature/stage2-pressure-destination-v0.2` from updated `main`. The old v0.1 feature branch can be deleted after verifying integration and the immutable tag. Do not perform these operations without the user's explicit authorization.
+
+## 15. v0.2 design kickoff — Gas pressure and destination (planning; not implemented)
+
+**Objective:** Turn the accepted v0.1 driving demo into a simple **race to the pharmacy**, retaining its driving controls and presentation. The objective is to reach the pharmacy before Billy's gas pressure hits 100%.
+
+| System | Agreed behavior to design | Still to decide/tune before coding |
+| --- | --- | --- |
+| Gas pressure | Live `GAS %` begins near 0%, steadily increases, and reaches an explosion/failure threshold at **100%** | Exact start %, rise interval/rate, warning display and final consequence for lives |
+| Distance | Live `MI` counts remaining distance **down toward zero** as Billy drives; travel progress should reflect positive forward speed | Starting miles, miles-per-scroll-unit mapping, rounding/display resolution |
+| Success | Reach the pharmacy **before** gas pressure reaches 100%; present a clear arrival/completion state | Arrival screen text/graphics, whether transition into Stage 3 waits |
+| Failure | Gas pressure reaches **100%** before arrival; present an unambiguous explosion/failure state | Lives decrement, retry/checkpoint policy, how explosion art/sound works |
+| Restart | Reset prototype to initial drive, pressure, distance, position and speed for repeatable trials | Whether START is the only restart control on outcome screens |
+| HUD | GAS and MI become live, legible values in the fixed right panel; other unimplemented fields remain clearly demo placeholders | Meter style, numeric update cadence, eventual score/lives behavior |
+
+**Important design boundaries:** No Gas-Nix pickups or drops are available before the pharmacy. No police, hazmat vans, road forks, winding/narrowing roads, off-road explosion timer or four-way car gas blasts in v0.2 unless separately approved. Do not integrate Stage 2 into the accepted Stage 1 XEX yet. Keep v0.1-r3 mechanics and artifacts stable; implement v0.2 as a separately versioned standalone prototype. Gas growth should reflect the passage of game time rather than decreasing merely because the player accelerates; higher forward speed should allow faster destination progress, creating a meaningful race against pressure. The precise game rates remain to be selected and playtested.
+
+**Design decisions to resolve before a final Codex implementation handoff:** numeric starting distance/pressure and pressure-rise rate; how to display distance/gas accurately; what 100% does to lives versus a simple demo failure screen; and how arrival/restart are presented. **This is a planning scope, not a claim that those values or detailed consequences have been approved.**

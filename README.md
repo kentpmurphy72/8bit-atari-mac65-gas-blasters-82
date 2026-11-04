@@ -11,7 +11,7 @@ A work-in-progress comedy action game for the **Atari 800XL (64 KB)**, written i
 - Original continuous **Title → Meet the Crew → Arriving at Taco Smell → Stage 1** sequence and POKEY music.
 - Stage 1 stops at its completion screen. **There is no connected Stage 2 driving gameplay in the Stage 1 XEX.**
 
-## Stage 2 v0.1 — speed-linked vertical movement (r3 trial awaiting playtest)
+## Stage 2 v0.1 — driving mechanics accepted (r3)
 
 The original v0.1 was user-playtested: basic driving was fine, but the car needed
 to move vertically with speed. **v0.1-r2 now implements that refinement** on
@@ -19,8 +19,8 @@ to move vertically with speed. **v0.1-r2 now implements that refinement** on
 UP increases road speed and moves the car toward a higher position; DOWN brakes
 to a positive minimum and moves it lower. Neutral preserves speed/target Y after
 brief smoothing. The user playtested r2 in Atari800 and requested a higher maximum-speed
-position: **car-top Y=80 instead of r2 Y=112**. This **r3 experiment is now built and CPU tested, awaiting Atari800 review**. See [Stage 2 design](docs/STAGE2_DESIGN.md).
-Original steering, road zones, fixed HUD and exclusions remain.
+position: **car-top Y=80 instead of r2 Y=112**. The resulting **r3 XEX was user-playtested in Atari800 and its driving mechanics approved for now on 2026-11-04**. Further upward screen travel may be evaluated later, but is deferred. See [Stage 2 design](docs/STAGE2_DESIGN.md).
+Original steering, road zones, fixed HUD and exclusions remain. **Next: Stage 2 v0.2 — live gas pressure and miles to the pharmacy, with arrival/failure outcomes.** This next prototype has not yet been designed in full or built. The completed Stage 2 chase remains open.
 
 ## Run Stage 2 separately
 
@@ -46,7 +46,7 @@ python3 tools/profile_stage2_v01_r3.py
 
 21 r3 tests, 19 preserved r2 tests, 12 original-driving tests, 33 Stage 1 tests, four validators and
 opening validation pass. The revision includes a three-minute native simulated
-idle test and full PMG row-cleanup checks. **No actual Atari800 r3 run is claimed.**
+idle test and full PMG row-cleanup checks. **Codex did not run Atari800 during the build; the user subsequently tested r3 in Atari800 and approved its driving feel.**
 See [r3 build/tuning/playtest notes](assets/stage2_v01_r3/README.md). Stage 1 remains
 unchanged, with no automatic Stage 2 transition. No merge or new tag.
 
@@ -90,7 +90,7 @@ On Windows, use the corresponding `.venv\Scripts\python.exe` and `.venv\Scripts\
 | Document | Purpose |
 | --- | --- |
 | [Stage 1 Design](docs/STAGE1_DESIGN.md) | **Authoritative current Stage 1 gameplay/controls**; implemented vs provisional |
-| [Stage 2 Driving Design](docs/STAGE2_DESIGN.md) | **Authoritative Stage 2 v0.1 scope and acceptance criteria**; implemented/CPU tested, playtest pending |
+| [Stage 2 Driving Design](docs/STAGE2_DESIGN.md) | **Authoritative Stage 2 specification**; v0.1-r3 driving accepted, extra upward travel deferred, v0.2 design kickoff |
 | [Stage 1 Deferred Work](docs/STAGE1_DEFERRED_WORK.md) | Known limitations, unverified behavior and optional improvements |
 | [Stage 1 Regression Checklist](docs/STAGE1_REGRESSION_CHECKLIST.md) | Build, automated and manual emulator test gates |
 | [Game Design](docs/GAME_DESIGN.md) | Whole-game concept, restaurants, stage sequence and road rules |

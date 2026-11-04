@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Project To-Do List
 
-**Version:** 0.40  
+**Version:** 0.41  
 **Date:** 2026-11-04  
 **Target:** Atari 800XL  
 **Status:** Stage 1 v0.5 implemented and accepted as a playable prototype; remaining full game in design/development  
@@ -9,6 +9,14 @@
 > Living checklist. An unchecked item is not necessarily an approved requirement; some items are proposed work that depends on design decisions. Update this file as tasks are finished or scope changes.
 
 - **PMG regression and v2.1 hotfix — 2026-10-30:** The first real Atari800 test of the alternate PMG title **v2 failed visually** (stray cyan/white pixels overlapping text/background). Bug confirmed: DMACTL set to $2E **double-line** although 2 KB PMG data was built for **single-line**. The v2 validator mistakenly expected $2E as well. A separate v2.1 XEX and corrected source now use $3E, an adjusted 56-line vertical origin, and explicit tests for correct DMACTL and cleared PM rows over the text. **v2.1 was tested in Atari800 on 2026-11-01 and was visually rejected:** scattered PMG highlights still degrade the logo, Billy and car. The overlay intentionally adds about 220 disconnected pixels; a heavy DLI handler also has insufficient cycle headroom for one scanline. Do not adopt v2/v2.1; preserve the accepted v1 title. No checklist completion change. **Known-good v1 is unaffected**. Checklist completion count is unchanged until the corrected PMG screen passes visually.
+## Stage 2 v0.1 accepted; Stage 2 v0.2 next — 2026-11-04
+
+- **Accepted by user after Atari800 playtest:** `assets/stage2_v01_r3/GasBlasters82_Stage2_Driving_v01_r3.xex` is the approved **v0.1 driving-feel baseline** (not a complete pharmacy chase, full regression, PAL or hardware sign-off). Original v0.1/r2 XEXs and builder/test artifacts remain preserved.
+- **Deferred:** Billy may later advance farther than the current **car-top Y=80 maximum-speed position**. Do not alter that approved v0.1-r3 tuning just to start v0.2. Revisit only with deliberate design review and user playtesting.
+- **Next milestone:** design **v0.2 gas pressure and destination**—activate GAS % (near-zero start, rising toward a 100% failure threshold) and MI countdown toward the pharmacy (progress reflects speed), then distinct arrival/failure and restart flows. Exact rates, initial miles, 100%-life consequences and presentation remain undecided. See [Stage 2 design Sections 14–15](STAGE2_DESIGN.md). No v0.2 code exists yet.
+- **Milestone bookkeeping:** Six already implemented and now accepted Phase 3 checklist items are checked below (road rendering, free lateral steering, car drawing, joystick steering, pane/HUD layout and START reset). The remaining Stage 2 chase systems are still open. **77/175 completed, 98 open; Phase 3 now 6/26.**
+- **Proposed Git checkpoint (not executed):** tag accepted v0.1 as `stage2-v0.1`, merge the driving branch to `main`, then branch v0.2 from updated `main`; delete the old branch only after verification and user authorization.
+
 ## Stage 2 v0.1-r3 higher vertical travel — 2026-11-04
 
 - **User has playtested r2 in Atari800** and wants more upper-screen travel at maximum speed. v0.1 is not yet gameplay-accepted.
@@ -135,10 +143,10 @@
 ## Phase 3 — First Playable Prototype
 *Goal: Prove that the central game mechanic is fun.*
 
-**Recommended starting point: Stage 2 — First Road Chase.** The *immediate* implementation scope is the **v0.1 basic-driving demo** in [STAGE2_DESIGN.md](STAGE2_DESIGN.md); the fuller list below spans later versions and is not the v0.1 acceptance checklist.
+**Stage 2 v0.1 basic driving is user-accepted (r3).** The **next** scope is v0.2 gas pressure / distance / destination, as outlined in [STAGE2_DESIGN.md](STAGE2_DESIGN.md), Section 15. The fuller checklist below spans the remaining Stage 2 mechanics; only wholly delivered/accepted items are checked. Phase 3 remains incomplete.
 
-- [ ] Display a basic overhead roadway scrolling downward.
-- [ ] Implement continuous side-to-side steering (no fixed-lane snapping).
+- [x] Display a basic overhead roadway scrolling downward.
+- [x] Implement continuous side-to-side steering (no fixed-lane snapping).
 - [ ] Implement road/shoulder/grass zone classification using the **center of Billy's car** and the graphics-mode-specific left/right boundary coordinates at **his current vertical road cross-section**, including winding and narrowed roads (normal baseline: 75% road, 6.25% shoulder per side and 6.25% grass per side).
 - [ ] Implement **grass time runs/resumes / shoulder time pauses / paved-road time resets** behavior; at 2.0s accumulated grass time since last road recovery, explode and deduct one life.
 - [ ] Implement staged skid, shake/reduced steering, warning/smoke, critical warning/heavy smoke.
@@ -146,20 +154,20 @@
 - [ ] **Playtest and validate** the 40% minimum, four-second narrowing/widening, shoulder safety, and recoverability against enemy ramming; tune only if necessary.
 - [ ] Prototype a **scrolling center-divider island** creating left/right branches and a green upward arrow near top on the preferred side. Start flashes **~2 seconds before island first appears**; animate **0.25s ON / 0.25s OFF**, keep flashing during fork approach, and remove when Billy passes the fork's decision point. Validate timing, visibility and geometry in the chosen graphics mode.
 - [ ] Implement wrong-fork route selection with **one-time +1.0 mile** on wrong-branch choice, **normal-rate** miles countdown and continuing gas-pressure increase; automatically **merge split branches back soon** to one normal 75%-width road, **before** the extra mile is traveled. Prototype/tune visual merge timing and clarity.
-- [ ] Draw the player's car facing upward near the bottom of the screen.
-- [ ] Implement joystick steering.
+- [x] Draw the player's car facing upward near the bottom of the screen.
+- [x] Implement joystick steering.
 - [ ] Add police cars and basic collision detection.
 - [ ] Add hazmat vans and enemy lateral ramming/forced-off-road behavior.
 - [ ] Implement directional gas blast knockback on all four sides of the player's car.
 - [ ] **Prototype and playtest** the approved **hold Fire + cardinal direction** gas-blast mode: no lateral steering while held, car coasts forward, release Fire to resume steering; test safe use during winding roads and police pursuit.
 - [ ] Prototype the **jeans-covered backside pop-out + emanating gas-cloud effect** for each of the four car windows; evaluate sprite readability/animation and collision alignment at the selected Atari graphics resolution.
-- [ ] Divide the driving screen into **left 2/3 playfield** (straight-road baseline 75% road + 12.5% shoulder/grass per side) and **right 1/3 HUD**.
+- [x] Divide the driving screen into **left 2/3 playfield** (straight-road baseline 75% road + 12.5% shoulder/grass per side) and **right 1/3 HUD**.
 - [ ] Add the gas-pressure meter to the HUD.
 - [ ] Display **lives**, miles remaining to the next destination, and score in the right-side HUD.
 - [ ] Make gas pressure rise automatically over time.
 - [ ] Trigger an explosion/failure when pressure reaches 100%.
 - [ ] Define and detect successful arrival at the pharmacy.
-- [ ] Add a simple stage-restart mechanism.
+- [x] Add a simple stage-restart mechanism.
 - [ ] Add a friends' car near the top of the screen.
 - [ ] Prototype Gas-Nix drops and pickups for later road stages.
 - [ ] Test and adjust driving speed, pressure increase, and difficulty.

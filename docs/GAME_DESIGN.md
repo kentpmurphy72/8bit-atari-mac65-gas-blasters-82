@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Game Design Document
 
-**Version:** 0.36  
+**Version:** 0.37  
 **Date:** 2026-11-04  
 **Status:** Early design / living document  
 **Primary target:** Atari 800XL (Atari 8-bit family)  
@@ -104,7 +104,7 @@ The player and friends have eaten a huge meal at the current level's restaurant.
 
 ### Stage 2 — First road chase: race to the pharmacy
 
-**Stage 2 v0.1 design approved (2026-11-03):** See [Stage 2 Driving Design](STAGE2_DESIGN.md) for the authoritative *first* prototype scope and acceptance criteria. The approved **Option A** driving controls are continuous automatic forward travel, free left/right steering, **UP** to accelerate and **DOWN** to brake to a positive minimum speed, with diagonal inputs combining speed control and steering. v0.1 is a standalone straight-road driving feel test with a fixed placeholder HUD; active gas pressure, pharmacy arrival, traffic, forks, off-road penalties and car blasts remain deferred. **The first v0.1 XEX has been built and user-playtested; a v0.1 vertical-car-movement refinement is designed but not yet implemented.**
+**Stage 2 v0.1 driving mechanics accepted (2026-11-04):** The user playtested **v0.1-r3** in Atari800 and approved its driving feel **for now**. This includes continuous automatic forward travel, free left/right steering, UP acceleration, DOWN braking to a positive minimum, diagonal control, and speed-linked vertical car positioning (current high-speed car-top **Y=80**). Earlier v0.1/r2 experiments remain preserved. **Possible future extra upward travel beyond Y=80 is explicitly deferred**, not a blocker. The accepted v0.1 is a standalone *driving* prototype, not the completed Stage 2. **Next: v0.2 — live gas-pressure meter, remaining distance to pharmacy, arrival and gas-threshold failure**. Specific rate/balance and failure/restart decisions remain open; see [Stage 2 Design](STAGE2_DESIGN.md), Sections 14–15. Traffic, forks, off-road penalties and car blasts remain later milestones.
 
 Two cars leave the restaurant: the player's car and a separate car driven by friends. Police pursue the player. **The view is overhead, with the player's car pointing upward near the bottom of the screen as the road scrolls downward** (see Section 5.6).
 
