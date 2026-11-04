@@ -11,14 +11,17 @@ A work-in-progress comedy action game for the **Atari 800XL (64 KB)**, written i
 - Original continuous **Title → Meet the Crew → Arriving at Taco Smell → Stage 1** sequence and POKEY music.
 - Stage 1 stops at its completion screen. **There is no connected Stage 2 driving gameplay in the Stage 1 XEX.**
 
-## Stage 2 v0.1 — speed-linked vertical movement revision
+## Stage 2 v0.1 — speed-linked vertical movement (r3 trial planned)
 
 The original v0.1 was user-playtested: basic driving was fine, but the car needed
 to move vertically with speed. **v0.1-r2 now implements that refinement** on
 `feature/stage2-driving-v0.1`, with CPU tests passing and Atari800 review pending.
 UP increases road speed and moves the car toward a higher position; DOWN brakes
 to a positive minimum and moves it lower. Neutral preserves speed/target Y after
-brief smoothing. Original steering, road zones, fixed HUD and exclusions remain.
+brief smoothing. The user playtested r2 in Atari800 and requested a higher maximum-speed
+position: **car-top Y=80 instead of r2 Y=112**. This **r3 experiment is documented
+but has not yet been built or accepted**. See [Stage 2 design](docs/STAGE2_DESIGN.md).
+Original steering, road zones, fixed HUD and exclusions remain.
 
 ## Run Stage 2 separately
 

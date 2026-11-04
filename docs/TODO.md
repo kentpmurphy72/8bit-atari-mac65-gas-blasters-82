@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Project To-Do List
 
-**Version:** 0.39  
+**Version:** 0.40  
 **Date:** 2026-11-04  
 **Target:** Atari 800XL  
 **Status:** Stage 1 v0.5 implemented and accepted as a playable prototype; remaining full game in design/development  
@@ -9,6 +9,12 @@
 > Living checklist. An unchecked item is not necessarily an approved requirement; some items are proposed work that depends on design decisions. Update this file as tasks are finished or scope changes.
 
 - **PMG regression and v2.1 hotfix — 2026-10-30:** The first real Atari800 test of the alternate PMG title **v2 failed visually** (stray cyan/white pixels overlapping text/background). Bug confirmed: DMACTL set to $2E **double-line** although 2 KB PMG data was built for **single-line**. The v2 validator mistakenly expected $2E as well. A separate v2.1 XEX and corrected source now use $3E, an adjusted 56-line vertical origin, and explicit tests for correct DMACTL and cleared PM rows over the text. **v2.1 was tested in Atari800 on 2026-11-01 and was visually rejected:** scattered PMG highlights still degrade the logo, Billy and car. The overlay intentionally adds about 220 disconnected pixels; a heavy DLI handler also has insufficient cycle headroom for one scanline. Do not adopt v2/v2.1; preserve the accepted v1 title. No checklist completion change. **Known-good v1 is unaffected**. Checklist completion count is unchanged until the corrected PMG screen passes visually.
+## Stage 2 v0.1-r3 higher vertical travel — 2026-11-04
+
+- **User has playtested r2 in Atari800** and wants more upper-screen travel at maximum speed. v0.1 is not yet gameplay-accepted.
+- **Approved design-only experiment:** move maximum-speed car-top **Y=112 → 80**, holding minimum/default Y=160/144 and speeds Q4 8/24/56. Increase vertical travel from 48 to 80 scanlines; revise the speed-to-Y mapping through the three anchors, with existing Y smoothing retained initially. See [Stage 2 design §13](STAGE2_DESIGN.md).
+- **Next:** Codex generates a **separate v0.1-r3 XEX** with its own build/test/manifest, preserving original v0.1 and r2 byte-for-byte. User then playtests r3; do not merge or tag or start v0.2 yet.
+
 ## Stage 2 v0.1 user playtest and refinement — 2026-11-04
 
 - The user **played the original v0.1 in Atari800**. Basic driving was fine, but the car stayed vertically stationary while speed/scroll rate changed; **v0.1 gameplay acceptance is pending**.

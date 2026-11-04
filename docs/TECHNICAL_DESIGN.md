@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Technical Design (Current)
 
-**Updated:** 2026-11-03  
+**Updated:** 2026-11-04  
 **Status:** Stage 1 v0.5 engine/prototype is implemented on `main` and broadly user-playtested; **game-wide technical architecture remains incomplete**. For authoritative Stage 1 *game rules*, use [STAGE1_DESIGN.md](STAGE1_DESIGN.md). Superseded plans/handoffs are in [archive/stage1](archive/stage1/README.md).
 
 ## Platform, runtime and accepted baseline
@@ -104,3 +104,8 @@ and opening validation pass. CPU-only samples peak at 5,517 cycles for braking
 with steering/PMG relocation, versus 4,766 neutral. Actual Atari800 flicker/
 cleanliness and feel, PAL and physical 800XL remain untested. Full details and
 profile/hash reports: [r2 README](../assets/stage2_v01_r2/README.md). No merge/tag.
+
+
+## Stage 2 v0.1-r3 — max-speed car-top Y=80 proposal (not implemented)
+
+The user has playtested r2 in Atari800 and requested more upward motion. The historical **r2 Y maximum-speed target is 112**. For the next **r3** playtest, target **Y=80** at speed Q4=56, while preserving min/default anchors **(8,160)** and **(24,144)**; all coordinates are 16-scanline car **top-edge Y** values within the 192-scanline viewport. Vertical travel increases from 48 to 80 scanlines. The current r2 linear formula cannot keep the default value unchanged when the max changes; use a bounded, continuous, monotonic **piecewise speed-to-Y mapping** through all three anchors and retain the current 12 Q4/tick vertical smoothing initially. Preserve all r2 and v0.1 artifacts, build a distinct r3 prototype, and verify native PMG row clearing/bounds and unchanged road/HUD behavior. See [Stage 2 design — Section 13](STAGE2_DESIGN.md). Actual implementation, CPU verification and emulator acceptance for r3 remain pending.

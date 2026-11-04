@@ -2,10 +2,10 @@
 
 **Document:** Stage 2 Gameplay and Technical Design  
 **Milestone:** v0.1 — Basic Driving Prototype  
-**Date:** 2026-11-03  
+**Date:** 2026-11-04  
 **Target:** Atari 800XL, stock 64 KB, native 6502 Atari XEX  
 **Working branch:** `feature/stage2-driving-v0.1`  
-**Status:** Original v0.1 built and user-playtested in Atari800; driving feel requires speed-linked vertical car movement. The separately versioned v0.1-r2 revision is now implemented and CPU tested; its Atari800 acceptance is pending.
+**Status:** Original v0.1 and r2 are implemented; the user has playtested r2 in Atari800 and requested additional forward screen travel. **v0.1-r3 (Y=80) is now specified as the next playtest experiment, not yet implemented or accepted.**
 **Repository destination:** `docs/STAGE2_DESIGN.md`  
 
 ## 1. Purpose and authority
@@ -260,3 +260,27 @@ diagonals and resets. Stage 1 regressions (15+18), four validators and opening
 validation also pass. Sampled revised-loop max is 5,517 CPU cycles, excluding
 DMA/OS interrupts. **Not Atari800 tested here.** See [r2 README](../assets/stage2_v01_r2/README.md)
 for memory, build/run commands, smoothing/quantization limits and focused playtest.
+
+
+## 13. Stage 2 v0.1-r3 — extend high-speed vertical car travel (approved for playtest 2026-11-04)
+
+**User feedback after testing r2 in Atari800:** The speed-linked vertical car movement is now present, but the car should be able to travel **farther up-screen** at maximum speed. Keep v0.1 driving scope intact; this is a **provisional tuning experiment**, not a final game rule or Stage 2 v0.2.
+
+| Speed setting | Speed Q4 | r2 car-top Y (historical) | Proposed r3 car-top Y | r3 car-center Y |
+| --- | ---: | ---: | ---: | ---: |
+| Minimum | 8 | 160 | **160** (unchanged) | 168 |
+| Default | 24 | 144 | **144** (unchanged) | 152 |
+| Maximum | 56 | 112 | **80** | 88 |
+
+Coordinates are **car-top logical scanlines** in the existing 192-scanline viewport, with Y increasing downward; the car image remains 16 scanlines tall. At maximum speed the sprite occupies Y **80–95**, leaving the upper 80 scanlines in front of the car. Total vertical movement becomes **80 scanlines**, up from **48** in r2.
+
+**Approved r3 constraints:**
+
+1. **Change only the high-speed vertical travel target** (car-top Y=112 → 80), plus the Y mapping necessary to reach it. Keep the current min/default car Y=160/144, speed Q4 min/default/max=8/24/56, scroll speed, accel/brake increments, automatic forward travel, steering, diagonals, FIRE reservation, START reset, stationary HUD and all other v0.1 behavior intact.
+2. r2 used `targetY = 168 - speedQ4`; this cannot produce the new max Y while retaining default Y=144. Instead map speed **monotonically and continuously** through the three exact anchor points **(8,160), (24,144), (56,80)**, e.g. with piecewise interpolation. Avoid discontinuities or snapping at the default-speed transition; clamp targets to the intended range.
+3. **Initially retain r2 Y smoothing of 12 Q4 units/tick (0.75 scanline/tick)**. This may cause a short additional settling period at high speed; evaluate in Atari800. Do not quietly modify steering, acceleration, road scrolling, or default-speed placement as a side effect.
+4. Physically relocate the car PMG bitmap safely, clearing stale rows and ensuring no trailing pixels, flicker, sprite clipping, or HUD corruption. The entire sprite must remain in the driving viewport at all speeds.
+5. Preserve the original v0.1 and **r2** XEX, build tools, source listings, manifests, tuning, and tests as immutable comparison baselines. Emit a separately versioned r3 prototype, suggested `assets/stage2_v01_r3/GasBlasters82_Stage2_Driving_v01_r3.xex`, with `tools/build_stage2_v01_r3.py`, `tools/test_stage2_v01_r3.py`, its own README, tuning, manifest/checksum, and observed test evidence.
+6. Run automated tests for precise Y endpoints, mapping continuity/monotonicity, min/max bounds, smooth intermediate positions, neutral holds, steering and diagonals, START reset, PMG old-row clearing, stationary HUD and preservation of earlier artifacts. The user will separately judge the actual driving feel in Atari800.
+
+**Status:** r2 has been user-playtested; this **r3 Y=80 design is approved for implementation/playtesting only**, with no new XEX or acceptance claim. Do not merge into `main` or create a milestone tag until approved.
