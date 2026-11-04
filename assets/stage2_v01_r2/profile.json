@@ -1,0 +1,38 @@
+{
+  "xex_sha256": "c8555106e3d8904f4bd34649d344c3b1b76aabe1cfb1493060a61b6c07fa88c5",
+  "model": "py65 CPU only; excludes ANTIC DMA and OS interrupts",
+  "atari800_tested": false,
+  "samples": {
+    "accelerate_and_steer": {
+      "min_cpu_cycles": 4778,
+      "max_cpu_cycles": 5513,
+      "speed_q4": 56,
+      "car_y_q4": 1792,
+      "target_y_q4": 1792
+    },
+    "brake_and_steer": {
+      "min_cpu_cycles": 4777,
+      "max_cpu_cycles": 5517,
+      "speed_q4": 8,
+      "car_y_q4": 2560,
+      "target_y_q4": 2560
+    },
+    "neutral_default": {
+      "min_cpu_cycles": 4766,
+      "max_cpu_cycles": 4766,
+      "speed_q4": 24,
+      "car_y_q4": 2304,
+      "target_y_q4": 2304
+    },
+    "neutral_settle_after_default_to_max": {
+      "frames": 11,
+      "max_cpu_cycles": 5474,
+      "car_y_q4": 1792
+    },
+    "start_reset": {
+      "cpu_cycles": 5460,
+      "car_y_q4": 2304
+    }
+  },
+  "notes": "PMG plane bytes checked after each sampled tick. Actual flicker, sprite alignment and response require Atari800 testing."
+}

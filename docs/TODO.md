@@ -13,12 +13,25 @@
 
 - The user **played the original v0.1 in Atari800**. Basic driving was fine, but the car stayed vertically stationary while speed/scroll rate changed; **v0.1 gameplay acceptance is pending**.
 - Approved design: accelerating moves the actual car **up** the visible road; braking moves it **down**; neutral retains speed and its corresponding car Y. Continue scrolling speed changes, smooth lateral/diagonal steering and strict screen bounds. See [Stage 2 design](STAGE2_DESIGN.md), Section 12.
-- Codex should generate a **second versioned v0.1 XEX**, retaining the initial XEX/manifest/source unchanged. v0.2 pressure/destination and v0.3+ hazards remain out of scope. The refinement is not yet implemented.
+- Codex should generate a **second versioned v0.1 XEX**, retaining the initial XEX/manifest/source unchanged. v0.2 pressure/destination and v0.3+ hazards remain out of scope. The separately versioned v0.1-r2 refinement is now implemented and CPU tested; Atari800 review is pending.
+
+## Stage 2 v0.1-r2 implementation evidence — 2026-11-04
+
+- Built `assets/stage2_v01_r2/GasBlasters82_Stage2_Driving_v01_r2.xex` on the same
+  feature branch: speed-linked bounded Q4 Y, neutral target hold and real P0/P1
+  row clearing/relocation. Original driving controls/rendering/tuning preserved.
+- 19 r2 tests, 12 original driving tests, 33 Stage 1 tests, four validators and
+  opening validation pass. PMG row bytes are checked throughout acceleration,
+  braking, steering at extremes, reversal and reset; idle is simulated three minutes.
+- Original v0.1 assets/tools and Stage 1/opening/music unchanged. See
+  [r2 notes](../assets/stage2_v01_r2/README.md) for build/run/tuning and manual checks.
+- Atari800 r2 playtest, hardware/PAL and approval remain open. Still v0.1 only;
+  no pressure/destination implementation, no merge/tag or completion-count change.
 
 ## Stage 2 v0.1 design update — 2026-11-03
 
 - **Design approved; standalone implementation now CPU tested, playtest pending:** [STAGE2_DESIGN.md](STAGE2_DESIGN.md) is now the active first-driving-prototype specification. Option A controls are automatic forward motion, smooth free left/right steering, UP acceleration, DOWN braking to a positive minimum, and combined diagonal inputs. v0.1 targets a downward-scrolling straight road, distinct grass/shoulder/pavement zones, car sprite, and fixed right HUD with GAS/MI/SCORE/LIVES **placeholders**.
-- **Implementation branch:** existing `feature/stage2-driving-v0.1`. The standalone XEX is now built and CPU tested; user Atari800 review identified fixed-Y behavior and a v0.1 refinement is pending; gas pressure, pharmacy arrival, police, forks, off-road penalties and vehicle blasts remain later work. **The broader road-chase milestone remains open; v0.1 implementation evidence is recorded below.**
+- **Implementation branch:** existing `feature/stage2-driving-v0.1`. The standalone XEX is now built and CPU tested; user Atari800 review identified fixed-Y behavior and the v0.1-r2 refinement is built/CPU tested, awaiting user review; gas pressure, pharmacy arrival, police, forks, off-road penalties and vehicle blasts remain later work. **The broader road-chase milestone remains open; v0.1 implementation evidence is recorded below.**
 
 ## Stage 2 v0.1 implementation evidence — 2026-11-03
 

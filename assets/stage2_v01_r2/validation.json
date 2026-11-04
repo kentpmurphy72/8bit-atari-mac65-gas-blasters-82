@@ -1,0 +1,36 @@
+{
+  "xex_sha256": "c8555106e3d8904f4bd34649d344c3b1b76aabe1cfb1493060a61b6c07fa88c5",
+  "original_v01_sha256": "b686f523e4f8ac603a17e2939933da7cab3cc0b2d773160969d3c907aa9825b6",
+  "date": "2026-11-04",
+  "revision_cpu_tests": {
+    "passed": 19,
+    "failed": 0
+  },
+  "original_v01_cpu_tests": {
+    "passed": 12,
+    "failed": 0
+  },
+  "stage1_regressions": {
+    "v04_passed": 15,
+    "v05_passed": 18,
+    "failed": 0
+  },
+  "validators": {
+    "legacy_map": "PASS",
+    "room_map": "PASS",
+    "stage1_pressure": "PASS",
+    "stage1_blast": "PASS",
+    "opening_cpu_dli_music": "PASS"
+  },
+  "extended_idle": {
+    "frames_per_build": 10800,
+    "nominal_ntsc_seconds": 180,
+    "original": "PASS CPU simulation",
+    "revision": "PASS CPU simulation"
+  },
+  "original_v01_assets_and_tooling_changed": false,
+  "stage1_or_opening_changed": false,
+  "atari800_revision": "NOT RUN: executable unavailable",
+  "physical_800xl": "NOT RUN",
+  "pal": "NOT RUN"
+}

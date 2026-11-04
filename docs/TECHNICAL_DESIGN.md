@@ -80,3 +80,27 @@ Twelve driving CPU tests and the native three-minute simulated idle run pass;
 33 Stage 1 regression tests, four validators and opening validation pass unchanged.
 Actual Atari800 visual/audio/controller acceptance, physical 800XL and PAL remain
 pending. No pressure/distance/arrival/opponents/forks/penalties/car blasts yet.
+
+## Stage 2 v0.1-r2 — speed-linked car Y (CPU tested, Atari800 pending)
+
+The original `assets/stage2_v01/` and its tools remain immutable comparison files.
+New source/output: `tools/build_stage2_v01_r2.py`, `assets/stage2_v01_r2/`.
+It reuses only the original read-only art generator, retaining all static road,
+font, display-list, initial PMG and telemetry segments byte-for-byte.
+
+Speed indexes a clamped Q4 Y table (8→160px, 24→144px, 56→112px). Current Y
+changes at most 12/16 scanline per tick, never overshooting. Neutral maintains
+target; START restores exact default X/Y and clears fractional Y. Each integer Y
+change clears the full old P0/P1 footprints then copies original 16-row images.
+No additional interrupts or zero-page state are introduced.
+
+Controller/state now $2000–$23A5 (934 bytes), below the unchanged screen $2400.
+Added low/high target tables $6600–$67FF and 32-byte sprite source $6800–$681F.
+All other original allocations, PMBASE, colors and fractional X/speed controls
+are unchanged; future integration still needs resource relocation/scene switching.
+
+19 revision tests, 12 original driving tests, 33 Stage 1 regressions, four validators
+and opening validation pass. CPU-only samples peak at 5,517 cycles for braking
+with steering/PMG relocation, versus 4,766 neutral. Actual Atari800 flicker/
+cleanliness and feel, PAL and physical 800XL remain untested. Full details and
+profile/hash reports: [r2 README](../assets/stage2_v01_r2/README.md). No merge/tag.

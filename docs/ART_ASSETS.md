@@ -160,6 +160,11 @@ under `assets/stage2_v01/`. These are **temporary feel-test graphics**, not fina
 vehicle colors/models or a permanent graphics-mode decision. HUD/PMG readability,
 priority and colors still need Atari800 review; no existing art was changed.
 
+**v0.1-r2 refinement:** The same original car images now relocate vertically with
+speed using cleared/redrawn P0/P1 rows. No new car art/colors or road/HUD glyphs;
+original v0.1 assets stay intact. Native bitmap cleanup is CPU tested; actual
+flicker, trails and alignment still need Atari800 playtest. See `assets/stage2_v01_r2/`.
+
 ### Driving-stage perspective — Confirmed
 
 Road stages (2, 4, and 6) use a **Spy Hunter-style overhead/top-down view**:

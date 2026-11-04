@@ -5,7 +5,7 @@
 **Date:** 2026-11-03  
 **Target:** Atari 800XL, stock 64 KB, native 6502 Atari XEX  
 **Working branch:** `feature/stage2-driving-v0.1`  
-**Status:** Original v0.1 built and user-playtested in Atari800; driving feel requires speed-linked vertical car movement. This v0.1 revision is designed but not yet implemented/accepted.
+**Status:** Original v0.1 built and user-playtested in Atari800; driving feel requires speed-linked vertical car movement. The separately versioned v0.1-r2 revision is now implemented and CPU tested; its Atari800 acceptance is pending.
 **Repository destination:** `docs/STAGE2_DESIGN.md`  
 
 ## 1. Purpose and authority
@@ -240,4 +240,23 @@ No merge/tag or acceptance of feel, final art or full Stage 2 gameplay is implie
 7. Preserve the approved v0.1 straight road, 2/3-road / 1/3-fixed-HUD split, placeholders, road zones, and all later-feature exclusions. Stage 1 remains unchanged.
 8. **Preserve original versioned v0.1 assets and tooling** as the comparison baseline. Emit the replacement as a separately named revision within the **v0.1 milestone**, e.g. `assets/stage2_v01_r2/GasBlasters82_Stage2_Driving_v01_r2.xex`, with its own build/test evidence; do not overwrite the first `assets/stage2_v01/` XEX/manifest/source.
 
-**Focused automated and Atari800 checks:** UP reaches high car Y and maximum positive scroll speed; release holds Y and speed; DOWN reaches low car Y and minimum positive speed; release holds; car stays bounded at both extremes; diagonal/left/right work at high and low Y; START resets Y and speed; no PMG ghosting, HUD motion or rendering artifacts. CPU-level tests cannot establish actual visual cleanliness; have the user playtest the newly built XEX. **The revision is designed but not yet implemented, tested or accepted.**
+**Focused automated and Atari800 checks:** UP reaches high car Y and maximum positive scroll speed; release holds Y and speed; DOWN reaches low car Y and minimum positive speed; release holds; car stays bounded at both extremes; diagonal/left/right work at high and low Y; START resets Y and speed; no PMG ghosting, HUD motion or rendering artifacts. CPU-level tests cannot establish actual visual cleanliness; have the user playtest the newly built XEX. **The revision is implemented and CPU tested as v0.1-r2; actual Atari800/user acceptance remains pending.**
+
+### Section 12 implementation evidence — v0.1-r2 (2026-11-04)
+
+Separate output: `assets/stage2_v01_r2/GasBlasters82_Stage2_Driving_v01_r2.xex`;
+source: `tools/build_stage2_v01_r2.py`. The original v0.1 folder, manifest, binary,
+builder and tests are unchanged, as are Stage 1 and opening/music.
+
+Provisional speed-to-Y mapping: min/default/max speed Q4 8/24/56 maps to car-top
+scanlines 160/144/112. Current 16-bit Q4 Y approaches that target at <=12 units
+(0.75 scanline) per tick, clamped to avoid overshoot. Neutral holds speed and the
+corresponding target; no return-to-default logic. PMG clears both old 16-row planes
+and redraws both unchanged car images at the new integer Y.
+
+19 revision tests and 12 original tests pass, including native three-minute idle
+coverage, exact complete PMG bitmap checks, bounds, extreme/partial speed holds,
+diagonals and resets. Stage 1 regressions (15+18), four validators and opening
+validation also pass. Sampled revised-loop max is 5,517 CPU cycles, excluding
+DMA/OS interrupts. **Not Atari800 tested here.** See [r2 README](../assets/stage2_v01_r2/README.md)
+for memory, build/run commands, smoothing/quantization limits and focused playtest.

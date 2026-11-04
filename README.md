@@ -11,34 +11,41 @@ A work-in-progress comedy action game for the **Atari 800XL (64 KB)**, written i
 - Original continuous **Title → Meet the Crew → Arriving at Taco Smell → Stage 1** sequence and POKEY music.
 - Stage 1 stops at its completion screen. **There is no connected Stage 2 driving gameplay in the Stage 1 XEX.**
 
-## Stage 2 v0.1 — standalone driving prototype (awaiting playtest)
+## Stage 2 v0.1 — speed-linked vertical movement revision
 
-The [Stage 2 Driving Design](docs/STAGE2_DESIGN.md) specifies the **standalone Atari 800XL driving prototype**, implemented on `feature/stage2-driving-v0.1`. The approved **Option A** controls use continuous automatic forward motion, left/right steering, **UP** to accelerate and **DOWN** to brake while preserving a positive minimum speed. The initial display has a scrolling straight road on the left two-thirds and a stationary placeholder HUD on the right third. **Stage 2 v0.1 is now implemented and CPU tested on the feature branch; Atari800 acceptance and integration are pending.** It is free driving only: no pressure simulation, pharmacy arrival, opponents or off-road penalties.
+The original v0.1 was user-playtested: basic driving was fine, but the car needed
+to move vertically with speed. **v0.1-r2 now implements that refinement** on
+`feature/stage2-driving-v0.1`, with CPU tests passing and Atari800 review pending.
+UP increases road speed and moves the car toward a higher position; DOWN brakes
+to a positive minimum and moves it lower. Neutral preserves speed/target Y after
+brief smoothing. Original steering, road zones, fixed HUD and exclusions remain.
 
 ## Run Stage 2 separately
 
-Download [the Stage 2 driving XEX](assets/stage2_v01/GasBlasters82_Stage2_Driving_v01.xex) and run:
+[Download revision 2](assets/stage2_v01_r2/GasBlasters82_Stage2_Driving_v01_r2.xex):
 
 ```bash
-atari800 -xl -ntsc -nobasic -run assets/stage2_v01/GasBlasters82_Stage2_Driving_v01.xex
+atari800 -xl -ntsc -nobasic -run assets/stage2_v01_r2/GasBlasters82_Stage2_Driving_v01_r2.xex
 ```
 
-Joystick 1: LEFT/RIGHT steer, UP accelerates, DOWN brakes to positive minimum;
-diagonals combine both. START/F4 resets; FIRE is reserved. The fixed HUD's GAS,
-MI, SCORE and LIVES are **demo placeholders**; SPD/ZONE are live telemetry only.
+The [original v0.1 XEX](assets/stage2_v01/GasBlasters82_Stage2_Driving_v01.xex) and
+all its artifacts/tools remain unchanged for comparison. Joystick 1 steers and
+changes speed; diagonals combine both. START/F4 resets X/Y/speed; FIRE is reserved.
+GAS/MI/SCORE/LIVES remain static demo values. No pressure, destination or penalties.
 
 ```bash
-python3 tools/build_stage2_v01.py
-# With the existing py65 test dependency installed:
+python3 tools/build_stage2_v01_r2.py
+# With the existing py65 dependency installed:
+python3 tools/test_stage2_v01_r2.py
 python3 tools/test_stage2_v01.py
-python3 tools/profile_stage2_v01.py
+python3 tools/profile_stage2_v01_r2.py
 ```
 
-Twelve driving CPU tests pass, including 10,800 simulated frames (three nominal
-NTSC minutes); 33 retained Stage 1 CPU tests, four validators and opening validation
-also pass. **No actual Atari800 run is claimed.** See [Stage 2 build/playtest notes](assets/stage2_v01/README.md)
-for tuning, memory, limitations and the manual multi-minute check. Stage 1 stays
-unchanged and has no automatic Stage 2 transition. No merge or new tag yet.
+19 revision tests, 12 original-driving tests, 33 Stage 1 tests, four validators and
+opening validation pass. The revision includes a three-minute native simulated
+idle test and full PMG row-cleanup checks. **No actual Atari800 r2 run is claimed.**
+See [r2 build/tuning/playtest notes](assets/stage2_v01_r2/README.md). Stage 1 remains
+unchanged, with no automatic Stage 2 transition. No merge or new tag.
 
 ## Run the prototype
 
