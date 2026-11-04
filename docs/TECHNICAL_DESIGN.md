@@ -106,6 +106,16 @@ cleanliness and feel, PAL and physical 800XL remain untested. Full details and
 profile/hash reports: [r2 README](../assets/stage2_v01_r2/README.md). No merge/tag.
 
 
-## Stage 2 v0.1-r3 — max-speed car-top Y=80 proposal (not implemented)
+## Stage 2 v0.1-r3 — max-speed car-top Y=80 trial (implemented, CPU tested)
 
-The user has playtested r2 in Atari800 and requested more upward motion. The historical **r2 Y maximum-speed target is 112**. For the next **r3** playtest, target **Y=80** at speed Q4=56, while preserving min/default anchors **(8,160)** and **(24,144)**; all coordinates are 16-scanline car **top-edge Y** values within the 192-scanline viewport. Vertical travel increases from 48 to 80 scanlines. The current r2 linear formula cannot keep the default value unchanged when the max changes; use a bounded, continuous, monotonic **piecewise speed-to-Y mapping** through all three anchors and retain the current 12 Q4/tick vertical smoothing initially. Preserve all r2 and v0.1 artifacts, build a distinct r3 prototype, and verify native PMG row clearing/bounds and unchanged road/HUD behavior. See [Stage 2 design — Section 13](STAGE2_DESIGN.md). Actual implementation, CPU verification and emulator acceptance for r3 remain pending.
+The user has playtested r2 in Atari800 and requested more upward motion. The historical **r2 Y maximum-speed target is 112**. For the next **r3** playtest, target **Y=80** at speed Q4=56, while preserving min/default anchors **(8,160)** and **(24,144)**; all coordinates are 16-scanline car **top-edge Y** values within the 192-scanline viewport. Vertical travel increases from 48 to 80 scanlines. The current r2 linear formula cannot keep the default value unchanged when the max changes; use a bounded, continuous, monotonic **piecewise speed-to-Y mapping** through all three anchors and retain the current 12 Q4/tick vertical smoothing initially. Preserve all r2 and v0.1 artifacts, build a distinct r3 prototype, and verify native PMG row clearing/bounds and unchanged road/HUD behavior. See [Stage 2 design — Section 13](STAGE2_DESIGN.md). The separate r3 XEX is now built and CPU verified; actual Atari800 acceptance remains pending.
+
+R3 implementation: `tools/build_stage2_v01_r3.py` emits continuous piecewise
+lookup targets through (8,160), (24,144), (56,80). All native instructions and
+loaded segments match r2 exactly except Y-target tables $6600/$6700. Memory map
+and current-Y approach/PMG cleanup logic are unchanged; old releases/tools are
+preserved. Twenty-one r3 CPU tests pass, as do r2/original driving, Stage 1 and
+validator regressions. The same sampled 5,517-cycle peak excludes DMA/OS costs.
+Longer travel with unchanged smoothing needs 54 neutral settling ticks after
+default→max acceleration. See [r3 README](../assets/stage2_v01_r3/README.md).
+No real Atari800 r3 test, merge or tag claimed.

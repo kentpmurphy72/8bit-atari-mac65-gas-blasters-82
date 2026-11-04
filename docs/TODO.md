@@ -12,8 +12,8 @@
 ## Stage 2 v0.1-r3 higher vertical travel — 2026-11-04
 
 - **User has playtested r2 in Atari800** and wants more upper-screen travel at maximum speed. v0.1 is not yet gameplay-accepted.
-- **Approved design-only experiment:** move maximum-speed car-top **Y=112 → 80**, holding minimum/default Y=160/144 and speeds Q4 8/24/56. Increase vertical travel from 48 to 80 scanlines; revise the speed-to-Y mapping through the three anchors, with existing Y smoothing retained initially. See [Stage 2 design §13](STAGE2_DESIGN.md).
-- **Next:** Codex generates a **separate v0.1-r3 XEX** with its own build/test/manifest, preserving original v0.1 and r2 byte-for-byte. User then playtests r3; do not merge or tag or start v0.2 yet.
+- **Approved tuning experiment, now built/CPU tested:** move maximum-speed car-top **Y=112 → 80**, holding minimum/default Y=160/144 and speeds Q4 8/24/56. Increase vertical travel from 48 to 80 scanlines; revise the speed-to-Y mapping through the three anchors, with existing Y smoothing retained initially. See [Stage 2 design §13](STAGE2_DESIGN.md).
+- **Implemented:** separate `assets/stage2_v01_r3/GasBlasters82_Stage2_Driving_v01_r3.xex` with build/test/manifest/profile. Original v0.1 and r2 are byte-for-byte preserved; only Y target tables change in the loaded r3 binary. All 21 r3, 19 r2, 12 original and 33 Stage 1 CPU tests, four validators and opening validation pass. **Next: user Atari800 r3 playtest**, especially high position and longer settling. No merge/tag or v0.2 work; checkbox totals unchanged.
 
 ## Stage 2 v0.1 user playtest and refinement — 2026-11-04
 

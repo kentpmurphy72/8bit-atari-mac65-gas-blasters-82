@@ -283,4 +283,24 @@ Coordinates are **car-top logical scanlines** in the existing 192-scanline viewp
 5. Preserve the original v0.1 and **r2** XEX, build tools, source listings, manifests, tuning, and tests as immutable comparison baselines. Emit a separately versioned r3 prototype, suggested `assets/stage2_v01_r3/GasBlasters82_Stage2_Driving_v01_r3.xex`, with `tools/build_stage2_v01_r3.py`, `tools/test_stage2_v01_r3.py`, its own README, tuning, manifest/checksum, and observed test evidence.
 6. Run automated tests for precise Y endpoints, mapping continuity/monotonicity, min/max bounds, smooth intermediate positions, neutral holds, steering and diagonals, START reset, PMG old-row clearing, stationary HUD and preservation of earlier artifacts. The user will separately judge the actual driving feel in Atari800.
 
-**Status:** r2 has been user-playtested; this **r3 Y=80 design is approved for implementation/playtesting only**, with no new XEX or acceptance claim. Do not merge into `main` or create a milestone tag until approved.
+**Status:** r2 has been user-playtested; this **r3 Y=80 experiment is now implemented and CPU tested**, with Atari800/user acceptance pending. Do not merge into `main` or create a milestone tag until approved.
+
+### Section 13 implementation evidence — v0.1-r3 (2026-11-04)
+
+Built separately at `assets/stage2_v01_r3/GasBlasters82_Stage2_Driving_v01_r3.xex`;
+source/test/profile utilities use the same `_v01_r3` suffix.
+
+The target table uses Y=168−speedQ4 for speed 8..24, and Y=192−2×speedQ4 for
+speed 24..56, clamped outside the range. Exact min/default/max anchors are
+160/144/80. Both pieces meet at default; native smoothing remains 12 Q4/tick.
+Only the $6600/$6700 table segments differ from r2's loaded binary: all native
+instructions, art, font/display buffers, road and other data are identical.
+Original v0.1/r2 source and artifacts remain unchanged.
+
+All 21 r3, 19 preserved r2, 12 original driving and 33 Stage 1 CPU tests pass,
+plus four design validators and opening validation. Profiled neutral settling
+after default-to-max acceleration takes 54 additional ticks (~0.9s NTSC), as
+expected with retained smoothing. Sampled peak is 5,517 CPU cycles, excluding
+DMA/OS overhead. No actual Atari800 r3 acceptance or hardware claim.
+See [r3 build/playtest notes](../assets/stage2_v01_r3/README.md) for commands,
+comparison links, scope limits and the user-review checklist. No merge/tag.

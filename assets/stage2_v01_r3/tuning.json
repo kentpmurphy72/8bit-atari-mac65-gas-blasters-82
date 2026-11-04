@@ -1,0 +1,29 @@
+{
+  "status": "Provisional Stage 2 v0.1-r3 maximum-speed Y=80 playtest experiment",
+  "ntsc_hz_nominal": 60,
+  "driving_columns": 27,
+  "hud_columns": 13,
+  "screen_rows": 24,
+  "color_pixels_per_character": 4,
+  "scanlines_per_character": 8,
+  "zone_edges_color_pixels": [
+    0,
+    7,
+    14,
+    94,
+    101,
+    108
+  ],
+  "car_width_color_pixels": 8,
+  "car_height_scanlines": 16,
+  "car_top_scanline": 144,
+  "steering_q4_color_pixels_per_tick": 12,
+  "scroll_min_q4_scanlines_per_tick": 8,
+  "scroll_default_q4_scanlines_per_tick": 24,
+  "scroll_max_q4_scanlines_per_tick": 56,
+  "acceleration_q4_per_tick": 1,
+  "scroll_period_scanlines": 32,
+  "car_top_at_min_speed": 160,
+  "car_top_at_max_speed": 80,
+  "car_y_smoothing_q4_scanlines_per_tick": 12
+}
