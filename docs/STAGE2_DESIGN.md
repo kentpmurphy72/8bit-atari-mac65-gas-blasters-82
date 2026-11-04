@@ -5,12 +5,12 @@
 **Date:** 2026-11-03  
 **Target:** Atari 800XL, stock 64 KB, native 6502 Atari XEX  
 **Working branch:** `feature/stage2-driving-v0.1`  
-**Status:** v0.1 standalone implemented and CPU tested on feature branch; Atari800 playtest/acceptance pending
+**Status:** Original v0.1 built and user-playtested in Atari800; driving feel requires speed-linked vertical car movement. This v0.1 revision is designed but not yet implemented/accepted.
 **Repository destination:** `docs/STAGE2_DESIGN.md`  
 
 ## 1. Purpose and authority
 
-This document specifies the **first playable driving prototype** for Stage 2 of *Gas Blasters '82*. It is intentionally narrower than the full Stage 2 gameplay concept. The immediate question is whether driving Billy's car feels smooth, responsive, and fun on the Atari 800XL.
+This document specifies the **first playable driving prototype** for Stage 2 of *Gas Blasters '82*. It is intentionally narrower than the full Stage 2 gameplay concept. The immediate question is whether driving Billy's car feels smooth, responsive, and fun on the Atari 800XL. **User playtest (2026-11-04):** the initial v0.1 road/steering demo was fine but the car remained vertically stationary. A new v0.1 revision must move the car up-screen when accelerating and down-screen when braking, in addition to changing road-scroll rate.
 
 - `docs/GAME_DESIGN.md` is authoritative for overall story, road geometry proportions, off-road rules, police/hazmat behavior, forks, and four-way car gas blasts.
 - `docs/STAGE1_DESIGN.md` and tag `stage1-v0.5` describe the accepted restaurant prototype; **do not change Stage 1** as part of this work.
@@ -31,11 +31,12 @@ Billy Blaster has escaped Taco Smell and is driving toward a pharmacy where he h
 | --- | --- | --- |
 | Standalone XEX runnable in Atari800 | Yes; do not integrate into opening/Stage 1 XEX | v0.1 target |
 | Top-down road with downward scrolling | Smooth and continuous; visible lane-marking motion | Confirmed |
-| Billy's car | Recognizable upward-facing sprite near bottom of left playfield | Confirmed |
+| Billy's car | Recognizable upward-facing sprite, starting low and moving up/down with speed | Confirmed, revised v0.1 |
 | Steering | Smooth free left/right movement; no lane snapping | Confirmed |
 | Forward motion | Automatically advances even with joystick neutral | Confirmed: Option A |
-| Speed control | Up accelerates, Down slows/brakes; speed remains positive | Confirmed: Option A |
+| Speed control | Up accelerates and moves car up-screen; Down brakes and moves car down-screen; speed remains positive | Confirmed: Option A + v0.1 refinement |
 | Road zones | Straight road, shoulders, grass, and visible lane markings | v0.1 target |
+| Speed-linked vertical positioning | Actual car sprite Y changes smoothly with speed, within bounded visible limits | Confirmed, revised v0.1 |
 | Display partition | About left 2/3 gameplay, right 1/3 fixed HUD | Confirmed |
 | HUD fields | GAS %, MI / distance, SCORE, LIVES as **static placeholders** | v0.1 target |
 | Optional HUD telemetry | Live SPEED and/or current ZONE if feasible | Provisional |
@@ -53,7 +54,7 @@ Billy Blaster has escaped Taco Smell and is driving toward a pharmacy where he h
 
 - Overhead view, aesthetically inspired by the 1983 arcade *Spy Hunter*, without copying its assets.
 - Billy's car points **up**. The **road scrolls down**, communicating forward travel.
-- Billy's car stays **approximately 75–85% down the road viewport**; vertical gameplay movement is not required for v0.1. The car can move continuously left/right within the gameplay pane.
+- Billy's car starts near the lower portion of the road viewport (approximately 75–85% down) but **must not remain locked at that Y**. As speed rises the sprite advances **toward the top of the screen**; as speed falls the sprite retreats **toward the bottom**. This is smooth, bounded, physical sprite movement, not merely faster/slower background scrolling. At constant speed, including neutral input, it settles at and holds its speed-related Y. Exact top/bottom positions are tuning choices; keep the entire sprite visible.
 - HUD remains fixed and readable on the right while the left pane scrolls.
 - The car should be visually distinguishable from pavement, shoulders, and grass at normal Atari800 viewing size. Placeholder original pixel art is acceptable.
 
@@ -109,24 +110,24 @@ These numbers are **illustrative only**, not accepted starting lives, mileage, g
 
 | Input | v0.1 behavior |
 | --- | --- |
-| Neutral | Car drives forward automatically; road continues scrolling |
+| Neutral | Maintain positive speed, road scroll rate, and the current speed-linked car Y position (after any brief smoothing) |
 | Left | Steer smoothly left; no lane snapping |
 | Right | Steer smoothly right; no lane snapping |
-| Up | Increase forward speed, up to a cap |
-| Down | Decrease speed/brake, down to a **positive minimum** |
+| Up | Increase forward speed/road scroll rate and smoothly move car toward the top of the viewport |
+| Down | Decrease speed/road scroll rate and smoothly move car toward the bottom; retain positive minimum, never reverse |
 | Up+Left or Up+Right | Change speed and steer simultaneously |
 | Down+Left or Down+Right | Brake and steer simultaneously |
 | FIRE | No gameplay action in v0.1; reserved |
-| Console START | Reset car center, speed, scrolling state and HUD demo state |
+| Console START | Reset car X and Y, speed, scrolling state and HUD demo state |
 
 Implementation expectations:
 
 1. **Immediate, smooth lateral response** at a stable tick rate, without forced delay, excessive acceleration lag, whole-cell jumps, or erratic subpixel rounding.
 2. Keep horizontal position using **fractional/fixed-point arithmetic** where appropriate; choose the representation after assessing the selected display mode and hardware sprite granularity. Make steering independent of integer character-cell steps.
 3. Keep the car wholly within the **left driving pane**; it may enter shoulders or grass in v0.1, with no explosion or life loss yet. Avoid moving into HUD or off-screen.
-4. Treat automatic forward movement as **world/road scroll**, not player-car vertical movement. Up/Down adjust the scrolling rate; the car remains near the lower part of the viewport.
-5. Use nonzero minimum speed, a controlled maximum, and modest acceleration/braking. **Exact numeric rates are provisional**; Codex must record their values in the prototype README and ideally make them easy to tune.
-6. Scrolling should be visually continuous across row/tile wrap, with no tearing, blank-row flashes or duplicated/lost markings.
+4. Combine **world/road scrolling** with **speed-linked car vertical movement**. Up/Down change forward speed, affecting both road-scroll rate and the car's target screen Y. Use a stable mapping from speed to bounded target Y, with smooth interpolation; do not jump between fixed positions, and do not continuously translate Y when speed is constant. DOWN is braking, not reversing.
+5. Use nonzero minimum speed, a controlled maximum, and modest acceleration/braking. **Exact numeric rates, vertical range, speed-to-Y mapping and smoothing are provisional**; Codex must document tuning in the prototype README. At min speed car is low, at max speed car is high; neutral maintains its existing position after smoothing.
+6. Scrolling should be visually continuous across row/tile wrap, with no tearing, blank-row flashes or duplicated/lost markings. Vertical car relocation also must not leave ghost pixels/PMG rows, flicker, streak, or clip.
 7. Evaluate driving on diagonal joystick inputs as combined steering/speed control, not a diagonal blast.
 
 **Provisional tuning targets (not final game rules):** start at a comfortable middle speed; vary up/down gradually enough to perceive acceleration and braking during a short test. Codex should define speed in clear units (e.g., fractional scroll pixels per NTSC frame), record min/default/max and delta, and justify any sprite quantization limitations. Do not claim Stage 1's walking-speed constants govern a vehicle.
@@ -135,7 +136,7 @@ Implementation expectations:
 
 - **Native 6502** instructions only, stock **64 KB** Atari 800XL, NTSC as initial timing/reference mode, BASIC disabled. XEX must actually run; Python is permitted only for offline building, validation, and tests, consistent with the repository workflow.
 - **Graphics:** Choose an ANTIC display mode and screen-buffer arrangement that supports a readable right HUD and convincing downward road motion. **ANTIC fine vertical scrolling may be used where practical**, but do **not** naively scroll the entire raster and assume the HUD at the right stays fixed. ANTIC applies vertical row scrolling across the scanline; implement a correct split-pane strategy (such as bounded road-column software updates, selective buffer compositing, or another proven technique). Describe the tradeoff and show it working.
-- **Car rendering:** Prefer GTIA Player/Missile Graphics if practical; use a clean original sprite and correct DMA/PMBASE setup. PMG is a possibility, **not a requirement** if another native technique demonstrably produces smoother, more reliable movement. Avoid the previously rejected title-screen PMG sparkle experiment; that was a different visual effect.
+- **Car rendering:** Prefer GTIA Player/Missile Graphics if practical; use a clean original sprite and correct DMA/PMBASE setup. If PMG is used, move its actual bitmap rows for vertical motion and clear old rows; horizontal HPOSP registers alone cannot move the car vertically. PMG is a possibility, **not a requirement** if another native technique demonstrably produces smoother, more reliable movement. Avoid the previously rejected title-screen PMG sparkle experiment; that was a different visual effect.
 - **Timing:** Synchronize updates to a stable video tick and avoid unbounded work per frame. Document observed movement and scrolling in NTSC terms. Ensure joystick sampling, visual update and speed adjustment are deterministic and testable.
 - **Memory/safety:** Produce an explicit memory allocation/segment map covering code, screen buffers, PMG (if used), display list, font/tile data, and state. Check collision with OS-reserved areas, hardware/shadow registers, BASIC/ROM mapping and the actual Stage 1 v0.5 manifest **before any future integration**. A standalone prototype may use a separate allocation, but must identify it.
 - **Build/source:** Provide a reproducible offline build, a human-readable source/listing representing the emitted 6502, and a deterministic XEX artifact with manifest/checksum. Do not represent a generated listing as a MAC/65-assemblable master source unless it genuinely assembles. Use repository conventions and avoid adding unnecessary dependencies.
@@ -143,7 +144,7 @@ Implementation expectations:
 
 ## 7. Proposed deliverables and repository placement
 
-Codex should implement on the **existing** `feature/stage2-driving-v0.1` branch, which was found at the same commit as `main` when this design was drafted. Recheck live Git refs before changing anything.
+Codex should implement on the **existing** `feature/stage2-driving-v0.1` branch, where the first v0.1 prototype is already committed. Recheck live Git refs and preserve the earlier prototype before changing anything.
 
 | Deliverable | Suggested location | Notes |
 | --- | --- | --- |
@@ -164,9 +165,9 @@ The prototype is ready for the user's first emulator playtest when:
 1. The standalone XEX loads and displays the road/HUD in Atari800 with BASIC disabled, without visible startup corruption or crashes.
 2. The gameplay/HUD width split is clearly about 2/3 versus 1/3, and the HUD remains fixed while the **left** road area visibly scrolls downward.
 3. Pavement, two shoulders, two grass strips, and lane markings are all discernible; actual zone boundaries are documented against the design percentages.
-4. Billy's upward-facing car is clearly visible near the lower portion of the road, and can steer **smoothly left and right** without lane snapping or coarse character-cell jumps.
-5. Neutral joystick continues forward movement; UP increases scroll speed; DOWN slows it, never reversing; steering and speed control can be combined with diagonal joystick input.
-6. The car cannot enter the HUD or disappear off the left edge, even after prolonged input.
+4. Billy's upward-facing car starts near the lower portion of the road and steers smoothly left/right without lane snapping. **Holding UP visibly moves the car toward the top; holding DOWN visibly moves it back toward the bottom.** Motion is smooth and related to current speed, not a constant-Y illusion.
+5. Neutral joystick maintains forward speed **and corresponding car Y**; UP increases scrolling speed and car's forward screen placement; DOWN slows both without reversing; diagonals combine lateral steering and speed/Y.
+6. The entire car remains visible inside all four boundaries of the left driving pane, never entering the HUD. No trails, residual sprite pixels, flicker or corruption during vertical movement.
 7. Scrolling loops cleanly for a **multi-minute idle run** without missing rows, runaway artifacts, freezes or obvious flicker.
 8. GAS %, MI/distance, SCORE and LIVES display readable **placeholder values**; no false implication that actual gas, mileage, lives, or scoring systems work yet.
 9. START resets the standalone prototype cleanly and repeatedly.
@@ -176,7 +177,7 @@ The prototype is ready for the user's first emulator playtest when:
 ### Suggested human playtest
 
 - Drive left/right at default speed; evaluate immediate response and whether it feels as smooth as Stage 1's approved character movement.
-- Hold UP, then DOWN; confirm an obvious yet controllable speed change while the scenery moves down.
+- Hold UP, release, then DOWN, release: confirm smoother/faster scrolling **and upward car motion**, then slower scrolling **and downward car motion**; releasing the joystick must preserve speed and Y without springing back.
 - Drive onto the shoulder and grass on both sides; no penalties yet; check road scale and clipping.
 - Try diagonal Up+Left, Up+Right, Down+Left, Down+Right; ensure controls combine correctly.
 - Hold left/right continuously against the viewport boundary; car remains visible and HUD does not flicker.
@@ -194,13 +195,13 @@ The prototype is ready for the user's first emulator playtest when:
 
 - ANTIC graphics mode, horizontal pixel/cell allocation, and method for keeping HUD stationary while the road moves.
 - Concrete road/shoulder/grass boundaries after resolution rounding.
-- Car sprite size, single- or double-line PMG choice if PMG is used, and exact spawn y-position.
+- Car sprite size, single- or double-line PMG choice if PMG is used, exact spawn Y, bounded low/high Y positions and the speed-to-Y/smoothing implementation.
 - Steering speed in fixed-point units, speed caps, acceleration/deceleration rates, and scroll update granularity.
 - Exact presentation of the placeholder HUD at the selected text resolution.
 - Memory allocations, test methodology, and any actual emulator limitations discovered.
 
 **Definition of done:** A player can meaningfully test the **feel of driving** a recognizable car on a continuously scrolling road, with reliable speed controls and HUD. It is **not** the completed pharmacy chase.
-## 11. v0.1 implementation evidence — 2026-11-03
+## 11. Original v0.1 implementation evidence — 2026-11-03
 
 The separate XEX is now built at `assets/stage2_v01/GasBlasters82_Stage2_Driving_v01.xex`.
 Source: `tools/build_stage2_v01.py`; native CPU tests: `tools/test_stage2_v01.py`.
@@ -224,3 +225,19 @@ and validation report are alongside it. These engineering defaults are provision
 All earlier XEX/source assets are unchanged. This standalone allocation overlaps
 Stage 1's runtime memory and must not be loaded as a naive concatenated stage.
 No merge/tag or acceptance of feel, final art or full Stage 2 gameplay is implied.
+
+
+## 12. Approved v0.1 refinement — speed-dependent vertical car movement (2026-11-04)
+
+**Playtest result:** User ran the original Stage 2 v0.1 in Atari800. Basic driving was fine, but its car remained vertically stationary while acceleration/braking only changed road-scroll rate. **That behavior is no longer the approved target.** Create a *second v0.1 prototype* (not v0.2) with the following corrected behavior:
+
+1. Hold **UP**: speed increases toward a cap, downward road-scroll rate increases, and Billy's actual car sprite moves gradually **upward** (smaller screen Y) toward a speed-dependent position.
+2. Hold **DOWN**: speed decreases toward a **positive minimum**, road scroll slows and the sprite moves **downward** (larger screen Y). DOWN must never reverse the car.
+3. Release to **neutral**: current speed, road-scroll rate and target Y persist. Once any short smoothing completes, the car stays at that vertical position. Do not spring back to its default Y just because UP was released.
+4. **Left/right** steering remains smooth across the new full Y range. **Diagonal** input combines steering with acceleration/braking. **START** restores default speed, car X/Y, road state and demo HUD. **FIRE** remains reserved.
+5. Map current speed to a **bounded desired car Y**, smoothly interpolate/quantize to that Y, and make min/max positions visually distinct. Entire car stays within the top/bottom of the driving viewport; no unbounded accumulation of Y during held UP/DOWN and no teleportation.
+6. The car sprite must **physically move vertically in the Atari display**, not just change HUD values. If using PMG, clear/relocate the old bitmap rows when Y changes; avoid residue, flicker, trails, clipping and corrupting the road/HUD.
+7. Preserve the approved v0.1 straight road, 2/3-road / 1/3-fixed-HUD split, placeholders, road zones, and all later-feature exclusions. Stage 1 remains unchanged.
+8. **Preserve original versioned v0.1 assets and tooling** as the comparison baseline. Emit the replacement as a separately named revision within the **v0.1 milestone**, e.g. `assets/stage2_v01_r2/GasBlasters82_Stage2_Driving_v01_r2.xex`, with its own build/test evidence; do not overwrite the first `assets/stage2_v01/` XEX/manifest/source.
+
+**Focused automated and Atari800 checks:** UP reaches high car Y and maximum positive scroll speed; release holds Y and speed; DOWN reaches low car Y and minimum positive speed; release holds; car stays bounded at both extremes; diagonal/left/right work at high and low Y; START resets Y and speed; no PMG ghosting, HUD motion or rendering artifacts. CPU-level tests cannot establish actual visual cleanliness; have the user playtest the newly built XEX. **The revision is designed but not yet implemented, tested or accepted.**

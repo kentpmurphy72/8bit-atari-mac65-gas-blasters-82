@@ -1,7 +1,7 @@
 # Gas Blasters '82 — Project To-Do List
 
-**Version:** 0.38  
-**Date:** 2026-11-03  
+**Version:** 0.39  
+**Date:** 2026-11-04  
 **Target:** Atari 800XL  
 **Status:** Stage 1 v0.5 implemented and accepted as a playable prototype; remaining full game in design/development  
 **Companion documents:** [Game Design](GAME_DESIGN.md) · [Art Assets](ART_ASSETS.md)
@@ -9,10 +9,16 @@
 > Living checklist. An unchecked item is not necessarily an approved requirement; some items are proposed work that depends on design decisions. Update this file as tasks are finished or scope changes.
 
 - **PMG regression and v2.1 hotfix — 2026-10-30:** The first real Atari800 test of the alternate PMG title **v2 failed visually** (stray cyan/white pixels overlapping text/background). Bug confirmed: DMACTL set to $2E **double-line** although 2 KB PMG data was built for **single-line**. The v2 validator mistakenly expected $2E as well. A separate v2.1 XEX and corrected source now use $3E, an adjusted 56-line vertical origin, and explicit tests for correct DMACTL and cleared PM rows over the text. **v2.1 was tested in Atari800 on 2026-11-01 and was visually rejected:** scattered PMG highlights still degrade the logo, Billy and car. The overlay intentionally adds about 220 disconnected pixels; a heavy DLI handler also has insufficient cycle headroom for one scanline. Do not adopt v2/v2.1; preserve the accepted v1 title. No checklist completion change. **Known-good v1 is unaffected**. Checklist completion count is unchanged until the corrected PMG screen passes visually.
+## Stage 2 v0.1 user playtest and refinement — 2026-11-04
+
+- The user **played the original v0.1 in Atari800**. Basic driving was fine, but the car stayed vertically stationary while speed/scroll rate changed; **v0.1 gameplay acceptance is pending**.
+- Approved design: accelerating moves the actual car **up** the visible road; braking moves it **down**; neutral retains speed and its corresponding car Y. Continue scrolling speed changes, smooth lateral/diagonal steering and strict screen bounds. See [Stage 2 design](STAGE2_DESIGN.md), Section 12.
+- Codex should generate a **second versioned v0.1 XEX**, retaining the initial XEX/manifest/source unchanged. v0.2 pressure/destination and v0.3+ hazards remain out of scope. The refinement is not yet implemented.
+
 ## Stage 2 v0.1 design update — 2026-11-03
 
 - **Design approved; standalone implementation now CPU tested, playtest pending:** [STAGE2_DESIGN.md](STAGE2_DESIGN.md) is now the active first-driving-prototype specification. Option A controls are automatic forward motion, smooth free left/right steering, UP acceleration, DOWN braking to a positive minimum, and combined diagonal inputs. v0.1 targets a downward-scrolling straight road, distinct grass/shoulder/pavement zones, car sprite, and fixed right HUD with GAS/MI/SCORE/LIVES **placeholders**.
-- **Implementation branch:** existing `feature/stage2-driving-v0.1`. The standalone XEX is now built and CPU tested; user Atari800 review remains pending; gas pressure, pharmacy arrival, police, forks, off-road penalties and vehicle blasts remain later work. **The broader road-chase milestone remains open; v0.1 implementation evidence is recorded below.**
+- **Implementation branch:** existing `feature/stage2-driving-v0.1`. The standalone XEX is now built and CPU tested; user Atari800 review identified fixed-Y behavior and a v0.1 refinement is pending; gas pressure, pharmacy arrival, police, forks, off-road penalties and vehicle blasts remain later work. **The broader road-chase milestone remains open; v0.1 implementation evidence is recorded below.**
 
 ## Stage 2 v0.1 implementation evidence — 2026-11-03
 
