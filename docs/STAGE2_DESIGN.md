@@ -5,7 +5,7 @@
 **Date:** 2026-11-07  
 **Target:** Atari 800XL, stock 64 KB, native 6502 Atari XEX  
 **Working branch:** `feature/stage2-pressure-destination-v0.2` (accepted v0.1 preserved on `main` at tag `stage2-v0.1`)  
-**Status:** **v0.1 driving mechanics accepted after user Atari800 playtest of r3 (2026-11-04).** r3 is the current playable driving baseline; future extra upward car travel and polish are deferred. **v0.2 gas pressure and pharmacy destination is the next design milestone, not yet implemented.** Initial two-minute drive, 20–100 MPH speed range, 2-mile destination and 2:45 gas-failure deadline are provisional balancing targets (Section 16). **Approved pressure-warning, shake, three-lives, explosion, and FIRE-retry behavior is recorded in Section 17. The pharmacy-arrival cutscene and FIRE-to-complete flow are confirmed in Section 18; the exact native-speed-to-MPH mapping is approved in Section 19.**
+**Status:** **v0.1 driving mechanics accepted after user Atari800 playtest of r3 (2026-11-04).** r3 is the current playable driving baseline; future extra upward car travel and polish are deferred. **v0.2 gas pressure and pharmacy destination is the next design milestone, not yet implemented.** Initial two-minute drive, 20–100 MPH speed range, 2-mile destination and 2:45 gas-failure deadline are provisional balancing targets (Section 16). **Approved pressure-warning, shake, three-lives, explosion, and FIRE-retry behavior is recorded in Section 17. The pharmacy-arrival cutscene and FIRE-to-complete flow are confirmed in Section 18; the exact native-speed-to-MPH mapping is approved in Section 19, and the fixed HUD presentation is approved in Section 20.**
 **Repository destination:** `docs/STAGE2_DESIGN.md`  
 
 ## 1. Purpose and authority
@@ -328,11 +328,11 @@ comparison links, scope limits and the user-review checklist. No merge/tag.
 | Success | Reach **MI=0.0** with GAS below **100%**, freeze driving and show a **brief cutscene featuring the pharmacy building**; use a fresh **FIRE/trigger** press to continue to the standalone v0.2 **completion screen** (Stage 3 is not implemented); see Section 18 | Exact exterior artwork, cutscene wording/duration and finish-state presentation are playtest/art details |
 | Failure | At **100%** before arrival: freeze driving, basic gas explosion animation, deduct **one life**, display **`BILLY BLEW IT!`**; see Section 17 | Animation duration/style and simultaneous arrival-versus-failure precedence |
 | Restart | After failure, **joystick FIRE/trigger** retries Stage 2 when lives remain: GAS **0%**, MI **2.0**, default car speed/position; retained lives persist across retries | Game-over restart/exit policy; whether console START remains available for debug resetting |
-| HUD | GAS and MI become live; **LIVES starts at 3 and decreases after each gas explosion**; SCORE remains a placeholder | Meter formatting, warning flash cadence, score rules |
+| HUD | Fixed right 13-column pane with GAS % + 10-segment bar, pharmacy miles (two decimals), whole MPH, three miniature lives/car icons, and six-digit SCORE placeholder; Section 20 | Exact pixel/glyph art and warning flash frequency remain playtest/implementation tuning |
 
 **Important design boundaries:** No Gas-Nix pickups or drops are available before the pharmacy. No police, hazmat vans, road forks, winding/narrowing roads, off-road explosion timer or four-way car gas blasts in v0.2 unless separately approved. Do not integrate Stage 2 into the accepted Stage 1 XEX yet. Keep v0.1-r3 mechanics and artifacts stable; implement v0.2 as a separately versioned standalone prototype. Gas growth should reflect the passage of game time rather than decreasing merely because the player accelerates; higher forward speed should allow faster destination progress, creating a meaningful race against pressure. The **initial numerical rates are selected for playtesting in Section 16** and remain subject to balancing, not silently fixed as final production rules.
 
-**Design decisions still to resolve before a final Codex implementation handoff:** HUD rounding/update cadence, warning/shake intensity and durations, **arrival cutscene artwork/timing details**, simultaneous success/failure precedence and game-over reset/exit policy. **Sections 16–19 record agreed provisional balancing and confirmed speed mapping, failure/retry, and arrival flows; v0.2 remains design-only and unimplemented.**
+**Design decisions still to resolve before a final Codex implementation handoff:** exact warning/shake intensity and durations, **arrival cutscene artwork/timing details**, simultaneous success/failure precedence and game-over reset/exit policy. HUD layout and numeric presentation are now approved (Section 20); exact pixel/glyph drawing and warning-flash frequency remain implementation/playtest tuning. **Sections 16–20 record agreed provisional balancing and confirmed speed mapping, failure/retry, arrival, and HUD flows; v0.2 remains design-only and unimplemented.**
 
 ## 16. v0.2 provisional timing, speed, distance and gas-pressure balance — 2026-11-07
 
@@ -376,7 +376,7 @@ The final **15-second** interval adds approximately **9 percentage points**, rat
 
 ### Open decisions (do not silently invent)
 
-The **100%-pressure life loss, basic explosion sequence, FIRE retry, warning thresholds and three starting lives are approved in Section 17**, the pharmacy arrival cutscene/FIRE continuation in Section 18, and the **piecewise Q4→MPH mapping** in Section 19. Remaining design questions are precise shake/visual/audio and arrival-art tuning, game-over reset/exit, simultaneous arrival/failure precedence, and HUD numeric update/rounding before a full Codex implementation prompt. **Future levels may have gradually longer durations, with a shorter final home stage**, but no exact progression has yet been approved. This section defines the **v0.2 balance baseline only**.
+The **100%-pressure life loss, basic explosion sequence, FIRE retry, warning thresholds and three starting lives are approved in Section 17**, the pharmacy arrival cutscene/FIRE continuation in Section 18, the **piecewise Q4→MPH mapping** in Section 19, and the **HUD layout/precision** in Section 20. Remaining design questions are precise shake/visual/audio and arrival-art tuning, game-over reset/exit, simultaneous arrival/failure precedence, and final glyph/flash implementation details before a full Codex implementation prompt. **Future levels may have gradually longer durations, with a shorter final home stage**, but no exact progression has yet been approved. This section defines the **v0.2 balance baseline only**.
 
 ## 17. v0.2 gas-pressure warnings, explosion, lives, and retry — approved 2026-11-07
 
@@ -430,7 +430,7 @@ The **100%-pressure life loss, basic explosion sequence, FIRE retry, warning thr
 - Keep the already accepted r3 road, steering, speed-dependent car Y, HUD partition and native Atari 800XL 6502 constraints intact. The short pharmacy exterior cutscene can use a separate display mode/screen if required; **do not assume the road scene's 27/13 column split must be reused for the full-screen cutscene**, but document all screen, PMG, font, palette, music and memory transitions.
 - If artwork or screen modes require a new memory allocation, preserve the accepted opening/Stage 1 resources and keep v0.2 standalone until integration is deliberately planned. **Original artwork and an economical, readable arrival transition are preferable to complex animation for the first prototype.** No actual image or XEX is generated by this design entry.
 - Acceptance tests: crossing `MI=0.0` with GAS<100 produces a *single* arrival event; all runtime counters freeze; pharmacy building visibly appears with readable identification; fresh FIRE advances to the completion screen without an explosion or life loss; holding FIRE does not skip multiple screens; success never falls through to a failure state; Stage 3 is not run. Distinguish automated CPU checks from actual Atari800 cutscene review.
-- **Open design question:** If reaching MI=0 and GAS=100 happens within the **same** simulation tick, determine a deterministic priority rule before implementation. **Q4→MPH conversion is now approved in Section 19**; HUD numeric formatting/refresh and any GAME OVER / completion-screen replay controls still need decisions. Exact art and duration can be refined through playtesting.
+- **Open design question:** If reaching MI=0 and GAS=100 happens within the **same** simulation tick, determine a deterministic priority rule before implementation. Q4→MPH mapping and HUD numeric presentation/update principles are now approved in Sections 19–20; **GAME OVER / completion-screen replay controls** still need decisions. Exact glyphs, warning-flash frequency, cutscene art and duration can be refined through playtesting.
 
 **Milestone status:** The **arrival flow and pharmacy-building cutscene are approved design**, but **v0.2 is not implemented or user-playtested**. Do not mark Stage 2 complete on the TODO checklist yet.
 
@@ -455,3 +455,62 @@ For all intermediate speeds, use **continuous, monotonic piecewise-linear interp
 **Keep physics and presentation separate:** Q4 speed is still authoritative for road scrolling, input/acceleration and physical car Y. MPH is a derived, fractional-precision value for **distance progression** and any future HUD MPH readout; using the MPH conversion must not change approved r3 acceleration/smoothing or introduce a new speed-control scheme. Driving at constant default Q4=24/60 MPH for **2.0 miles** yields the **2:00 reference run**. Accelerating aggressively may finish sooner; the two-minute average remains a balancing goal, not a speed governor.
 
 **Native implementation acceptance criteria (future Codex task):** exact anchor/intermediate arithmetic; deterministic monotonic values and clamping; fractional-precision distance accumulation `miles = Σ(MPH × Δt_seconds / 3600)` independent of displayed rounding; no premature display of successful arrival from rounding alone; no regression in r3 control feel, vertical movement, scroll, or fixed HUD. Verify emulator timing and road/distance behavior during a subsequent playable v0.2 run. This is **design-only**: no v0.2 implementation or tests have been performed by this document update.
+
+## 20. v0.2 approved driving HUD layout and behavior — 2026-11-07
+
+**User approval:** Adopt the proposed **1980s arcade-style HUD** for v0.2 with the **existing fixed 13-character-column right pane** alongside the accepted **27-column scrolling driving playfield** (40 columns total). Keep the HUD stationary, readable, and visually separated from the road; retain its fundamental layout for later road stages by changing destination and applicable data, rather than redesigning it for each stage. This is an **approved functional/presentation design**, not final pixel art, font data or proof of actual Atari800 rendering.
+
+### Visual hierarchy, top to bottom
+
+| HUD section | Approved display | Runtime behavior |
+| --- | --- | --- |
+| **GAS PRESSURE** (top, most prominent) | Large **whole-number GAS %** and **10-segment horizontal bar** | Start **0%**, rise on elapsed driving time, update integer percentage when its displayed value changes; bar gives approximate 10% increments. The bar and percentage flash at warning thresholds, but **not** the entire HUD. |
+| **PHARMACY** | Miles remaining as **`2.00 MI`** initially, with **two decimal places** | Decrease based on modeled MPH and elapsed time; reach **`0.00 MI`** on **actual arrival**, not due merely to display rounding. The destination label may change for later road legs. |
+| **SPEED** | Whole-number MPH, e.g. **`60 MPH`**, range **20–100** | Derive from the approved piecewise Q4→MPH conversion (Section 19); refresh the visible digits as displayed MPH changes. **Do not display raw Q4 speed** or modify driving controls. |
+| **LIVES** | **Three miniature car icons** at stage start | One car icon disappears after each explosion; states **3 → 2 → 1 → 0**. Lives persist across same-stage retries. Icons must fit in the 13-column pane at native Atari character/glyph resolution. |
+| **SCORE** (bottom) | **Six-digit numeric value**, initially **`000000`** | Fixed placeholder for v0.2; no speculative scoring logic. Reserve width for real score rules in a later milestone. |
+
+**Illustrative 13-column text schematic** (spacing, dividers and glyph sizes are **not** exact native screen-cell placements):
+
+```text
+ GAS PRESSURE
+ [#######---] 
+      68%
+   PHARMACY
+    1.25 MI
+     SPEED
+     60 MPH
+     LIVES
+   [CAR][CAR][CAR]
+     SCORE
+    000000
+```
+
+**Schematic caution:** At 68% gas, seven of ten segments filled is an illustrative rounded presentation; the exact threshold-to-segment fill policy remains a playtest/implementation detail. The finished layout must fit exactly within the current **13-column × 24-character-row** HUD area; the miniature car icons should be custom character glyphs or an equivalently economical Atari-compatible symbol. The HUD mockup does not authorize changing the existing display split or screen mode.
+
+### Approved warning behavior
+
+- **GAS 0–74%:** stable percentage/bar, normal presentation and the already accepted r3 driving feel.
+- **GAS 75–89%:** GAS bar and numeric percentage **flash slowly**; the car shakes mildly and steering becomes a little harder (Section 17). Leave other HUD labels and values stationary and readable.
+- **GAS 90–99%:** GAS bar and numeric percentage **flash faster** to convey urgency; the car shakes substantially more and handling is harder but remains controllable (Section 17). Do not flash, shake or obscure the entire HUD.
+- **GAS 100%:** trigger the already approved explosion/failure sequence (Section 17); retain a coherent final GAS indication during failure as practical, and keep the warning animation from causing extra life decrements.
+- Evaluate threshold state from the **underlying gas value**, not from a rounded HUD percentage; avoid displaying **100% before the true failure threshold**. If rounded presentation would otherwise prematurely show 100%, clamp the *pre-failure display* to at most 99%. This is a representation rule only; simulation timing is unchanged.
+
+### Data, precision, timing and scope
+
+- **Gas percentage:** calculate continuously with the approved 0→100% over 165 seconds model, show whole numbers and repaint only when an integer value changes or the warning flash changes phase. Keep gas in a stable location.
+- **Distance:** maintain high-precision remaining miles internally, then show **two decimal places**; prevent premature **0.00** due to rounding by showing **0.01 MI** until actual completion if needed. Do not declare arrival from formatted text; only the internal distance threshold triggers the pharmacy cutscene.
+- **Speed:** compute MPH from Q4 using Section 19 at sufficient fractional precision for distance calculations; display only **whole MPH**. Repaint when the visible value changes, without changing original speed/Y/scroll behavior.
+- **Lives and score:** render exactly the current remaining lives with the three-slot icon display, and keep SCORE numeric but **not active** in v0.2. Do not create new score increments, gas-remedy indicators, road-zone telemetry, timers or additional data fields in the HUD as incidental changes.
+- **Technical constraints:** Keep stationary right-side glyphs intact across road-font bank swaps, flashing and screen transitions; do not let the independently scrolling left roadway overwrite the HUD. Favor byte/character-cell updates only where visible values change. The exact glyph/palette choices, bar-segment fill pattern at fractional thresholds, separator rows and **slow/fast flash cadence** are implementation parameters to document and then playtest in Atari800, not separately specified numerical constants here.
+
+### Planned acceptance checks (not yet implemented)
+
+1. Road remains within 27 left columns; all five HUD sections stay fully visible and static inside **13 right columns**, including at min/max car position and during long scrolling runs.
+2. The initial right HUD reads GAS **0%**, **2.00 MI**, **60 MPH** (default Q4=24), **three** miniature car life icons and SCORE **000000**. The examples in the mockup are illustrative, **not** initial game values.
+3. MPH follows the exact approved Q4 mapping, gas percentage/bar follow elapsed time, miles visibly decrease with time and speed, and numeric rounding never falsely ends the drive.
+4. At 75% and 90% warning thresholds only the GAS indicator flashes, with increasingly urgent cadence, while other HUD elements remain readable. Flash effects cannot change actual gas percentage/lives or car bounds.
+5. After each explosion, one car icon disappears and remains absent through a FIRE retry. After success, no life is removed.
+6. Preserve score as a six-digit placeholder and leave all postponed road hazards, attacks, and Stage 3 integration unimplemented. Check actual Atari800 legibility and emulated performance separately from CPU and deterministic build tests.
+
+**Open beyond this HUD decision:** Same-tick arrival versus 100% gas precedence and behavior after GAME OVER / standalone Stage 2 completion; exact visual effects and arrival-cutscene art remain subject to later tuning. **The v0.2 XEX has not yet been built or playtested.**

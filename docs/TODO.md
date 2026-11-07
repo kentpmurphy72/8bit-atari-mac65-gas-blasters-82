@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Project To-Do List
 
-**Version:** 0.45  
+**Version:** 0.46  
 **Date:** 2026-11-07  
 **Target:** Atari 800XL  
 **Status:** Stage 1 v0.5 implemented and accepted as a playable prototype; remaining full game in design/development  
@@ -9,17 +9,23 @@
 > Living checklist. An unchecked item is not necessarily an approved requirement; some items are proposed work that depends on design decisions. Update this file as tasks are finished or scope changes.
 
 - **PMG regression and v2.1 hotfix — 2026-10-30:** The first real Atari800 test of the alternate PMG title **v2 failed visually** (stray cyan/white pixels overlapping text/background). Bug confirmed: DMACTL set to $2E **double-line** although 2 KB PMG data was built for **single-line**. The v2 validator mistakenly expected $2E as well. A separate v2.1 XEX and corrected source now use $3E, an adjusted 56-line vertical origin, and explicit tests for correct DMACTL and cleared PM rows over the text. **v2.1 was tested in Atari800 on 2026-11-01 and was visually rejected:** scattered PMG highlights still degrade the logo, Billy and car. The overlay intentionally adds about 220 disconnected pixels; a heavy DLI handler also has insufficient cycle headroom for one scanline. Do not adopt v2/v2.1; preserve the accepted v1 title. No checklist completion change. **Known-good v1 is unaffected**. Checklist completion count is unchanged until the corrected PMG screen passes visually.
+## Stage 2 v0.2 HUD presentation approved — 2026-11-07
+
+- **User-approved fixed Atari 800XL driving HUD** in the existing **27-road / 13-HUD character-column** split: top GAS **whole % + 10-segment bar**, PHARMACY remaining **2.00→0.00 MI** in two decimals, SPEED **whole MPH** (20–100 via approved Q4 mapping), **three miniature car life icons** (disappear when lives lost), and **six-digit SCORE** placeholder `000000`. Preserve the same layout for future driving stages with destination updates; avoid raw Q4/ZONE telemetry in playable v0.2.
+- **Warnings and precision:** At **75–89%**, slowly flash **only** GAS bar and percentage; at **90–99%**, flash them faster. Don't shake or obscure the stationary HUD. Update digits as the shown value changes; keep internal simulation precision independent from display rounding. Do **not** show `0.00 MI` before actual arrival or `100%` before genuine pressure failure. Car icons reflect **3→2→1→0** remaining lives across retries.
+- **Still open for v0.2:** precise glyph/palette and flash-cadence tuning (Codex/Atari800), the **simultaneous arrival/100%-gas rule**, and replay/new-game behavior from **GAME OVER / STAGE 2 COMPLETE**. See [Stage 2 design §20](STAGE2_DESIGN.md). No XEX or HUD code has been implemented or validated; leave checkboxes unchanged.
+
 ## Stage 2 v0.2 native-speed-to-MPH mapping approved — 2026-11-07
 
 - **Confirmed:** preserve the accepted r3 Q4 driving mechanics; interpret speed **Q4 8→20 MPH**, **24→60 MPH** (default), **56→100 MPH**. Convert between these anchors using continuous **piecewise-linear interpolation**; examples Q4 16→40, 32→70, 40→80, 48→90 MPH. Details and equations in [Stage 2 design §19](STAGE2_DESIGN.md).
 - **Distance:** use modeled MPH with elapsed time to reduce the **2.0-mile** pharmacy countdown, at sufficient precision independent of visible HUD rounding. Steady default speed Q4 24/60 MPH implies a **2:00** trip, but typical user completion remains subject to balancing and actual playtest.
-- **Still open:** GAS/MI/MPH/LIVES HUD formatting and refresh; simultaneous 0.0 miles vs 100% gas precedence; GAME OVER/Stage 2 complete replay control; precise warning shake/steering and cutscene art timing. No code implementation is implied, and no Phase 3 checklist item is newly completed.
+- **Still open:** simultaneous 0.0 miles vs 100% gas precedence; GAME OVER/Stage 2 complete replay control; precise warning shake/steering and cutscene art timing. **HUD display format and update principles are now approved in §20; only character-glyph/flash-cadence tuning remains.** No code implementation is implied, and no Phase 3 checklist item is newly completed.
 
 ## Stage 2 v0.2 pharmacy arrival approved — 2026-11-07
 
 - **Confirmed successful arrival:** when the remaining miles reach **0.0 while gas is below 100%**, freeze driving and the gas/distance timer, show a **brief exterior cutscene featuring the pharmacy building**, and wait for a fresh **joystick FIRE/trigger press** to continue. A successful arrival does not deduct lives or trigger a gas explosion.
 - **Standalone v0.2 handoff:** FIRE advances from the arrival cutscene to an obvious **Stage 2 completion screen** only. The Stage 3 pharmacy interior is **not implemented**; do not auto-transition into it. Cutscene artwork/copy/duration can be tuned for legibility in Atari800.
-- **Open for the remaining v0.2 design:** HUD GAS/MI/MPH formatting and refresh, deterministic tie handling if arrival and 100% pressure occur in the same tick, and completion/GAME OVER replay controls. **The MPH-to-r3-Q4 conversion is now confirmed in §19.** See [Stage 2 design §18](STAGE2_DESIGN.md). **Documentation only, no v0.2 XEX yet**; leave implementation checkboxes open.
+- **Open for the remaining v0.2 design:** deterministic tie handling if arrival and 100% pressure occur in the same tick, and completion/GAME OVER replay controls. **MPH conversion (§19) and HUD layout, precision and update behavior (§20) are now approved.** See [Stage 2 design §18](STAGE2_DESIGN.md). **Documentation only, no v0.2 XEX yet**; leave implementation checkboxes open.
 
 ## Stage 2 v0.2 approved failure, warnings and retry — 2026-11-07
 
