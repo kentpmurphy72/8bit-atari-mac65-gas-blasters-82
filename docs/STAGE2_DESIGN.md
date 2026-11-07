@@ -5,7 +5,7 @@
 **Date:** 2026-11-07  
 **Target:** Atari 800XL, stock 64 KB, native 6502 Atari XEX  
 **Working branch:** `feature/stage2-pressure-destination-v0.2` (accepted v0.1 preserved on `main` at tag `stage2-v0.1`)  
-**Status:** **v0.1 driving mechanics accepted after user Atari800 playtest of r3 (2026-11-04).** r3 is the current playable driving baseline; future extra upward car travel and polish are deferred. **v0.2 gas pressure and pharmacy destination is the next design milestone, not yet implemented.** Initial two-minute drive, 20–100 MPH speed range, 2-mile destination and 2:45 gas-failure deadline are provisional balancing targets (Section 16). **Approved pressure-warning, shake, three-lives, explosion, and FIRE-retry behavior is recorded in Section 17. The pharmacy-arrival cutscene and FIRE-to-complete flow are confirmed in Section 18.**
+**Status:** **v0.1 driving mechanics accepted after user Atari800 playtest of r3 (2026-11-04).** r3 is the current playable driving baseline; future extra upward car travel and polish are deferred. **v0.2 gas pressure and pharmacy destination is the next design milestone, not yet implemented.** Initial two-minute drive, 20–100 MPH speed range, 2-mile destination and 2:45 gas-failure deadline are provisional balancing targets (Section 16). **Approved pressure-warning, shake, three-lives, explosion, and FIRE-retry behavior is recorded in Section 17. The pharmacy-arrival cutscene and FIRE-to-complete flow are confirmed in Section 18; the exact native-speed-to-MPH mapping is approved in Section 19.**
 **Repository destination:** `docs/STAGE2_DESIGN.md`  
 
 ## 1. Purpose and authority
@@ -324,7 +324,7 @@ comparison links, scope limits and the user-review checklist. No merge/tag.
 | System | Agreed behavior to design | Still to decide/tune before coding |
 | --- | --- | --- |
 | Gas pressure | Live `GAS %` starts at **0%**; linear elapsed-time growth reaches **100% at 2:45** (~18 percentage points per 30 s); see Sections 16–17 | Exact warning animation and control-impairment tuning after playtest |
-| Distance | Live `MI` starts at **2.0 miles** and counts down based on Billy's modeled MPH, with target average **2:00 at 60 MPH**; see Section 16 | Mapping MPH to accepted native Q4 scroll-speed values, rounding/display resolution |
+| Distance | Live `MI` starts at **2.0 miles** and counts down using the approved **8→20, 24→60, 56→100 Q4-to-MPH mapping** (Section 19); a steady 60 MPH drive takes 2:00 | HUD rounding/display resolution and live update cadence |
 | Success | Reach **MI=0.0** with GAS below **100%**, freeze driving and show a **brief cutscene featuring the pharmacy building**; use a fresh **FIRE/trigger** press to continue to the standalone v0.2 **completion screen** (Stage 3 is not implemented); see Section 18 | Exact exterior artwork, cutscene wording/duration and finish-state presentation are playtest/art details |
 | Failure | At **100%** before arrival: freeze driving, basic gas explosion animation, deduct **one life**, display **`BILLY BLEW IT!`**; see Section 17 | Animation duration/style and simultaneous arrival-versus-failure precedence |
 | Restart | After failure, **joystick FIRE/trigger** retries Stage 2 when lives remain: GAS **0%**, MI **2.0**, default car speed/position; retained lives persist across retries | Game-over restart/exit policy; whether console START remains available for debug resetting |
@@ -332,7 +332,7 @@ comparison links, scope limits and the user-review checklist. No merge/tag.
 
 **Important design boundaries:** No Gas-Nix pickups or drops are available before the pharmacy. No police, hazmat vans, road forks, winding/narrowing roads, off-road explosion timer or four-way car gas blasts in v0.2 unless separately approved. Do not integrate Stage 2 into the accepted Stage 1 XEX yet. Keep v0.1-r3 mechanics and artifacts stable; implement v0.2 as a separately versioned standalone prototype. Gas growth should reflect the passage of game time rather than decreasing merely because the player accelerates; higher forward speed should allow faster destination progress, creating a meaningful race against pressure. The **initial numerical rates are selected for playtesting in Section 16** and remain subject to balancing, not silently fixed as final production rules.
 
-**Design decisions still to resolve before a final Codex implementation handoff:** exact MPH-to-current-Q4-speed conversion (without modifying approved driving feel), HUD rounding/update cadence, warning/shake intensity and durations, **arrival cutscene artwork/timing details**, simultaneous success/failure precedence and game-over reset/exit policy. **Sections 16–18 record agreed provisional balancing and confirmed failure/retry and arrival flows; v0.2 remains design-only and unimplemented.**
+**Design decisions still to resolve before a final Codex implementation handoff:** HUD rounding/update cadence, warning/shake intensity and durations, **arrival cutscene artwork/timing details**, simultaneous success/failure precedence and game-over reset/exit policy. **Sections 16–19 record agreed provisional balancing and confirmed speed mapping, failure/retry, and arrival flows; v0.2 remains design-only and unimplemented.**
 
 ## 16. v0.2 provisional timing, speed, distance and gas-pressure balance — 2026-11-07
 
@@ -370,13 +370,13 @@ The final **15-second** interval adds approximately **9 percentage points**, rat
 
 - At a constant modeled 60 MPH, traveling **2.0 miles takes exactly 2:00**. This gives a mathematical pacing anchor, not a promise every run finishes in two minutes.
 - Hypothetical constant-speed travel times before accounting for acceleration or future hazards: **20 MPH → 6:00** (gas failure first); **60 MPH → 2:00**; **80 MPH → 1:30**; **100 MPH → 1:12**. The v0.2 straight-road demo may allow faster finishes than two minutes until traffic and hazards are introduced.
-- The accepted v0.1-r3 controller uses internal **Q4 scroll-speed units** (minimum/default/maximum **8/24/56**), not MPH. **Do not change its steering/acceleration, scrolling feel, speed-linked vertical Y behavior or tuning merely to label the speeds in MPH.** Define and test an explicit conversion from existing native speeds to the proposed real-world speed values. The **60 MPH typical average is not necessarily the same thing as the existing Q4 default speed 24**; the exact mapping remains a v0.2 technical/design decision.
+- The accepted v0.1-r3 controller uses internal **Q4 scroll-speed units** (minimum/default/maximum **8/24/56**), not MPH. The user **subsequently approved the exact three-anchor mapping** Q4 **8→20 MPH, 24→60 MPH and 56→100 MPH**, with continuous piecewise-linear interpolation (authoritative detail in Section 19). **Do not alter r3 steering, acceleration, scrolling feel, vertical car Y or tuning** when calculating/displaying MPH.
 - Conceptual distance accumulation: **miles traveled = modeled MPH × elapsed seconds / 3600** (integrated over changing speeds); remaining miles must never go below zero. Use sufficient fixed-point precision, independent of displayed HUD rounding. The winning arrival event requires reaching 0 miles while pressure is still **below 100%**; deterministic precedence on a frame where both thresholds cross remains to be specified.
 - A 2:45 gas deadline at a 2:00 target completion time leaves an approximate **45-second margin**. This is a starting balance point for playtesting; do not assume it guarantees difficulty once hazards are added.
 
 ### Open decisions (do not silently invent)
 
-The **100%-pressure life loss, basic explosion sequence, FIRE retry, warning thresholds and three starting lives are now approved in Section 17**. Remaining design questions are success-screen presentation, precise shake/visual/audio tuning, game-over reset/exit, simultaneous arrival/failure precedence, MPH/Q4 conversion, and HUD numeric update/rounding before a full Codex implementation prompt. **Future levels may have gradually longer durations, with a shorter final home stage**, but no exact progression has yet been approved. This section defines the **v0.2 balance baseline only**.
+The **100%-pressure life loss, basic explosion sequence, FIRE retry, warning thresholds and three starting lives are approved in Section 17**, the pharmacy arrival cutscene/FIRE continuation in Section 18, and the **piecewise Q4→MPH mapping** in Section 19. Remaining design questions are precise shake/visual/audio and arrival-art tuning, game-over reset/exit, simultaneous arrival/failure precedence, and HUD numeric update/rounding before a full Codex implementation prompt. **Future levels may have gradually longer durations, with a shorter final home stage**, but no exact progression has yet been approved. This section defines the **v0.2 balance baseline only**.
 
 ## 17. v0.2 gas-pressure warnings, explosion, lives, and retry — approved 2026-11-07
 
@@ -430,6 +430,28 @@ The **100%-pressure life loss, basic explosion sequence, FIRE retry, warning thr
 - Keep the already accepted r3 road, steering, speed-dependent car Y, HUD partition and native Atari 800XL 6502 constraints intact. The short pharmacy exterior cutscene can use a separate display mode/screen if required; **do not assume the road scene's 27/13 column split must be reused for the full-screen cutscene**, but document all screen, PMG, font, palette, music and memory transitions.
 - If artwork or screen modes require a new memory allocation, preserve the accepted opening/Stage 1 resources and keep v0.2 standalone until integration is deliberately planned. **Original artwork and an economical, readable arrival transition are preferable to complex animation for the first prototype.** No actual image or XEX is generated by this design entry.
 - Acceptance tests: crossing `MI=0.0` with GAS<100 produces a *single* arrival event; all runtime counters freeze; pharmacy building visibly appears with readable identification; fresh FIRE advances to the completion screen without an explosion or life loss; holding FIRE does not skip multiple screens; success never falls through to a failure state; Stage 3 is not run. Distinguish automated CPU checks from actual Atari800 cutscene review.
-- **Open design question:** If reaching MI=0 and GAS=100 happens within the **same** simulation tick, determine a deterministic priority rule before implementation. Separately finalize the MPH-to-native-Q4 conversion, HUD numeric formatting/refresh, and any GAME OVER / completion-screen replay controls. Exact art and duration can be refined through playtesting.
+- **Open design question:** If reaching MI=0 and GAS=100 happens within the **same** simulation tick, determine a deterministic priority rule before implementation. **Q4→MPH conversion is now approved in Section 19**; HUD numeric formatting/refresh and any GAME OVER / completion-screen replay controls still need decisions. Exact art and duration can be refined through playtesting.
 
 **Milestone status:** The **arrival flow and pharmacy-building cutscene are approved design**, but **v0.2 is not implemented or user-playtested**. Do not mark Stage 2 complete on the TODO checklist yet.
+
+## 19. v0.2 approved native-speed-to-MPH mapping — 2026-11-07
+
+**User approval:** Map the approved Stage 2 v0.1-r3 driving controller's existing internal **Q4 scroll-speed value** to a modeled MPH value for the v0.2 distance countdown, **without changing how the car accelerates, brakes, steers, scrolls or moves vertically on-screen**. The following three anchors are **confirmed design decisions**; pacing and distance balancing remain provisional for actual playtesting.
+
+| Controller speed (Q4 units) | Modeled car speed | Meaning |
+| ---: | ---: | --- |
+| **8** | **20 MPH** | Accepted positive minimum |
+| **24** | **60 MPH** | Accepted default-speed setting; pacing reference |
+| **56** | **100 MPH** | Accepted maximum speed |
+
+For all intermediate speeds, use **continuous, monotonic piecewise-linear interpolation** through the anchors:
+
+- For Q4 speed `q` in **[8, 24]**: `MPH = 20 + (q - 8) × (40 / 16) = (5 × q) / 2`.
+- For Q4 speed `q` in **[24, 56]**: `MPH = 60 + (q - 24) × (40 / 32) = 30 + (5 × q) / 4`.
+- Clamp out-of-range lookup inputs to the valid mapping **20–100 MPH**; never introduce reverse travel. These formulas agree **exactly at q=24**, yielding 60 MPH, and have no speed discontinuity.
+
+**Intermediate examples:** Q4 **16→40 MPH**, **32→70 MPH**, **40→80 MPH**, **48→90 MPH**. Because the two intervals have different slopes, **do not replace this with a single linear formula across 8–56**: it would not preserve the default 60 MPH at Q4=24.
+
+**Keep physics and presentation separate:** Q4 speed is still authoritative for road scrolling, input/acceleration and physical car Y. MPH is a derived, fractional-precision value for **distance progression** and any future HUD MPH readout; using the MPH conversion must not change approved r3 acceleration/smoothing or introduce a new speed-control scheme. Driving at constant default Q4=24/60 MPH for **2.0 miles** yields the **2:00 reference run**. Accelerating aggressively may finish sooner; the two-minute average remains a balancing goal, not a speed governor.
+
+**Native implementation acceptance criteria (future Codex task):** exact anchor/intermediate arithmetic; deterministic monotonic values and clamping; fractional-precision distance accumulation `miles = Σ(MPH × Δt_seconds / 3600)` independent of displayed rounding; no premature display of successful arrival from rounding alone; no regression in r3 control feel, vertical movement, scroll, or fixed HUD. Verify emulator timing and road/distance behavior during a subsequent playable v0.2 run. This is **design-only**: no v0.2 implementation or tests have been performed by this document update.

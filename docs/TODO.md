@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Project To-Do List
 
-**Version:** 0.44  
+**Version:** 0.45  
 **Date:** 2026-11-07  
 **Target:** Atari 800XL  
 **Status:** Stage 1 v0.5 implemented and accepted as a playable prototype; remaining full game in design/development  
@@ -9,17 +9,23 @@
 > Living checklist. An unchecked item is not necessarily an approved requirement; some items are proposed work that depends on design decisions. Update this file as tasks are finished or scope changes.
 
 - **PMG regression and v2.1 hotfix — 2026-10-30:** The first real Atari800 test of the alternate PMG title **v2 failed visually** (stray cyan/white pixels overlapping text/background). Bug confirmed: DMACTL set to $2E **double-line** although 2 KB PMG data was built for **single-line**. The v2 validator mistakenly expected $2E as well. A separate v2.1 XEX and corrected source now use $3E, an adjusted 56-line vertical origin, and explicit tests for correct DMACTL and cleared PM rows over the text. **v2.1 was tested in Atari800 on 2026-11-01 and was visually rejected:** scattered PMG highlights still degrade the logo, Billy and car. The overlay intentionally adds about 220 disconnected pixels; a heavy DLI handler also has insufficient cycle headroom for one scanline. Do not adopt v2/v2.1; preserve the accepted v1 title. No checklist completion change. **Known-good v1 is unaffected**. Checklist completion count is unchanged until the corrected PMG screen passes visually.
+## Stage 2 v0.2 native-speed-to-MPH mapping approved — 2026-11-07
+
+- **Confirmed:** preserve the accepted r3 Q4 driving mechanics; interpret speed **Q4 8→20 MPH**, **24→60 MPH** (default), **56→100 MPH**. Convert between these anchors using continuous **piecewise-linear interpolation**; examples Q4 16→40, 32→70, 40→80, 48→90 MPH. Details and equations in [Stage 2 design §19](STAGE2_DESIGN.md).
+- **Distance:** use modeled MPH with elapsed time to reduce the **2.0-mile** pharmacy countdown, at sufficient precision independent of visible HUD rounding. Steady default speed Q4 24/60 MPH implies a **2:00** trip, but typical user completion remains subject to balancing and actual playtest.
+- **Still open:** GAS/MI/MPH/LIVES HUD formatting and refresh; simultaneous 0.0 miles vs 100% gas precedence; GAME OVER/Stage 2 complete replay control; precise warning shake/steering and cutscene art timing. No code implementation is implied, and no Phase 3 checklist item is newly completed.
+
 ## Stage 2 v0.2 pharmacy arrival approved — 2026-11-07
 
 - **Confirmed successful arrival:** when the remaining miles reach **0.0 while gas is below 100%**, freeze driving and the gas/distance timer, show a **brief exterior cutscene featuring the pharmacy building**, and wait for a fresh **joystick FIRE/trigger press** to continue. A successful arrival does not deduct lives or trigger a gas explosion.
 - **Standalone v0.2 handoff:** FIRE advances from the arrival cutscene to an obvious **Stage 2 completion screen** only. The Stage 3 pharmacy interior is **not implemented**; do not auto-transition into it. Cutscene artwork/copy/duration can be tuned for legibility in Atari800.
-- **Open for the remaining v0.2 design:** MPH-to-accepted-r3 speed/Q4 conversion, HUD GAS/MI/MPH formatting and refresh, deterministic tie handling if arrival and 100% pressure occur in the same tick, and completion/GAME OVER replay controls. See [Stage 2 design §18](STAGE2_DESIGN.md). **Documentation only, no v0.2 XEX yet**; leave implementation checkboxes open.
+- **Open for the remaining v0.2 design:** HUD GAS/MI/MPH formatting and refresh, deterministic tie handling if arrival and 100% pressure occur in the same tick, and completion/GAME OVER replay controls. **The MPH-to-r3-Q4 conversion is now confirmed in §19.** See [Stage 2 design §18](STAGE2_DESIGN.md). **Documentation only, no v0.2 XEX yet**; leave implementation checkboxes open.
 
 ## Stage 2 v0.2 approved failure, warnings and retry — 2026-11-07
 
 - **Confirmed by user:** **3 starting lives**; at **75% gas**, start car shake and flashing warning with mildly harder steering; at **90%**, significantly more violent shake and stronger but controllable steering difficulty. Precise jitter/handling/flash values remain playtest tuning choices. Keep approved r3 movement unchanged below 75%.
 - **100% gas sequence:** freeze driving/simulation → play a **basic** gas-explosion animation → **deduct exactly one life** → show exact **`BILLY BLEW IT!`** if lives remain. A fresh **joystick FIRE/trigger** press then retries Stage 2, resetting GAS to **0%**, MI to **2.0**, car speed/position and attempt timing, while retaining remaining lives. When no lives remain, show exact **`GAME OVER`**, with no ordinary retry. Elaborate audiovisual effects deferred.
-- **Still to design:** simultaneous arrival-versus-gas-100% precedence (**pharmacy cutscene/FIRE success flow is now approved in §18**); MPH-to-existing-Q4 speed conversion; HUD formatting/refresh; exact shake/handling/animation tuning; what starts a new game after GAME OVER. All decisions are documented in [Stage 2 design §17](STAGE2_DESIGN.md), and **not yet implemented**. Keep Phase 3 items unchecked until Codex builds and the user plays v0.2.
+- **Still to design:** simultaneous arrival-versus-gas-100% precedence (**pharmacy cutscene/FIRE success flow is now approved in §18**); **the MPH-to-existing-Q4 speed mapping is now confirmed (see §19)**; HUD formatting/refresh; exact shake/handling/animation tuning; what starts a new game after GAME OVER. All decisions are documented in [Stage 2 design §17](STAGE2_DESIGN.md), and **not yet implemented**. Keep Phase 3 items unchecked until Codex builds and the user plays v0.2.
 
 ## Stage 2 v0.2 initial balance selections — 2026-11-07
 
