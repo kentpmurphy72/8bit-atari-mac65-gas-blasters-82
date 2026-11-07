@@ -5,7 +5,7 @@
 **Date:** 2026-11-07  
 **Target:** Atari 800XL, stock 64 KB, native 6502 Atari XEX  
 **Working branch:** `feature/stage2-pressure-destination-v0.2` (accepted v0.1 preserved on `main` at tag `stage2-v0.1`)  
-**Status:** **v0.1 driving mechanics accepted after user Atari800 playtest of r3 (2026-11-04).** r3 is the current playable driving baseline; future extra upward car travel and polish are deferred. **v0.2 gas pressure and pharmacy destination is the next design milestone, not yet implemented.** Initial two-minute drive, 20–100 MPH speed range, 2-mile destination and 2:45 gas-failure deadline are provisional balancing targets (Section 16). **Approved pressure-warning, shake, three-lives, explosion, and FIRE-retry behavior is recorded in Section 17.**
+**Status:** **v0.1 driving mechanics accepted after user Atari800 playtest of r3 (2026-11-04).** r3 is the current playable driving baseline; future extra upward car travel and polish are deferred. **v0.2 gas pressure and pharmacy destination is the next design milestone, not yet implemented.** Initial two-minute drive, 20–100 MPH speed range, 2-mile destination and 2:45 gas-failure deadline are provisional balancing targets (Section 16). **Approved pressure-warning, shake, three-lives, explosion, and FIRE-retry behavior is recorded in Section 17. The pharmacy-arrival cutscene and FIRE-to-complete flow are confirmed in Section 18.**
 **Repository destination:** `docs/STAGE2_DESIGN.md`  
 
 ## 1. Purpose and authority
@@ -325,14 +325,14 @@ comparison links, scope limits and the user-review checklist. No merge/tag.
 | --- | --- | --- |
 | Gas pressure | Live `GAS %` starts at **0%**; linear elapsed-time growth reaches **100% at 2:45** (~18 percentage points per 30 s); see Sections 16–17 | Exact warning animation and control-impairment tuning after playtest |
 | Distance | Live `MI` starts at **2.0 miles** and counts down based on Billy's modeled MPH, with target average **2:00 at 60 MPH**; see Section 16 | Mapping MPH to accepted native Q4 scroll-speed values, rounding/display resolution |
-| Success | Reach the pharmacy **before** gas pressure reaches 100%; present a clear arrival/completion state | Arrival screen text/graphics, whether transition into Stage 3 waits |
+| Success | Reach **MI=0.0** with GAS below **100%**, freeze driving and show a **brief cutscene featuring the pharmacy building**; use a fresh **FIRE/trigger** press to continue to the standalone v0.2 **completion screen** (Stage 3 is not implemented); see Section 18 | Exact exterior artwork, cutscene wording/duration and finish-state presentation are playtest/art details |
 | Failure | At **100%** before arrival: freeze driving, basic gas explosion animation, deduct **one life**, display **`BILLY BLEW IT!`**; see Section 17 | Animation duration/style and simultaneous arrival-versus-failure precedence |
 | Restart | After failure, **joystick FIRE/trigger** retries Stage 2 when lives remain: GAS **0%**, MI **2.0**, default car speed/position; retained lives persist across retries | Game-over restart/exit policy; whether console START remains available for debug resetting |
 | HUD | GAS and MI become live; **LIVES starts at 3 and decreases after each gas explosion**; SCORE remains a placeholder | Meter formatting, warning flash cadence, score rules |
 
 **Important design boundaries:** No Gas-Nix pickups or drops are available before the pharmacy. No police, hazmat vans, road forks, winding/narrowing roads, off-road explosion timer or four-way car gas blasts in v0.2 unless separately approved. Do not integrate Stage 2 into the accepted Stage 1 XEX yet. Keep v0.1-r3 mechanics and artifacts stable; implement v0.2 as a separately versioned standalone prototype. Gas growth should reflect the passage of game time rather than decreasing merely because the player accelerates; higher forward speed should allow faster destination progress, creating a meaningful race against pressure. The **initial numerical rates are selected for playtesting in Section 16** and remain subject to balancing, not silently fixed as final production rules.
 
-**Design decisions still to resolve before a final Codex implementation handoff:** exact MPH-to-current-Q4-speed conversion (without modifying approved driving feel), HUD rounding/update cadence, warning/shake intensity and durations, successful pharmacy arrival presentation, simultaneous success/failure precedence and game-over reset/exit policy. **Sections 16–17 record agreed provisional balancing and confirmed failure/retry gameplay; v0.2 remains design-only and unimplemented.**
+**Design decisions still to resolve before a final Codex implementation handoff:** exact MPH-to-current-Q4-speed conversion (without modifying approved driving feel), HUD rounding/update cadence, warning/shake intensity and durations, **arrival cutscene artwork/timing details**, simultaneous success/failure precedence and game-over reset/exit policy. **Sections 16–18 record agreed provisional balancing and confirmed failure/retry and arrival flows; v0.2 remains design-only and unimplemented.**
 
 ## 16. v0.2 provisional timing, speed, distance and gas-pressure balance — 2026-11-07
 
@@ -402,7 +402,7 @@ The **100%-pressure life loss, basic explosion sequence, FIRE retry, warning thr
 
 **Trigger-button distinction:** FIRE is reserved/inert **during ordinary v0.2 driving** (until later four-way gas blasts); it is the restart control **on the failure screen when lives remain**. The previously supported console START reset in v0.1 is a different control and should not be silently substituted for the user's specified trigger-button restart. Whether START also operates as an explicit debug reset during active driving can be finalized with the prototype control design.
 
-**Success and precedence remain open:** Arriving at 0.0 miles with pressure still **below 100%** is the win condition. The exact arrival screen/transition and what to do if arrival and 100% happen within the same frame need a final design choice. Do not mark them approved by this failure-sequence decision.
+**Success flow is approved in Section 18:** Arriving at 0.0 miles with pressure still **below 100%** freezes driving and leads to a short pharmacy-building cutscene, then a **FIRE-to-continue** standalone completion screen. **Still open:** exact precedence when arrival and 100% pressure occur in the same simulation tick. Do not infer that ambiguity was settled by the success-flow approval.
 
 ### v0.2 acceptance tests to plan (not yet implemented)
 
@@ -411,3 +411,25 @@ The **100%-pressure life loss, basic explosion sequence, FIRE retry, warning thr
 - At 100%, active simulation freezes **before** basic animation; after animation exactly one life is deducted and **`BILLY BLEW IT!`** appears if lives remain, **`GAME OVER`** if none remain. No HUD/time/distance drift during failure display.
 - FIRE restart requires a fresh press and restores distance, gas, speed, position and elapsed-time state while retaining the reduced lives; success and GAME OVER must not accidentally trigger a normal retry.
 - Retain deterministic 6502 CPU tests and Stage 1/r3 regression checks; distinguish simulated tests from the user's actual Atari800 playtests. No implementation or XEX is asserted by these design decisions.
+
+## 18. v0.2 pharmacy arrival and completion cutscene — approved 2026-11-07
+
+**User-approved objective and presentation:** Billy reaches the pharmacy by bringing the `MI` counter to **0.0 miles before GAS reaches 100%**. Instead of a plain result message, successful arrival triggers a **brief, recognizable pharmacy-building cutscene**, followed by the player's **joystick FIRE/trigger press** to continue. This is a design requirement for the standalone Stage 2 v0.2 prototype; **the pharmacy interior (Stage 3) is not implemented or integrated**.
+
+### Successful arrival sequence (confirmed)
+
+1. While driving, accumulate elapsed time, gas pressure and distance traveled according to the approved v0.2 balance model. When the remaining distance reaches **zero while GAS is below 100%**, resolve a **single success event**. Clamp displayed remaining miles at **0.0**; do not let it become negative.
+2. **Freeze the active driving simulation**: stop road scrolling and input-driven car movement; stop gas growth and distance/time accumulation. Billy cannot explode from rising pressure *after* successful arrival has already been recognized. Lives remain unchanged.
+3. Transition to a **short arrival cutscene clearly showing the exterior of a pharmacy building**. A legible sign should identify the location as a pharmacy; original Atari 8-bit-appropriate art is sufficient. A simple scene transition and short caption/text may accompany the image, but the exact illustration, copy, palette, music and duration are **not yet fixed**. This is a cutscene, not a controllable Stage 3 interior.
+4. Once the scene is ready, wait for a **fresh joystick FIRE/trigger press** to continue (require release-to-rearm so a held button cannot immediately dismiss the scene). **Console START is not the primary continuation control**. FIRE's meaning here is an outcome-screen action, distinct from future road-stage hold-FIRE gas blasts.
+5. For **v0.2 standalone testing**, FIRE advances to a clear **STAGE 2 COMPLETE** / **PHARMACY REACHED** end-of-prototype state. This confirms success and ends the playable Stage 2 demo. **Do not launch Stage 3, fake a playable pharmacy, reset gas for Stage 3, or create a new automatic stage transition.** A future integration milestone may replace the completion placeholder with a real Stage 3 handoff.
+6. The success cutscene/end screen **must not deduct lives**, play the gas explosion, show `BILLY BLEW IT!`, or re-enable road simulation. Any optional replay/new-game controls from the completion screen are **not yet specified**.
+
+### Technical and playtest notes
+
+- Keep the already accepted r3 road, steering, speed-dependent car Y, HUD partition and native Atari 800XL 6502 constraints intact. The short pharmacy exterior cutscene can use a separate display mode/screen if required; **do not assume the road scene's 27/13 column split must be reused for the full-screen cutscene**, but document all screen, PMG, font, palette, music and memory transitions.
+- If artwork or screen modes require a new memory allocation, preserve the accepted opening/Stage 1 resources and keep v0.2 standalone until integration is deliberately planned. **Original artwork and an economical, readable arrival transition are preferable to complex animation for the first prototype.** No actual image or XEX is generated by this design entry.
+- Acceptance tests: crossing `MI=0.0` with GAS<100 produces a *single* arrival event; all runtime counters freeze; pharmacy building visibly appears with readable identification; fresh FIRE advances to the completion screen without an explosion or life loss; holding FIRE does not skip multiple screens; success never falls through to a failure state; Stage 3 is not run. Distinguish automated CPU checks from actual Atari800 cutscene review.
+- **Open design question:** If reaching MI=0 and GAS=100 happens within the **same** simulation tick, determine a deterministic priority rule before implementation. Separately finalize the MPH-to-native-Q4 conversion, HUD numeric formatting/refresh, and any GAME OVER / completion-screen replay controls. Exact art and duration can be refined through playtesting.
+
+**Milestone status:** The **arrival flow and pharmacy-building cutscene are approved design**, but **v0.2 is not implemented or user-playtested**. Do not mark Stage 2 complete on the TODO checklist yet.

@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Game Design Document
 
-**Version:** 0.39  
+**Version:** 0.40  
 **Date:** 2026-11-07  
 **Status:** Early design / living document  
 **Primary target:** Atari 800XL (Atari 8-bit family)  
@@ -104,11 +104,11 @@ The player and friends have eaten a huge meal at the current level's restaurant.
 
 ### Stage 2 — First road chase: race to the pharmacy
 
-**Stage 2 v0.1 driving mechanics accepted (2026-11-04):** The user playtested **v0.1-r3** in Atari800 and approved its driving feel **for now**. This includes continuous automatic forward travel, free left/right steering, UP acceleration, DOWN braking to a positive minimum, diagonal control, and speed-linked vertical car positioning (current high-speed car-top **Y=80**). Earlier v0.1/r2 experiments remain preserved. **Possible future extra upward travel beyond Y=80 is explicitly deferred**, not a blocker. The accepted v0.1 is a standalone *driving* prototype, not the completed Stage 2. **Next: v0.2 — live gas-pressure meter, remaining distance to pharmacy, arrival and gas-threshold failure**. Initial **2:00 typical drive, 20–100 MPH range, 60 MPH average target, 2.0 miles and 2:45-to-100% gas timeline** are now selected as provisional v0.2 balancing values; **three starting lives**, escalating gas-induced car shake at **75%/90%**, the **100% explosion/life-loss and FIRE-retry sequence** are now approved; MPH-to-native-speed mapping and pharmacy arrival presentation remain open. See [Stage 2 Design](STAGE2_DESIGN.md), Sections 14–16. Traffic, forks, off-road penalties and car blasts remain later milestones.
+**Stage 2 v0.1 driving mechanics accepted (2026-11-04):** The user playtested **v0.1-r3** in Atari800 and approved its driving feel **for now**. This includes continuous automatic forward travel, free left/right steering, UP acceleration, DOWN braking to a positive minimum, diagonal control, and speed-linked vertical car positioning (current high-speed car-top **Y=80**). Earlier v0.1/r2 experiments remain preserved. **Possible future extra upward travel beyond Y=80 is explicitly deferred**, not a blocker. The accepted v0.1 is a standalone *driving* prototype, not the completed Stage 2. **Next: v0.2 — live gas-pressure meter, remaining distance to pharmacy, arrival and gas-threshold failure**. Initial **2:00 typical drive, 20–100 MPH range, 60 MPH average target, 2.0 miles and 2:45-to-100% gas timeline** are now selected as provisional v0.2 balancing values; **three starting lives**, escalating gas-induced car shake at **75%/90%**, the **100% explosion/life-loss and FIRE-retry sequence** are now approved; MPH-to-native-speed mapping, same-tick success/failure precedence and exact pharmacy art/timing remain open; **the arrival cutscene and FIRE continuation are approved**. See [Stage 2 Design](STAGE2_DESIGN.md), Sections 14–16. Traffic, forks, off-road penalties and car blasts remain later milestones.
 
 Two cars leave the restaurant: the player's car and a separate car driven by friends. Police pursue the player. **The view is overhead, with the player's car pointing upward near the bottom of the screen as the road scrolls downward** (see Section 5.6).
 
-**Confirmed mechanic:** the gas meter begins **near 0%**, then steadily rises as the player heads toward the pharmacy. The player must reach the pharmacy **before the meter reaches 100%**, the explosion threshold.
+**Confirmed mechanic:** the gas meter begins **near 0%**, then steadily rises as the player heads toward the pharmacy. The player must reach the pharmacy **before the meter reaches 100%**, the explosion threshold. **Stage 2 v0.2 arrival flow approved (2026-11-07):** at MI=0 while pressure remains below 100%, freeze driving and the pressure/distance simulation, show a **brief exterior cutscene featuring a recognizable pharmacy building**, and wait for a fresh **joystick FIRE** press to continue to a **standalone Stage 2 completion screen**. No lives are deducted on success. The real pharmacy interior is Stage 3, not part of v0.2; see [Stage 2 design §18](STAGE2_DESIGN.md).
 
 **Important:** Gas-Nix is **not yet available**. Friends do **not** drop Gas-Nix on this first drive, because it has not been acquired yet.
 
@@ -181,7 +181,7 @@ Reach the bathroom before the impending explosion/implosion. Successful completi
 
 **Stage 2 v0.2 confirmed failure rules (2026-11-07):** start with **3 lives**. At **75% GAS**, flash a warning, shake the car mildly and make it slightly harder to control; at **90%**, escalate flashing and shake significantly and make handling more difficult, but still controllable. At **100%**, freeze driving, play a basic gas explosion, **lose exactly one life**, then show **`BILLY BLEW IT!`**. If lives remain, a fresh **joystick FIRE/trigger** press restarts the Stage 2 drive with GAS **0%**, MI **2.0**, default speed/position and the **remaining lives preserved**. With zero lives, show **`GAME OVER`**. See [Stage 2 Design §17](STAGE2_DESIGN.md); shake/control intensity and art are provisional for playtesting.
 
-**Not yet decided:** pressure rules in every indoor stage; starting pressure/rise rate for later drives; exact gas-warning flash/audio/shake tuning, new-game behavior after GAME OVER, and successful pharmacy-arrival presentation. Stage 2's initial rise rate remains adjustable after playtest.
+**Not yet decided:** pressure rules in every indoor stage; starting pressure/rise rate for later drives; exact gas-warning flash/audio/shake tuning, new-game behavior after GAME OVER, and pharmacy exterior cutscene artwork/timing. **The pharmacy-arrival/FIRE-to-continue flow is confirmed; same-tick arrival versus explosion and completion/game-over replay controls remain open.** Stage 2's initial rise rate remains adjustable after playtest.
 
 ### 5.2 Gas-Nix pickups — Confirmed concept
 
