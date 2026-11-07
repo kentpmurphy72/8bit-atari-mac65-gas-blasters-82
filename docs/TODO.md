@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Project To-Do List
 
-**Version:** 0.42  
+**Version:** 0.43  
 **Date:** 2026-11-07  
 **Target:** Atari 800XL  
 **Status:** Stage 1 v0.5 implemented and accepted as a playable prototype; remaining full game in design/development  
@@ -9,11 +9,17 @@
 > Living checklist. An unchecked item is not necessarily an approved requirement; some items are proposed work that depends on design decisions. Update this file as tasks are finished or scope changes.
 
 - **PMG regression and v2.1 hotfix — 2026-10-30:** The first real Atari800 test of the alternate PMG title **v2 failed visually** (stray cyan/white pixels overlapping text/background). Bug confirmed: DMACTL set to $2E **double-line** although 2 KB PMG data was built for **single-line**. The v2 validator mistakenly expected $2E as well. A separate v2.1 XEX and corrected source now use $3E, an adjusted 56-line vertical origin, and explicit tests for correct DMACTL and cleared PM rows over the text. **v2.1 was tested in Atari800 on 2026-11-01 and was visually rejected:** scattered PMG highlights still degrade the logo, Billy and car. The overlay intentionally adds about 220 disconnected pixels; a heavy DLI handler also has insufficient cycle headroom for one scanline. Do not adopt v2/v2.1; preserve the accepted v1 title. No checklist completion change. **Known-good v1 is unaffected**. Checklist completion count is unchanged until the corrected PMG screen passes visually.
+## Stage 2 v0.2 approved failure, warnings and retry — 2026-11-07
+
+- **Confirmed by user:** **3 starting lives**; at **75% gas**, start car shake and flashing warning with mildly harder steering; at **90%**, significantly more violent shake and stronger but controllable steering difficulty. Precise jitter/handling/flash values remain playtest tuning choices. Keep approved r3 movement unchanged below 75%.
+- **100% gas sequence:** freeze driving/simulation → play a **basic** gas-explosion animation → **deduct exactly one life** → show exact **`BILLY BLEW IT!`** if lives remain. A fresh **joystick FIRE/trigger** press then retries Stage 2, resetting GAS to **0%**, MI to **2.0**, car speed/position and attempt timing, while retaining remaining lives. When no lives remain, show exact **`GAME OVER`**, with no ordinary retry. Elaborate audiovisual effects deferred.
+- **Still to design:** success/arrival presentation and simultaneous arrival-versus-gas-100% precedence; MPH-to-existing-Q4 speed conversion; HUD formatting/refresh; exact shake/handling/animation tuning; what starts a new game after GAME OVER. All decisions are documented in [Stage 2 design §17](STAGE2_DESIGN.md), and **not yet implemented**. Keep Phase 3 items unchecked until Codex builds and the user plays v0.2.
+
 ## Stage 2 v0.2 initial balance selections — 2026-11-07
 
 - **Agreed provisional pacing:** typical drive **2:00**, **20–100 MPH** car speed, **60 MPH** average target, **2.0 miles** to pharmacy. Constant modeled 60 MPH over 2 miles is 120 seconds; player times will vary.
 - **Agreed provisional gas growth:** starts **0%**, rises about **18 percentage points every 30 seconds** (linear exact rate 100/165 points/second), reaches **100% at 2:45**. Approximate HUD: 0/18/36/55/73/91/100% at elapsed 0/30/60/90/120/150/165 seconds. The final 15 seconds add ~9 points because that interval is half as long; no nonlinear taper rule has been chosen.
-- **Design still open:** MPH-to-native-Q4 speed conversion while keeping accepted r3 driving feel, 100%-pressure failure/lives/retry consequences, finish/failure screen handling, HUD rounding/updates and simultaneous-event precedence. Do not mark pressure/distance/checkpoint implementation tasks complete; **no v0.2 XEX has been built**. See [Stage 2 design Section 16](STAGE2_DESIGN.md).
+- **Design still open:** MPH-to-native-Q4 speed conversion while keeping accepted r3 driving feel, successful pharmacy arrival presentation, exact warning/shake and explosion-animation tuning, new-game policy after GAME OVER, HUD rounding/updates and simultaneous-event precedence. **Failure/life-loss/FIRE-retry behavior is now confirmed (see Section 17).** Do not mark pressure/distance/checkpoint implementation tasks complete; **no v0.2 XEX has been built**. See [Stage 2 design Section 16](STAGE2_DESIGN.md).
 - **Branch status:** the accepted `stage2-v0.1` milestone is now in `main`; `feature/stage2-pressure-destination-v0.2` is the active design/development branch. This update is documentation only.
 
 ## Stage 2 v0.1 accepted; Stage 2 v0.2 next — 2026-11-04

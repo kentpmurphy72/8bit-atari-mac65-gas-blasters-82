@@ -5,7 +5,7 @@
 **Date:** 2026-11-07  
 **Target:** Atari 800XL, stock 64 KB, native 6502 Atari XEX  
 **Working branch:** `feature/stage2-pressure-destination-v0.2` (accepted v0.1 preserved on `main` at tag `stage2-v0.1`)  
-**Status:** **v0.1 driving mechanics accepted after user Atari800 playtest of r3 (2026-11-04).** r3 is the current playable driving baseline; future extra upward car travel and polish are deferred. **v0.2 gas pressure and pharmacy destination is the next design milestone, not yet implemented.** Initial two-minute drive, 20–100 MPH speed range, 2-mile destination and 2:45 gas-failure deadline have been selected as **provisional v0.2 balancing targets** (Section 16).
+**Status:** **v0.1 driving mechanics accepted after user Atari800 playtest of r3 (2026-11-04).** r3 is the current playable driving baseline; future extra upward car travel and polish are deferred. **v0.2 gas pressure and pharmacy destination is the next design milestone, not yet implemented.** Initial two-minute drive, 20–100 MPH speed range, 2-mile destination and 2:45 gas-failure deadline are provisional balancing targets (Section 16). **Approved pressure-warning, shake, three-lives, explosion, and FIRE-retry behavior is recorded in Section 17.**
 **Repository destination:** `docs/STAGE2_DESIGN.md`  
 
 ## 1. Purpose and authority
@@ -323,16 +323,16 @@ comparison links, scope limits and the user-review checklist. No merge/tag.
 
 | System | Agreed behavior to design | Still to decide/tune before coding |
 | --- | --- | --- |
-| Gas pressure | Live `GAS %` starts at **0%**; linear elapsed-time growth reaches **100% at 2:45** (~18 percentage points per 30 s); see Section 16 | Warning display, final consequence for lives and final tuning after playtest |
+| Gas pressure | Live `GAS %` starts at **0%**; linear elapsed-time growth reaches **100% at 2:45** (~18 percentage points per 30 s); see Sections 16–17 | Exact warning animation and control-impairment tuning after playtest |
 | Distance | Live `MI` starts at **2.0 miles** and counts down based on Billy's modeled MPH, with target average **2:00 at 60 MPH**; see Section 16 | Mapping MPH to accepted native Q4 scroll-speed values, rounding/display resolution |
 | Success | Reach the pharmacy **before** gas pressure reaches 100%; present a clear arrival/completion state | Arrival screen text/graphics, whether transition into Stage 3 waits |
-| Failure | Gas pressure reaches **100%** before arrival; present an unambiguous explosion/failure state | Lives decrement, retry/checkpoint policy, how explosion art/sound works |
-| Restart | Reset prototype to initial drive, pressure, distance, position and speed for repeatable trials | Whether START is the only restart control on outcome screens |
-| HUD | GAS and MI become live, legible values in the fixed right panel; other unimplemented fields remain clearly demo placeholders | Meter style, numeric update cadence, eventual score/lives behavior |
+| Failure | At **100%** before arrival: freeze driving, basic gas explosion animation, deduct **one life**, display **`BILLY BLEW IT!`**; see Section 17 | Animation duration/style and simultaneous arrival-versus-failure precedence |
+| Restart | After failure, **joystick FIRE/trigger** retries Stage 2 when lives remain: GAS **0%**, MI **2.0**, default car speed/position; retained lives persist across retries | Game-over restart/exit policy; whether console START remains available for debug resetting |
+| HUD | GAS and MI become live; **LIVES starts at 3 and decreases after each gas explosion**; SCORE remains a placeholder | Meter formatting, warning flash cadence, score rules |
 
 **Important design boundaries:** No Gas-Nix pickups or drops are available before the pharmacy. No police, hazmat vans, road forks, winding/narrowing roads, off-road explosion timer or four-way car gas blasts in v0.2 unless separately approved. Do not integrate Stage 2 into the accepted Stage 1 XEX yet. Keep v0.1-r3 mechanics and artifacts stable; implement v0.2 as a separately versioned standalone prototype. Gas growth should reflect the passage of game time rather than decreasing merely because the player accelerates; higher forward speed should allow faster destination progress, creating a meaningful race against pressure. The **initial numerical rates are selected for playtesting in Section 16** and remain subject to balancing, not silently fixed as final production rules.
 
-**Design decisions still to resolve before a final Codex implementation handoff:** the exact MPH-to-current-Q4-speed conversion (without modifying the accepted driving feel), display rounding/cadence for gas and distance, what 100% does to lives versus a simple demo failure screen, and how arrival/restart are presented. **Section 16 contains agreed provisional initial values; v0.2 is still design-only, not implemented or finally balanced.**
+**Design decisions still to resolve before a final Codex implementation handoff:** exact MPH-to-current-Q4-speed conversion (without modifying approved driving feel), HUD rounding/update cadence, warning/shake intensity and durations, successful pharmacy arrival presentation, simultaneous success/failure precedence and game-over reset/exit policy. **Sections 16–17 record agreed provisional balancing and confirmed failure/retry gameplay; v0.2 remains design-only and unimplemented.**
 
 ## 16. v0.2 provisional timing, speed, distance and gas-pressure balance — 2026-11-07
 
@@ -376,4 +376,38 @@ The final **15-second** interval adds approximately **9 percentage points**, rat
 
 ### Open decisions (do not silently invent)
 
-The **lives cost/restart behavior on 100% explosion**, success/failure visuals and audio, when to reset the elapsed timer, MPH/Q4 conversion function, and HUD numeric update/rounding still need design review before a full Codex implementation prompt. **Future levels may have gradually longer durations, with a shorter final home stage**, but no exact progression has yet been approved. This section defines the **v0.2 balance baseline only**.
+The **100%-pressure life loss, basic explosion sequence, FIRE retry, warning thresholds and three starting lives are now approved in Section 17**. Remaining design questions are success-screen presentation, precise shake/visual/audio tuning, game-over reset/exit, simultaneous arrival/failure precedence, MPH/Q4 conversion, and HUD numeric update/rounding before a full Codex implementation prompt. **Future levels may have gradually longer durations, with a shorter final home stage**, but no exact progression has yet been approved. This section defines the **v0.2 balance baseline only**.
+
+## 17. v0.2 gas-pressure warnings, explosion, lives, and retry — approved 2026-11-07
+
+**Approval scope:** The following are **confirmed Stage 2 v0.2 gameplay requirements**, while the precise animation and handling parameters remain **provisional** for tuning. These rules apply to pressure reaching 100% during the **first road chase to the pharmacy**, not necessarily every indoor level or future road stage.
+
+### Starting state and warning escalation
+
+- **Starting lives: 3.** Display the live remaining lives in the fixed right HUD, replacing its old illustrative `LIVES 3` placeholder with actual state. A life is deducted **once per gas-pressure explosion**; never decrement repeatedly while the animation/message is shown.
+- **Start of each attempt:** GAS **0%**, distance **2.0 miles** to the pharmacy, Billy's accepted v0.1-r3 **default speed and car position**. Gas continues to rise linearly in elapsed driving time toward **100% in 165 seconds** as specified in Section 16.
+- At **75% GAS**, enter the **warning** state: GAS indicator flashes, Billy's car **begins shaking**, and steering/handling becomes **slightly harder**. The shake is visible on the car itself and escalates with pressure; preserve the car inside the driving viewport and player steering authority.
+- At **90% GAS**, enter the **critical** state: more urgent GAS warning, **significantly more violent car shaking**, and **greater yet still controllable** handling impairment compared with 75%. Avoid instant/unfair lane jumps or making the vehicle impossible to steer. These pressure thresholds are confirmed; exact screen shake amplitude, control disturbance, flash cadence, audio, and response curves are **provisional** playtest-tuning parameters, not independently approved constants.
+- Both warning effects should be **pressure-driven**. Do not silently retune the accepted r3 baseline steering, normal speed/acceleration or Y behavior at pressure below 75%. Implementation must prevent visual shake from moving the effective car/collision position off-screen or into the HUD. Separate true car position from visual jitter where practical; if steering is deliberately affected, keep the effect modest and predictable.
+- Under the linear 165-second model, 75% occurs at **123.75 seconds (2:03.75)** and 90% at **148.5 seconds (2:28.5)**. A player finishing near the **2:00 typical target** may arrive without seeing the warnings; the warnings are intentionally aimed at slower/at-risk runs and should be assessed in testing.
+
+### 100% pressure: loss sequence (confirmed order)
+
+1. **Freeze the active drive** when gas pressure reaches **100% before successful pharmacy arrival**: stop driving input/world-scrolling and suspend pressure/distance accumulation.
+2. Play a **basic, readable gas explosion animation** for the v0.2 playtest, conveying an exaggerated green gas eruption. Elaborate cloud artwork, screen-shake choreography and sound are **deferred polish**; no final effects are required to validate the loop.
+3. **Deduct exactly one life**, clamp remaining lives to zero, and update the live LIVES HUD.
+4. Show the exact failure message **`BILLY BLEW IT!`** once the explosion effect finishes.
+5. If **one or more lives remain**, wait for a fresh **joystick FIRE / trigger-button press** to restart **Stage 2 itself** (not Stage 1). On retry, restore GAS **0%**, MI **2.0**, default car **speed and X/Y position**, road/scroll initial state and attempt elapsed timer, while **retaining the reduced life count**. Re-arm input after release to avoid a held button instantly dismissing the message or causing multiple retries.
+6. If **no lives remain**, display the exact message **`GAME OVER`** instead of permitting an ordinary Stage 2 life-preserving retry. How a new game begins after GAME OVER is **not yet specified**; do not invent a continuation mechanic or silently reset lives to three.
+
+**Trigger-button distinction:** FIRE is reserved/inert **during ordinary v0.2 driving** (until later four-way gas blasts); it is the restart control **on the failure screen when lives remain**. The previously supported console START reset in v0.1 is a different control and should not be silently substituted for the user's specified trigger-button restart. Whether START also operates as an explicit debug reset during active driving can be finalized with the prototype control design.
+
+**Success and precedence remain open:** Arriving at 0.0 miles with pressure still **below 100%** is the win condition. The exact arrival screen/transition and what to do if arrival and 100% happen within the same frame need a final design choice. Do not mark them approved by this failure-sequence decision.
+
+### v0.2 acceptance tests to plan (not yet implemented)
+
+- 3 starting lives; live HUD counts down **3 → 2 → 1 → 0** on three separate failures, never twice on one failure; no fourth retry from a zero-life state.
+- On 75%, warning flashes, car shakes mildly, controllability decreases slightly; on 90%, shaking is visibly more violent and handling harder yet manageable; below 75%, r3 driving feel remains intact. Long-running tests must verify car/HUD boundaries and non-accumulating shake offsets.
+- At 100%, active simulation freezes **before** basic animation; after animation exactly one life is deducted and **`BILLY BLEW IT!`** appears if lives remain, **`GAME OVER`** if none remain. No HUD/time/distance drift during failure display.
+- FIRE restart requires a fresh press and restores distance, gas, speed, position and elapsed-time state while retaining the reduced lives; success and GAME OVER must not accidentally trigger a normal retry.
+- Retain deterministic 6502 CPU tests and Stage 1/r3 regression checks; distinguish simulated tests from the user's actual Atari800 playtests. No implementation or XEX is asserted by these design decisions.
