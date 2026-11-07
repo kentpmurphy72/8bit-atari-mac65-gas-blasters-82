@@ -1,7 +1,7 @@
 # Gas Blasters '82 — Game Design Document
 
-**Version:** 0.37  
-**Date:** 2026-11-04  
+**Version:** 0.38  
+**Date:** 2026-11-07  
 **Status:** Early design / living document  
 **Primary target:** Atari 800XL (Atari 8-bit family)  
 **Purpose:** Record the current concept for design discussions and eventual Codex implementation.
@@ -104,7 +104,7 @@ The player and friends have eaten a huge meal at the current level's restaurant.
 
 ### Stage 2 — First road chase: race to the pharmacy
 
-**Stage 2 v0.1 driving mechanics accepted (2026-11-04):** The user playtested **v0.1-r3** in Atari800 and approved its driving feel **for now**. This includes continuous automatic forward travel, free left/right steering, UP acceleration, DOWN braking to a positive minimum, diagonal control, and speed-linked vertical car positioning (current high-speed car-top **Y=80**). Earlier v0.1/r2 experiments remain preserved. **Possible future extra upward travel beyond Y=80 is explicitly deferred**, not a blocker. The accepted v0.1 is a standalone *driving* prototype, not the completed Stage 2. **Next: v0.2 — live gas-pressure meter, remaining distance to pharmacy, arrival and gas-threshold failure**. Specific rate/balance and failure/restart decisions remain open; see [Stage 2 Design](STAGE2_DESIGN.md), Sections 14–15. Traffic, forks, off-road penalties and car blasts remain later milestones.
+**Stage 2 v0.1 driving mechanics accepted (2026-11-04):** The user playtested **v0.1-r3** in Atari800 and approved its driving feel **for now**. This includes continuous automatic forward travel, free left/right steering, UP acceleration, DOWN braking to a positive minimum, diagonal control, and speed-linked vertical car positioning (current high-speed car-top **Y=80**). Earlier v0.1/r2 experiments remain preserved. **Possible future extra upward travel beyond Y=80 is explicitly deferred**, not a blocker. The accepted v0.1 is a standalone *driving* prototype, not the completed Stage 2. **Next: v0.2 — live gas-pressure meter, remaining distance to pharmacy, arrival and gas-threshold failure**. Initial **2:00 typical drive, 20–100 MPH range, 60 MPH average target, 2.0 miles and 2:45-to-100% gas timeline** are now selected as provisional v0.2 balancing values; lives/restart and MPH-to-native-speed mapping remain open. See [Stage 2 Design](STAGE2_DESIGN.md), Sections 14–16. Traffic, forks, off-road penalties and car blasts remain later milestones.
 
 Two cars leave the restaurant: the player's car and a separate car driven by friends. Police pursue the player. **The view is overhead, with the player's car pointing upward near the bottom of the screen as the road scrolls downward** (see Section 5.6).
 
@@ -176,9 +176,10 @@ Reach the bathroom before the impending explosion/implosion. Successful completi
 - The gas level is represented as a percentage.
 - In the **first road chase**, it starts near zero and rises toward 100%.
 - Reaching **100% represents an explosion/failure threshold**.
+- **Stage 2 v0.2 provisional baseline (2026-11-07):** start at **0%**, increase linearly at approximately **18 percentage points per 30 seconds**, reach **100% at 2:45**, and expect approximately **73% at a 2:00 completion**. The last 15 seconds add roughly 9 points because they are half an interval, not because of a rate change. These rates are playtest targets specific to the first road chase, not yet canon for all driving stages.
 - After the pharmacy, collecting Gas-Nix helps keep the meter under control during the grocery and home road chases.
 
-**Not yet decided:** pressure rules in every indoor stage; starting pressure for later drives; exact rise rate; audiovisual warnings; whether an explosion costs a life, restarts a stage or ends the game.
+**Not yet decided:** pressure rules in every indoor stage; starting pressure/rise rate for later drives; audiovisual warnings; whether a Stage 2 explosion costs a life, restarts the stage or ends the game. Stage 2's **initial** rise rate is selected, but remains adjustable after playtest.
 
 ### 5.2 Gas-Nix pickups — Confirmed concept
 

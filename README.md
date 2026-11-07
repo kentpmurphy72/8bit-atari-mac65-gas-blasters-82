@@ -11,7 +11,7 @@ A work-in-progress comedy action game for the **Atari 800XL (64 KB)**, written i
 - Original continuous **Title → Meet the Crew → Arriving at Taco Smell → Stage 1** sequence and POKEY music.
 - Stage 1 stops at its completion screen. **There is no connected Stage 2 driving gameplay in the Stage 1 XEX.**
 
-## Stage 2 v0.1 — driving mechanics accepted (r3)
+## Stage 2 v0.1 — driving mechanics accepted (r3, merged into main)
 
 The original v0.1 was user-playtested: basic driving was fine, but the car needed
 to move vertically with speed. **v0.1-r2 now implements that refinement** on
@@ -20,7 +20,7 @@ UP increases road speed and moves the car toward a higher position; DOWN brakes
 to a positive minimum and moves it lower. Neutral preserves speed/target Y after
 brief smoothing. The user playtested r2 in Atari800 and requested a higher maximum-speed
 position: **car-top Y=80 instead of r2 Y=112**. The resulting **r3 XEX was user-playtested in Atari800 and its driving mechanics approved for now on 2026-11-04**. Further upward screen travel may be evaluated later, but is deferred. See [Stage 2 design](docs/STAGE2_DESIGN.md).
-Original steering, road zones, fixed HUD and exclusions remain. **Next: Stage 2 v0.2 — live gas pressure and miles to the pharmacy, with arrival/failure outcomes.** This next prototype has not yet been designed in full or built. The completed Stage 2 chase remains open.
+Original steering, road zones, fixed HUD and exclusions remain. **Next: Stage 2 v0.2 — live gas pressure and miles to the pharmacy, with arrival/failure outcomes.** Initial design balance: **2:00 typical drive, 20–100 MPH (60 MPH typical), 2.0 miles, gas 0→100% by 2:45**. These values are provisional for playtesting; v0.2 has not been built. See [v0.2 balance decisions](docs/STAGE2_DESIGN.md#16-v02-provisional-timing-speed-distance-and-gas-pressure-balance--2026-11-07). The completed Stage 2 chase remains open.
 
 ## Run Stage 2 separately
 

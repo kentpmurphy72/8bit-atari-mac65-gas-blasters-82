@@ -2,10 +2,10 @@
 
 **Document:** Stage 2 Gameplay and Technical Design  
 **Milestone:** v0.1 — Basic Driving Prototype  
-**Date:** 2026-11-04  
+**Date:** 2026-11-07  
 **Target:** Atari 800XL, stock 64 KB, native 6502 Atari XEX  
-**Working branch:** `feature/stage2-driving-v0.1`  
-**Status:** **v0.1 driving mechanics accepted after user Atari800 playtest of r3 (2026-11-04).** r3 is the current playable driving baseline; future extra upward car travel and polish are deferred. **v0.2 gas pressure and pharmacy destination is the next design milestone, not yet implemented.**
+**Working branch:** `feature/stage2-pressure-destination-v0.2` (accepted v0.1 preserved on `main` at tag `stage2-v0.1`)  
+**Status:** **v0.1 driving mechanics accepted after user Atari800 playtest of r3 (2026-11-04).** r3 is the current playable driving baseline; future extra upward car travel and polish are deferred. **v0.2 gas pressure and pharmacy destination is the next design milestone, not yet implemented.** Initial two-minute drive, 20–100 MPH speed range, 2-mile destination and 2:45 gas-failure deadline have been selected as **provisional v0.2 balancing targets** (Section 16).
 **Repository destination:** `docs/STAGE2_DESIGN.md`  
 
 ## 1. Purpose and authority
@@ -185,7 +185,7 @@ The prototype is ready for the user's first emulator playtest when:
 
 ## 9. Next milestones and preserved full-stage rules
 
-**v0.2 — pressure and destination (next milestone; design work commencing):** Use the accepted r3 driving baseline; change GAS % from placeholder to an active meter that starts near 0% and steadily rises toward a 100% explosion/failure threshold. Change MI from placeholder to remaining miles to the pharmacy, decreasing with forward travel and reflecting the speed selected by the player. Reaching the pharmacy before pressure reaches 100% produces a distinct success state. Reaching 100% first produces a distinct failure state. A simple START-based restart/reset must make repeated trials possible. Exact gas growth, initial miles, miles-to-speed scale, failure consequences for lives, HUD presentation, and restart/success screen details are **open v0.2 design and tuning questions**; do not treat a suggested numeric value as canon. This **is not implemented in v0.1**.
+**v0.2 — pressure and destination (next milestone; design work commencing):** Use the accepted r3 driving baseline; change GAS % from placeholder to an active meter that starts near 0% and steadily rises toward a 100% explosion/failure threshold. Change MI from placeholder to remaining miles to the pharmacy, decreasing with forward travel and reflecting the speed selected by the player. Reaching the pharmacy before pressure reaches 100% produces a distinct success state. Reaching 100% first produces a distinct failure state. A simple START-based restart/reset must make repeated trials possible. Initial gas growth and distance/speed balancing targets are now documented in **Section 16**; the exact mapping to existing native speed units, failure consequences for lives, HUD presentation and restart/success screen details remain **open v0.2 design questions**; do not treat a suggested numeric value as canon. This **is not implemented in v0.1**.
 
 **v0.3+ — driving challenges:** curving/narrowing road, road/shoulder/grass handling, **grass timer that runs/resumes on grass, pauses on shoulder, resets on paved road**, 2.0-second accumulated-grass explosion costing one life, stage warnings, police/hazmat ramming, forks with a flashing upward green arrow, wrong branch adding **exactly 1.0 mile once**, and four-direction car gas blasts using **hold FIRE + direction while steering is suspended**. Those are established future design constraints, not v0.1 deliverables.
 
@@ -323,13 +323,57 @@ comparison links, scope limits and the user-review checklist. No merge/tag.
 
 | System | Agreed behavior to design | Still to decide/tune before coding |
 | --- | --- | --- |
-| Gas pressure | Live `GAS %` begins near 0%, steadily increases, and reaches an explosion/failure threshold at **100%** | Exact start %, rise interval/rate, warning display and final consequence for lives |
-| Distance | Live `MI` counts remaining distance **down toward zero** as Billy drives; travel progress should reflect positive forward speed | Starting miles, miles-per-scroll-unit mapping, rounding/display resolution |
+| Gas pressure | Live `GAS %` starts at **0%**; linear elapsed-time growth reaches **100% at 2:45** (~18 percentage points per 30 s); see Section 16 | Warning display, final consequence for lives and final tuning after playtest |
+| Distance | Live `MI` starts at **2.0 miles** and counts down based on Billy's modeled MPH, with target average **2:00 at 60 MPH**; see Section 16 | Mapping MPH to accepted native Q4 scroll-speed values, rounding/display resolution |
 | Success | Reach the pharmacy **before** gas pressure reaches 100%; present a clear arrival/completion state | Arrival screen text/graphics, whether transition into Stage 3 waits |
 | Failure | Gas pressure reaches **100%** before arrival; present an unambiguous explosion/failure state | Lives decrement, retry/checkpoint policy, how explosion art/sound works |
 | Restart | Reset prototype to initial drive, pressure, distance, position and speed for repeatable trials | Whether START is the only restart control on outcome screens |
 | HUD | GAS and MI become live, legible values in the fixed right panel; other unimplemented fields remain clearly demo placeholders | Meter style, numeric update cadence, eventual score/lives behavior |
 
-**Important design boundaries:** No Gas-Nix pickups or drops are available before the pharmacy. No police, hazmat vans, road forks, winding/narrowing roads, off-road explosion timer or four-way car gas blasts in v0.2 unless separately approved. Do not integrate Stage 2 into the accepted Stage 1 XEX yet. Keep v0.1-r3 mechanics and artifacts stable; implement v0.2 as a separately versioned standalone prototype. Gas growth should reflect the passage of game time rather than decreasing merely because the player accelerates; higher forward speed should allow faster destination progress, creating a meaningful race against pressure. The precise game rates remain to be selected and playtested.
+**Important design boundaries:** No Gas-Nix pickups or drops are available before the pharmacy. No police, hazmat vans, road forks, winding/narrowing roads, off-road explosion timer or four-way car gas blasts in v0.2 unless separately approved. Do not integrate Stage 2 into the accepted Stage 1 XEX yet. Keep v0.1-r3 mechanics and artifacts stable; implement v0.2 as a separately versioned standalone prototype. Gas growth should reflect the passage of game time rather than decreasing merely because the player accelerates; higher forward speed should allow faster destination progress, creating a meaningful race against pressure. The **initial numerical rates are selected for playtesting in Section 16** and remain subject to balancing, not silently fixed as final production rules.
 
-**Design decisions to resolve before a final Codex implementation handoff:** numeric starting distance/pressure and pressure-rise rate; how to display distance/gas accurately; what 100% does to lives versus a simple demo failure screen; and how arrival/restart are presented. **This is a planning scope, not a claim that those values or detailed consequences have been approved.**
+**Design decisions still to resolve before a final Codex implementation handoff:** the exact MPH-to-current-Q4-speed conversion (without modifying the accepted driving feel), display rounding/cadence for gas and distance, what 100% does to lives versus a simple demo failure screen, and how arrival/restart are presented. **Section 16 contains agreed provisional initial values; v0.2 is still design-only, not implemented or finally balanced.**
+
+## 16. v0.2 provisional timing, speed, distance and gas-pressure balance — 2026-11-07
+
+**Design conversation decision:** Begin with the **desired typical play duration**, then choose speeds, distance and pressure deadline. These are **approved initial playtest targets**, not immutable final game rules and not evidence that v0.2 has been implemented.
+
+| Parameter | Agreed initial target | Notes |
+| --- | --- | --- |
+| Typical Stage 2 driving time | **2:00 (120 seconds)** | Aim for a normal successful drive, excluding menus/retries |
+| Minimum car speed | **20 MPH** | Positive forward movement; never reverse |
+| Maximum car speed | **100 MPH** | Arcade-speed upper bound |
+| Typical average driving speed | **60 MPH** | Desired balancing reference, not proof of actual player average |
+| Pharmacy distance | **2.0 miles** | Initially displayed as miles remaining; adjustable after playtest |
+| Gas pressure at start | **0%** | Matches earlier near-zero opening intention |
+| Approximate gas growth | **18 percentage points per 30 seconds** | Linear elapsed-time pressure model |
+| Pressure-failure deadline | **2:45 (165 seconds)** | Exactly 100% at this time if Billy hasn't arrived |
+| Typical pressure on arrival | **~73% at 2:00** | About 45 seconds of pressure margin at 60 MPH average |
+
+### Timeline and numeric interpretation
+
+For the first v0.2 playtest, model underlying gas pressure as a **linear rise from 0% at elapsed 0 seconds to 100% at elapsed 165 seconds**. Exact conceptual rate: `100 / 165 ≈ 0.60606 percentage points per second`, or **~18.18 points per 30 seconds**. Show integer HUD values rounded appropriately, e.g.:
+
+| Elapsed drive time | Approximate displayed GAS % |
+| --- | ---: |
+| 0:00 | 0% |
+| 0:30 | 18% |
+| 1:00 | 36% |
+| 1:30 | 55% |
+| 2:00 | 73% |
+| 2:30 | 91% |
+| 2:45 | **100% — failure if not arrived** |
+
+The final **15-second** interval adds approximately **9 percentage points**, rather than the ~18 of a full 30-second interval. This is **half the time at the same linear rate**, *not* a new decelerating growth rule or nonlinear taper. If actual slower pressure growth near the end is desired later, treat that as a new balancing decision. Pressure depends on elapsed gameplay time and **does not slow down because Billy accelerates**.
+
+### Distance and native-speed considerations
+
+- At a constant modeled 60 MPH, traveling **2.0 miles takes exactly 2:00**. This gives a mathematical pacing anchor, not a promise every run finishes in two minutes.
+- Hypothetical constant-speed travel times before accounting for acceleration or future hazards: **20 MPH → 6:00** (gas failure first); **60 MPH → 2:00**; **80 MPH → 1:30**; **100 MPH → 1:12**. The v0.2 straight-road demo may allow faster finishes than two minutes until traffic and hazards are introduced.
+- The accepted v0.1-r3 controller uses internal **Q4 scroll-speed units** (minimum/default/maximum **8/24/56**), not MPH. **Do not change its steering/acceleration, scrolling feel, speed-linked vertical Y behavior or tuning merely to label the speeds in MPH.** Define and test an explicit conversion from existing native speeds to the proposed real-world speed values. The **60 MPH typical average is not necessarily the same thing as the existing Q4 default speed 24**; the exact mapping remains a v0.2 technical/design decision.
+- Conceptual distance accumulation: **miles traveled = modeled MPH × elapsed seconds / 3600** (integrated over changing speeds); remaining miles must never go below zero. Use sufficient fixed-point precision, independent of displayed HUD rounding. The winning arrival event requires reaching 0 miles while pressure is still **below 100%**; deterministic precedence on a frame where both thresholds cross remains to be specified.
+- A 2:45 gas deadline at a 2:00 target completion time leaves an approximate **45-second margin**. This is a starting balance point for playtesting; do not assume it guarantees difficulty once hazards are added.
+
+### Open decisions (do not silently invent)
+
+The **lives cost/restart behavior on 100% explosion**, success/failure visuals and audio, when to reset the elapsed timer, MPH/Q4 conversion function, and HUD numeric update/rounding still need design review before a full Codex implementation prompt. **Future levels may have gradually longer durations, with a shorter final home stage**, but no exact progression has yet been approved. This section defines the **v0.2 balance baseline only**.
