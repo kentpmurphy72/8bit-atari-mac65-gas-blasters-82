@@ -114,3 +114,7 @@ On Windows, use the corresponding `.venv\Scripts\python.exe` and `.venv\Scripts\
 Versioned XEXs, builders, tests and manifests are retained in the repository. The feature branches for these five milestones were removed **after tags were verified**. Future stages use new feature branches, reviewed integration into `main`, and new tags. See [workflow](docs/REPOSITORY_WORKFLOW.md).
 
 **Project status:** Stage 1 v0.5 accepted for continued game development; later stages and complete-game systems are still in development.
+
+### Stage 2 v0.2 final gameplay controls (approved 2026-11-08)
+
+The v0.2 design now resolves the remaining terminal rules: **GAS 100% wins any same-tick tie with reaching 0.0 miles**. A fresh joystick **FIRE** retries after `BILLY BLEW IT!` with remaining lives, starts a new **three-life game** after `GAME OVER`, advances the pharmacy cutscene to `STAGE 2 COMPLETE`, and starts a fresh **three-life Stage 2 prototype run** from the completion screen (a separate press). Previous dated open questions about these actions are superseded by [Stage 2 design §21](docs/STAGE2_DESIGN.md). This is **design-only**; the v0.2 XEX does not yet exist.

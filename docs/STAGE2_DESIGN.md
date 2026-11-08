@@ -2,7 +2,7 @@
 
 **Document:** Stage 2 Gameplay and Technical Design  
 **Milestone:** v0.1 — Basic Driving Prototype  
-**Date:** 2026-11-07  
+**Date:** 2026-11-08  
 **Target:** Atari 800XL, stock 64 KB, native 6502 Atari XEX  
 **Working branch:** `feature/stage2-pressure-destination-v0.2` (accepted v0.1 preserved on `main` at tag `stage2-v0.1`)  
 **Status:** **v0.1 driving mechanics accepted after user Atari800 playtest of r3 (2026-11-04).** r3 is the current playable driving baseline; future extra upward car travel and polish are deferred. **v0.2 gas pressure and pharmacy destination is the next design milestone, not yet implemented.** Initial two-minute drive, 20–100 MPH speed range, 2-mile destination and 2:45 gas-failure deadline are provisional balancing targets (Section 16). **Approved pressure-warning, shake, three-lives, explosion, and FIRE-retry behavior is recorded in Section 17. The pharmacy-arrival cutscene and FIRE-to-complete flow are confirmed in Section 18; the exact native-speed-to-MPH mapping is approved in Section 19, the fixed HUD presentation is approved in Section 20, and terminal tie/replay controls are approved in Section 21.**
@@ -538,3 +538,37 @@ For all intermediate speeds, use **continuous, monotonic piecewise-linear interp
 **Frozen terminal states:** While on the cutscene, completion, failure or game-over screen, road movement, gas growth and distance must remain frozen. The v0.2 replay is **not** a Stage 3 transition; the standalone Stage 2 prototype is intentionally replayable. The complete full-game handoff to Stage 3 belongs to a later integration milestone.
 
 **Future Codex acceptance tests:** Simultaneous GAS=100/MI=0 chooses explosion only; GAS<100/MI=0 chooses pharmacy only; one life lost per failed attempt; regular FIRE retry preserves reduced lives; GAME OVER and COMPLETE FIRE restore three lives; separate cutscene/complete FIRE edges; no drift, double-fires or automatic multi-screen skips. Preserve Stage 1 v0.5 and accepted Stage 2 v0.1-r3 binaries. Exact art, warning flash and shake strength remain for playtest tuning.
+
+## 21. v0.2 final approved tie handling and FIRE new-game controls — 2026-11-08
+
+**Authoritative resolution of earlier open questions in Sections 15–20:** The user has now approved both **gas-first same-tick precedence** and **FIRE-controlled replay/new-game behavior**. References in prior dated design notes to these being undecided are **superseded by this Section 21**. Visual tuning and cutscene art remain adjustable during coding/playtesting; the gameplay rules below are confirmed.
+
+### Simultaneous pharmacy arrival vs. 100% gas
+
+- In each active driving simulation tick, integrate gas growth (elapsed-time based) and distance progression (speed based) at full internal precision, independently of rounded HUD text.
+- If **GAS reaches 100% or higher on the same tick MI reaches 0.0 or below, GAS WINS**. Freeze driving, play the basic gas explosion animation, deduct **exactly one life**, and show `BILLY BLEW IT!` when lives remain or `GAME OVER` when none remain. **Do not** trigger the pharmacy arrival cutscene on that tick.
+- Pharmacy success is recognized **only when actual GAS is still below 100%** at the instant MI crosses zero. Once success is latched, freeze the timer/pressure and never retroactively explode the car.
+- Latch exactly one terminal outcome per attempt. Do not double-deduct lives or restart simulated driving until FIRE explicitly begins a new attempt/game.
+
+### Approved outcome-screen FIRE behavior
+
+| Current screen/state | FIRE / joystick trigger | Next attempt lives |
+| --- | --- | --- |
+| **`BILLY BLEW IT!`** with lives remaining | Retry **Stage 2** in the **same game**. Reset GAS, MI, car, speed, elapsed timer, scroll and warning/explosion flags; **preserve reduced lives**. | **2 or 1**, unchanged |
+| **`GAME OVER`** after lives reach 0 | Start an entirely **new Stage 2 game** with all gameplay state reset. No zero-life continuation. | **3** |
+| **Pharmacy arrival cutscene** | Advance to standalone **`STAGE 2 COMPLETE`** screen. No Stage 3 launch or new drive yet. | Unchanged |
+| **`STAGE 2 COMPLETE`** | Start a **fresh Stage 2 prototype game/run** with full reset. | **3** |
+| Normal v0.2 driving | FIRE is reserved; future four-way gas blasts are not implemented yet. | Unchanged |
+
+**Reset values:** A newly started driving attempt restores GAS=**0%**, MI=**2.00**, Q4 speed=**24** / **60 MPH**, default accepted-r3 car position, original scroll phase, elapsed attempt timer=0, no active warning/shake/explosion, and the inactive six-digit SCORE placeholder `000000`. **Fresh games** restore lives=**3**; a **normal failure retry** keeps the lives remaining. The new three-life game after `STAGE 2 COMPLETE` is intentional for standalone v0.2 testing; future Stage 3 integration will replace that prototype behavior.
+
+**Button rearm:** A fresh FIRE press is required **after release** for **each** screen transition. Holding FIRE cannot skip the failure screen, both pharmacy cutscene and completion screen, or instantly restart twice. Console START is not a substitute for these approved trigger-button interactions; any retained START debug reset should be documented separately.
+
+### Implementation acceptance tests (not yet executed)
+
+1. GAS reaches 100% and MI reaches 0 on **the same native tick** → explosion, one-life deduction, no arrival. MI reaches zero while GAS<100 on an **earlier tick** → pharmacy cutscene; frozen gas cannot subsequently trigger explosion.
+2. Three failed attempts yield lives **3 → 2 → 1 → 0**; FIRE retries from `BILLY BLEW IT!` with lives **2 then 1**, but FIRE from `GAME OVER` starts a brand-new game with **3** lives.
+3. Pharmacy cutscene FIRE proceeds to `STAGE 2 COMPLETE`; a **second, separate fresh FIRE press** starts a three-life Stage 2 prototype run. No ordinary FIRE during driving resets gameplay.
+4. Terminal states are latched; no extra life losses, held-FIRE multi-screen skips, premature rounding-based arrival or explosion, or automatic Stage 3 integration.
+
+**Status:** Design approval only. The current v0.2 branch remains documentation-only until Codex implements the playable XEX; no new gameplay tests or Atari800 playtest are claimed. **Next:** final specification consistency review, then a concise Codex v0.2 implementation handoff. Do not merge/tag/delete the v0.2 branch until the user approves the playable prototype.

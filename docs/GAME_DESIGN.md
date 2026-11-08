@@ -1,7 +1,7 @@
 # Gas Blasters '82 — Game Design Document
 
 **Version:** 0.43  
-**Date:** 2026-11-07  
+**Date:** 2026-11-08  
 **Status:** Early design / living document  
 **Primary target:** Atari 800XL (Atari 8-bit family)  
 **Purpose:** Record the current concept for design discussions and eventual Codex implementation.
@@ -397,3 +397,7 @@ We should avoid mixing two incompatible loss systems (pressure meter and separat
 - **v0.3 — 2026-10-25:** Confirms unrestricted horizontal steering, off-road crash threshold, winding roads and two-way forks with direction arrows; reserves two-thirds of driving screen for roadway and one-third for gas meter, miles to destination, score and other HUD information. HUD placement and detailed rules remain open.
 - **v0.2 — 2026-10-25:** Confirms Spy Hunter-style overhead driving for Stages 2, 4, and 6: upward-facing player car near bottom, downward-scrolling road, lead friends' car near top, pursuing police, and falling Gas-Nix pickups on later drives. Lane and control details remain open.
 - **v0.1 — 2026-10-25:** Initial documented concept. Establishes four restaurants, provisional nine stages each, loop after Level 4, Gas-Nix replacing laxatives, first drive racing a rising meter, later drives collecting Gas-Nix from friends, and the bathroom objective.
+
+## Stage 2 v0.2 terminal decisions — confirmed 2026-11-08
+
+The user approved **gas-first tie handling**: if GAS reaches **100%** on the same simulation tick the remaining pharmacy distance reaches **0.0**, gas failure and exactly one life deduction take priority over arrival. Only arriving on an earlier tick while GAS is still below 100% succeeds. At `BILLY BLEW IT!`, fresh joystick **FIRE** retries Stage 2 with the remaining lives. At `GAME OVER`, fresh FIRE starts a **new three-life Stage 2 game**. After the pharmacy-building cutscene, a fresh FIRE advances to `STAGE 2 COMPLETE`; another separate FIRE press starts a fully reset **three-life Stage 2 prototype run**. Require button release/rearm between screen transitions. These rules are authoritative for v0.2 and supersede older dated open-question notes. The Stage 3 pharmacy interior remains unimplemented; see [Stage 2 design §21](STAGE2_DESIGN.md).
