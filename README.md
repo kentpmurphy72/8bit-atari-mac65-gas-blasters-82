@@ -90,7 +90,7 @@ On Windows, use the corresponding `.venv\Scripts\python.exe` and `.venv\Scripts\
 | Document | Purpose |
 | --- | --- |
 | [Stage 1 Design](docs/STAGE1_DESIGN.md) | **Authoritative current Stage 1 gameplay/controls**; implemented vs provisional |
-| [Stage 2 Driving Design](docs/STAGE2_DESIGN.md) | **Authoritative Stage 2 specification**; v0.1-r3 driving accepted, extra upward travel deferred, v0.2 design kickoff |
+| [Stage 2 Driving Design](docs/STAGE2_DESIGN.md) | **Authoritative Stage 2 specification**; v0.1-r3 accepted, v0.2 gameplay §§16–21, and Codex verification/delivery requirements §22 |
 | [Stage 1 Deferred Work](docs/STAGE1_DEFERRED_WORK.md) | Known limitations, unverified behavior and optional improvements |
 | [Stage 1 Regression Checklist](docs/STAGE1_REGRESSION_CHECKLIST.md) | Build, automated and manual emulator test gates |
 | [Game Design](docs/GAME_DESIGN.md) | Whole-game concept, restaurants, stage sequence and road rules |

@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Project To-Do List
 
-**Version:** 0.48  
+**Version:** 0.49  
 **Date:** 2026-11-08  
 **Target:** Atari 800XL  
 **Status:** Stage 1 v0.5 implemented and accepted as a playable prototype; remaining full game in design/development  
@@ -9,6 +9,11 @@
 > Living checklist. An unchecked item is not necessarily an approved requirement; some items are proposed work that depends on design decisions. Update this file as tasks are finished or scope changes.
 
 - **PMG regression and v2.1 hotfix — 2026-10-30:** The first real Atari800 test of the alternate PMG title **v2 failed visually** (stray cyan/white pixels overlapping text/background). Bug confirmed: DMACTL set to $2E **double-line** although 2 KB PMG data was built for **single-line**. The v2 validator mistakenly expected $2E as well. A separate v2.1 XEX and corrected source now use $3E, an adjusted 56-line vertical origin, and explicit tests for correct DMACTL and cleared PM rows over the text. **v2.1 was tested in Atari800 on 2026-11-01 and was visually rejected:** scattered PMG highlights still degrade the logo, Billy and car. The overlay intentionally adds about 220 disconnected pixels; a heavy DLI handler also has insufficient cycle headroom for one scanline. Do not adopt v2/v2.1; preserve the accepted v1 title. No checklist completion change. **Known-good v1 is unaffected**. Checklist completion count is unchanged until the corrected PMG screen passes visually.
+## Stage 2 v0.2 Codex prompt coverage and validation contract — 2026-11-08
+
+- **Audit:** Original detailed Codex v0.2 prompt's gameplay requirements already reside in [Stage 2 §§16–21](STAGE2_DESIGN.md). Mandatory automated validation categories and **full deliverable/reporting criteria** are explicitly specified in [Stage 2 §22](STAGE2_DESIGN.md), with technical/workflow/AGENTS references. This is **docs only**, not test execution.
+- **Required next-implementation evidence:** standalone native XEX, source/listing, deterministic build/tests, checksum/segment manifest; 60/50 Hz clock and 165s pressure tests; exact Q4-to-MPH/distance tests; gas/life/arrival/FIRE state tests; HUD/font/PMG safety; memory/per-frame cycles; Stage 1/r3/r2/v0.1 regressions; actual Atari800 NTSC/PAL results if possible or explicit **NOT RUN**; manual Atari800 checklist. Do not mark Phase 3 work complete without evidence or tag/merge before user acceptance.
+
 ## Stage 2 v0.2 design review and cleanup — 2026-11-08
 
 - **Current authority:** [Stage 2 design §§16–21](STAGE2_DESIGN.md) is the complete v0.2 functional specification. Tag `stage2-v0.1` and `main` are verified at `e0e4422`; v0.2 remains a **documentation-only feature branch**, with no playable XEX yet.
