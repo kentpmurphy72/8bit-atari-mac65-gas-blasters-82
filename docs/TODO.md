@@ -1,7 +1,7 @@
 # Gas Blasters '82 — Project To-Do List
 
-**Version:** 0.46  
-**Date:** 2026-11-07  
+**Version:** 0.47  
+**Date:** 2026-11-08  
 **Target:** Atari 800XL  
 **Status:** Stage 1 v0.5 implemented and accepted as a playable prototype; remaining full game in design/development  
 **Companion documents:** [Game Design](GAME_DESIGN.md) · [Art Assets](ART_ASSETS.md)
@@ -13,7 +13,7 @@
 
 - **User-approved fixed Atari 800XL driving HUD** in the existing **27-road / 13-HUD character-column** split: top GAS **whole % + 10-segment bar**, PHARMACY remaining **2.00→0.00 MI** in two decimals, SPEED **whole MPH** (20–100 via approved Q4 mapping), **three miniature car life icons** (disappear when lives lost), and **six-digit SCORE** placeholder `000000`. Preserve the same layout for future driving stages with destination updates; avoid raw Q4/ZONE telemetry in playable v0.2.
 - **Warnings and precision:** At **75–89%**, slowly flash **only** GAS bar and percentage; at **90–99%**, flash them faster. Don't shake or obscure the stationary HUD. Update digits as the shown value changes; keep internal simulation precision independent from display rounding. Do **not** show `0.00 MI` before actual arrival or `100%` before genuine pressure failure. Car icons reflect **3→2→1→0** remaining lives across retries.
-- **Still open for v0.2:** precise glyph/palette and flash-cadence tuning (Codex/Atari800), the **simultaneous arrival/100%-gas rule**, and replay/new-game behavior from **GAME OVER / STAGE 2 COMPLETE**. See [Stage 2 design §20](STAGE2_DESIGN.md). No XEX or HUD code has been implemented or validated; leave checkboxes unchanged.
+- **Still for playtesting:** precise glyph/palette and flash-cadence tuning (Codex/Atari800). **The same-tick gas-first rule and GAME OVER/COMPLETE FIRE replay behavior were approved in §21.** See [Stage 2 design §20](STAGE2_DESIGN.md). No XEX or HUD code has been implemented or validated; leave checkboxes unchanged.
 
 ## Stage 2 v0.2 native-speed-to-MPH mapping approved — 2026-11-07
 
@@ -25,7 +25,7 @@
 
 - **Confirmed successful arrival:** when the remaining miles reach **0.0 while gas is below 100%**, freeze driving and the gas/distance timer, show a **brief exterior cutscene featuring the pharmacy building**, and wait for a fresh **joystick FIRE/trigger press** to continue. A successful arrival does not deduct lives or trigger a gas explosion.
 - **Standalone v0.2 handoff:** FIRE advances from the arrival cutscene to an obvious **Stage 2 completion screen** only. The Stage 3 pharmacy interior is **not implemented**; do not auto-transition into it. Cutscene artwork/copy/duration can be tuned for legibility in Atari800.
-- **Open for the remaining v0.2 design:** deterministic tie handling if arrival and 100% pressure occur in the same tick, and completion/GAME OVER replay controls. **MPH conversion (§19) and HUD layout, precision and update behavior (§20) are now approved.** See [Stage 2 design §18](STAGE2_DESIGN.md). **Documentation only, no v0.2 XEX yet**; leave implementation checkboxes open.
+- **Design decisions complete:** same-tick gas-first precedence and completion/GAME OVER FIRE replay are approved (§21); MPH conversion (§19) and HUD layout/precision/update behavior (§20) are approved. See [Stage 2 design §18](STAGE2_DESIGN.md). **Documentation only, no v0.2 XEX yet**; leave implementation checkboxes open.
 
 ## Stage 2 v0.2 approved failure, warnings and retry — 2026-11-07
 
@@ -370,3 +370,9 @@
 - **v0.3 — 2026-10-25:** Confirms unrestricted lateral driving, off-road crashes, winding/forking roads with route arrow, and 2/3 driving + 1/3 HUD screen layout; adds outstanding detailed-design and prototype work.
 - **v0.2 — 2026-10-25:** Records the confirmed Spy Hunter-style overhead driving perspective; adds open lane-width/steering decision and clarifies driving-prototype tasks.
 - **v0.1 — 2026-10-25:** Initial project checklist reflecting the game-design and art-direction discussions to date.
+
+## Stage 2 v0.2 terminal precedence / replay controls approved — 2026-11-08
+
+- **Same-tick tie:** if GAS reaches 100% exactly when MI reaches 0, **gas wins**; run the normal explosion/life-loss path, not pharmacy arrival. Arrival requires GAS strictly below 100%. Use unrounded state and latch one terminal outcome.
+- **FIRE after outcome:** BILLY BLEW IT! retries with remaining lives preserved; GAME OVER starts a **new Stage 2 game with three lives**; STAGE 2 COMPLETE starts a **fresh Stage 2 run with three lives**. Pharmacy-cutscene FIRE advances to STAGE 2 COMPLETE; a **separate fresh FIRE** press starts the new run. Require button release between screens.
+- **Scope:** reset GAS=0, MI=2.0, default car speed and position, clock, scrolling and warnings for every retry; reset lives only for a **new game/run**, not ordinary failure retry. These are approved design requirements for the standalone prototype, **not implemented**. See [Stage 2 §21](STAGE2_DESIGN.md). Maintain the existing Phase 3 checklist counts and defer tag/merge until acceptance.

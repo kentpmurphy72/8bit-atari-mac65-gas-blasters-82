@@ -5,7 +5,7 @@
 **Date:** 2026-11-07  
 **Target:** Atari 800XL, stock 64 KB, native 6502 Atari XEX  
 **Working branch:** `feature/stage2-pressure-destination-v0.2` (accepted v0.1 preserved on `main` at tag `stage2-v0.1`)  
-**Status:** **v0.1 driving mechanics accepted after user Atari800 playtest of r3 (2026-11-04).** r3 is the current playable driving baseline; future extra upward car travel and polish are deferred. **v0.2 gas pressure and pharmacy destination is the next design milestone, not yet implemented.** Initial two-minute drive, 20–100 MPH speed range, 2-mile destination and 2:45 gas-failure deadline are provisional balancing targets (Section 16). **Approved pressure-warning, shake, three-lives, explosion, and FIRE-retry behavior is recorded in Section 17. The pharmacy-arrival cutscene and FIRE-to-complete flow are confirmed in Section 18; the exact native-speed-to-MPH mapping is approved in Section 19, and the fixed HUD presentation is approved in Section 20.**
+**Status:** **v0.1 driving mechanics accepted after user Atari800 playtest of r3 (2026-11-04).** r3 is the current playable driving baseline; future extra upward car travel and polish are deferred. **v0.2 gas pressure and pharmacy destination is the next design milestone, not yet implemented.** Initial two-minute drive, 20–100 MPH speed range, 2-mile destination and 2:45 gas-failure deadline are provisional balancing targets (Section 16). **Approved pressure-warning, shake, three-lives, explosion, and FIRE-retry behavior is recorded in Section 17. The pharmacy-arrival cutscene and FIRE-to-complete flow are confirmed in Section 18; the exact native-speed-to-MPH mapping is approved in Section 19, the fixed HUD presentation is approved in Section 20, and terminal tie/replay controls are approved in Section 21.**
 **Repository destination:** `docs/STAGE2_DESIGN.md`  
 
 ## 1. Purpose and authority
@@ -332,7 +332,7 @@ comparison links, scope limits and the user-review checklist. No merge/tag.
 
 **Important design boundaries:** No Gas-Nix pickups or drops are available before the pharmacy. No police, hazmat vans, road forks, winding/narrowing roads, off-road explosion timer or four-way car gas blasts in v0.2 unless separately approved. Do not integrate Stage 2 into the accepted Stage 1 XEX yet. Keep v0.1-r3 mechanics and artifacts stable; implement v0.2 as a separately versioned standalone prototype. Gas growth should reflect the passage of game time rather than decreasing merely because the player accelerates; higher forward speed should allow faster destination progress, creating a meaningful race against pressure. The **initial numerical rates are selected for playtesting in Section 16** and remain subject to balancing, not silently fixed as final production rules.
 
-**Design decisions still to resolve before a final Codex implementation handoff:** exact warning/shake intensity and durations, **arrival cutscene artwork/timing details**, simultaneous success/failure precedence and game-over reset/exit policy. HUD layout and numeric presentation are now approved (Section 20); exact pixel/glyph drawing and warning-flash frequency remain implementation/playtest tuning. **Sections 16–20 record agreed provisional balancing and confirmed speed mapping, failure/retry, arrival, and HUD flows; v0.2 remains design-only and unimplemented.**
+**Remaining implementation/playtest tuning before the Codex handoff:** exact warning/shake intensity and durations and **arrival cutscene artwork/timing details**. **Simultaneous success/failure precedence and game-over replay policy are approved in Section 21.** HUD layout and numeric presentation are now approved (Section 20); exact pixel/glyph drawing and warning-flash frequency remain implementation/playtest tuning. **Sections 16–20 record agreed provisional balancing and confirmed speed mapping, failure/retry, arrival, and HUD flows; v0.2 remains design-only and unimplemented.**
 
 ## 16. v0.2 provisional timing, speed, distance and gas-pressure balance — 2026-11-07
 
@@ -398,11 +398,11 @@ The **100%-pressure life loss, basic explosion sequence, FIRE retry, warning thr
 3. **Deduct exactly one life**, clamp remaining lives to zero, and update the live LIVES HUD.
 4. Show the exact failure message **`BILLY BLEW IT!`** once the explosion effect finishes.
 5. If **one or more lives remain**, wait for a fresh **joystick FIRE / trigger-button press** to restart **Stage 2 itself** (not Stage 1). On retry, restore GAS **0%**, MI **2.0**, default car **speed and X/Y position**, road/scroll initial state and attempt elapsed timer, while **retaining the reduced life count**. Re-arm input after release to avoid a held button instantly dismissing the message or causing multiple retries.
-6. If **no lives remain**, display the exact message **`GAME OVER`** instead of permitting an ordinary Stage 2 life-preserving retry. How a new game begins after GAME OVER is **not yet specified**; do not invent a continuation mechanic or silently reset lives to three.
+6. If **no lives remain**, display the exact message **`GAME OVER`** rather than permitting an ordinary life-preserving retry. A fresh **FIRE** press on GAME OVER starts an entirely new Stage 2 game with **three lives** (Section 21); an ordinary retry with remaining lives does not restore lost lives.
 
 **Trigger-button distinction:** FIRE is reserved/inert **during ordinary v0.2 driving** (until later four-way gas blasts); it is the restart control **on the failure screen when lives remain**. The previously supported console START reset in v0.1 is a different control and should not be silently substituted for the user's specified trigger-button restart. Whether START also operates as an explicit debug reset during active driving can be finalized with the prototype control design.
 
-**Success flow is approved in Section 18:** Arriving at 0.0 miles with pressure still **below 100%** freezes driving and leads to a short pharmacy-building cutscene, then a **FIRE-to-continue** standalone completion screen. **Still open:** exact precedence when arrival and 100% pressure occur in the same simulation tick. Do not infer that ambiguity was settled by the success-flow approval.
+**Success flow is approved in Section 18:** Arriving at 0.0 miles with pressure still **below 100%** freezes driving and leads to a short pharmacy-building cutscene, then a **FIRE-to-continue** standalone completion screen. **Section 21 approves gas-pressure failure taking precedence if arrival and 100% occur on the same simulation tick**, plus FIRE replay from STAGE 2 COMPLETE.
 
 ### v0.2 acceptance tests to plan (not yet implemented)
 
@@ -423,14 +423,14 @@ The **100%-pressure life loss, basic explosion sequence, FIRE retry, warning thr
 3. Transition to a **short arrival cutscene clearly showing the exterior of a pharmacy building**. A legible sign should identify the location as a pharmacy; original Atari 8-bit-appropriate art is sufficient. A simple scene transition and short caption/text may accompany the image, but the exact illustration, copy, palette, music and duration are **not yet fixed**. This is a cutscene, not a controllable Stage 3 interior.
 4. Once the scene is ready, wait for a **fresh joystick FIRE/trigger press** to continue (require release-to-rearm so a held button cannot immediately dismiss the scene). **Console START is not the primary continuation control**. FIRE's meaning here is an outcome-screen action, distinct from future road-stage hold-FIRE gas blasts.
 5. For **v0.2 standalone testing**, FIRE advances to a clear **STAGE 2 COMPLETE** / **PHARMACY REACHED** end-of-prototype state. This confirms success and ends the playable Stage 2 demo. **Do not launch Stage 3, fake a playable pharmacy, reset gas for Stage 3, or create a new automatic stage transition.** A future integration milestone may replace the completion placeholder with a real Stage 3 handoff.
-6. The success cutscene/end screen **must not deduct lives**, play the gas explosion, show `BILLY BLEW IT!`, or re-enable road simulation. Any optional replay/new-game controls from the completion screen are **not yet specified**.
+6. The success cutscene/end screen **must not deduct lives**, play the gas explosion, show `BILLY BLEW IT!`, or re-enable road simulation. FIRE on the standalone STAGE 2 COMPLETE screen **starts a new three-life Stage 2 prototype run**, approved in Section 21. It must be a second fresh press, distinct from FIRE used to leave the arrival cutscene.
 
 ### Technical and playtest notes
 
 - Keep the already accepted r3 road, steering, speed-dependent car Y, HUD partition and native Atari 800XL 6502 constraints intact. The short pharmacy exterior cutscene can use a separate display mode/screen if required; **do not assume the road scene's 27/13 column split must be reused for the full-screen cutscene**, but document all screen, PMG, font, palette, music and memory transitions.
 - If artwork or screen modes require a new memory allocation, preserve the accepted opening/Stage 1 resources and keep v0.2 standalone until integration is deliberately planned. **Original artwork and an economical, readable arrival transition are preferable to complex animation for the first prototype.** No actual image or XEX is generated by this design entry.
 - Acceptance tests: crossing `MI=0.0` with GAS<100 produces a *single* arrival event; all runtime counters freeze; pharmacy building visibly appears with readable identification; fresh FIRE advances to the completion screen without an explosion or life loss; holding FIRE does not skip multiple screens; success never falls through to a failure state; Stage 3 is not run. Distinguish automated CPU checks from actual Atari800 cutscene review.
-- **Open design question:** If reaching MI=0 and GAS=100 happens within the **same** simulation tick, determine a deterministic priority rule before implementation. Q4→MPH mapping and HUD numeric presentation/update principles are now approved in Sections 19–20; **GAME OVER / completion-screen replay controls** still need decisions. Exact glyphs, warning-flash frequency, cutscene art and duration can be refined through playtesting.
+- **Resolved in Section 21:** if reaching MI=0 and GAS=100 happens in the same simulation tick, gas pressure wins and causes a failure. Q4→MPH mapping and HUD numeric presentation/update principles are approved in Sections 19–20; FIRE new-game/replay controls for GAME OVER and STAGE 2 COMPLETE are approved in Section 21. Exact glyphs, warning-flash frequency, cutscene art and duration can be refined through playtesting.
 
 **Milestone status:** The **arrival flow and pharmacy-building cutscene are approved design**, but **v0.2 is not implemented or user-playtested**. Do not mark Stage 2 complete on the TODO checklist yet.
 
@@ -513,4 +513,28 @@ For all intermediate speeds, use **continuous, monotonic piecewise-linear interp
 5. After each explosion, one car icon disappears and remains absent through a FIRE retry. After success, no life is removed.
 6. Preserve score as a six-digit placeholder and leave all postponed road hazards, attacks, and Stage 3 integration unimplemented. Check actual Atari800 legibility and emulated performance separately from CPU and deterministic build tests.
 
-**Open beyond this HUD decision:** Same-tick arrival versus 100% gas precedence and behavior after GAME OVER / standalone Stage 2 completion; exact visual effects and arrival-cutscene art remain subject to later tuning. **The v0.2 XEX has not yet been built or playtested.**
+**Now approved in Section 21:** same-tick arrival versus 100% gas precedence, and FIRE behavior after GAME OVER / STAGE 2 COMPLETE. Exact visual effects and arrival-cutscene art remain subject to later tuning. **The v0.2 XEX has not yet been built or playtested.**
+
+## 21. v0.2 confirmed terminal precedence and FIRE replay rules — 2026-11-08
+
+**Approved by user:** Gas pressure **wins an exact same-tick tie** with reaching the pharmacy. **FIRE on GAME OVER** begins a completely new Stage 2 game with three lives; **FIRE on STAGE 2 COMPLETE** begins a fresh Stage 2 prototype run with three lives. These choices complete the major v0.2 gameplay loop design. All behavior remains **design-only; no v0.2 XEX has yet been built or playtested**.
+
+### Deterministic outcome precedence
+
+- Use the underlying unrounded gas/distance state, never the displayed HUD text. On each active driving tick, if **GAS reaches 100%**, trigger the gas explosion and life-loss path even if **MI simultaneously reaches 0**. Do **not** show the pharmacy cutscene on that tick.
+- Otherwise, **MI reaching zero while GAS remains strictly below 100%** means successful arrival; freeze the simulation and show the pharmacy-building cutscene as in Section 18.
+- Latch the first terminal outcome so only one event can occur per attempt. Never deduct more than one life for one explosion. Previously latched arrivals do not become explosions later.
+
+### FIRE behavior by outcome
+
+| Screen/state | Fresh joystick FIRE action | Lives after FIRE | Reset |
+| --- | --- | --- | --- |
+| **BILLY BLEW IT!** with lives remaining | Retry **Stage 2** | **Preserve** the remaining 2 or 1 lives | GAS 0%, MI 2.0, accepted r3 default speed/position, road phase, warning state and timer |
+| **GAME OVER** with **0 lives** | Start a **completely new Stage 2 game** | **Restore 3 starting lives** | All initial Stage 2 game/attempt state |
+| **STAGE 2 COMPLETE** | Start a **fresh Stage 2 prototype run** | **Restore 3 starting lives** | All initial Stage 2 game/attempt state |
+
+**Two distinct FIRE presses on success:** FIRE first advances the pharmacy-building arrival cutscene to **STAGE 2 COMPLETE**. Only a *subsequent fresh press* from **STAGE 2 COMPLETE** starts another run. Require a release-to-rearm between presses, so holding FIRE cannot accidentally skip both screens. A similarly held FIRE must not skip the explosion message, duplicate restarts or deduct extra lives.
+
+**Frozen terminal states:** While on the cutscene, completion, failure or game-over screen, road movement, gas growth and distance must remain frozen. The v0.2 replay is **not** a Stage 3 transition; the standalone Stage 2 prototype is intentionally replayable. The complete full-game handoff to Stage 3 belongs to a later integration milestone.
+
+**Future Codex acceptance tests:** Simultaneous GAS=100/MI=0 chooses explosion only; GAS<100/MI=0 chooses pharmacy only; one life lost per failed attempt; regular FIRE retry preserves reduced lives; GAME OVER and COMPLETE FIRE restore three lives; separate cutscene/complete FIRE edges; no drift, double-fires or automatic multi-screen skips. Preserve Stage 1 v0.5 and accepted Stage 2 v0.1-r3 binaries. Exact art, warning flash and shake strength remain for playtest tuning.
