@@ -48,7 +48,7 @@ python3 tools/profile_stage2_v01_r3.py
 opening validation pass. The revision includes a three-minute native simulated
 idle test and full PMG row-cleanup checks. **Codex did not run Atari800 during the build; the user subsequently tested r3 in Atari800 and approved its driving feel.**
 See [r3 build/tuning/playtest notes](assets/stage2_v01_r3/README.md). Stage 1 remains
-unchanged, with no automatic Stage 2 transition. No merge or new tag.
+unchanged, with no automatic Stage 2 transition. That historical v0.1 driving milestone was subsequently tagged as `stage2-v0.1` and merged into `main`; **no v0.2 binary exists yet**.
 
 ## Run the prototype
 
@@ -110,6 +110,7 @@ On Windows, use the corresponding `.venv\Scripts\python.exe` and `.venv\Scripts\
 | [stage1-v0.3](https://github.com/kentpmurphy72/8bit-atari-mac65-gas-blasters-82/tree/stage1-v0.3) | Three-worker pursuit and initial blast |
 | [stage1-v0.4](https://github.com/kentpmurphy72/8bit-atari-mac65-gas-blasters-82/tree/stage1-v0.4) | Approved responsive eight-way movement |
 | [stage1-v0.5](https://github.com/kentpmurphy72/8bit-atari-mac65-gas-blasters-82/tree/stage1-v0.5) | Accepted Stage 1 gameplay prototype with eight-way gas blasting |
+| [stage2-v0.1](https://github.com/kentpmurphy72/8bit-atari-mac65-gas-blasters-82/tree/stage2-v0.1) | Accepted, user-playtested Stage 2 v0.1-r3 standalone driving prototype (`e0e4422`) |
 
 Versioned XEXs, builders, tests and manifests are retained in the repository. The feature branches for these five milestones were removed **after tags were verified**. Future stages use new feature branches, reviewed integration into `main`, and new tags. See [workflow](docs/REPOSITORY_WORKFLOW.md).
 
@@ -117,4 +118,4 @@ Versioned XEXs, builders, tests and manifests are retained in the repository. Th
 
 ### Stage 2 v0.2 final gameplay controls (approved 2026-11-08)
 
-The v0.2 design now resolves the remaining terminal rules: **GAS 100% wins any same-tick tie with reaching 0.0 miles**. A fresh joystick **FIRE** retries after `BILLY BLEW IT!` with remaining lives, starts a new **three-life game** after `GAME OVER`, advances the pharmacy cutscene to `STAGE 2 COMPLETE`, and starts a fresh **three-life Stage 2 prototype run** from the completion screen (a separate press). Previous dated open questions about these actions are superseded by [Stage 2 design §21](docs/STAGE2_DESIGN.md). This is **design-only**; the v0.2 XEX does not yet exist.
+The v0.2 design now resolves the remaining terminal rules: **GAS 100% wins any same-tick tie with reaching 0.0 miles**. A fresh joystick **FIRE** retries after `BILLY BLEW IT!` with remaining lives, starts a new **three-life game** after `GAME OVER`, advances the pharmacy cutscene to `STAGE 2 COMPLETE`, and starts a fresh **three-life Stage 2 prototype run** from the completion screen (a separate press). **After the explosion, display `BILLY BLEW IT!` only when lives remain, otherwise `GAME OVER`.** For v0.2, **console START/F4 is not an in-game reset**: FIRE is the approved gameplay control and tests may reset emulated state through their harness. The older v0.1-r3 build **retains** its original START reset. Earlier dated open questions are superseded by [Stage 2 design §21](docs/STAGE2_DESIGN.md). This is **design-only**; the v0.2 XEX does not yet exist.

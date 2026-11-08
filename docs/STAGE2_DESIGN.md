@@ -1,7 +1,7 @@
 # Gas Blasters '82 — Stage 2: Drive to the Pharmacy
 
 **Document:** Stage 2 Gameplay and Technical Design  
-**Milestone:** v0.1 — Basic Driving Prototype  
+**Milestone:** v0.1-r3 driving accepted; v0.2 pressure/destination design approved, implementation pending  
 **Date:** 2026-11-08  
 **Target:** Atari 800XL, stock 64 KB, native 6502 Atari XEX  
 **Working branch:** `feature/stage2-pressure-destination-v0.2` (accepted v0.1 preserved on `main` at tag `stage2-v0.1`)  
@@ -185,7 +185,7 @@ The prototype is ready for the user's first emulator playtest when:
 
 ## 9. Next milestones and preserved full-stage rules
 
-**v0.2 — pressure and destination (next milestone; design work commencing):** Use the accepted r3 driving baseline; change GAS % from placeholder to an active meter that starts near 0% and steadily rises toward a 100% explosion/failure threshold. Change MI from placeholder to remaining miles to the pharmacy, decreasing with forward travel and reflecting the speed selected by the player. Reaching the pharmacy before pressure reaches 100% produces a distinct success state. Reaching 100% first produces a distinct failure state. A simple START-based restart/reset must make repeated trials possible. Initial gas growth and distance/speed balancing targets are now documented in **Section 16**; the exact mapping to existing native speed units, failure consequences for lives, HUD presentation and restart/success screen details remain **open v0.2 design questions**; do not treat a suggested numeric value as canon. This **is not implemented in v0.1**.
+**v0.2 — pressure and destination (design approved; not yet coded):** Retain the accepted r3 driving baseline. Make GAS and MI live; race 2.0 miles to the pharmacy against a gas meter reaching 100% at 2:45, with an intended 2:00 completion at default 60 MPH (playtest targets). Sections **16–21** specify the approved Q4-to-MPH map, gas warnings and shaking, three lives, explosion and loss/retry flow, pharmacy cutscene, stationary HUD, gas-first simultaneous outcome precedence, and fresh-FIRE replays/new games. **Do not use the old v0.1 console START reset as a normal v0.2 retry or new-game action**; see Section 21. These mechanics are not implemented in the accepted v0.1 XEX.
 
 **v0.3+ — driving challenges:** curving/narrowing road, road/shoulder/grass handling, **grass timer that runs/resumes on grass, pauses on shoulder, resets on paved road**, 2.0-second accumulated-grass explosion costing one life, stage warnings, police/hazmat ramming, forks with a flashing upward green arrow, wrong branch adding **exactly 1.0 mile once**, and four-direction car gas blasts using **hold FIRE + direction while steering is suspended**. Those are established future design constraints, not v0.1 deliverables.
 
@@ -315,7 +315,7 @@ comparison links, scope limits and the user-review checklist. No merge/tag.
 
 **Acceptance evidence distinction:** User reports a successful **Atari800 driving-feel playtest and approval**. Codex's recorded r3 CPU tests and manifest remain build/test evidence; neither statement implies exhaustive manual regression or testing on physical hardware.
 
-**Next version control checkpoint — recommendation only, NOT executed:** Once the documentation-only acceptance commit is reviewed, preserve the accepted commit under an immutable `stage2-v0.1` tag; integrate the feature branch into `main`; verify the tag and `main` match the accepted baseline; then create `feature/stage2-pressure-destination-v0.2` from updated `main`. The old v0.1 feature branch can be deleted after verifying integration and the immutable tag. Do not perform these operations without the user's explicit authorization.
+**Milestone checkpoint verified 2026-11-08:** The immutable `stage2-v0.1` tag and `main` both resolve to accepted commit `e0e442295eaccfa5484aaa3a751bb926243e2e99`. `feature/stage2-pressure-destination-v0.2` exists and currently contains **design documentation only**. Stage 2 v0.1-r3 remains the accepted executable driving baseline. Do not tag, merge or delete the v0.2 branch until the new playable prototype receives the user's approval.
 
 ## 15. v0.2 design kickoff — Gas pressure and destination (planning; not implemented)
 
@@ -324,15 +324,15 @@ comparison links, scope limits and the user-review checklist. No merge/tag.
 | System | Agreed behavior to design | Still to decide/tune before coding |
 | --- | --- | --- |
 | Gas pressure | Live `GAS %` starts at **0%**; linear elapsed-time growth reaches **100% at 2:45** (~18 percentage points per 30 s); see Sections 16–17 | Exact warning animation and control-impairment tuning after playtest |
-| Distance | Live `MI` starts at **2.0 miles** and counts down using the approved **8→20, 24→60, 56→100 Q4-to-MPH mapping** (Section 19); a steady 60 MPH drive takes 2:00 | HUD rounding/display resolution and live update cadence |
+| Distance | Live `MI` starts at **2.0 miles** and counts down using the approved **8→20, 24→60, 56→100 Q4-to-MPH mapping** (Section 19); a steady 60 MPH drive takes 2:00 | Two-decimal HUD formatting and updates are approved in Section 20; glyphs/performance need testing |
 | Success | Reach **MI=0.0** with GAS below **100%**, freeze driving and show a **brief cutscene featuring the pharmacy building**; use a fresh **FIRE/trigger** press to continue to the standalone v0.2 **completion screen** (Stage 3 is not implemented); see Section 18 | Exact exterior artwork, cutscene wording/duration and finish-state presentation are playtest/art details |
-| Failure | At **100%** before arrival: freeze driving, basic gas explosion animation, deduct **one life**, display **`BILLY BLEW IT!`**; see Section 17 | Animation duration/style and simultaneous arrival-versus-failure precedence |
-| Restart | After failure, **joystick FIRE/trigger** retries Stage 2 when lives remain: GAS **0%**, MI **2.0**, default car speed/position; retained lives persist across retries | Game-over restart/exit policy; whether console START remains available for debug resetting |
+| Failure | At **100%**, including an exact same-tick MI=0 tie: freeze, basic explosion, deduct **one life**; show **`BILLY BLEW IT!`** if lives remain or **`GAME OVER`** if zero; see Sections 17 and 21 | Explosion art/duration can be tuned in playtests |
+| Restart | A fresh **joystick FIRE** retries Stage 2 with reduced lives retained; FIRE from **GAME OVER** or **STAGE 2 COMPLETE** starts a completely fresh **three-life** Stage 2 run (Section 21) | **Console START disabled as a gameplay reset** in v0.2; any test reset belongs in the test harness |
 | HUD | Fixed right 13-column pane with GAS % + 10-segment bar, pharmacy miles (two decimals), whole MPH, three miniature lives/car icons, and six-digit SCORE placeholder; Section 20 | Exact pixel/glyph art and warning flash frequency remain playtest/implementation tuning |
 
 **Important design boundaries:** No Gas-Nix pickups or drops are available before the pharmacy. No police, hazmat vans, road forks, winding/narrowing roads, off-road explosion timer or four-way car gas blasts in v0.2 unless separately approved. Do not integrate Stage 2 into the accepted Stage 1 XEX yet. Keep v0.1-r3 mechanics and artifacts stable; implement v0.2 as a separately versioned standalone prototype. Gas growth should reflect the passage of game time rather than decreasing merely because the player accelerates; higher forward speed should allow faster destination progress, creating a meaningful race against pressure. The **initial numerical rates are selected for playtesting in Section 16** and remain subject to balancing, not silently fixed as final production rules.
 
-**Remaining implementation/playtest tuning before the Codex handoff:** exact warning/shake intensity and durations and **arrival cutscene artwork/timing details**. **Simultaneous success/failure precedence and game-over replay policy are approved in Section 21.** HUD layout and numeric presentation are now approved (Section 20); exact pixel/glyph drawing and warning-flash frequency remain implementation/playtest tuning. **Sections 16–20 record agreed provisional balancing and confirmed speed mapping, failure/retry, arrival, and HUD flows; v0.2 remains design-only and unimplemented.**
+**Remaining implementation/playtest tuning:** choose reasonable initial shake intensity, warning-flash periods, and simple pharmacy/explosion artwork, then refine based on Atari800 playtesting. **All core v0.2 loop decisions are settled in Sections 16–21**, including HUD precision and display rules (Section 20), terminal priority and FIRE controls (Section 21). No new gameplay code has been built or accepted.
 
 ## 16. v0.2 provisional timing, speed, distance and gas-pressure balance — 2026-11-07
 
@@ -371,12 +371,12 @@ The final **15-second** interval adds approximately **9 percentage points**, rat
 - At a constant modeled 60 MPH, traveling **2.0 miles takes exactly 2:00**. This gives a mathematical pacing anchor, not a promise every run finishes in two minutes.
 - Hypothetical constant-speed travel times before accounting for acceleration or future hazards: **20 MPH → 6:00** (gas failure first); **60 MPH → 2:00**; **80 MPH → 1:30**; **100 MPH → 1:12**. The v0.2 straight-road demo may allow faster finishes than two minutes until traffic and hazards are introduced.
 - The accepted v0.1-r3 controller uses internal **Q4 scroll-speed units** (minimum/default/maximum **8/24/56**), not MPH. The user **subsequently approved the exact three-anchor mapping** Q4 **8→20 MPH, 24→60 MPH and 56→100 MPH**, with continuous piecewise-linear interpolation (authoritative detail in Section 19). **Do not alter r3 steering, acceleration, scrolling feel, vertical car Y or tuning** when calculating/displaying MPH.
-- Conceptual distance accumulation: **miles traveled = modeled MPH × elapsed seconds / 3600** (integrated over changing speeds); remaining miles must never go below zero. Use sufficient fixed-point precision, independent of displayed HUD rounding. The winning arrival event requires reaching 0 miles while pressure is still **below 100%**; deterministic precedence on a frame where both thresholds cross remains to be specified.
+- Conceptual distance accumulation: **miles traveled = modeled MPH × elapsed seconds / 3600** (integrated over changing speeds); remaining miles must never go below zero. Use sufficient fixed-point precision, independent of displayed HUD rounding. Success requires reaching zero miles while pressure is still **below 100%**; **gas wins any same-tick arrival/100% tie** (Section 21).
 - A 2:45 gas deadline at a 2:00 target completion time leaves an approximate **45-second margin**. This is a starting balance point for playtesting; do not assume it guarantees difficulty once hazards are added.
 
-### Open decisions (do not silently invent)
+### Current status and remaining playtest-tunable details
 
-The **100%-pressure life loss, basic explosion sequence, FIRE retry, warning thresholds and three starting lives are approved in Section 17**, the pharmacy arrival cutscene/FIRE continuation in Section 18, the **piecewise Q4→MPH mapping** in Section 19, and the **HUD layout/precision** in Section 20. Remaining design questions are precise shake/visual/audio and arrival-art tuning, game-over reset/exit, simultaneous arrival/failure precedence, and final glyph/flash implementation details before a full Codex implementation prompt. **Future levels may have gradually longer durations, with a shorter final home stage**, but no exact progression has yet been approved. This section defines the **v0.2 balance baseline only**.
+The **100%-pressure life loss, basic explosion sequence, FIRE retries, pressure warnings and three starting lives** are approved in Section 17; **pharmacy arrival** in Section 18; **piecewise Q4→MPH** in Section 19; **HUD layout/precision** in Section 20; and **gas-first terminal priority, GAME OVER and COMPLETE FIRE replays, and START control** in Section 21. Only exact shake/visual/audio, glyph/flash cadence and pharmacy-art tuning remain to validate during implementation/playtesting. **Later stages may increase in duration with a shorter final home sprint**, but the progression isn't yet numerically defined. This section is the **v0.2 starting balance**, not a statement of completed implementation.
 
 ## 17. v0.2 gas-pressure warnings, explosion, lives, and retry — approved 2026-11-07
 
@@ -396,17 +396,17 @@ The **100%-pressure life loss, basic explosion sequence, FIRE retry, warning thr
 1. **Freeze the active drive** when gas pressure reaches **100% before successful pharmacy arrival**: stop driving input/world-scrolling and suspend pressure/distance accumulation.
 2. Play a **basic, readable gas explosion animation** for the v0.2 playtest, conveying an exaggerated green gas eruption. Elaborate cloud artwork, screen-shake choreography and sound are **deferred polish**; no final effects are required to validate the loop.
 3. **Deduct exactly one life**, clamp remaining lives to zero, and update the live LIVES HUD.
-4. Show the exact failure message **`BILLY BLEW IT!`** once the explosion effect finishes.
+4. After the explosion, **show `BILLY BLEW IT!` only if one or more lives remain; otherwise show `GAME OVER`**. These are mutually exclusive outcome messages for a single failure. A subsequent FIRE press follows the appropriate retry/new-game path.
 5. If **one or more lives remain**, wait for a fresh **joystick FIRE / trigger-button press** to restart **Stage 2 itself** (not Stage 1). On retry, restore GAS **0%**, MI **2.0**, default car **speed and X/Y position**, road/scroll initial state and attempt elapsed timer, while **retaining the reduced life count**. Re-arm input after release to avoid a held button instantly dismissing the message or causing multiple retries.
 6. If **no lives remain**, display the exact message **`GAME OVER`** rather than permitting an ordinary life-preserving retry. A fresh **FIRE** press on GAME OVER starts an entirely new Stage 2 game with **three lives** (Section 21); an ordinary retry with remaining lives does not restore lost lives.
 
-**Trigger-button distinction:** FIRE is reserved/inert **during ordinary v0.2 driving** (until later four-way gas blasts); it is the restart control **on the failure screen when lives remain**. The previously supported console START reset in v0.1 is a different control and should not be silently substituted for the user's specified trigger-button restart. Whether START also operates as an explicit debug reset during active driving can be finalized with the prototype control design.
+**Trigger-button / console distinction (v0.2):** FIRE is inert **during ordinary v0.2 driving** until later four-way gas blasts; on outcome screens it is the **sole player-facing retry, new-game and continue control**. **Disable console START/F4 as an in-game reset for the v0.2 playable prototype** so players cannot bypass spent lives or outcome states. The accepted **v0.1-r3 XEX retains its historical START/F4 demo-reset behavior unchanged**. For automated tests, resetting RAM/state directly through the deterministic test harness is permitted, but must never be exposed as a gameplay shortcut. Document any separately configured developer-only test control before using it.
 
 **Success flow is approved in Section 18:** Arriving at 0.0 miles with pressure still **below 100%** freezes driving and leads to a short pharmacy-building cutscene, then a **FIRE-to-continue** standalone completion screen. **Section 21 approves gas-pressure failure taking precedence if arrival and 100% occur on the same simulation tick**, plus FIRE replay from STAGE 2 COMPLETE.
 
 ### v0.2 acceptance tests to plan (not yet implemented)
 
-- 3 starting lives; live HUD counts down **3 → 2 → 1 → 0** on three separate failures, never twice on one failure; no fourth retry from a zero-life state.
+- 3 starting lives; live HUD counts down **3 → 2 → 1 → 0** on three separate failures, never twice on one failure; with zero lives there is **no life-preserving retry**, but FIRE on GAME OVER deliberately begins a **new three-life game**.
 - On 75%, warning flashes, car shakes mildly, controllability decreases slightly; on 90%, shaking is visibly more violent and handling harder yet manageable; below 75%, r3 driving feel remains intact. Long-running tests must verify car/HUD boundaries and non-accumulating shake offsets.
 - At 100%, active simulation freezes **before** basic animation; after animation exactly one life is deducted and **`BILLY BLEW IT!`** appears if lives remain, **`GAME OVER`** if none remain. No HUD/time/distance drift during failure display.
 - FIRE restart requires a fresh press and restores distance, gas, speed, position and elapsed-time state while retaining the reduced lives; success and GAME OVER must not accidentally trigger a normal retry.
@@ -535,40 +535,6 @@ For all intermediate speeds, use **continuous, monotonic piecewise-linear interp
 
 **Two distinct FIRE presses on success:** FIRE first advances the pharmacy-building arrival cutscene to **STAGE 2 COMPLETE**. Only a *subsequent fresh press* from **STAGE 2 COMPLETE** starts another run. Require a release-to-rearm between presses, so holding FIRE cannot accidentally skip both screens. A similarly held FIRE must not skip the explosion message, duplicate restarts or deduct extra lives.
 
-**Frozen terminal states:** While on the cutscene, completion, failure or game-over screen, road movement, gas growth and distance must remain frozen. The v0.2 replay is **not** a Stage 3 transition; the standalone Stage 2 prototype is intentionally replayable. The complete full-game handoff to Stage 3 belongs to a later integration milestone.
+**Frozen terminal states and reset values:** While on the cutscene, completion, failure or game-over screen, road movement, gas growth and distance must remain frozen. At the start of each attempt, restore GAS=**0%**, MI=**2.00**, default Q4 speed=**24** (=60 MPH), accepted-r3 default car X/Y, road phase, elapsed attempt timer=0, clear warnings/shake/explosion state, and keep six-digit inactive SCORE **000000**. **Only new games after GAME OVER or STAGE 2 COMPLETE restore all three lives**; a standard failed-attempt retry preserves lost lives. The standalone v0.2 replay is **not** a Stage 3 transition; full-game integration is deferred.
 
-**Future Codex acceptance tests:** Simultaneous GAS=100/MI=0 chooses explosion only; GAS<100/MI=0 chooses pharmacy only; one life lost per failed attempt; regular FIRE retry preserves reduced lives; GAME OVER and COMPLETE FIRE restore three lives; separate cutscene/complete FIRE edges; no drift, double-fires or automatic multi-screen skips. Preserve Stage 1 v0.5 and accepted Stage 2 v0.1-r3 binaries. Exact art, warning flash and shake strength remain for playtest tuning.
-
-## 21. v0.2 final approved tie handling and FIRE new-game controls — 2026-11-08
-
-**Authoritative resolution of earlier open questions in Sections 15–20:** The user has now approved both **gas-first same-tick precedence** and **FIRE-controlled replay/new-game behavior**. References in prior dated design notes to these being undecided are **superseded by this Section 21**. Visual tuning and cutscene art remain adjustable during coding/playtesting; the gameplay rules below are confirmed.
-
-### Simultaneous pharmacy arrival vs. 100% gas
-
-- In each active driving simulation tick, integrate gas growth (elapsed-time based) and distance progression (speed based) at full internal precision, independently of rounded HUD text.
-- If **GAS reaches 100% or higher on the same tick MI reaches 0.0 or below, GAS WINS**. Freeze driving, play the basic gas explosion animation, deduct **exactly one life**, and show `BILLY BLEW IT!` when lives remain or `GAME OVER` when none remain. **Do not** trigger the pharmacy arrival cutscene on that tick.
-- Pharmacy success is recognized **only when actual GAS is still below 100%** at the instant MI crosses zero. Once success is latched, freeze the timer/pressure and never retroactively explode the car.
-- Latch exactly one terminal outcome per attempt. Do not double-deduct lives or restart simulated driving until FIRE explicitly begins a new attempt/game.
-
-### Approved outcome-screen FIRE behavior
-
-| Current screen/state | FIRE / joystick trigger | Next attempt lives |
-| --- | --- | --- |
-| **`BILLY BLEW IT!`** with lives remaining | Retry **Stage 2** in the **same game**. Reset GAS, MI, car, speed, elapsed timer, scroll and warning/explosion flags; **preserve reduced lives**. | **2 or 1**, unchanged |
-| **`GAME OVER`** after lives reach 0 | Start an entirely **new Stage 2 game** with all gameplay state reset. No zero-life continuation. | **3** |
-| **Pharmacy arrival cutscene** | Advance to standalone **`STAGE 2 COMPLETE`** screen. No Stage 3 launch or new drive yet. | Unchanged |
-| **`STAGE 2 COMPLETE`** | Start a **fresh Stage 2 prototype game/run** with full reset. | **3** |
-| Normal v0.2 driving | FIRE is reserved; future four-way gas blasts are not implemented yet. | Unchanged |
-
-**Reset values:** A newly started driving attempt restores GAS=**0%**, MI=**2.00**, Q4 speed=**24** / **60 MPH**, default accepted-r3 car position, original scroll phase, elapsed attempt timer=0, no active warning/shake/explosion, and the inactive six-digit SCORE placeholder `000000`. **Fresh games** restore lives=**3**; a **normal failure retry** keeps the lives remaining. The new three-life game after `STAGE 2 COMPLETE` is intentional for standalone v0.2 testing; future Stage 3 integration will replace that prototype behavior.
-
-**Button rearm:** A fresh FIRE press is required **after release** for **each** screen transition. Holding FIRE cannot skip the failure screen, both pharmacy cutscene and completion screen, or instantly restart twice. Console START is not a substitute for these approved trigger-button interactions; any retained START debug reset should be documented separately.
-
-### Implementation acceptance tests (not yet executed)
-
-1. GAS reaches 100% and MI reaches 0 on **the same native tick** → explosion, one-life deduction, no arrival. MI reaches zero while GAS<100 on an **earlier tick** → pharmacy cutscene; frozen gas cannot subsequently trigger explosion.
-2. Three failed attempts yield lives **3 → 2 → 1 → 0**; FIRE retries from `BILLY BLEW IT!` with lives **2 then 1**, but FIRE from `GAME OVER` starts a brand-new game with **3** lives.
-3. Pharmacy cutscene FIRE proceeds to `STAGE 2 COMPLETE`; a **second, separate fresh FIRE press** starts a three-life Stage 2 prototype run. No ordinary FIRE during driving resets gameplay.
-4. Terminal states are latched; no extra life losses, held-FIRE multi-screen skips, premature rounding-based arrival or explosion, or automatic Stage 3 integration.
-
-**Status:** Design approval only. The current v0.2 branch remains documentation-only until Codex implements the playable XEX; no new gameplay tests or Atari800 playtest are claimed. **Next:** final specification consistency review, then a concise Codex v0.2 implementation handoff. Do not merge/tag/delete the v0.2 branch until the user approves the playable prototype.
+**Future Codex acceptance tests:** Simultaneous GAS=100/MI=0 chooses explosion only; GAS<100/MI=0 chooses pharmacy only; one life lost per failed attempt; **last life displays GAME OVER rather than BILLY BLEW IT!**; regular FIRE retry preserves reduced lives; GAME OVER and COMPLETE FIRE restore three lives; separate cutscene/complete FIRE edges; **console START cannot reset/bypass gameplay**; no drift, double-fires or automatic multi-screen skips. Preserve Stage 1 v0.5 and accepted Stage 2 v0.1-r3 binaries. Exact art, warning flash and shake strength remain for playtest tuning.

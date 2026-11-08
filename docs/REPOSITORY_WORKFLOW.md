@@ -35,12 +35,12 @@ Historical Stage 1 tags (already created and verified):
 
 The tags and full history survive the deletion of the five old feature branches. Historical numbered designs and Codex handoffs reside in [Stage 1 Archive](archive/stage1/README.md); versioned code and XEX artifacts stay in `assets/` and `tools/`, not moved into the docs archive.
 
-## Stage 2 v0.1 → v0.2 milestone boundary (planned, not executed)
+## Stage 2 v0.1 → v0.2 milestone boundary (verified 2026-11-08)
 
-- **v0.1-r3 driving feel was accepted by the user in Atari800 on 2026-11-04.** The acceptance is limited to the standalone driving mechanics; Stage 2 as a whole is unfinished. Retain all v0.1, r2 and r3 XEX/build/manifest artifacts.
-- **Recommended next Git operations, only with explicit user approval:** review the v0.1 driving feature diff and regressions; make an immutable `stage2-v0.1` tag at the final accepted documentation/implementation commit; merge/fast-forward the accepted v0.1 feature branch into `main`; verify the tag and merged tree; then create `feature/stage2-pressure-destination-v0.2` **from updated `main`**. Retire the old v0.1 feature branch only once integration and tag are verified.
-- Do not keep adding unrelated v0.2 code to the accepted v0.1 driving branch, and do not wait for the entire nine-stage adventure or even the completed pharmacy chase to preserve a tested milestone. **As of this documentation update, no Stage 2 tag, merge, branch deletion or v0.2 branch creation has been performed.**
-- Stage 2 v0.2 is **gas pressure and destination**. Final numeric rates, distance scaling, failure/lives policy and completion presentation are still design questions; do not silently treat them as decisions.
+- **Accepted baseline:** Stage 2 v0.1-r3 driving feel was user-playtested in Atari800 and approved on 2026-11-04. This accepts the standalone driver, **not** a full pressure/destination chase, exhaustive regression, PAL or physical hardware test.
+- **Git refs verified:** immutable tag `stage2-v0.1` and branch `main` both resolve to **`e0e442295eaccfa5484aaa3a751bb926243e2e99`**. The feature branch `feature/stage2-pressure-destination-v0.2` was created from that baseline and carries the v0.2 design updates. Do not repeat a completed tag/merge/branch-creation instruction.
+- **Current v0.2 status:** the [Stage 2 design §§16–21](STAGE2_DESIGN.md) specifies the complete pressure, distance, speed, HUD, pharmacy cutscene, three-life failure/retry and FIRE new-game loop. This is **design only**, not implemented or user-playtested; retain all previous XEX/source/manifest assets and keep v0.2 standalone until accepted.
+- **Next checkpoint:** Codex implements a **new versioned v0.2 standalone XEX**, runs available build/CPU/regression checks, documents actual emulator coverage, and returns the artifact for user Atari800 evaluation. Only after acceptance should anyone propose a v0.2 tag, integration to `main`, and branch cleanup; never perform these without explicit authorization.
 
 ## Changes that cross stages
 
