@@ -1,0 +1,96 @@
+{
+  "date": "2026-11-08",
+  "branch": "feature/stage2-pressure-destination-v0.2",
+  "baseline_commit": "e2a615cb6653b7d7b30a0f430706957066f3f35f",
+  "output": "GasBlasters82_Stage2_Pressure_Destination_v02_r1.xex",
+  "sha256": "316ad4e7a1a5a495b23c4929b59a673c7acef0957699415f27b97840fb4f9a31",
+  "v02_r1_tests": 27,
+  "existing_v02_cases_on_fixed_binary": 20,
+  "new_regressions": 7,
+  "accepted_r3_tests": 21,
+  "all_pass": true,
+  "changed_xex_segments": [
+    "$7000 controller only"
+  ],
+  "preserved_prior_assets_and_tools": 172,
+  "root_cause": "Warning code read $D000 as HPOSP0 position, but GTIA reads M0PF collision flags at that address. Zero collision flags generated off-screen position 1 or 255 when warnings began.",
+  "fix": "Derive unshaken X from driver RAM PIX_LO + 48 in both shake directions. Existing amplitudes, clamps, driving, gas and all static assets unchanged.",
+  "visibility_model": "py65 NMOS 6502 plus minimal GTIA CPU-bus shim: collision reads independent of position/size write latches. NOT ANTIC/GTIA video or OS emulation.",
+  "coverage": [
+    "74/75/90/99 percent in both nominal NTSC/PAL clock models, 180 ticks per point",
+    "both shake directions and gas visible/blank HUD phases; other HUD labels fixed",
+    "PMG body/highlight row bytes and cleanup; DMACTL/GRACTL/PMBASE; red/white colors; aligned bounded HPOS; speed-linked Y",
+    "all 16 collision flag nibbles, both road edges and center, Q4 8/24/56 and 75/90 threshold transitions: 5760 ticks",
+    "original XEX reproduces disappearance on real GTIA read-alias model",
+    "full inherited v0.2 tests including 120/165-second timing, outcomes, inputs, memory and r3 differential driving",
+    "XEX reproducibility, unchanged load segments/data except native correction, 172 prior asset/tool blobs unchanged"
+  ],
+  "commands": [
+    "python3 tools/build_stage2_v02_r1.py",
+    "python3 tools/test_stage2_v02_r1.py",
+    "python3 tools/test_stage2_v01_r3.py",
+    "python3 tools/profile_stage2_v02_r1.py"
+  ],
+  "atari800": "NOT RUN: no installed executable",
+  "hardware": "NOT RUN",
+  "user_accepted": false,
+  "profile": {
+    "xex_sha256": "316ad4e7a1a5a495b23c4929b59a673c7acef0957699415f27b97840fb4f9a31",
+    "model": "py65 NMOS 6502 only, excludes ANTIC DMA and OS interrupts",
+    "steady_drive_budget_cycles": 15000,
+    "steady_drive_budget_pass": true,
+    "samples": {
+      "neutral": {
+        "min": 8279,
+        "max": 8824
+      },
+      "accelerate_steer": {
+        "min": 8295,
+        "max": 9348
+      },
+      "brake_steer": {
+        "min": 8291,
+        "max": 9242
+      },
+      "warning75": {
+        "min": 8506,
+        "max": 10293
+      },
+      "critical90": {
+        "min": 8551,
+        "max": 10362
+      },
+      "worst_case_drive_sweep": {
+        "max": 10451,
+        "case": {
+          "speed": 25,
+          "time": 49490,
+          "joystick": 249
+        },
+        "cases": 1764
+      },
+      "missed_255_tick_critical": {
+        "max": 12317
+      },
+      "explosion_enter": {
+        "max": 13499
+      },
+      "explosion_and_failure": {
+        "max": 20291
+      },
+      "retry": {
+        "max": 44278
+      },
+      "arrival": {
+        "max": 24853
+      },
+      "complete": {
+        "max": 19837
+      },
+      "new_game": {
+        "max": 44291
+      }
+    },
+    "notes": "Whole-screen transitions/retry intentionally may span video frames; clock delta resynchronizes. Actual Atari800 evidence is separate."
+  }
+}

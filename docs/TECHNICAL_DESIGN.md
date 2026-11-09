@@ -215,3 +215,18 @@ Actual segment/checksum and CPU performance reports accompany the XEX. CPU
 profiling excludes ANTIC DMA/OS interrupts; whole-screen retries can span
 frames. **Atari800 and hardware: NOT RUN**; visual stability, input mapping,
 audio silence, real-time NTSC/PAL pacing and gameplay feel require user tests.
+
+## Stage 2 v0.2-r1 — GTIA register alias correction
+
+HPOSP0 writes and M0PF reads share $D000. The v0.2 warning code incorrectly read
+this address as position feedback, sending both player planes off-screen at 75%.
+The separately versioned r1 uses RAM PIX_LO + 48 as its unshaken origin for both
+warning directions. No PMG memory, enable/color setup, pressure or driving tuning
+changes. Controller grows six bytes; no additional state, ZP or resources.
+
+Regression tests model independent GTIA collision reads/position write latches,
+prove the original failure and check continuous car visibility at 74/75/90/99%,
+including flash phases, all 16 collision values, speed/Y anchors and edges.
+Flat-memory CPU tests alone cannot catch register read/write alias bugs. Full
+r1 v0.2 and accepted r3 CPU suites accompany the [versioned fix](../assets/stage2_v02_r1/README.md).
+Atari800/hardware visual testing remains NOT RUN in this environment.

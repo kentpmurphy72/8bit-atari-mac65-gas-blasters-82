@@ -13,24 +13,28 @@ A work-in-progress comedy action game for the **Atari 800XL (64 KB)**, written i
 
 ## Stage 2 v0.2 — playable pressure/destination prototype
 
-[Download the standalone v0.2 XEX](assets/stage2_v02/GasBlasters82_Stage2_Pressure_Destination_v02.xex).
+[Download the fixed standalone v0.2-r1 XEX](assets/stage2_v02_r1/GasBlasters82_Stage2_Pressure_Destination_v02_r1.xex).
+**r1 fixes the car disappearing at 75% pressure:** shake now uses RAM X rather
+than reading GTIA’s write-only position register. Original v0.2 artifacts are
+preserved; approved gameplay is unchanged.
+
 Built on accepted r3 driving: live gas pressure, a 2.00-mile trip, 75%/90%
 warning shake/handling, three lives, green explosion/retry, pharmacy exterior
 and two separate FIRE actions for completion/new game. START/F4 is disabled;
 FIRE is inert during driving. No Stage 1 integration or Stage 3 is included.
 
 ```bash
-python3 tools/build_stage2_v02.py
+python3 tools/build_stage2_v02_r1.py
 # Install tools/requirements-stage1-test.txt into your virtual environment first.
-.venv/bin/python tools/test_stage2_v02.py
-.venv/bin/python tools/profile_stage2_v02.py
-atari800 -xl -ntsc -nobasic -run assets/stage2_v02/GasBlasters82_Stage2_Pressure_Destination_v02.xex
+.venv/bin/python tools/test_stage2_v02_r1.py
+.venv/bin/python tools/profile_stage2_v02_r1.py
+atari800 -xl -ntsc -nobasic -run assets/stage2_v02_r1/GasBlasters82_Stage2_Pressure_Destination_v02_r1.xex
 # Repeat with -pal instead of -ntsc.
 ```
 
 **Implemented and CPU tested; Atari800: NOT RUN; user acceptance pending.**
-See [build, memory and playtest instructions](assets/stage2_v02/README.md) and
-[actual validation results](assets/stage2_v02/validation.md). Earlier dated design
+See [build, memory and playtest instructions](assets/stage2_v02_r1/README.md) and
+[actual validation results](assets/stage2_v02_r1/validation.md). Earlier dated design
 entries below describe the historical v0.1→v0.2 planning boundary.
 
 ## Stage 2 v0.1 — driving mechanics accepted (r3, merged into main)

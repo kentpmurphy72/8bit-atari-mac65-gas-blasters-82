@@ -9,6 +9,18 @@
 > Living checklist. An unchecked item is not necessarily an approved requirement; some items are proposed work that depends on design decisions. Update this file as tasks are finished or scope changes.
 
 - **PMG regression and v2.1 hotfix — 2026-10-30:** The first real Atari800 test of the alternate PMG title **v2 failed visually** (stray cyan/white pixels overlapping text/background). Bug confirmed: DMACTL set to $2E **double-line** although 2 KB PMG data was built for **single-line**. The v2 validator mistakenly expected $2E as well. A separate v2.1 XEX and corrected source now use $3E, an adjusted 56-line vertical origin, and explicit tests for correct DMACTL and cleared PM rows over the text. **v2.1 was tested in Atari800 on 2026-11-01 and was visually rejected:** scattered PMG highlights still degrade the logo, Billy and car. The overlay intentionally adds about 220 disconnected pixels; a heavy DLI handler also has insufficient cycle headroom for one scanline. Do not adopt v2/v2.1; preserve the accepted v1 title. No checklist completion change. **Known-good v1 is unaffected**. Checklist completion count is unchanged until the corrected PMG screen passes visually.
+## Stage 2 v0.2-r1 car visibility repair
+
+- User-reported Atari800 defect: car disappears at 75% pressure. Cause: shake
+  read GTIA $D000 collision flags as if they were HPOSP0 position feedback.
+- Fixed in a separate [v0.2-r1 XEX](../assets/stage2_v02_r1/README.md), using RAM X
+  and the existing amplitudes/clamp. All previous XEX/source/test files remain.
+- New alias-aware CPU visibility checks cover 74/75/90/99%, shaking/HUD flashes,
+  PMG bytes, DMA/enables/colors/positions, road edges and speed-linked Y.
+  Full v0.2/r3 regression results are recorded with the fixed artifact.
+- Still pending: Atari800 NTSC/PAL visual confirmation and gameplay acceptance;
+  no new balance/art decisions, merge or tag. Broader completion counts unchanged.
+
 ## Stage 2 v0.2 implementation evidence — 2026-11-09
 
 - **Implemented and CPU verified:** standalone v0.2 pressure/destination XEX,

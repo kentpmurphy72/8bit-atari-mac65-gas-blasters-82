@@ -619,3 +619,18 @@ counts, memory and cycle evidence are in the versioned validation report.
 Physical hardware and actual Atari800 NTSC/PAL visual/audio/input/feel testing
 remain **NOT RUN**. This implements the milestone without accepting its feel or
 balance; do not merge/tag/delete the branch before user gameplay acceptance.
+
+## 24. v0.2-r1 warning visibility correction
+
+The user's Atari800 playtest found the car disappeared at 75% pressure. The
+original shake code read HPOSP0 ($D000), whose read alias is M0PF collision flags,
+then positioned both PMG players from that unrelated value. r1 derives visual X
+from the driver's RAM PIX_LO plus origin 48 before the existing shake/clamp.
+Approved warning thresholds, shake/steering tuning, driving, pressure timing,
+HUD flashing and outcomes are unchanged. The original v0.2 artifacts remain.
+
+[The fixed r1 XEX/build and regression evidence](../assets/stage2_v02_r1/README.md)
+include hardware read/write alias tests at 74%, 75%, 90% and 99%, both shake/flash
+phases, all collision-flag values and road-edge/Y checks. These are CPU tests,
+not actual Atari800 visual results. Atari800/hardware testing remains NOT RUN
+in the build environment; user gameplay acceptance is pending. No merge/tag.

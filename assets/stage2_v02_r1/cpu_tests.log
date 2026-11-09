@@ -1,0 +1,32 @@
+test_car_visible_at_74_percent (__main__.PrototypeTests.test_car_visible_at_74_percent) ... ok
+test_car_visible_at_75_percent (__main__.PrototypeTests.test_car_visible_at_75_percent) ... ok
+test_car_visible_at_90_percent (__main__.PrototypeTests.test_car_visible_at_90_percent) ... ok
+test_car_visible_at_99_percent (__main__.PrototypeTests.test_car_visible_at_99_percent) ... ok
+test_distance_underflow_and_no_early_zero_or_hundred_percent (__main__.PrototypeTests.test_distance_underflow_and_no_early_zero_or_hundred_percent) ... ok
+test_division_native_precision_randomized (__main__.PrototypeTests.test_division_native_precision_randomized) ... ok
+test_driving_native_differential_r3_below_warning (__main__.PrototypeTests.test_driving_native_differential_r3_below_warning) ... ok
+test_exact_120_second_default_drive_both_video_standards (__main__.PrototypeTests.test_exact_120_second_default_drive_both_video_standards) ... ok
+test_explosion_frames_green_then_life_loss_once (__main__.PrototypeTests.test_explosion_frames_green_then_life_loss_once) ... ok
+test_fire_inert_and_start_disabled_during_driving (__main__.PrototypeTests.test_fire_inert_and_start_disabled_during_driving) ... ok
+test_fixed_binary_preserves_gameplay_data_and_previous_artifacts (__main__.PrototypeTests.test_fixed_binary_preserves_gameplay_data_and_previous_artifacts) ... ok
+test_full_ntsc_pal_deadlines_warning_thresholds_and_freeze (__main__.PrototypeTests.test_full_ntsc_pal_deadlines_warning_thresholds_and_freeze) ... ok
+test_gas_priority_tie_and_latched_success (__main__.PrototypeTests.test_gas_priority_tie_and_latched_success) ... ok
+test_held_fire_cannot_skip_failure_or_pharmacy_or_complete (__main__.PrototypeTests.test_held_fire_cannot_skip_failure_or_pharmacy_or_complete) ... ok
+test_initial_hud_native_setup (__main__.PrototypeTests.test_initial_hud_native_setup) ... ok
+test_long_scroll_fonts_and_panel_preserved (__main__.PrototypeTests.test_long_scroll_fonts_and_panel_preserved) ... ok
+test_mapping_all_values_and_fractional_integration (__main__.PrototypeTests.test_mapping_all_values_and_fractional_integration) ... ok
+test_measured_steady_frame_budget (__main__.PrototypeTests.test_measured_steady_frame_budget) ... ok
+test_native_mapping_clamps_every_table_entry_and_duplicate_ticks (__main__.PrototypeTests.test_native_mapping_clamps_every_table_entry_and_duplicate_ticks) ... ok
+test_original_bug_reproduced_with_gtia_read_aliases (__main__.PrototypeTests.test_original_bug_reproduced_with_gtia_read_aliases) ... ok
+test_pharmacy_art_and_terminal_pmg_disable (__main__.PrototypeTests.test_pharmacy_art_and_terminal_pmg_disable) ... ok
+test_reproducible_manifest_segments_and_prior_hash (__main__.PrototypeTests.test_reproducible_manifest_segments_and_prior_hash) ... ok
+test_rtc_wrap_and_missed_ticks (__main__.PrototypeTests.test_rtc_wrap_and_missed_ticks) ... ok
+test_runtime_writes_confined_to_declared_ram_and_registers (__main__.PrototypeTests.test_runtime_writes_confined_to_declared_ram_and_registers) ... ok
+test_three_lives_retry_and_new_game_release_edges (__main__.PrototypeTests.test_three_lives_retry_and_new_game_release_edges) ... ok
+test_warning_threshold_boundaries_step_shake_clamp_and_gas_only_flash (__main__.PrototypeTests.test_warning_threshold_boundaries_step_shake_clamp_and_gas_only_flash) ... ok
+test_warning_visibility_all_collision_flags_edges_speeds_and_transitions (__main__.PrototypeTests.test_warning_visibility_all_collision_flags_edges_speeds_and_transitions) ... ok
+
+----------------------------------------------------------------------
+Ran 27 tests in 159.398s
+
+OK

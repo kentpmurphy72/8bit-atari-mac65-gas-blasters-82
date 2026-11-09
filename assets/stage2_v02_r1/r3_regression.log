@@ -1,0 +1,26 @@
+test_boot_native_registers_sprite_and_standalone_memory (__main__.RevisionTests.test_boot_native_registers_sprite_and_standalone_memory) ... ok
+test_build_reproducibility_segments_and_explicit_geometry (__main__.RevisionTests.test_build_reproducibility_segments_and_explicit_geometry) ... ok
+test_combined_diagonals_steering_speed_and_opposition (__main__.RevisionTests.test_combined_diagonals_steering_speed_and_opposition) ... ok
+test_down_minimum_positive_scroll_low_car_and_neutral_holds (__main__.RevisionTests.test_down_minimum_positive_scroll_low_car_and_neutral_holds) ... ok
+test_downward_pixel_motion_all_phases_including_wrap (__main__.RevisionTests.test_downward_pixel_motion_all_phases_including_wrap) ... ok
+test_extended_idle_three_minutes_no_drift_or_corruption (__main__.RevisionTests.test_extended_idle_three_minutes_no_drift_or_corruption) ... ok
+test_fonts_swap_coherently_and_hud_never_scrolls (__main__.RevisionTests.test_fonts_swap_coherently_and_hud_never_scrolls) ... ok
+test_intermediate_speed_target_settles_without_spring_back (__main__.RevisionTests.test_intermediate_speed_target_settles_without_spring_back) ... ok
+test_mapping_monotonic_and_lookup_bounds (__main__.RevisionTests.test_mapping_monotonic_and_lookup_bounds) ... ok
+test_neutral_automatic_positive_motion_and_pipeline (__main__.RevisionTests.test_neutral_automatic_positive_motion_and_pipeline) ... ok
+test_piecewise_continuity_exact_anchors_and_slope (__main__.RevisionTests.test_piecewise_continuity_exact_anchors_and_slope) ... ok
+test_pmg_guard_regions_road_hud_stay_fixed_through_reversals (__main__.RevisionTests.test_pmg_guard_regions_road_hud_stay_fixed_through_reversals) ... ok
+test_r2_runtime_and_static_segments_exactly_preserved (__main__.RevisionTests.test_r2_runtime_and_static_segments_exactly_preserved) ... ok
+test_rendered_zone_boundaries_and_lane_location (__main__.RevisionTests.test_rendered_zone_boundaries_and_lane_location) ... ok
+test_restart_release_armed_and_clock_wrap (__main__.RevisionTests.test_restart_release_armed_and_clock_wrap) ... ok
+test_speed_caps_braking_and_neutral_retention (__main__.RevisionTests.test_speed_caps_braking_and_neutral_retention) ... ok
+test_start_resets_physical_y_fraction_and_all_old_rows (__main__.RevisionTests.test_start_resets_physical_y_fraction_and_all_old_rows) ... ok
+test_steering_diagonals_and_fire_at_both_y_extremes (__main__.RevisionTests.test_steering_diagonals_and_fire_at_both_y_extremes) ... ok
+test_steering_fractional_immediate_reverse_bounds_and_fire_reserved (__main__.RevisionTests.test_steering_fractional_immediate_reverse_bounds_and_fire_reserved) ... ok
+test_up_maximum_physically_relocates_and_neutral_holds (__main__.RevisionTests.test_up_maximum_physically_relocates_and_neutral_holds) ... ok
+test_zone_classification_center_and_no_penalties (__main__.RevisionTests.test_zone_classification_center_and_no_penalties) ... ok
+
+----------------------------------------------------------------------
+Ran 21 tests in 17.720s
+
+OK

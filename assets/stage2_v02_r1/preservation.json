@@ -1,0 +1,695 @@
+{
+  "baseline_commit": "e2a615cb6653b7d7b30a0f430706957066f3f35f",
+  "pass": true,
+  "historical_files_checked": 172,
+  "files": [
+    {
+      "path": "assets/arrival/README.md",
+      "sha256": "a4807f3d4708157bd34b8cf56cb39363bc93e55bea3a0fa48c764057f9d1d61a"
+    },
+    {
+      "path": "assets/arrival/arrival_v3.xex",
+      "sha256": "17c9ab28df798045d27a31218bc1eade26e6f1c72c09690b9c533375089e2b76"
+    },
+    {
+      "path": "assets/arrival/art_160x128_4colors.png",
+      "sha256": "10c217d43562c57e318310c39ba2ccb6417a6ec43d9005a53c1d411c6d6e5514"
+    },
+    {
+      "path": "assets/arrival/art_160x128_antic_e.bin",
+      "sha256": "8757754b12c22d38289a74ddf174c819b6b675fec065d924aaf91f1f7a195c89"
+    },
+    {
+      "path": "assets/arrival/charset_1kb.bin",
+      "sha256": "001b68658909177912ea5f357c7d387d0205651a310253c8c276ba8255773da2"
+    },
+    {
+      "path": "assets/arrival/display_list.bin",
+      "sha256": "279812146231de9a618cb89782c8ef94fde6a4b8bf561a978622afa43dd7a289"
+    },
+    {
+      "path": "assets/arrival/manifest.json",
+      "sha256": "9019a50b11000c1f8a6a16408e96aea921dd3557192dc0216415c9386859d219"
+    },
+    {
+      "path": "assets/arrival/palette_bands.bin",
+      "sha256": "70fff483324faa345d2ef92765d9c48e5cfbe84a6fc523ed9e20545957db5acf"
+    },
+    {
+      "path": "assets/arrival/palette_bands.json",
+      "sha256": "c3f1775cce60dbbb102d9555a85b7a37769fe565fd1b1cf0f011429ebcb7899e"
+    },
+    {
+      "path": "assets/arrival/preview.png",
+      "sha256": "63aa6eb892a0c504908ad02859866a5e0a2ac079361d617bbaf333f8d7a851e1"
+    },
+    {
+      "path": "assets/arrival/source_art_original.png",
+      "sha256": "db5419f077c295953580f3896fbaa160ccfdc60c3e970d02aa36aa8c08039a08"
+    },
+    {
+      "path": "assets/arrival/text_40col_8rows.bin",
+      "sha256": "1d6588e0d8f2a5dd91bb76c1937aa435218381e759e4ede767f5df92a19600c5"
+    },
+    {
+      "path": "assets/cover-art/.gitkeep",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "assets/gameplay/taco_smell_stage1_v03_rules.json",
+      "sha256": "86258e453c0d4f11c468957889550993b86cebe5da4cd57e38da6db769c0121a"
+    },
+    {
+      "path": "assets/gameplay/taco_smell_stage1_v04_movement.json",
+      "sha256": "390158a6b82aeecd53a3f007eeaffbc8f788b6d0283b3f41095d7433be0a9293"
+    },
+    {
+      "path": "assets/gameplay/taco_smell_stage1_v05_blast.json",
+      "sha256": "1f623f462b300fb0458fd0b24c3646a02366a3394c6fca99606737793e4ad437"
+    },
+    {
+      "path": "assets/intro/README.md",
+      "sha256": "b66af3fa1277798d9e58f72318103f10afd15344f00bb525443e2010103bac6a"
+    },
+    {
+      "path": "assets/intro/art_160x128_4colors.png",
+      "sha256": "7d5539aa0f85ff35b2100eefeb853a4e7655a2a8399edc42c4446d88466dc449"
+    },
+    {
+      "path": "assets/intro/art_160x128_antic_e.bin",
+      "sha256": "baa2cca81fbd731085b28ceadef8b88ffa3e2602262d2d462071baeef32a8380"
+    },
+    {
+      "path": "assets/intro/charset_1kb.bin",
+      "sha256": "001b68658909177912ea5f357c7d387d0205651a310253c8c276ba8255773da2"
+    },
+    {
+      "path": "assets/intro/display_list.bin",
+      "sha256": "279812146231de9a618cb89782c8ef94fde6a4b8bf561a978622afa43dd7a289"
+    },
+    {
+      "path": "assets/intro/manifest.json",
+      "sha256": "5bd311d517405d4f9cb6e01a446542b5d32ac9e726f1cc583e9c7a29e40ae15b"
+    },
+    {
+      "path": "assets/intro/meet_the_crew_v4.xex",
+      "sha256": "ca2bf5fff051fa10f4a7f822d34fa74c4f66052d4d1640b453823702cc52596f"
+    },
+    {
+      "path": "assets/intro/palette_bands.bin",
+      "sha256": "0a8266ec242efd74b3c3011076c32866bfa4b66e1155e6ca9b7ebe0478a514ee"
+    },
+    {
+      "path": "assets/intro/palette_bands.json",
+      "sha256": "be005e32b3af26cf8640ef091dd986d7729ab27f3c6cfbe28b0bde70fbd23d5a"
+    },
+    {
+      "path": "assets/intro/preview.png",
+      "sha256": "340e0a6df6e43488be5075cdc8430c4f3b89adf702f70f77e080f29aa28e694d"
+    },
+    {
+      "path": "assets/intro/source_art_original.png",
+      "sha256": "94953ebfe54c5ec08428e6b1841d1ed977af0220f312d89c72a9cb2ef0a0e63e"
+    },
+    {
+      "path": "assets/intro/text_40col_8rows.bin",
+      "sha256": "f0106f571eb10b72fe28b0749703caa7c142be7bbed8e2aeb1f3c41f86c5f0d6"
+    },
+    {
+      "path": "assets/maps/taco_smell_stage1_v01.json",
+      "sha256": "41f5dcf0b329bced90e5ccfb5bca31d00bfc31ced0fb0769d0cc3a9f442035ed"
+    },
+    {
+      "path": "assets/maps/taco_smell_stage1_v01.map",
+      "sha256": "49cfa9bb57dafded94f347e650753d5f5e3b01466520361ff39a01611c330858"
+    },
+    {
+      "path": "assets/maps/taco_smell_stage1_v01_preview.svg",
+      "sha256": "57bbb4198db8d5a3b822b1d29972d49f891738990f4c2dc211e508106280a843"
+    },
+    {
+      "path": "assets/maps/taco_smell_stage1_v02.json",
+      "sha256": "5e58014c22831556b7299185f92a7e3fb3c84060a24c2eca9b196dc67073e688"
+    },
+    {
+      "path": "assets/maps/taco_smell_stage1_v02_dining.map",
+      "sha256": "cb65defdd5ed4c7e3aaaf4005ca036bda92869fd2cd967264d85fd1de0d22375"
+    },
+    {
+      "path": "assets/maps/taco_smell_stage1_v02_kitchen.map",
+      "sha256": "439b157f83d741dc860ae06598e4ab81f2bfb9db9a83911d7c36f3a2ed9ee219"
+    },
+    {
+      "path": "assets/maps/taco_smell_stage1_v02_preview.svg",
+      "sha256": "36c7929ceff90a4f92a336f6de059a16ae49af3bb6f3f59f8ea0f287ed9fd790"
+    },
+    {
+      "path": "assets/maps/taco_smell_stage1_v02_storage.map",
+      "sha256": "3f6c3cc6e2b9cbcfd8466577f0834db250b36a48180057f9a07b6346e5f0f836"
+    },
+    {
+      "path": "assets/music/01_Arcade_Rock.mp3",
+      "sha256": "54888b041d7b26c3ddf72709d95a4cc105213ad192794e9fc1af15e553e3a50f"
+    },
+    {
+      "path": "assets/music/01_Arcade_Rock_POKEY_Approx.mp3",
+      "sha256": "ccc5224077f8edb37911da534f379709bf77ea7a8dfdfed0f154ce882de33868"
+    },
+    {
+      "path": "assets/music/02_Funky_Gas_Attack.mp3",
+      "sha256": "158d3f1f78468cba44a16408c3db685b006ac29ec9ee2a6a71bb695c54415d7b"
+    },
+    {
+      "path": "assets/music/02_Funky_Gas_Attack_POKEY_Approx.mp3",
+      "sha256": "4f0d680fccbc19d490a773be2afb73c7237a76d6fbd7d29838b54b7897d3c021"
+    },
+    {
+      "path": "assets/music/GasBlasters82_Arrival_Funky_POKEY.xex",
+      "sha256": "24dbda1429b79fe7c4d03132ee357a96213e23c5b1cab08cba807fc9d257d069"
+    },
+    {
+      "path": "assets/music/GasBlasters82_MeetTheCrew_Funky_POKEY.xex",
+      "sha256": "138264f06fb04c2c915ad3040fe415229f86474caa9793a76a637fa8d54c2706"
+    },
+    {
+      "path": "assets/music/GasBlasters82_Title_ArcadeRock_POKEY.xex",
+      "sha256": "38808ccd0cb44a2025f92ae3894a2fd1628418b9591e6f07ea5808bfa7795dd3"
+    },
+    {
+      "path": "assets/music/README.md",
+      "sha256": "cd64ca446f8bf4520f281996ae94074017b7a1c118f28d03af1bf5596d1bf0ab"
+    },
+    {
+      "path": "assets/music/base_screens/arrival_original.xex",
+      "sha256": "17c9ab28df798045d27a31218bc1eade26e6f1c72c09690b9c533375089e2b76"
+    },
+    {
+      "path": "assets/music/base_screens/crew_original.xex",
+      "sha256": "ca2bf5fff051fa10f4a7f822d34fa74c4f66052d4d1640b453823702cc52596f"
+    },
+    {
+      "path": "assets/music/base_screens/title_original.xex",
+      "sha256": "a51545bf6ca06423ddffa59592cf05e46e5a03333697fc3436fba77a23b583d3"
+    },
+    {
+      "path": "assets/music/build_manifest.json",
+      "sha256": "ff26847dceb6ec51df9c7142d1c5f04cf8f6b2b5d161e7c918be813cd3438bd9"
+    },
+    {
+      "path": "assets/music/build_pokey_music.py",
+      "sha256": "16b3d1d56ac0f923c104c99158cf158b227b9777c0e0eabd49bdc20da49e63b1"
+    },
+    {
+      "path": "assets/music/compose_demos.py",
+      "sha256": "3c9960d8a3498f9f2f39de4903ccf5c891c991d46ab345a57dcd4f8536e357bb"
+    },
+    {
+      "path": "assets/music/funk_pokey_6502.asm",
+      "sha256": "56291b126a737695707c5229bbbe635edda4544e15df0fec3d318af86ce55e67"
+    },
+    {
+      "path": "assets/music/funk_pokey_6502.bin",
+      "sha256": "af67d38c0e1d3ef05041a3c00490ae1242784d87458c5011b81ff00e4d903078"
+    },
+    {
+      "path": "assets/music/funk_pokey_note_events.json",
+      "sha256": "67ef9702137a1e9d8e071ee391bc5eac8fcd240ce07a76ca6876b7fe06acb8e5"
+    },
+    {
+      "path": "assets/music/funk_pokey_registers.bin",
+      "sha256": "cf200c64026dc59520d1408b3036e2bb693c9b9e2264314994b66495714fae20"
+    },
+    {
+      "path": "assets/music/rock_pokey_6502.asm",
+      "sha256": "af9cde3adb760d69a394b3e0f9768da540236653e710371271a8a224a0a6f7f3"
+    },
+    {
+      "path": "assets/music/rock_pokey_6502.bin",
+      "sha256": "4f52dcb35f49ada5ba92a6ddeff1b540beac6c9d97a4474a8b110225ed3374a8"
+    },
+    {
+      "path": "assets/music/rock_pokey_note_events.json",
+      "sha256": "933839ab4c9a97721301bb28a4e40f1af4f2322ab7f4c3f179f024671d2350bc"
+    },
+    {
+      "path": "assets/music/rock_pokey_registers.bin",
+      "sha256": "d96fc3e9e16fe27a4ef637b12c1e3728e7b870664acb11eebb2226495b9f9d53"
+    },
+    {
+      "path": "assets/music/validate_build.py",
+      "sha256": "4bad8b5197c30b14d1a04b8a174c44c00b4b8ddce225f84dc9c8ac95a37e88bc"
+    },
+    {
+      "path": "assets/opening/GasBlasters82_OpeningSequence_v1.xex",
+      "sha256": "08971fa2ca324e1e5e36bbc7c7d0fe891cb23c568230abb70c93a4f6de3d7e29"
+    },
+    {
+      "path": "assets/opening/README.md",
+      "sha256": "6521d135db560e76932670bcef2514180a9cd6ab0ff47da8ea27755595d6d160"
+    },
+    {
+      "path": "assets/opening/generated_6502.asm",
+      "sha256": "f6fd8f5e321ea3d276ade7a47811cfde9500a82ee4e58703b2750340cb87b15d"
+    },
+    {
+      "path": "assets/opening/manifest.json",
+      "sha256": "ac2a60da407fe7a8843c81f48cd46f222aa53fdaa44aed40a3550e1b41569171"
+    },
+    {
+      "path": "assets/stage1/GasBlasters82_Stage1_Playable_v01.xex",
+      "sha256": "8b9cc8155d2c2534350fb44b4bd310eaedc9b59c71989623dd3ab99e5e9341f7"
+    },
+    {
+      "path": "assets/stage1/README.md",
+      "sha256": "4b3a4ec08c6ee72c4b9fdfcffd5a14c0c30de03e2ba904547effe3a0e71bbae9"
+    },
+    {
+      "path": "assets/stage1/manifest.json",
+      "sha256": "031de75098db5984ea321b19d9b6225fe4c4a14f5168e79f8042ab54f0acfc6e"
+    },
+    {
+      "path": "assets/stage1/stage1_6502.asm",
+      "sha256": "d985e5fb24f22a8b9ede1f045e78d6e02c5907ed5f6bcb107bd590fbb851c77f"
+    },
+    {
+      "path": "assets/stage1_v02/GasBlasters82_Stage1_Playable_v02.xex",
+      "sha256": "c42662a012108e5d2850df30fdbb2eefc4aff86dabf2c16ebceed08abdbcad98"
+    },
+    {
+      "path": "assets/stage1_v02/README.md",
+      "sha256": "62421f0f1be00fe761a15dc359e7440ceaffc18e37d2a1154ab7b76054411743"
+    },
+    {
+      "path": "assets/stage1_v02/manifest.json",
+      "sha256": "f765bea1bdc2b871b1c72d41827f4c85aed3a58c37f42ad70a80b1b72a04981b"
+    },
+    {
+      "path": "assets/stage1_v02/stage1_6502.asm",
+      "sha256": "882547f80b3dc53eeecf208f7cce4e52125ac5bfa5f0a1b16afefa0b0e16e5b0"
+    },
+    {
+      "path": "assets/stage1_v03/GasBlasters82_Stage1_Playable_v03.xex",
+      "sha256": "41ec9fffc963e93b4e8dd8c1c68eff67090b23f2cdcaad6ba694870eb16a0007"
+    },
+    {
+      "path": "assets/stage1_v03/README.md",
+      "sha256": "9ca456ec9dc4e716215ce55c97d3347f5a6a9161341d87f38b2e83781b903160"
+    },
+    {
+      "path": "assets/stage1_v03/manifest.json",
+      "sha256": "c7cc52fb74c25e08c65a102fca11bd81b6542c48cedaf206e4af5a90ecfa03ce"
+    },
+    {
+      "path": "assets/stage1_v03/profile.json",
+      "sha256": "cd9ed3ccffaadeb1508de3975e22edab11c69de676ebb9f32dffba15b09c156d"
+    },
+    {
+      "path": "assets/stage1_v03/stage1_6502.asm",
+      "sha256": "a347c9b9f3c3bc08af0626a3c66a96f16610f2eed4a3bbe04088be85b41fc7ad"
+    },
+    {
+      "path": "assets/stage1_v04/GasBlasters82_Stage1_Playable_v04.xex",
+      "sha256": "33d6aae522f26e161bba12291fc28ca3d431055f83d6eb0206808f872d16fd87"
+    },
+    {
+      "path": "assets/stage1_v04/README.md",
+      "sha256": "f64513e387845d105cee97ae6c5e078cb66b2c71da4b457b2f8899c84062c577"
+    },
+    {
+      "path": "assets/stage1_v04/core_6502_reference.asm",
+      "sha256": "00d3134bb0822396a954b600eadabdb9678dc9683e5b4295c06fe6f0c7c4782c"
+    },
+    {
+      "path": "assets/stage1_v04/manifest.json",
+      "sha256": "5e884f244533bd91548cd81453b9324e1c1cda091aa176d5d9a06df05f53e03f"
+    },
+    {
+      "path": "assets/stage1_v04/movement_6502.asm",
+      "sha256": "78b3fce871c5fcc6f26f1b93cfe9870947af8536e6cab7573a30267ba908aa8c"
+    },
+    {
+      "path": "assets/stage1_v04/profile.json",
+      "sha256": "bb34eb99b0b02fc91830a2bdb7460e7cb825ee2ecb09273a4ee086426ee75971"
+    },
+    {
+      "path": "assets/stage1_v05/GasBlasters82_Stage1_Playable_v05.xex",
+      "sha256": "b7e1c423b25f7cb10cd90cd063090579eaea4bd27b7310c70e8ea5f02e169753"
+    },
+    {
+      "path": "assets/stage1_v05/README.md",
+      "sha256": "7e434c030bf89bbce75dad6c35a2d1f5567c37b3d6aedf50c5de36d0739b9014"
+    },
+    {
+      "path": "assets/stage1_v05/blast_6502.asm",
+      "sha256": "1e2c78c1d64d506b1f7399190deb0406f675f164e161fb8316da8446c7d1e191"
+    },
+    {
+      "path": "assets/stage1_v05/manifest.json",
+      "sha256": "f1e39df8a564b92362619de9495c76cf366166054ba08429ca6fe3e59e6dfe50"
+    },
+    {
+      "path": "assets/stage1_v05/movement_reference.asm",
+      "sha256": "25535afc42bb66c1dd286b8be7670280d08fd344d8cc711a406dff4aa22d8225"
+    },
+    {
+      "path": "assets/stage1_v05/profile.json",
+      "sha256": "7ae85cfc75f6029f9421bd86f5b2ef3990a5e417077420a23cb97ccf8e09c658"
+    },
+    {
+      "path": "assets/stage2_v01/GasBlasters82_Stage2_Driving_v01.xex",
+      "sha256": "b686f523e4f8ac603a17e2939933da7cab3cc0b2d773160969d3c907aa9825b6"
+    },
+    {
+      "path": "assets/stage2_v01/README.md",
+      "sha256": "157d8fdd3d8cb25e5fb10589ff970d581444506d2e4ab5efdad17dba14865756"
+    },
+    {
+      "path": "assets/stage2_v01/driving_6502.asm",
+      "sha256": "c6a731c69715e700003c2bfdd91018997d10bb26610093997f5a4e46f5840424"
+    },
+    {
+      "path": "assets/stage2_v01/manifest.json",
+      "sha256": "2be42589e071c2de2661d3740c0ced503dc87080973f2e8678f360808556eeec"
+    },
+    {
+      "path": "assets/stage2_v01/profile.json",
+      "sha256": "5e97f7e29b01e6234fd530f58a225de3bd2656404ed3b4d25d757aa95308cea3"
+    },
+    {
+      "path": "assets/stage2_v01/tuning.json",
+      "sha256": "813a07a9cae21a695e899d2cea11ef3639299257add3771a9fc8d23ff12cf835"
+    },
+    {
+      "path": "assets/stage2_v01/validation.json",
+      "sha256": "76f5ac0dfd38a5364cbfc81c1f17f057a8e176c4c51d932acf05aa44259fb556"
+    },
+    {
+      "path": "assets/stage2_v01_r2/GasBlasters82_Stage2_Driving_v01_r2.xex",
+      "sha256": "c8555106e3d8904f4bd34649d344c3b1b76aabe1cfb1493060a61b6c07fa88c5"
+    },
+    {
+      "path": "assets/stage2_v01_r2/README.md",
+      "sha256": "ce733ef1175671b96f77f054717a6b2910f5d644c7988539a10bcf19f177c9a0"
+    },
+    {
+      "path": "assets/stage2_v01_r2/driving_6502.asm",
+      "sha256": "8fe8e94514bfe0435aa6327718c9679de396ce0f85cf3b16781e3502e29725e2"
+    },
+    {
+      "path": "assets/stage2_v01_r2/manifest.json",
+      "sha256": "6404f42f12ef82de41a9b01ab7635bffe109b10320dbb343d0bce2e41c0ac285"
+    },
+    {
+      "path": "assets/stage2_v01_r2/profile.json",
+      "sha256": "38bfc9a467fec3174b909893198da07a9a6938fc7d8fd6d28afccc36cc732aeb"
+    },
+    {
+      "path": "assets/stage2_v01_r2/tuning.json",
+      "sha256": "c5cb8e7bf65c21b292975e3345ea4ca10c3382c58c29156443f001fdab900ac1"
+    },
+    {
+      "path": "assets/stage2_v01_r2/validation.json",
+      "sha256": "2760670671c9e1c1340d469810735abad838f2a08885be763c29121ecf8f47e8"
+    },
+    {
+      "path": "assets/stage2_v01_r3/GasBlasters82_Stage2_Driving_v01_r3.xex",
+      "sha256": "085ca4e7c283face0657f62b4ec08651c0be46f1d0adf51d725802e2b9da7079"
+    },
+    {
+      "path": "assets/stage2_v01_r3/README.md",
+      "sha256": "692f91ca5e926a66d7c8d659c35a4e34510815c61bafb33c577d7e63bf705ed6"
+    },
+    {
+      "path": "assets/stage2_v01_r3/driving_6502.asm",
+      "sha256": "c5221525fabdc00725fd021323b7c5e926de51f373223855fa8fa0d30d70dfc1"
+    },
+    {
+      "path": "assets/stage2_v01_r3/manifest.json",
+      "sha256": "a9d0463c29d6026f0c6caa4253f86e388f8e88d16d7cf280906bc1b6ba9db805"
+    },
+    {
+      "path": "assets/stage2_v01_r3/profile.json",
+      "sha256": "db878ab3ce70fb5019f2bb1983b8a898c597a9de854a254d4e8ffb9707d9b4f4"
+    },
+    {
+      "path": "assets/stage2_v01_r3/tuning.json",
+      "sha256": "f71c63eab7694f0ddb725a6502831c98b24f22ecb962a6572fd2978448ded920"
+    },
+    {
+      "path": "assets/stage2_v01_r3/validation.json",
+      "sha256": "58eacea6e3adb2de0a25ae45a9a13b9b83eb26a75b151234d9172b9f10d106d3"
+    },
+    {
+      "path": "assets/stage2_v02/GasBlasters82_Stage2_Pressure_Destination_v02.xex",
+      "sha256": "edfba7efd15fee327991b7a44e21cfa6e6bef29ff1d9330500307e106966b057"
+    },
+    {
+      "path": "assets/stage2_v02/README.md",
+      "sha256": "af8f3d1c02d8d8a3ab357af2f49963501af195381874403ead406bf06ca6cbd7"
+    },
+    {
+      "path": "assets/stage2_v02/cpu_tests.log",
+      "sha256": "de5bed46f49044a91b31826ebe87ac1ccfafadfd4bb0784452b262f0f5fa180e"
+    },
+    {
+      "path": "assets/stage2_v02/manifest.json",
+      "sha256": "87cb1ab503b682d1270c932f0bc3b59404ee9b02a1a59f464fd5326400e1c5c4"
+    },
+    {
+      "path": "assets/stage2_v02/preservation.json",
+      "sha256": "4fa134989dd68d86726386bd99f3ffc4cefda91adcb626fc96c7a7f3c9f249cd"
+    },
+    {
+      "path": "assets/stage2_v02/pressure_destination_6502.asm",
+      "sha256": "cccf176c064d061318ac02448edea9f25fd30c89fe2ca19355142493f28ecb69"
+    },
+    {
+      "path": "assets/stage2_v02/profile.json",
+      "sha256": "7ca0a56a2347b9af38fc2e933a669e5dec142b47cb646afcd666b6a5fb16bbf4"
+    },
+    {
+      "path": "assets/stage2_v02/r3_driver_reference.asm",
+      "sha256": "c5221525fabdc00725fd021323b7c5e926de51f373223855fa8fa0d30d70dfc1"
+    },
+    {
+      "path": "assets/stage2_v02/validation.json",
+      "sha256": "c60cc632508b5bbcc91484abae4029fcee6f96ac922e2e6365419126bdad216c"
+    },
+    {
+      "path": "assets/stage2_v02/validation.md",
+      "sha256": "2fc7996b2dcc7ddde59b2322e4def990dafbf037faf3449c2f035e267989ff14"
+    },
+    {
+      "path": "assets/title/GasBlasters82_Title_Option3_Preview.png",
+      "sha256": "0770878ff5c86893fde70558943c627806f4205c2e59c0cf4b933ae7e647824b"
+    },
+    {
+      "path": "assets/title/Title_Option3_Original.xex",
+      "sha256": "a51545bf6ca06423ddffa59592cf05e46e5a03333697fc3436fba77a23b583d3"
+    },
+    {
+      "path": "assets/title/build_title_screen.py",
+      "sha256": "bfac283a95e59d8d59a9eabdb93ecac28e6bc4228b30974b823898b095073ddc"
+    },
+    {
+      "path": "assets/title/source_art_option3.png",
+      "sha256": "c23f260003cfa22491f93462353b034508dda4308f19fe402b4fef2208798b06"
+    },
+    {
+      "path": "assets/title_v2/GasBlasters82_TitleV2_1_PMG_OpeningSequence.xex",
+      "sha256": "6df9c6014cfb4e9c353c2d55963a1c827ca9e4b8b80fce4971576b364515bdf7"
+    },
+    {
+      "path": "assets/title_v2/GasBlasters82_TitleV2_PMG_OpeningSequence.xex",
+      "sha256": "88bb64e636266bbb18c9e3d7ad3821d058e92331966862ba9fc6682e59a1e385"
+    },
+    {
+      "path": "assets/title_v2/README.md",
+      "sha256": "96577bd362e77dd4eaf6c352091aa72edc54144c860b6f1730d865ebbb021295"
+    },
+    {
+      "path": "assets/title_v2/Title_v1_vs_v2_PMG_Comparison.png",
+      "sha256": "087c54f7c1fcf2558f6753795ea94b5b504073b01135928caf6ae11ca61cf1f0"
+    },
+    {
+      "path": "assets/title_v2/manifest.json",
+      "sha256": "1ee14e41ce5c31974d654b935de4790a31dfd4dee15a18808e08d3b061ef4ac8"
+    },
+    {
+      "path": "assets/title_v2/pmg_2kb.bin",
+      "sha256": "9b413d94f5d645451646fb1634751e0c9807244a5d5eb013dac9e356f22dc8a2"
+    },
+    {
+      "path": "assets/title_v2/pmg_colors_11x4.bin",
+      "sha256": "0fc239655a66bfc99b710acc11153fda541f1c7c1382bfa2656002526d4e5f12"
+    },
+    {
+      "path": "assets/title_v2/pmg_extension_6502.asm",
+      "sha256": "8e82ccf8ea8f0a5a58819a0f69a5efecc4a7a6e5ffa3536a72ec9a18c3e2475d"
+    },
+    {
+      "path": "assets/title_v2/pmg_overlay_data.json",
+      "sha256": "a3b5e2a6811b9c86076509fbc4bb5daabae0177cbe9a9abb279a61ed8891dcc0"
+    },
+    {
+      "path": "assets/title_v2/pmg_position_11x4.bin",
+      "sha256": "79f970d91e6f234bedb8b857dd1ddabf9c376ac5ca3a78aa34ce9a02ab5b06ee"
+    },
+    {
+      "path": "assets/title_v2/title_original_160x160_preview.png",
+      "sha256": "e622a6a12a1b1834889ea3dcd4019317d3c2d718b9232858c5ebafedfe8fed34"
+    },
+    {
+      "path": "tools/README.md",
+      "sha256": "c40d55c8bed4377437b3fa6345906fae7b0007941bb9ee7945cfc9e381eea6cd"
+    },
+    {
+      "path": "tools/build_arrival_screen.py",
+      "sha256": "0a2b54d6181ff6598bed0f58a5c1d79db02390bf9f1848ecf4f79c3d1728f753"
+    },
+    {
+      "path": "tools/build_clean_intro.py",
+      "sha256": "813343ccda69cb4bce63623efcf9b4a5451ad0602bc4cdad71c8ce6eb65f520d"
+    },
+    {
+      "path": "tools/build_opening_sequence.py",
+      "sha256": "2a40a5c985b1c44465ddf132db0ad82f70b156d8854b0007eefe16e8087a11be"
+    },
+    {
+      "path": "tools/build_stage1.py",
+      "sha256": "6683c0a3561bd7881e77d4544f129e5b4b01b7ce9039ea892525228841ae8d5d"
+    },
+    {
+      "path": "tools/build_stage1_v02.py",
+      "sha256": "946a5bdc93956a2b13ef97982ebeed13a310349f3abc92c30747053f002b08bf"
+    },
+    {
+      "path": "tools/build_stage1_v03.py",
+      "sha256": "0a1a2dcafd6832a6f49fdd260233343681840b29b89530397a51a4be92677525"
+    },
+    {
+      "path": "tools/build_stage1_v04.py",
+      "sha256": "8f064719f6013e6ab9b7e4310c794188a7319e0d028b26ef74383299e28815f6"
+    },
+    {
+      "path": "tools/build_stage1_v05.py",
+      "sha256": "d22a76667825363b06533eb46eeabf698be5a85aaf30943b47321527929650f3"
+    },
+    {
+      "path": "tools/build_stage2_v01.py",
+      "sha256": "62802c6d4fc0e10a23ab82cfacc22bb01704488861e1610b03e3dfe062583401"
+    },
+    {
+      "path": "tools/build_stage2_v01_r2.py",
+      "sha256": "b1ea74d40dbf594888be7660e6fff86ffede84b84dce78e1ec764f25403821a6"
+    },
+    {
+      "path": "tools/build_stage2_v01_r3.py",
+      "sha256": "9bae107b545b5a561df43c400c6e6ec30e875f204f5635570bda6b3e4ce675fb"
+    },
+    {
+      "path": "tools/build_stage2_v02.py",
+      "sha256": "cb7680691bb828b93ce627d619034694d0b1a15cb0f621f7b61e2d7041c9a265"
+    },
+    {
+      "path": "tools/build_title_v2_pmg.py",
+      "sha256": "b9b7d4e973dfce5059d1075f8cbf8501d0eb2c74827996950e623d33a89f7a36"
+    },
+    {
+      "path": "tools/profile_stage1_v03.py",
+      "sha256": "5e4b7d2e795a84bbad2fcfc2d0b27a5153be9aa73210463572fa483a217d3ce1"
+    },
+    {
+      "path": "tools/profile_stage1_v04.py",
+      "sha256": "5c9c720789269c1f9fb85635dd5112e2135ea06b38cb6cb390267dd94048f7f5"
+    },
+    {
+      "path": "tools/profile_stage1_v05.py",
+      "sha256": "a32a79140f9a5728bf0fa0cf3d91433b7e42a9eacfd93c7dd658cbd1b3fcaf87"
+    },
+    {
+      "path": "tools/profile_stage2_v01.py",
+      "sha256": "9da740bc3255470954ffcb2c2c845c302161a22f0d9c879c8b7c8f50e38f3e10"
+    },
+    {
+      "path": "tools/profile_stage2_v01_r2.py",
+      "sha256": "cec6df7cfca839ae9967fbabc1e6f07a16d63bfc70d2a2338159384c7e876ce6"
+    },
+    {
+      "path": "tools/profile_stage2_v01_r3.py",
+      "sha256": "6a6f9784035236d08b5633b4838cc2cb3ea37392accf542740b384e092732ed8"
+    },
+    {
+      "path": "tools/profile_stage2_v02.py",
+      "sha256": "d8e9b5334d27df2bd1d46ee337cce472547a11051d1d4f2942ae4b40dde0be1f"
+    },
+    {
+      "path": "tools/requirements-stage1-test.txt",
+      "sha256": "d15ce02c4505d57e09af2924c1638cb0f675216a70bddb88ea43b97a45ba32d2"
+    },
+    {
+      "path": "tools/test_stage1.py",
+      "sha256": "a33afc042614de6ff03c02aabcbfce2194447ab8c56d8a7f88f220e07674edb9"
+    },
+    {
+      "path": "tools/test_stage1_v02.py",
+      "sha256": "dbdf7333c660140b0caf0ff9c7ee1845eeb73d73c63a5b3192d9b14dc9093389"
+    },
+    {
+      "path": "tools/test_stage1_v03.py",
+      "sha256": "bd27129642f70ee9fcd1a75c8df5827c4997740f1d81e11fff006a7e71155b4b"
+    },
+    {
+      "path": "tools/test_stage1_v04.py",
+      "sha256": "2433dbcbee3152311eadee311a70c35881353aabc6359d9573a77c19e50d3e23"
+    },
+    {
+      "path": "tools/test_stage1_v05.py",
+      "sha256": "75f13e083c1e97a2b4ba724a64123ac03eac5da67cbd24f34320079cba7de7f7"
+    },
+    {
+      "path": "tools/test_stage2_v01.py",
+      "sha256": "c1f19e5d4a1f8b462fecc3b9a1d18d86f9fa6d4e6b4b9a94568681d9e54da62a"
+    },
+    {
+      "path": "tools/test_stage2_v01_r2.py",
+      "sha256": "df964de7e70612bee94ff97564e8c92264bce0eaf1501e7990395e67b2279307"
+    },
+    {
+      "path": "tools/test_stage2_v01_r3.py",
+      "sha256": "cbde6df4b00b4c538c540d81fa1c2fc26cfd0dc310f0ee5f980179e5c042d400"
+    },
+    {
+      "path": "tools/test_stage2_v02.py",
+      "sha256": "59fc46d8604070b0c8d667ea44aabc471c9d8f8ba1251a8a3034db51e6a0aabb"
+    },
+    {
+      "path": "tools/validate_opening_sequence.py",
+      "sha256": "9794e642a44c250d4eb8ba57d03388ea36f8d357b88030be6140579760d0b3fb"
+    },
+    {
+      "path": "tools/validate_stage1_blast_v05.py",
+      "sha256": "257c7241fb4ba50ab039a4b21f0017a00b16e9b2734651bf7e4a7cc5e040403c"
+    },
+    {
+      "path": "tools/validate_stage1_pressure_v03.py",
+      "sha256": "d726ed06b8e616edfbb55b5a5df264171ddd1d2affd205fa08dd4db3152629e7"
+    },
+    {
+      "path": "tools/validate_stage2_v02_preservation.py",
+      "sha256": "cf7e6f2e6b7fba8b56bd0c9a2e1076fe4d4a745bd7195c125c704c5aa3b7486b"
+    },
+    {
+      "path": "tools/validate_taco_smell_stage1.py",
+      "sha256": "7cd7a2c0fd759472eb3b9a8e6795a62c294b73df02e2276998f8a868f0ee00bb"
+    },
+    {
+      "path": "tools/validate_taco_smell_stage1_v02.py",
+      "sha256": "6ad994708deaff7b89d6466af03549666904ec94d9b483e7af46082a70c67543"
+    },
+    {
+      "path": "tools/validate_title_v2_pmg.py",
+      "sha256": "f4f122e124340cbb1c347da8cf67931bd6b81c08015c1aa40091d57c922ffd96"
+    }
+  ]
+}
