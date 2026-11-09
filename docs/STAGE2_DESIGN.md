@@ -1,12 +1,23 @@
 # Gas Blasters '82 — Stage 2: Drive to the Pharmacy
 
 **Document:** Stage 2 Gameplay and Technical Design  
-**Milestone:** v0.1-r3 driving accepted; v0.2 pressure/destination design approved, implementation pending  
-**Date:** 2026-11-08  
+**Milestone:** v0.1-r3 driving accepted; v0.2 implemented/CPU verified, Atari800 acceptance pending
+**Date:** 2026-11-09
 **Target:** Atari 800XL, stock 64 KB, native 6502 Atari XEX  
 **Working branch:** `feature/stage2-pressure-destination-v0.2` (accepted v0.1 preserved on `main` at tag `stage2-v0.1`)  
-**Status:** **v0.1 driving mechanics accepted after user Atari800 playtest of r3 (2026-11-04).** r3 is the current playable driving baseline; future extra upward car travel and polish are deferred. **v0.2 gas pressure and pharmacy destination is the next design milestone, not yet implemented.** Initial two-minute drive, 20–100 MPH speed range, 2-mile destination and 2:45 gas-failure deadline are provisional balancing targets (Section 16). **Approved pressure-warning, shake, three-lives, explosion, and FIRE-retry behavior is recorded in Section 17. The pharmacy-arrival cutscene and FIRE-to-complete flow are confirmed in Section 18; the exact native-speed-to-MPH mapping is approved in Section 19, the fixed HUD presentation is approved in Section 20, terminal tie/replay controls are approved in Section 21, and the **Codex implementation/validation/delivery contract is defined in Section 22**.**
+**Status:** **v0.1 driving mechanics accepted after user Atari800 playtest of r3 (2026-11-04).** r3 is the current playable driving baseline; future extra upward car travel and polish are deferred. **v0.2 gas pressure and pharmacy destination is implemented and CPU verified on its separate branch; Atari800 and user gameplay acceptance are pending.** Initial two-minute drive, 20–100 MPH speed range, 2-mile destination and 2:45 gas-failure deadline are provisional balancing targets (Section 16). **Approved pressure-warning, shake, three-lives, explosion, and FIRE-retry behavior is recorded in Section 17. The pharmacy-arrival cutscene and FIRE-to-complete flow are confirmed in Section 18; the exact native-speed-to-MPH mapping is approved in Section 19, the fixed HUD presentation is approved in Section 20, terminal tie/replay controls are approved in Section 21, and the **Codex implementation/validation/delivery contract is defined in Section 22**.**
 **Repository destination:** `docs/STAGE2_DESIGN.md`  
+
+> **Implementation checkpoint — 2026-11-09:** Sections 15–22 remain the approved
+> design/validation contract. They are now implemented in the standalone
+> `assets/stage2_v02/GasBlasters82_Stage2_Pressure_Destination_v02.xex` on the
+> existing v0.2 branch. Earlier dated “not built/design-only” statements record
+> planning history, not current implementation status. Native CPU tests verify
+> both nominal NTSC/PAL timing sources; **Atari800: NOT RUN; user acceptance
+> pending**. Confirmed core rules remain unchanged. Exact warning response,
+> flash/art and 120/165-second balancing remain provisional playtest choices.
+> See [implementation/tuning](../assets/stage2_v02/README.md) and
+> [actual validation evidence](../assets/stage2_v02/validation.md).
 
 ## 1. Purpose and authority
 
@@ -585,4 +596,26 @@ This section preserves **all implementation, verification, and delivery requirem
 - **Commit** all implementation, XEX, test and documentation work to **the existing v0.2 branch**. Return the **exact branch/commit SHA, runnable XEX location, reproducible build and test commands, pass/fail counts, actual memory/cycle findings, known limitations, tests not run**, and a **brief manual Atari800 playtest checklist** for the user.
 - **Autonomy:** Complete implementation and validation without repeated approval requests for routine technical choices. No additional branches, merges, release tags, tag rewrites, branch deletions, or acceptance claims until the user explicitly approves the playable v0.2 prototype.
 
-**Current status:** All of the above is **design and verification planning**, not completed v0.2 code, test results, or emulator evidence.
+**Status update (2026-11-09):** The contract above is implemented and CPU/static verified; see §23 and the versioned validation report. Actual Atari800 and hardware results remain NOT RUN.
+
+## 23. v0.2 implementation checkpoint — 2026-11-09
+
+The v0.2 builder retains the accepted r3 driving controller with checked hooks,
+adds precise 300-unit/second timekeeping and quarter-MPH distance integration,
+and implements all Sections 16–21 states and HUD requirements. No deferred
+traffic, blasting, off-road penalty or Stage 3 behavior is added. START is
+ignored; fresh FIRE controls all terminal-state progression. Gas has same-tick
+priority; the explosion deducts one life after its half-second animation.
+
+Provisional tuning: warning/critical steering steps 10/8 Q4 against normal 12,
+render-only shake ±1/±2 color clocks clamped inside the road, four-update shake
+half-period, gas flash half-periods 0.5/0.1 seconds. GAS floors the percentage;
+bar fill is ceil(percent/10). Miles round up to hundredths and MPH floors to a
+whole number; simulation uses unrounded values. Pharmacy exterior and three
+simple green gas frames are original temporary native glyph/PMG art.
+
+All seven §22 categories have executable CPU/static checks; precise commands,
+counts, memory and cycle evidence are in the versioned validation report.
+Physical hardware and actual Atari800 NTSC/PAL visual/audio/input/feel testing
+remain **NOT RUN**. This implements the milestone without accepting its feel or
+balance; do not merge/tag/delete the branch before user gameplay acceptance.

@@ -9,6 +9,23 @@
 > Living checklist. An unchecked item is not necessarily an approved requirement; some items are proposed work that depends on design decisions. Update this file as tasks are finished or scope changes.
 
 - **PMG regression and v2.1 hotfix — 2026-10-30:** The first real Atari800 test of the alternate PMG title **v2 failed visually** (stray cyan/white pixels overlapping text/background). Bug confirmed: DMACTL set to $2E **double-line** although 2 KB PMG data was built for **single-line**. The v2 validator mistakenly expected $2E as well. A separate v2.1 XEX and corrected source now use $3E, an adjusted 56-line vertical origin, and explicit tests for correct DMACTL and cleared PM rows over the text. **v2.1 was tested in Atari800 on 2026-11-01 and was visually rejected:** scattered PMG highlights still degrade the logo, Billy and car. The overlay intentionally adds about 220 disconnected pixels; a heavy DLI handler also has insufficient cycle headroom for one scanline. Do not adopt v2/v2.1; preserve the accepted v1 title. No checklist completion change. **Known-good v1 is unaffected**. Checklist completion count is unchanged until the corrected PMG screen passes visually.
+## Stage 2 v0.2 implementation evidence — 2026-11-09
+
+- **Implemented and CPU verified:** standalone v0.2 pressure/destination XEX,
+  exact fractional MPH/mileage and nominal NTSC/PAL timing, warning shake and
+  steering, fixed HUD, three-life explosion/retry loop, pharmacy exterior,
+  completion/new-game FIRE sequence and disabled START.
+- [Versioned XEX/source/build/playtest notes](../assets/stage2_v02/README.md),
+  [actual test results](../assets/stage2_v02/validation.md), manifest and measured
+  CPU profile are committed together on the existing v0.2 feature branch.
+- Historical Stage 1/opening and original Stage 2 v0.1/r2/r3 artifacts are
+  preserved. No Stage 3, enemies, road hazards, blasting or integration added.
+- **Still open:** user Atari800 NTSC/PAL playtest and acceptance, actual raster/
+  controller/audio checks, shake/flash/handling and timing balance. Atari800 and
+  physical hardware **NOT RUN**. Broad Phase 3 acceptance checkboxes and totals
+  remain unchanged until gameplay acceptance; this evidence supersedes older
+  design-only status statements without marking the whole chase complete.
+
 ## Stage 2 v0.2 Codex prompt coverage and validation contract — 2026-11-08
 
 - **Audit:** Original detailed Codex v0.2 prompt's gameplay requirements already reside in [Stage 2 §§16–21](STAGE2_DESIGN.md). Mandatory automated validation categories and **full deliverable/reporting criteria** are explicitly specified in [Stage 2 §22](STAGE2_DESIGN.md), with technical/workflow/AGENTS references. This is **docs only**, not test execution.

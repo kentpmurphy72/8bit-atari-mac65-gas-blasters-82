@@ -1,0 +1,192 @@
+{
+  "date": "2026-11-09",
+  "branch": "feature/stage2-pressure-destination-v0.2",
+  "xex": "GasBlasters82_Stage2_Pressure_Destination_v02.xex",
+  "sha256": "edfba7efd15fee327991b7a44e21cfa6e6bef29ff1d9330500307e106966b057",
+  "new_native_cpu_tests": 20,
+  "prior_native_cpu_tests": 85,
+  "validators": 5,
+  "all_pass": true,
+  "regressions": [
+    {
+      "command": "python3 tools/validate_taco_smell_stage1.py",
+      "returncode": 0,
+      "seconds": 0.05,
+      "tail": [
+        "PASS taco_smell_stage1_v01 48x22, 751 walkable tiles, 43 minimum steps Billy\u2192exit, 3 zones, 2 chokepoints"
+      ]
+    },
+    {
+      "command": "python3 tools/validate_taco_smell_stage1_v02.py",
+      "returncode": 0,
+      "seconds": 0.07,
+      "tail": [
+        "PASS dining: 40x22, 662 connected walkable tiles",
+        "PASS kitchen: 40x22, 625 connected walkable tiles",
+        "PASS storage: 40x22, 613 connected walkable tiles",
+        "PASS: 3 screens; 4 reciprocal doorway transitions; one exit; 1 active hazmat; no scrolling"
+      ]
+    },
+    {
+      "command": "python3 tools/validate_stage1_pressure_v03.py",
+      "returncode": 0,
+      "seconds": 0.04,
+      "tail": [
+        "PASS: dining: 662 connected passable tiles and all v0.3 spawns reachable",
+        "PASS: kitchen: 625 connected passable tiles and all v0.3 spawns reachable",
+        "PASS: storage: 613 connected passable tiles and all v0.3 spawns reachable",
+        "PASS: unique actors, 3 valid spawns, timing ranges, gas-blast rules, preserved v0.2 maps"
+      ]
+    },
+    {
+      "command": "python3 tools/validate_stage1_blast_v05.py",
+      "returncode": 0,
+      "seconds": 0.05,
+      "tail": [
+        "PASS: Stage 1 v0.5 has 8 aim directions (4 cardinal + 4 diagonal),",
+        "      7-cell cones, diagonal corner blocking, 3-tile knockback and 3 gas charges.",
+        "NOTE: This validates JSON, NOT the resulting 6502 gameplay or Atari800 presentation."
+      ]
+    },
+    {
+      "command": "python3 tools/validate_opening_sequence.py",
+      "returncode": 0,
+      "seconds": 0.1,
+      "tail": [
+        "{'xex_bytes': 23537, 'sha256': '08971fa2ca324e1e5e36bbc7c7d0fe891cb23c568230abb70c93a4f6de3d7e29', 'segments': 22, 'cpu_instructions_simulated': 48650, 'scene_transitions_tested': 'START->FIRE->FIRE->START replay', 'music': 'tempo switching, register writes and continuity checked', 'screen': '3 relocated original ANTIC displays and Stage1 placeholder checked', 'warning': 'Not a real POKEY/ANTIC emulator test'}"
+      ]
+    },
+    {
+      "command": "python3 tools/test_stage2_v01.py",
+      "returncode": 0,
+      "seconds": 15.2,
+      "tail": [
+        "----------------------------------------------------------------------",
+        "Ran 12 tests in 15.045s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "command": "python3 tools/test_stage2_v01_r2.py",
+      "returncode": 0,
+      "seconds": 16.65,
+      "tail": [
+        "----------------------------------------------------------------------",
+        "Ran 19 tests in 16.531s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "command": "python3 tools/test_stage2_v01_r3.py",
+      "returncode": 0,
+      "seconds": 19.24,
+      "tail": [
+        "----------------------------------------------------------------------",
+        "Ran 21 tests in 19.103s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "command": "python3 tools/test_stage1_v04.py",
+      "returncode": 0,
+      "seconds": 2.89,
+      "tail": [
+        "----------------------------------------------------------------------",
+        "Ran 15 tests in 2.720s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "command": "python3 tools/test_stage1_v05.py",
+      "returncode": 0,
+      "seconds": 3.41,
+      "tail": [
+        "----------------------------------------------------------------------",
+        "Ran 18 tests in 3.295s",
+        "",
+        "OK"
+      ]
+    }
+  ],
+  "current_cpu_command": "python3 tools/test_stage2_v02.py",
+  "profile_command": "python3 tools/profile_stage2_v02.py",
+  "preservation_command": "python3 tools/validate_stage2_v02_preservation.py",
+  "preserved_historical_files": 158,
+  "clock_sources": "py65 with injected nominal NTSC 60 / PAL 50 RTCLOK ticks; no ANTIC or OS execution",
+  "atari800": "NOT RUN",
+  "atari800_reason": "No installed executable; source build investigated but autotools/SDL development tools absent and configured package index offered no autotools candidates. No real emulator run or physical joystick mapping evidence.",
+  "hardware": "NOT RUN",
+  "user_accepted": false,
+  "coverage_categories": [
+    "NTSC/PAL full-duration timing and freeze",
+    "Q4 mapping/clamps/fractional distance and rounding",
+    "gas/lives/outcomes/tie/latch",
+    "FIRE/START and native r3 driving differential",
+    "HUD/font/PMG scene integrity",
+    "load segments/checksum/RAM writes/CPU cycles",
+    "prior artifacts and regression suites"
+  ],
+  "profile": {
+    "xex_sha256": "edfba7efd15fee327991b7a44e21cfa6e6bef29ff1d9330500307e106966b057",
+    "model": "py65 NMOS 6502 only, excludes ANTIC DMA and OS interrupts",
+    "steady_drive_budget_cycles": 15000,
+    "steady_drive_budget_pass": true,
+    "samples": {
+      "neutral": {
+        "min": 8279,
+        "max": 8825
+      },
+      "accelerate_steer": {
+        "min": 8295,
+        "max": 9348
+      },
+      "brake_steer": {
+        "min": 8291,
+        "max": 9242
+      },
+      "warning75": {
+        "min": 8502,
+        "max": 10290
+      },
+      "critical90": {
+        "min": 8547,
+        "max": 10359
+      },
+      "worst_case_drive_sweep": {
+        "max": 10448,
+        "case": {
+          "speed": 25,
+          "time": 49490,
+          "joystick": 249
+        },
+        "cases": 1764
+      },
+      "missed_255_tick_critical": {
+        "max": 12313
+      },
+      "explosion_enter": {
+        "max": 13500
+      },
+      "explosion_and_failure": {
+        "max": 20292
+      },
+      "retry": {
+        "max": 44279
+      },
+      "arrival": {
+        "max": 24854
+      },
+      "complete": {
+        "max": 19838
+      },
+      "new_game": {
+        "max": 44292
+      }
+    },
+    "notes": "Whole-screen transitions/retry intentionally may span video frames; clock delta resynchronizes. Actual Atari800 evidence is separate."
+  }
+}

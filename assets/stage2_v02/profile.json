@@ -1,0 +1,59 @@
+{
+  "xex_sha256": "edfba7efd15fee327991b7a44e21cfa6e6bef29ff1d9330500307e106966b057",
+  "model": "py65 NMOS 6502 only, excludes ANTIC DMA and OS interrupts",
+  "steady_drive_budget_cycles": 15000,
+  "steady_drive_budget_pass": true,
+  "samples": {
+    "neutral": {
+      "min": 8279,
+      "max": 8825
+    },
+    "accelerate_steer": {
+      "min": 8295,
+      "max": 9348
+    },
+    "brake_steer": {
+      "min": 8291,
+      "max": 9242
+    },
+    "warning75": {
+      "min": 8502,
+      "max": 10290
+    },
+    "critical90": {
+      "min": 8547,
+      "max": 10359
+    },
+    "worst_case_drive_sweep": {
+      "max": 10448,
+      "case": {
+        "speed": 25,
+        "time": 49490,
+        "joystick": 249
+      },
+      "cases": 1764
+    },
+    "missed_255_tick_critical": {
+      "max": 12313
+    },
+    "explosion_enter": {
+      "max": 13500
+    },
+    "explosion_and_failure": {
+      "max": 20292
+    },
+    "retry": {
+      "max": 44279
+    },
+    "arrival": {
+      "max": 24854
+    },
+    "complete": {
+      "max": 19838
+    },
+    "new_game": {
+      "max": 44292
+    }
+  },
+  "notes": "Whole-screen transitions/retry intentionally may span video frames; clock delta resynchronizes. Actual Atari800 evidence is separate."
+}

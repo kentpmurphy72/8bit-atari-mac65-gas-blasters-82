@@ -8,6 +8,14 @@
 
 > This is the **whole-game** living design. For **implemented Taco Smell Stage 1 v0.5**, use [the canonical Stage 1 design](STAGE1_DESIGN.md) and [known limitations](STAGE1_DEFERRED_WORK.md). Historical Stage 1 proposals are [archived](archive/stage1/README.md); their earlier controls and 'not yet built' statements no longer describe current behavior.
 
+### Stage 2 implementation status — 2026-11-09
+
+The separate [v0.2 prototype](../assets/stage2_v02/README.md) now implements the
+approved pressure/destination/lives/pharmacy loop on the accepted r3 driver.
+It is CPU verified, awaiting actual Atari800 gameplay acceptance. This does not
+implement Stage 3 or change the confirmed stage sequence; tuning/art remain
+provisional. Stage 1 and its opening remain separate and unchanged.
+
 ## 1. Decision status conventions
 
 - **Confirmed** — explicitly chosen in the design discussion.

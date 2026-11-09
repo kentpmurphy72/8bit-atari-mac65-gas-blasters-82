@@ -11,6 +11,28 @@ A work-in-progress comedy action game for the **Atari 800XL (64 KB)**, written i
 - Original continuous **Title → Meet the Crew → Arriving at Taco Smell → Stage 1** sequence and POKEY music.
 - Stage 1 stops at its completion screen. **There is no connected Stage 2 driving gameplay in the Stage 1 XEX.**
 
+## Stage 2 v0.2 — playable pressure/destination prototype
+
+[Download the standalone v0.2 XEX](assets/stage2_v02/GasBlasters82_Stage2_Pressure_Destination_v02.xex).
+Built on accepted r3 driving: live gas pressure, a 2.00-mile trip, 75%/90%
+warning shake/handling, three lives, green explosion/retry, pharmacy exterior
+and two separate FIRE actions for completion/new game. START/F4 is disabled;
+FIRE is inert during driving. No Stage 1 integration or Stage 3 is included.
+
+```bash
+python3 tools/build_stage2_v02.py
+# Install tools/requirements-stage1-test.txt into your virtual environment first.
+.venv/bin/python tools/test_stage2_v02.py
+.venv/bin/python tools/profile_stage2_v02.py
+atari800 -xl -ntsc -nobasic -run assets/stage2_v02/GasBlasters82_Stage2_Pressure_Destination_v02.xex
+# Repeat with -pal instead of -ntsc.
+```
+
+**Implemented and CPU tested; Atari800: NOT RUN; user acceptance pending.**
+See [build, memory and playtest instructions](assets/stage2_v02/README.md) and
+[actual validation results](assets/stage2_v02/validation.md). Earlier dated design
+entries below describe the historical v0.1→v0.2 planning boundary.
+
 ## Stage 2 v0.1 — driving mechanics accepted (r3, merged into main)
 
 The original v0.1 was user-playtested: basic driving was fine, but the car needed
@@ -20,7 +42,7 @@ UP increases road speed and moves the car toward a higher position; DOWN brakes
 to a positive minimum and moves it lower. Neutral preserves speed/target Y after
 brief smoothing. The user playtested r2 in Atari800 and requested a higher maximum-speed
 position: **car-top Y=80 instead of r2 Y=112**. The resulting **r3 XEX was user-playtested in Atari800 and its driving mechanics approved for now on 2026-11-04**. Further upward screen travel may be evaluated later, but is deferred. See [Stage 2 design](docs/STAGE2_DESIGN.md).
-Original steering, road zones, fixed HUD and exclusions remain. **Next: Stage 2 v0.2 — live gas pressure and miles to the pharmacy, with arrival/failure outcomes.** Initial design balance: **2:00 typical drive, 20–100 MPH (60 MPH typical), 2.0 miles, gas 0→100% by 2:45**. These values are provisional for playtesting. Stage 2 v0.2 now also has **approved three-life gameplay**, progressive shaking/handling difficulty at GAS **75%** and **90%**, and a **100% explosion/failure sequence**: freeze, basic gas explosion, lose one life, display `BILLY BLEW IT!`, then FIRE/trigger to retry Stage 2 with 0% gas, 2.0 miles and default car state while keeping remaining lives; at zero lives show `GAME OVER`. Pharmacy arrival is now designed: at MI=0 while GAS<100, freeze driving, show a **brief cutscene featuring the pharmacy building**, then a fresh **FIRE/trigger** press advances to the **standalone Stage 2 completion screen**. No Stage 3 interior or life loss on success. **The r3-Q4-to-MPH mapping is approved:** internal speed **8→20 MPH, 24→60 MPH, 56→100 MPH**, with piecewise interpolation and unchanged driving feel. **HUD presentation is now approved:** retain the stationary 13-column pane with GAS % and a 10-segment bar, PHARMACY distance to 0.01 mile, whole MPH, three miniature car life icons and a six-digit inactive score; GAS alone flashes progressively at 75%/90%. See [HUD design §20](docs/STAGE2_DESIGN.md). Precise artwork, visual/handling tuning, and **terminal-state rules are now approved:** GAS=100 wins a same-tick tie with arriving at MI=0; FIRE after BILLY BLEW IT! retries with remaining lives, FIRE at GAME OVER starts a new three-life Stage 2 game, and FIRE at STAGE 2 COMPLETE begins a fresh three-life Stage 2 run. The cutscene-to-COMPLETE and COMPLETE-to-new-run actions require distinct presses ([Stage 2 §21](docs/STAGE2_DESIGN.md)). **v0.2 has not been built**. See [v0.2 balance decisions](docs/STAGE2_DESIGN.md#16-v02-provisional-timing-speed-distance-and-gas-pressure-balance--2026-11-07). The completed Stage 2 chase remains open.
+Original steering, road zones, fixed HUD and exclusions remain. **Next: Stage 2 v0.2 — live gas pressure and miles to the pharmacy, with arrival/failure outcomes.** Initial design balance: **2:00 typical drive, 20–100 MPH (60 MPH typical), 2.0 miles, gas 0→100% by 2:45**. These values are provisional for playtesting. Stage 2 v0.2 now also has **approved three-life gameplay**, progressive shaking/handling difficulty at GAS **75%** and **90%**, and a **100% explosion/failure sequence**: freeze, basic gas explosion, lose one life, display `BILLY BLEW IT!`, then FIRE/trigger to retry Stage 2 with 0% gas, 2.0 miles and default car state while keeping remaining lives; at zero lives show `GAME OVER`. Pharmacy arrival is now designed: at MI=0 while GAS<100, freeze driving, show a **brief cutscene featuring the pharmacy building**, then a fresh **FIRE/trigger** press advances to the **standalone Stage 2 completion screen**. No Stage 3 interior or life loss on success. **The r3-Q4-to-MPH mapping is approved:** internal speed **8→20 MPH, 24→60 MPH, 56→100 MPH**, with piecewise interpolation and unchanged driving feel. **HUD presentation is now approved:** retain the stationary 13-column pane with GAS % and a 10-segment bar, PHARMACY distance to 0.01 mile, whole MPH, three miniature car life icons and a six-digit inactive score; GAS alone flashes progressively at 75%/90%. See [HUD design §20](docs/STAGE2_DESIGN.md). Precise artwork, visual/handling tuning, and **terminal-state rules are now approved:** GAS=100 wins a same-tick tie with arriving at MI=0; FIRE after BILLY BLEW IT! retries with remaining lives, FIRE at GAME OVER starts a new three-life Stage 2 game, and FIRE at STAGE 2 COMPLETE begins a fresh three-life Stage 2 run. The cutscene-to-COMPLETE and COMPLETE-to-new-run actions require distinct presses ([Stage 2 §21](docs/STAGE2_DESIGN.md)). **That planning status is superseded by the v0.2 implementation above**. See [v0.2 balance decisions](docs/STAGE2_DESIGN.md#16-v02-provisional-timing-speed-distance-and-gas-pressure-balance--2026-11-07). The completed Stage 2 chase remains open.
 
 ## Run Stage 2 separately
 
@@ -48,7 +70,7 @@ python3 tools/profile_stage2_v01_r3.py
 opening validation pass. The revision includes a three-minute native simulated
 idle test and full PMG row-cleanup checks. **Codex did not run Atari800 during the build; the user subsequently tested r3 in Atari800 and approved its driving feel.**
 See [r3 build/tuning/playtest notes](assets/stage2_v01_r3/README.md). Stage 1 remains
-unchanged, with no automatic Stage 2 transition. That historical v0.1 driving milestone was subsequently tagged as `stage2-v0.1` and merged into `main`; **no v0.2 binary exists yet**.
+unchanged, with no automatic Stage 2 transition. That historical v0.1 driving milestone was subsequently tagged as `stage2-v0.1` and merged into `main`; **the separate v0.2 binary above now awaits acceptance**.
 
 ## Run the prototype
 
@@ -118,4 +140,4 @@ Versioned XEXs, builders, tests and manifests are retained in the repository. Th
 
 ### Stage 2 v0.2 final gameplay controls (approved 2026-11-08)
 
-The v0.2 design now resolves the remaining terminal rules: **GAS 100% wins any same-tick tie with reaching 0.0 miles**. A fresh joystick **FIRE** retries after `BILLY BLEW IT!` with remaining lives, starts a new **three-life game** after `GAME OVER`, advances the pharmacy cutscene to `STAGE 2 COMPLETE`, and starts a fresh **three-life Stage 2 prototype run** from the completion screen (a separate press). **After the explosion, display `BILLY BLEW IT!` only when lives remain, otherwise `GAME OVER`.** For v0.2, **console START/F4 is not an in-game reset**: FIRE is the approved gameplay control and tests may reset emulated state through their harness. The older v0.1-r3 build **retains** its original START reset. Earlier dated open questions are superseded by [Stage 2 design §21](docs/STAGE2_DESIGN.md). This is **design-only**; the v0.2 XEX does not yet exist.
+The v0.2 design now resolves the remaining terminal rules: **GAS 100% wins any same-tick tie with reaching 0.0 miles**. A fresh joystick **FIRE** retries after `BILLY BLEW IT!` with remaining lives, starts a new **three-life game** after `GAME OVER`, advances the pharmacy cutscene to `STAGE 2 COMPLETE`, and starts a fresh **three-life Stage 2 prototype run** from the completion screen (a separate press). **After the explosion, display `BILLY BLEW IT!` only when lives remain, otherwise `GAME OVER`.** For v0.2, **console START/F4 is not an in-game reset**: FIRE is the approved gameplay control and tests may reset emulated state through their harness. The older v0.1-r3 build **retains** its original START reset. Earlier dated open questions are superseded by [Stage 2 design §21](docs/STAGE2_DESIGN.md). These controls are now implemented in the separate v0.2 XEX; Atari800 acceptance is pending.

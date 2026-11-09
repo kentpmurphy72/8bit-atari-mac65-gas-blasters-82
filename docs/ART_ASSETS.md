@@ -8,6 +8,16 @@
 
 > This document records the current visual direction and asset needs. The images produced in the design conversation are concept mockups, not finalized production files, print templates, or Atari-compatible in-game graphics.
 
+### Stage 2 v0.2 temporary native art — 2026-11-09
+
+Original glyphs for the three life-car icons, ten-segment gas bar and pharmacy
+roof/brick walls/windows/door/green cross are emitted by
+`tools/build_stage2_v02.py`. A three-phase green PMG gas eruption supplies the
+basic explosion. The accepted r3 road and red/white car art remain intact.
+These are functional temporary assets, not approved final art. See the
+[versioned prototype](../assets/stage2_v02/README.md). Actual Atari800 readability,
+flash/shake visibility, scene transitions and palette evaluation remain untested.
+
 ## 1. Visual identity
 
 **Working direction:** energetic early-1980s arcade packaging with hand-painted/pulp comic illustration, bold typography, exaggerated slapstick action, and readable visual storytelling.

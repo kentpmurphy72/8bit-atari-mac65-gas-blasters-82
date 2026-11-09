@@ -185,3 +185,33 @@ Small three-life car glyphs may use customized character glyphs inside the exist
 The complete original Codex implementation prompt's validation/deliverables contract is recorded in [Stage 2 design §22](STAGE2_DESIGN.md). Codex must implement and execute: (1) **NTSC 60 Hz / PAL 50 Hz native-clock simulation** of the 165-second gas timeline; (2) **Q4→MPH and integrated-mileage** exact/boundary tests; (3) **75%/90%/100% pressure, lives and terminal tie** state-machine tests; (4) **FIRE release/rearm and START no-bypass** tests; (5) **27/13 HUD, glyph and double-font-bank/PMG** integrity tests; (6) **XEX load/entry/manifest/zero-page/ROM-hardware memory overlap and per-frame 6502 cycle profiling**; and (7) **preservation/regression** of accepted r3/r2/v0.1 driving and applicable Stage 1 tests.
 
 Run Atari800 in **both NTSC and PAL where available** and log actual visual/performance/scene-transition observations. Otherwise mark emulator validation **NOT RUN** and provide a user playtest checklist. Test harness results are not emulator observations. Deliver a new versioned XEX plus native source/listing, reproducible build, test suite, checksum/segment manifest, updated stage/technical/TODO and README documentation, the commit SHA, commands, actual results, memory/performance findings and limitations. Do not tag/merge before user acceptance; physical Atari 800XL test is optional for the v0.2 milestone.
+
+## Stage 2 v0.2 standalone implementation — 2026-11-09
+
+Implemented on `feature/stage2-pressure-destination-v0.2`; user acceptance pending.
+The accepted r3 source/XEX and all Stage 1/opening artifacts remain unchanged.
+The native extension uses $7000+, state $2900+, fixed-point tables $6900+, scenes
+$8000/$8400/$8800/$8C00, road template $9400 and PMG template $9800–$9FFF.
+All actual segments are below $A000; RUNAD remains $2000. Private ZP expands
+from $80–$83 to $80–$84/$86–$89. No new interrupt handler or DLI is introduced.
+
+Five checked r3 patches redirect RESET/FRAME/TELEMETRY and select private-ZP
+steering steps. A 2,000-frame native differential test verifies original
+steering/acceleration/scroll/Y/PMG below 75%. Double-buffered road glyphs remain
+separate from static HUD/pharmacy/life glyphs. GRACTL hides the car in static
+scenes; retries restore PMG bytes, normal colors and default r3 state.
+
+Time units are 1/300 second, driven by nominal 60/50-Hz RTCLOK deltas of 1–255.
+Distance uses exact quarter-MPH integration with 4,320,000 units/mile, native
+24-bit arithmetic, underflow saturation, and bounded multiply/divide routines.
+Events inspect full counters, gas first, then latch; formatting never triggers
+outcomes. Only the explosion timer runs after failure. The original one-motion-
+update-per-observed-tick policy is retained; missed-time distance uses sampled
+speed. A complete 256-tick clock wrap cannot be recovered from its low byte.
+
+Full memory map, native listings, reproducible commands, timing choices and
+limitations: [v0.2 technical/build notes](../assets/stage2_v02/README.md).
+Actual segment/checksum and CPU performance reports accompany the XEX. CPU
+profiling excludes ANTIC DMA/OS interrupts; whole-screen retries can span
+frames. **Atari800 and hardware: NOT RUN**; visual stability, input mapping,
+audio silence, real-time NTSC/PAL pacing and gameplay feel require user tests.
