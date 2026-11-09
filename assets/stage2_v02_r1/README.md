@@ -54,9 +54,7 @@ unchanged gameplay, timing, memory, provisional tuning and known limitations.
 
 ## Atari800 playtest still required
 
-**Atari800: NOT RUN; physical hardware: NOT RUN.** No Atari800 executable is
-installed in this environment. CPU tests cannot establish actual raster output,
-controller mapping, flicker or handling feel; user acceptance is pending.
+**Codex/build environment: Atari800 NOT RUN; physical hardware NOT RUN.** The Codex environment had no Atari800 executable, so CPU tests alone did not establish raster output, controller mapping, flicker or handling feel. **Subsequently the user playtested the corrected r1 XEX in Atari800, reported everything works as expected, and approved the v0.2 milestone on 2026-11-08.** The specific emulator video mode and physical Atari 800XL coverage were not reported.
 
 1. Brake below default speed so arrival does not precede warnings. Check the
    red/white car is continuously visible around 74→75%, 90% and 99%, including
@@ -67,4 +65,4 @@ controller mapping, flicker or handling feel; user acceptance is pending.
 3. Confirm explosion at 100%, one lost life, FIRE retry with reduced lives, and
    restored visible red/white car. Check pharmacy/completion replay as before.
 
-No merge or tag; awaiting gameplay acceptance.
+**Gameplay accepted by user.** Tag `stage2-v0.2`, integration to `main`, and retirement of the completed feature branch are expressly approved, but must be verified against actual Git refs before they are documented as completed.

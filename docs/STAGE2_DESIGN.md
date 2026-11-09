@@ -1,11 +1,11 @@
 # Gas Blasters '82 — Stage 2: Drive to the Pharmacy
 
 **Document:** Stage 2 Gameplay and Technical Design  
-**Milestone:** v0.1-r3 driving accepted; v0.2 implemented/CPU verified, Atari800 acceptance pending
+**Milestone:** v0.1-r3 driving accepted; standalone v0.2-r1 pressure/destination implemented and user-accepted in Atari800
 **Date:** 2026-11-09
 **Target:** Atari 800XL, stock 64 KB, native 6502 Atari XEX  
 **Working branch:** `feature/stage2-pressure-destination-v0.2` (accepted v0.1 preserved on `main` at tag `stage2-v0.1`)  
-**Status:** **v0.1 driving mechanics accepted after user Atari800 playtest of r3 (2026-11-04).** r3 is the current playable driving baseline; future extra upward car travel and polish are deferred. **v0.2 gas pressure and pharmacy destination is implemented and CPU verified on its separate branch; Atari800 and user gameplay acceptance are pending.** Initial two-minute drive, 20–100 MPH speed range, 2-mile destination and 2:45 gas-failure deadline are provisional balancing targets (Section 16). **Approved pressure-warning, shake, three-lives, explosion, and FIRE-retry behavior is recorded in Section 17. The pharmacy-arrival cutscene and FIRE-to-complete flow are confirmed in Section 18; the exact native-speed-to-MPH mapping is approved in Section 19, the fixed HUD presentation is approved in Section 20, terminal tie/replay controls are approved in Section 21, and the **Codex implementation/validation/delivery contract is defined in Section 22**.**
+**Status:** **v0.1 driving mechanics accepted after user Atari800 playtest of r3 (2026-11-04).** Future extra upward car travel and polish are deferred. **The corrected standalone v0.2-r1 gas pressure and pharmacy destination prototype was user-playtested in Atari800 and accepted on 2026-11-08.** Initial two-minute drive, 20–100 MPH speed range, 2-mile destination and 2:45 gas-failure deadline are provisional balancing targets (Section 16). **Approved pressure-warning, shake, three-lives, explosion, and FIRE-retry behavior is recorded in Section 17. The pharmacy-arrival cutscene and FIRE-to-complete flow are confirmed in Section 18; the exact native-speed-to-MPH mapping is approved in Section 19, the fixed HUD presentation is approved in Section 20, terminal tie/replay controls are approved in Section 21, and the **Codex implementation/validation/delivery contract is defined in Section 22**.**
 **Repository destination:** `docs/STAGE2_DESIGN.md`  
 
 > **Implementation checkpoint — 2026-11-09:** Sections 15–22 remain the approved
@@ -13,8 +13,7 @@
 > `assets/stage2_v02/GasBlasters82_Stage2_Pressure_Destination_v02.xex` on the
 > existing v0.2 branch. Earlier dated “not built/design-only” statements record
 > planning history, not current implementation status. Native CPU tests verify
-> both nominal NTSC/PAL timing sources; **Atari800: NOT RUN; user acceptance
-> pending**. Confirmed core rules remain unchanged. Exact warning response,
+> both nominal NTSC/PAL timing sources; **Codex did not run Atari800, but the user has now accepted the separately versioned v0.2-r1 fix after an Atari800 playtest**. Confirmed core rules remain unchanged. Exact warning response,
 > flash/art and 120/165-second balancing remain provisional playtest choices.
 > See [implementation/tuning](../assets/stage2_v02/README.md) and
 > [actual validation evidence](../assets/stage2_v02/validation.md).
@@ -633,4 +632,14 @@ HUD flashing and outcomes are unchanged. The original v0.2 artifacts remain.
 include hardware read/write alias tests at 74%, 75%, 90% and 99%, both shake/flash
 phases, all collision-flag values and road-edge/Y checks. These are CPU tests,
 not actual Atari800 visual results. Atari800/hardware testing remains NOT RUN
-in the build environment; user gameplay acceptance is pending. No merge/tag.
+in the build environment; **the user subsequently playtested the corrected r1 XEX in Atari800 and accepted the v0.2 milestone**. PAL-specific and physical 800XL validation have not been claimed. The proposed `stage2-v0.2` tag and main integration require separate Git ref verification.
+
+## 25. Stage 2 v0.2-r1 user acceptance — 2026-11-08
+
+**Acceptance decision:** The user reported that the corrected **Stage 2 v0.2-r1** XEX behaves as expected in Atari800 after the earlier 75%-GAS car disappearance was repaired, and explicitly authorized the **v0.2 milestone closeout** (documentation update, immutable `stage2-v0.2` tag, integration to `main`, deletion of the completed v0.2 feature branch).
+
+**Accepted artifact:** `assets/stage2_v02_r1/GasBlasters82_Stage2_Pressure_Destination_v02_r1.xex`. Preserve the original `assets/stage2_v02/` package plus all historical Stage 2 v0.1/r2/r3 and Stage 1 artifacts. Codex's r1 validation evidence records **27 r1 CPU tests and 21 r3 regressions passing**; user Atari800 approval is distinct evidence and does not establish PAL-specific, physical-hardware or exhaustive audio/raster regression coverage.
+
+**Scope of approval:** The standalone 2-mile pharmacy drive, live GAS/MI/MPH/lives HUD, pressure warnings and car shake, 100%-explosion/life loop, GAS-first tie handling, FIRE replays, pharmacy cutscene and corrected car visibility. This does **not** accept a complete all-hazard Stage 2, Stage 3 integration or production balance. Next development milestone should be **v0.3**, initially road/shoulder/grass classification and two-second grass-time failure as separately specified in the whole-game design.
+
+**Git status:** User permission to tag/merge/delete is recorded here; do not describe the tag or branch cleanup as completed until actual remote refs have been checked. The intended immutable `stage2-v0.2` tag should name the **final v0.2 acceptance-documentation commit**, not a pre-acceptance artifact revision.

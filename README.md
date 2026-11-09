@@ -32,7 +32,7 @@ atari800 -xl -ntsc -nobasic -run assets/stage2_v02_r1/GasBlasters82_Stage2_Press
 # Repeat with -pal instead of -ntsc.
 ```
 
-**Implemented and CPU tested; Atari800: NOT RUN; user acceptance pending.**
+**Stage 2 v0.2-r1 user-accepted in Atari800 (2026-11-08); CPU tests passed.** The user first reported a car-disappearance bug at 75% GAS, then playtested the corrected r1 XEX and reported **everything worked as expected**. This is **user gameplay acceptance of the standalone v0.2 prototype**, not a claim of PAL-specific coverage, exhaustive regression, or physical 800XL testing. **Codex could not run Atari800 in its own environment**; its original emulator status remains NOT RUN, separate from the user's playtest.
 See [build, memory and playtest instructions](assets/stage2_v02_r1/README.md) and
 [actual validation results](assets/stage2_v02_r1/validation.md). Earlier dated design
 entries below describe the historical v0.1→v0.2 planning boundary.
@@ -138,10 +138,12 @@ On Windows, use the corresponding `.venv\Scripts\python.exe` and `.venv\Scripts\
 | [stage1-v0.5](https://github.com/kentpmurphy72/8bit-atari-mac65-gas-blasters-82/tree/stage1-v0.5) | Accepted Stage 1 gameplay prototype with eight-way gas blasting |
 | [stage2-v0.1](https://github.com/kentpmurphy72/8bit-atari-mac65-gas-blasters-82/tree/stage2-v0.1) | Accepted, user-playtested Stage 2 v0.1-r3 standalone driving prototype (`e0e4422`) |
 
+**Stage 2 v0.2 is user-accepted at the corrected r1 revision.** The tag `stage2-v0.2` is **approved but not yet created** as of this documentation commit; do not list it as an existing immutable tag until verified. Its intended target is the final milestone acceptance commit after this documentation update.
+
 Versioned XEXs, builders, tests and manifests are retained in the repository. The feature branches for these five milestones were removed **after tags were verified**. Future stages use new feature branches, reviewed integration into `main`, and new tags. See [workflow](docs/REPOSITORY_WORKFLOW.md).
 
 **Project status:** Stage 1 v0.5 accepted for continued game development; later stages and complete-game systems are still in development.
 
 ### Stage 2 v0.2 final gameplay controls (approved 2026-11-08)
 
-The v0.2 design now resolves the remaining terminal rules: **GAS 100% wins any same-tick tie with reaching 0.0 miles**. A fresh joystick **FIRE** retries after `BILLY BLEW IT!` with remaining lives, starts a new **three-life game** after `GAME OVER`, advances the pharmacy cutscene to `STAGE 2 COMPLETE`, and starts a fresh **three-life Stage 2 prototype run** from the completion screen (a separate press). **After the explosion, display `BILLY BLEW IT!` only when lives remain, otherwise `GAME OVER`.** For v0.2, **console START/F4 is not an in-game reset**: FIRE is the approved gameplay control and tests may reset emulated state through their harness. The older v0.1-r3 build **retains** its original START reset. Earlier dated open questions are superseded by [Stage 2 design §21](docs/STAGE2_DESIGN.md). These controls are now implemented in the separate v0.2 XEX; Atari800 acceptance is pending.
+The v0.2 design now resolves the remaining terminal rules: **GAS 100% wins any same-tick tie with reaching 0.0 miles**. A fresh joystick **FIRE** retries after `BILLY BLEW IT!` with remaining lives, starts a new **three-life game** after `GAME OVER`, advances the pharmacy cutscene to `STAGE 2 COMPLETE`, and starts a fresh **three-life Stage 2 prototype run** from the completion screen (a separate press). **After the explosion, display `BILLY BLEW IT!` only when lives remain, otherwise `GAME OVER`.** For v0.2, **console START/F4 is not an in-game reset**: FIRE is the approved gameplay control and tests may reset emulated state through their harness. The older v0.1-r3 build **retains** its original START reset. Earlier dated open questions are superseded by [Stage 2 design §21](docs/STAGE2_DESIGN.md). These controls are now implemented and the corrected **v0.2-r1 standalone XEX has been accepted after the user's Atari800 playtest**. Later road mechanics and actual Stage 3 integration are deferred.

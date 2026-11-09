@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Project To-Do List
 
-**Version:** 0.49  
+**Version:** 0.50  
 **Date:** 2026-11-08  
 **Target:** Atari 800XL  
 **Status:** Stage 1 v0.5 implemented and accepted as a playable prototype; remaining full game in design/development  
@@ -9,6 +9,13 @@
 > Living checklist. An unchecked item is not necessarily an approved requirement; some items are proposed work that depends on design decisions. Update this file as tasks are finished or scope changes.
 
 - **PMG regression and v2.1 hotfix — 2026-10-30:** The first real Atari800 test of the alternate PMG title **v2 failed visually** (stray cyan/white pixels overlapping text/background). Bug confirmed: DMACTL set to $2E **double-line** although 2 KB PMG data was built for **single-line**. The v2 validator mistakenly expected $2E as well. A separate v2.1 XEX and corrected source now use $3E, an adjusted 56-line vertical origin, and explicit tests for correct DMACTL and cleared PM rows over the text. **v2.1 was tested in Atari800 on 2026-11-01 and was visually rejected:** scattered PMG highlights still degrade the logo, Billy and car. The overlay intentionally adds about 220 disconnected pixels; a heavy DLI handler also has insufficient cycle headroom for one scanline. Do not adopt v2/v2.1; preserve the accepted v1 title. No checklist completion change. **Known-good v1 is unaffected**. Checklist completion count is unchanged until the corrected PMG screen passes visually.
+## Stage 2 v0.2-r1 accepted — 2026-11-08
+
+- **User Atari800 playtest and approval:** After the separately versioned r1 fix for the car vanishing at 75% GAS, the user reported **everything works as expected** and explicitly approved accepting the **standalone Stage 2 v0.2-r1** milestone, updating docs, creating an immutable `stage2-v0.2` tag, merging to `main` and retiring the feature branch.
+- **Accepted build:** [`assets/stage2_v02_r1/GasBlasters82_Stage2_Pressure_Destination_v02_r1.xex`](../assets/stage2_v02_r1/GasBlasters82_Stage2_Pressure_Destination_v02_r1.xex). The original v0.2 and v0.1/r2/r3 XEXs, build tools and manifests remain unchanged. **27 r1 CPU tests** and **21 accepted-r3 regression tests** were reported as passing by Codex; the user separately verified gameplay visually in Atari800. No additional CPU or emulator tests were run as part of this documentation update; neither PAL-specific nor physical Atari testing is claimed.
+- **Milestone boundary:** This acceptance covers the v0.2 pressure/distance/HUD/lives/pharmacy loop, **not** the entire Stage 2 chase, future traffic/forks/off-road penalties/car blasts, Stage 3 integration, exhaustive regressions or production balancing. Phase 3 remains open. With five newly accepted v0.2-scope checklist items checked below, the project now has **82 completed / 93 open of 175**.
+- **Git closeout:** User approved immutable `stage2-v0.2` tag at final acceptance commit, integration into `main`, and removal of completed feature branch after verification. **This note records approval, not proof of tag/merge/deletion; verify live refs before marking those operations done.**
+
 ## Stage 2 v0.2-r1 car visibility repair
 
 - User-reported Atari800 defect: car disappears at 75% pressure. Cause: shake
@@ -18,8 +25,7 @@
 - New alias-aware CPU visibility checks cover 74/75/90/99%, shaking/HUD flashes,
   PMG bytes, DMA/enables/colors/positions, road edges and speed-linked Y.
   Full v0.2/r3 regression results are recorded with the fixed artifact.
-- Still pending: Atari800 NTSC/PAL visual confirmation and gameplay acceptance;
-  no new balance/art decisions, merge or tag. Broader completion counts unchanged.
+- **Resolved:** the user playtested the corrected r1 XEX in Atari800 and accepted the v0.2 gameplay milestone. Exact Atari800 video mode, PAL-specific behavior and physical hardware remain **unverified**. The five v0.2-scope Phase 3 checklist items are now accepted; future-stage mechanics remain unchecked.
 
 ## Stage 2 v0.2 implementation evidence — 2026-11-09
 
@@ -32,11 +38,7 @@
   CPU profile are committed together on the existing v0.2 feature branch.
 - Historical Stage 1/opening and original Stage 2 v0.1/r2/r3 artifacts are
   preserved. No Stage 3, enemies, road hazards, blasting or integration added.
-- **Still open:** user Atari800 NTSC/PAL playtest and acceptance, actual raster/
-  controller/audio checks, shake/flash/handling and timing balance. Atari800 and
-  physical hardware **NOT RUN**. Broad Phase 3 acceptance checkboxes and totals
-  remain unchanged until gameplay acceptance; this evidence supersedes older
-  design-only status statements without marking the whole chase complete.
+- **Subsequent evidence:** Codex did not run Atari800, but the user played and accepted the **corrected v0.2-r1** XEX in Atari800. The exact video mode and exhaustive audio/raster/input regression remain **unverified**, and physical Atari hardware is **NOT RUN**. Five v0.2-scope Phase 3 checklist tasks are now accepted; the complete chase still includes deferred hazards and other work.
 
 ## Stage 2 v0.2 Codex prompt coverage and validation contract — 2026-11-08
 
@@ -220,7 +222,7 @@
 ## Phase 3 — First Playable Prototype
 *Goal: Prove that the central game mechanic is fun.*
 
-**Stage 2 v0.1 basic driving is user-accepted (r3).** The **next** scope is v0.2 gas pressure / distance / destination, as outlined in [STAGE2_DESIGN.md](STAGE2_DESIGN.md), Section 15. The fuller checklist below spans the remaining Stage 2 mechanics; only wholly delivered/accepted items are checked. Phase 3 remains incomplete.
+**Stage 2 v0.1 driving (r3) and standalone Stage 2 v0.2-r1 pressure/destination gameplay are user-accepted in Atari800.** The fuller checklist below spans later Stage 2 mechanics; only wholly delivered/accepted items are checked. **Phase 3 remains incomplete**, with off-road rules, road shaping/forks, opponents, car blasting, friends/pickups, and further difficulty tuning still to implement.
 
 - [x] Display a basic overhead roadway scrolling downward.
 - [x] Implement continuous side-to-side steering (no fixed-lane snapping).
@@ -239,11 +241,11 @@
 - [ ] **Prototype and playtest** the approved **hold Fire + cardinal direction** gas-blast mode: no lateral steering while held, car coasts forward, release Fire to resume steering; test safe use during winding roads and police pursuit.
 - [ ] Prototype the **jeans-covered backside pop-out + emanating gas-cloud effect** for each of the four car windows; evaluate sprite readability/animation and collision alignment at the selected Atari graphics resolution.
 - [x] Divide the driving screen into **left 2/3 playfield** (straight-road baseline 75% road + 12.5% shoulder/grass per side) and **right 1/3 HUD**.
-- [ ] Add the gas-pressure meter to the HUD.
-- [ ] Display **lives**, miles remaining to the next destination, and score in the right-side HUD.
-- [ ] Make gas pressure rise automatically over time.
-- [ ] Trigger an explosion/failure when pressure reaches 100%.
-- [ ] Define and detect successful arrival at the pharmacy.
+- [x] Add the gas-pressure meter to the HUD. **v0.2-r1 accepted in Atari800.**
+- [x] Display **lives**, miles remaining to the next destination, and score in the right-side HUD. **v0.2-r1 accepted; score is an inactive six-digit placeholder.**
+- [x] Make gas pressure rise automatically over time. **v0.2-r1 linear 165s model accepted.**
+- [x] Trigger an explosion/failure when pressure reaches 100%. **v0.2-r1 accepted; one life deducted, FIRE retry/new game.**
+- [x] Define and detect successful arrival at the pharmacy. **v0.2-r1 accepted; exterior cutscene, FIRE completion/replay.**
 - [x] Add a simple stage-restart mechanism.
 - [ ] Add a friends' car near the top of the screen.
 - [ ] Prototype Gas-Nix drops and pickups for later road stages.

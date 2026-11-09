@@ -230,3 +230,7 @@ including flash phases, all 16 collision values, speed/Y anchors and edges.
 Flat-memory CPU tests alone cannot catch register read/write alias bugs. Full
 r1 v0.2 and accepted r3 CPU suites accompany the [versioned fix](../assets/stage2_v02_r1/README.md).
 Atari800/hardware visual testing remains NOT RUN in this environment.
+
+## Stage 2 v0.2-r1 user Atari800 acceptance — 2026-11-08
+
+The user re-playtested the corrected standalone v0.2-r1 XEX after the 75% car visibility bug and reported that **everything works as expected**. The user explicitly approved v0.2-r1 acceptance and milestone closeout. The accepted binary is `assets/stage2_v02_r1/GasBlasters82_Stage2_Pressure_Destination_v02_r1.xex`. Codex's existing fixed-build automated evidence remains **27 r1 CPU tests and 21 accepted r3 regression tests passing**; the user's Atari800 playtest provides independent visual/feel acceptance, not a claim of additional automated tests, PAL-specific Atari800 verification or physical 800XL testing. Retain the reported CPU/GTIA-bus test limitations and all versioned artifacts; future v0.3 development can build on this accepted code without retuning r3 controls.
