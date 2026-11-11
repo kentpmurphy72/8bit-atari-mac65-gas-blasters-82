@@ -37,6 +37,10 @@ See [build, memory and playtest instructions](assets/stage2_v02_r1/README.md) an
 [actual validation results](assets/stage2_v02_r1/validation.md). Earlier dated design
 entries below describe the historical v0.1→v0.2 planning boundary.
 
+## Stage 2 v0.3 — approved wider grass / narrower straight road (design only)
+
+New approved road zones for a future geometry-only prototype: **13% grass / 6.5% dirt shoulder / 61% paved road / 6.5% shoulder / 13% grass**, implemented as **14/7/66/7/14 color pixels** across the same 27-column/108-pixel driving pane. Keep the 13-column HUD. First playtest new geometry without penalties; later enable the approved two-second grass timer and shoulder handling. See [Stage 2 §26](docs/STAGE2_DESIGN.md). No v0.3 XEX built. The accepted v0.2-r1 XEX/tag remain preserved; v0.3 design is on `feature/stage2-road-zones-v0.3`.
+
 ## Stage 2 v0.1 — driving mechanics accepted (r3, merged into main)
 
 The original v0.1 was user-playtested: basic driving was fine, but the car needed

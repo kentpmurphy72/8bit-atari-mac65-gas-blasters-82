@@ -1,7 +1,7 @@
 # Gas Blasters '82 — Project To-Do List
 
-**Version:** 0.50  
-**Date:** 2026-11-08  
+**Version:** 0.51  
+**Date:** 2026-11-11  
 **Target:** Atari 800XL  
 **Status:** Stage 1 v0.5 implemented and accepted as a playable prototype; remaining full game in design/development  
 **Companion documents:** [Game Design](GAME_DESIGN.md) · [Art Assets](ART_ASSETS.md)
@@ -9,6 +9,11 @@
 > Living checklist. An unchecked item is not necessarily an approved requirement; some items are proposed work that depends on design decisions. Update this file as tasks are finished or scope changes.
 
 - **PMG regression and v2.1 hotfix — 2026-10-30:** The first real Atari800 test of the alternate PMG title **v2 failed visually** (stray cyan/white pixels overlapping text/background). Bug confirmed: DMACTL set to $2E **double-line** although 2 KB PMG data was built for **single-line**. The v2 validator mistakenly expected $2E as well. A separate v2.1 XEX and corrected source now use $3E, an adjusted 56-line vertical origin, and explicit tests for correct DMACTL and cleared PM rows over the text. **v2.1 was tested in Atari800 on 2026-11-01 and was visually rejected:** scattered PMG highlights still degrade the logo, Billy and car. The overlay intentionally adds about 220 disconnected pixels; a heavy DLI handler also has insufficient cycle headroom for one scanline. Do not adopt v2/v2.1; preserve the accepted v1 title. No checklist completion change. **Known-good v1 is unaffected**. Checklist completion count is unchanged until the corrected PMG screen passes visually.
+## Stage 2 v0.3 road proportions approved — 2026-11-11
+
+- **New design-only straight-road geometry:** **13/6.5/61/6.5/13%** grass/shoulder/pavement/shoulder/grass, rounded to **14/7/66/7/14** in 108 native color pixels; fixed 27-driving/13-HUD columns remain. [Stage 2 §26](STAGE2_DESIGN.md) has exact x boundaries. Grass is twice shoulder width. Accepted v0.2-r1 still uses historic 7/7/80/7/7 and stays untouched.
+- **v0.3 sequence:** geometry-only XEX then Atari800 playtest **before** the future shoulder/grass penalties. Older 40%-minimum/~4s winding model needs review against new 61%-normal pavement. Two additional open implementation/playtest tasks below; totals **82 complete / 95 open / 177 total**.
+
 ## Stage 2 v0.2-r1 accepted — 2026-11-08
 
 - **User Atari800 playtest and approval:** After the separately versioned r1 fix for the car vanishing at 75% GAS, the user reported **everything works as expected** and explicitly approved accepting the **standalone Stage 2 v0.2-r1** milestone, updating docs, creating an immutable `stage2-v0.2` tag, merging to `main` and retiring the feature branch.
@@ -163,21 +168,21 @@
 - [x] Confirm overhead, upward-facing-car, downward-scrolling-road perspective for driving stages (Spy Hunter-style).
 - [x] Confirm unrestricted left/right steering, rather than fixed lanes.
 - [x] Confirm winding roads and occasional two-way forks with on-screen direction arrows.
-- [x] Confirm winding sections **temporarily narrow while weaving** and **restore normal 75% width** afterward.
+- [x] Confirm future narrowing/weaving and return to normal road width (**now 61%**); old 40%-minimum / ~4s transitions need geometry-playtest review.
 - [x] Confirm forks form around a **center divider island** which scrolls downward from the top.
 - [x] Confirm that driving too far off the road causes a crash.
 - [x] Confirm driving-stage screen allocation: 2/3 road/playfield and 1/3 status HUD (gas, miles to destination, score).
-- [x] Confirm 2.0-second continuous off-road limit, safe low-traction shoulder, warnings, return-to-road reset, explosion and one-life loss.
-- [x] Confirm straight-road width: left 2/3 driving playfield containing 75% roadway and 12.5% combined shoulder/grass on **each side**; winding roads/forks can alter local margins.
-- [x] Confirm each roadside strip consists of **6.25% shoulder next to the road and 6.25% outer grass** (fractions of the left driving playfield); grass is the two-second crash-danger zone.
+- [x] Confirm 2.0 **accumulated seconds on grass since paved-road recovery**, paused on shoulders/reset on pavement, then one-life crash. Implementation remains future work.
+- [x] Approve v0.3 normal straight-road cross-section **13% grass / 6.5% shoulder / 61% pavement / 6.5% shoulder / 13% grass**, native **14/7/66/7/14**. Supersedes old 75% road for new versions only.
+- [x] Approve revised v0.3 roadside bands: **6.5%/7 color-pixel dirt shoulder** next to pavement, **13%/14-pixel grass** outside on each side.
 - [x] Confirm **car-center zone detection**, **grass timer runs/resumes**, **shoulder pauses** at current value and **paved road resets** timer to zero.
-- [x] Set winding-road minimum to **40% of left driving playfield**; narrow from normal **75% to 40% in ~4s** and widen back **40% to 75% in ~4s**. Maintain **6.25% shoulders** on each side (centered narrow road leaves **23.75% grass** per side).
+- [x] Record historical winding target **40%-minimum / ~4s transitions** developed for 75%-normal pavement; new 61%-normal paved width means difficulty/timing must be re-reviewed before implementation.
 - [x] Confirm a **flashing GREEN arrow pointing UP**, appearing **near the top of the driving area** on the **left or right side** to indicate preferred fork; start flashing **~2 seconds before the center island first appears**.
 - [x] Confirm fork-arrow warning: **0.25s ON / 0.25s OFF**, begins **~2s before center island first appears**, keeps flashing near top through fork approach and **disappears when Billy passes the fork decision point**. (Exact frame/pixel mapping belongs to Phases 2–3.)
 - [x] Confirm wrong-fork penalty is **one-time +1.0 mile to distance remaining**, **no countdown slowdown**, gas pressure continues rising, and no immediate crash.
 - [x] Confirm police cars and hazmat vans attempt to bump/PIT-style force the car off the road.
 - [x] Confirm gas blasts from the front, rear, left and right push enemy vehicles away.
-- [x] Confirm wrong forks add **exactly 1.0 mile once**; continue at **normal countdown speed** while gas pressure rises; fork branches **merge back relatively soon into a single normal-width (75%) road**, without requiring a visually separate extra mile.
+- [x] Confirm +1.0 mile once on wrong fork with normal mile countdown and early merge to the **new 61%-wide normal road**.
 - [x] Select four-direction gas blasting for the initial driving prototype.
 - [x] Select **four-way gas blasting only** for the current design (front/rear/left/right car windows); **no diagonal attacks** planned, although the concept can be reconsidered if testing later warrants it.
 - [x] Confirm driving controls: joystick **steers with Fire released**; **hold Fire + Up/Down/Left/Right** to blast front/rear/left/right; **no steering while Fire held**, car keeps moving/coasting. Two-joystick mode deferred; usability is a separate prototype test.
@@ -210,7 +215,7 @@
 - [ ] Select emulator and debugging tools.
 - [ ] Establish the assembly, build, and execution workflow.
 - [ ] Decide on cartridge, disk, or other distribution format.
-- [ ] Select Atari/ANTIC graphics mode(s) and screen layouts; derive **exact pixel boundaries** for the left 2/3 driving playfield, straight-road zones (**6.25% grass / 6.25% shoulder / 75% road / 6.25% shoulder / 6.25% grass**) and right 1/3 HUD. Specify pixel rounding/alignment and how boundaries update as roads wind or narrow.
+- [ ] Implement and test new v0.3 straight-road pixel boundaries in existing ANTIC 4 **108-color-pixel/27-column driving pane**: **[0,14), [14,21), [21,87), [87,94), [94,108)**, maintaining 13-column fixed HUD. Winding/fork geometry is deferred.
 - [ ] Develop a preliminary memory map and allocation strategy.
 - [ ] Determine how player/missile graphics will be used.
 - [ ] Define the game's main loop, input handling, timing, and collision architecture.
@@ -222,17 +227,19 @@
 ## Phase 3 — First Playable Prototype
 *Goal: Prove that the central game mechanic is fun.*
 
-**Stage 2 v0.1 driving (r3) and standalone Stage 2 v0.2-r1 pressure/destination gameplay are user-accepted in Atari800.** The fuller checklist below spans later Stage 2 mechanics; only wholly delivered/accepted items are checked. **Phase 3 remains incomplete**, with off-road rules, road shaping/forks, opponents, car blasting, friends/pickups, and further difficulty tuning still to implement.
+**Accepted Stage 2 v0.1-r3 driving and v0.2-r1 pressure/destination remain unchanged.** Approved v0.3 normal-road proportions are design-only; new XEX and Atari800 playtest still pending. Off-road consequences, winding/forks, traffic and blast mechanics remain open.
 
 - [x] Display a basic overhead roadway scrolling downward.
 - [x] Implement continuous side-to-side steering (no fixed-lane snapping).
-- [ ] Implement road/shoulder/grass zone classification using the **center of Billy's car** and the graphics-mode-specific left/right boundary coordinates at **his current vertical road cross-section**, including winding and narrowed roads (normal baseline: 75% road, 6.25% shoulder per side and 6.25% grass per side).
+- [ ] **v0.3 geometry-only XEX:** Implement straight-road native **14/7/66/7/14** grass/shoulder/pavement/shoulder/grass bands in a separate versioned standalone XEX, preserving accepted v0.2-r1 mechanics and *not* activating off-road consequences.
+- [ ] **v0.3 Atari800 geometry gate:** Playtest visual proportions and steering space at low/default/high speed, validate both roadside zones, HUD isolation, car visibility and accepted r1 regressions before enabling grass crash timer.
+- [ ] After the v0.3 geometry-only playtest, implement car-center road/shoulder/grass classification using new **14/7/66/7/14** straight boundaries and eventual local cross-sections for winding roads.
 - [ ] Implement **grass time runs/resumes / shoulder time pauses / paved-road time resets** behavior; at 2.0s accumulated grass time since last road recovery, explode and deduct one life.
 - [ ] Implement staged skid, shake/reduced steering, warning/smoke, critical warning/heavy smoke.
-- [ ] Prototype winding roads narrowing **75% → 40% over ~4s**, weaving at the narrow width, and widening **40% → 75% over ~4s**, preserving **6.25% shoulders**.
+- [ ] Revisit future winding road narrowing **from/to 61%-normal pavement**; revalidate old 40%-minimum/~4s transitions and ~6.5% shoulders during later prototyping.
 - [ ] **Playtest and validate** the 40% minimum, four-second narrowing/widening, shoulder safety, and recoverability against enemy ramming; tune only if necessary.
 - [ ] Prototype a **scrolling center-divider island** creating left/right branches and a green upward arrow near top on the preferred side. Start flashes **~2 seconds before island first appears**; animate **0.25s ON / 0.25s OFF**, keep flashing during fork approach, and remove when Billy passes the fork's decision point. Validate timing, visibility and geometry in the chosen graphics mode.
-- [ ] Implement wrong-fork route selection with **one-time +1.0 mile** on wrong-branch choice, **normal-rate** miles countdown and continuing gas-pressure increase; automatically **merge split branches back soon** to one normal 75%-width road, **before** the extra mile is traveled. Prototype/tune visual merge timing and clarity.
+- [ ] Implement later wrong fork (+1 mile once, unchanged countdown and ongoing gas rise), with an early merge back to **new 61%-wide normal pavement**.
 - [x] Draw the player's car facing upward near the bottom of the screen.
 - [x] Implement joystick steering.
 - [ ] Add police cars and basic collision detection.
@@ -240,7 +247,7 @@
 - [ ] Implement directional gas blast knockback on all four sides of the player's car.
 - [ ] **Prototype and playtest** the approved **hold Fire + cardinal direction** gas-blast mode: no lateral steering while held, car coasts forward, release Fire to resume steering; test safe use during winding roads and police pursuit.
 - [ ] Prototype the **jeans-covered backside pop-out + emanating gas-cloud effect** for each of the four car windows; evaluate sprite readability/animation and collision alignment at the selected Atari graphics resolution.
-- [x] Divide the driving screen into **left 2/3 playfield** (straight-road baseline 75% road + 12.5% shoulder/grass per side) and **right 1/3 HUD**.
+- [x] Maintain 27-column driving and 13-column HUD split. Historical accepted v0.2 uses 75%-road; new v0.3 design is **14/7/66/7/14** native pixels.
 - [x] Add the gas-pressure meter to the HUD. **v0.2-r1 accepted in Atari800.**
 - [x] Display **lives**, miles remaining to the next destination, and score in the right-side HUD. **v0.2-r1 accepted; score is an inactive six-digit placeholder.**
 - [x] Make gas pressure rise automatically over time. **v0.2-r1 linear 165s model accepted.**
@@ -294,7 +301,7 @@
 - [ ] Design four distinct restaurant identities and environments.
 - [ ] Create pharmacy, grocery, road, house, and bathroom graphics.
 - [ ] Create HUD, score, gas-pressure, and miles-to-destination graphics for the dedicated one-third driving panel.
-- [ ] Design temporary narrowing/weaving road transitions and return-to-baseline, center-divider island forks, shoulder/off-road cues, left/right-positioned flashing GREEN upward arrow, **early branch merging to a 75%-width road**, and **+1.0-mile HUD wrong-turn feedback**.
+- [ ] Design later winding/forks, road hazards, arrow and wrong-turn cues with early merge to **61%-normal pavement**; review historical winding targets after new geometry playtest.
 - [ ] Create off-road skid, shake, smoke, critical smoke and two-second explosion/lost-life visual effects.
 - [ ] Design **four** car-window gas-blast animations, each showing a **jeans-covered backside popping out the window** and a cloud originating from it, with enemy ramming/knockback cues; **no diagonal art planned**.
 - [x] **Implement accepted Option 3 Atari title and opening input for the Stage 1 prototype:** Original ANTIC E/DLI title, console START and both cutscene FIRE transitions are integrated into the playable v0.5 XEX and broadly user-tested in Atari800. (The separate completed Stage 1 integration task below covers game-flow wiring.)

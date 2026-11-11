@@ -1,7 +1,7 @@
 # Gas Blasters '82 — Art Assets and Visual Direction
 
-**Version:** 0.32  
-**Date:** 2026-11-03  
+**Version:** 0.33  
+**Date:** 2026-11-11  
 **Status:** Early art direction / living asset inventory  
 **Primary target:** Atari 800XL  
 **Companion document:** docs/GAME_DESIGN.md
@@ -181,10 +181,10 @@ Road stages (2, 4, and 6) use a **Spy Hunter-style overhead/top-down view**:
 
 - Draw the player's car **from above**, **nose pointing toward the top of the screen**, near the **bottom of the play area**.
 - Create **downward-scrolling roadway and roadside graphics** to imply forward movement.
-- Support winding sections that **narrow the paved road from 75% to 40% of the left driving playfield over approximately 4 seconds**, weave left/right at the narrow width, and **widen from 40% to 75% over approximately 4 seconds** when the winding ends. Keep both shoulders **6.25% of driving-playfield width each**, immediately adjacent to the road; remaining space becomes grass. When centered at minimum width, show **23.75% grass / 6.25% shoulder / 40% road / 6.25% shoulder / 23.75% grass**. In a weave, shoulder widths remain fixed to road edges while grass areas may become asymmetrical. These times/widths are design targets awaiting first-prototype validation.
+- Winding sections are deferred until after the new **61% normal road** is playtested. Previous **40% minimum / ~4s narrowing and widening** targets were chosen for 75%-normal pavement and require re-evaluation; dirt shoulders are ~6.5% under the new baseline.
 - Design a **center divider island** that scrolls down from the top of the roadway and creates a visually readable **left/right fork** (reference: supplied *Spy Hunter* center-island screenshot). The island is physically distinct from the safe shoulders and grassy off-road zones.
 - Show a **flashing GREEN arrow pointing straight UP**, positioned **near the top of the left driving playfield** on the **LEFT or RIGHT side** to indicate the preferred branch through the center-island fork. It begins **ON** and flashes **0.25s ON / 0.25s OFF**, starting **approximately 2 seconds before the divider island first appears at the top of the screen**. Keep flashing after the island becomes visible; **remove the arrow after Billy passes the fork decision point**. Do not render a conventional sideways-pointing left/right arrow: branch selection is conveyed by the side on which the upward arrow appears. Actual pixel coordinates, graphics-mode-dependent frame counts, decision-point collision coordinates, arrow sprite dimensions and island art measurements remain open.
-- **Straight-road baseline proportions within the left 2/3 driving playfield (left to right):** **6.25% grass**, **6.25% reduced-traction shoulder**, **75% paved roadway**, **6.25% reduced-traction shoulder**, **6.25% grass**. **Classify the center of Billy's car**, not its outer sprite/tire contact, at the local road boundary. Center in **grass** runs/resumes the off-road timer; center on **shoulder** pauses the timer at its value (with reduced traction); center on **paved road** resets it to zero. At **2.0 seconds of grass time since last paved-road contact**, the car explodes and loses one life. Derive exact pixel boundaries from these percentages **after selecting graphics mode**; no pixel values or sprite sizes are final.
+- **Approved v0.3 normal straight-road art:** left-to-right **13% grass (14 px) / 6.5% dirt shoulder (7 px) / 61% pavement (66 px) / 6.5% shoulder (7 px) / 13% grass (14 px)** within the left 108-color-pixel pane. Grass is twice the shoulder width as in the user's *Spy Hunter* visual reference. Preserve the old accepted v0.2-r1 road geometry/art. Center-of-car classification and off-road consequences come later; see [Stage 2 §26](STAGE2_DESIGN.md).
 - Create the progressive effects for accumulated **grass** time: **skid (0–0.5s); car shake with reduced steering (0.5–1.0s); warning sound and smoke (1.0–1.5s); critical warning and heavier smoke (1.5–2.0s); explosion (2.0s)**. The timer/effect escalation **pauses** on shoulder and **resets** on paved road. Consider readability of paused warnings, without changing the confirmed timing rules.
 - Place the friends' lead car **toward the top** of the driving playfield.
 - Draw both **police cars and hazmat vans** pursuing from **behind and alongside** the player, with collision/ramming and displacement animations or cues.
@@ -192,12 +192,12 @@ Road stages (2, 4, and 6) use a **Spy Hunter-style overhead/top-down view**:
 - In road stages **after** the pharmacy, show **Gas-Nix packages** falling/moving downward from the friends' car toward the player.
 - Ensure car silhouettes and pickups remain distinct at actual Atari 800XL display resolution.
 
-**Confirmed:** movement is **free left/right**, not restricted to fixed lanes. Winding sections narrow **75% → 40% in ~4s** and widen **40% → 75% in ~4s**, maintaining **6.25% shoulders**; forks use a **center island** with a **flashing green UP arrow** beginning ~2 seconds before island appearance; flash at **0.25s ON / 0.25s OFF** until Billy passes the decision point. Grass triggers the off-road timer as defined by the car-center rules, rather than an immediate crash. **Still open:** game-feel validation of narrowing, island/arrow pixel shapes and exact coordinates, frame-based timing, decision-point detection, curve severity, car colors, sprite dimensions, graphics modes, and vertical range of movement. The reference establishes the camera perspective, **not** a pixel-perfect replica of *Spy Hunter*.
+**Confirmed:** unrestricted steering remains; the v0.3 straight-road baseline is **61% pavement with 6.5% shoulders and 13% grass on both sides**. Winding-road 40% minimum and ~4s transitions require review; forks, police, off-road crashes and four-way car gas blasting are later increments.
 
 ### Reusable environment categories
 
 - **Taco Smell interior (implemented Stage 1 v0.5):** Three 40×22 fixed Dining/Kitchen/Storage rooms, two footer rows, three persistent hazmat workers and **eight-direction on-foot gas blasting**. The executable now uses Billy's GTIA **Player 0 body and Player 1 blue-jeans overlay**, **two aim-pose phases in all eight directions**, a **three-wave expanding seven-cell cloud**, BONK/stagger impact glyphs, animated up-to-three-tile cardinal/diagonal knockback and a short Stage-only POKEY noise. The user has played the prototype and says the blast is **good for now**, not final artwork/balance signoff. Preserve approved opening, and see [current Stage 1 design](STAGE1_DESIGN.md) plus [deferred visual polish](STAGE1_DEFERRED_WORK.md). **Title/cover gas remains intentionally restrained.**
-- **Highway:** confirmed overhead/upward-facing vehicle perspective with downward-scrolling winding roads, occasional two-way forks and indicated route, roadside/shoulder graphics, traffic, and player/friends/police/hazmat-van vehicles. Choosing the wrong branch **adds +1.0 mile once** to the remaining distance, **without slowing the countdown** or causing an immediate wreck. **Branches visually rejoin soon afterward as one normal 75%-width road**, rather than staying split for the entire extra mile. Free lateral steering and four-sided blast knockback are confirmed. Actual display-pixel dimensions await graphics-mode selection.
+- **Highway:** overhead vehicle, downward scrolling and readable grass/dirt shoulders; v0.3 normal straight road is **14/7/66/7/14** native pixels. Future winding/forks and enemies are deferred; fork reunions must use **61% normal pavement** rather than the old 75% width. Wrong fork remains +1.0 mile once without slowdown.
 - **Pharmacy:** aisles/shelves and Gas-Nix display, with **scrolling still a valid candidate**; camera selection pending.
 - **Grocery store:** a possible **scrolling aisle chase** past shelves/toilet paper, pursued by police, hazmat workers and townspeople; layout and sprite details pending.
 - **House exterior:** yard/driveway/front door, hazmat positions.
@@ -209,9 +209,9 @@ The game currently proposes nine stages per restaurant but may consolidate some 
 ## 6. Visual gameplay feedback / HUD
 
 **Confirmed driving-stage screen partition:**
-- **Left two-thirds:** road/driving playfield, with the **straight-road baseline split of 6.25% grass / 6.25% shoulder / 75% road / 6.25% shoulder / 6.25% grass** within that area.
+- **Left two-thirds:** fixed 27-column driving area, approved new cross-section **13% grass / 6.5% shoulder / 61% paved road / 6.5% shoulder / 13% grass** (108 native pixels **14/7/66/7/14**).
 - **Right one-third:** **fixed HUD/status panel**, displaying **lives, score, miles to the next destination/step, and gas-pressure meter**, plus other necessary indicators. **Wrong fork: add 1.0 mile to the HUD once; mileage then decreases at normal speed** while the gas meter keeps rising. The visual road merge happens before the added mile has elapsed.
-- Roads can wind/fork inside the left playfield; winding segments use the confirmed **40% minimum paved-road width and fixed 6.25% shoulders**, while left/right grass margins can differ as the roadway weaves. **Never use the HUD area as extra driving road space.**
+- Roads can wind/fork later inside the driving pane, returning to **61% normal pavement** and ~6.5% shoulders; 40% minimum and ~4s transition are provisional pending reconsideration. Never use the fixed HUD for road space.
 - This split applies to road stages (2, 4, and 6); no comparable layout is approved yet for indoor stages.
 - The exact HUD pixel dimensions, graphics mode, font and styling remain open; left/right placement and design ratios are confirmed.
 
@@ -265,10 +265,10 @@ This inventory mixes **implemented prototype assets** and **unimplemented/final-
 | P0 | Police car | Distinct hazard sprite; ramming/PIT-style knockback interaction |
 | P0 | Hazmat van | Large readable road enemy able to bump the player toward the shoulder |
 | P0 | Gas-Nix pickup | Small clear collectible icon |
-| P0 | Road | Downward-scrolling roadway; weaving width transitions 75%→40% in ~4s and 40%→75% in ~4s, constant 6.25% shoulders, variable grass, center-island forks |
+| P0 | Road | v0.3 geometry-only straight road **14/7/66/7/14** (grass/shoulder/pavement/shoulder/grass); winding and forks deferred |
 | P0 | Off-road recovery and crash FX | Skid, shake, smoke, heavy smoke, warning/critical states, and 2.0s explosion/lost-life cue |
 | P0 | Fork arrow | GREEN upward arrow near top on preferred left/right side; starts ~2s before island appears; flashes 0.25s ON / 0.25s OFF and vanishes after Billy passes fork decision point |
-| P0 | Driving screen layout | Left 2/3 playfield: nominal 6.25% grass + 6.25% shoulder + 75% road + 6.25% shoulder + 6.25% grass; right 1/3 fixed HUD for lives, score, miles remaining, gas |
+| P0 | Driving screen layout | Left 27 columns: ideal **13/6.5/61/6.5/13%** / native **14/7/66/7/14**; right 13-column fixed HUD |
 | P0 | Gas pressure HUD | Meter and critical warning |
 | P1 | Title screen (Option 3 selected) | **Implemented and user-tested** as original non-PMG ANTIC E/DLI title v1 with START, logo, car/Billy, gas trail, sunset and Taco Smell sign; present in **Stage 1 v0.5**. **Final art refinements remain open**; rejected PMG v2/v2.1 must not be used. |
 | P1 | Single “Meet the Crew” opening screen | **Implemented** as approved ANTIC E/DLI scene with Billy, four friends, exact quote, no game logo or name labels. Standalone v4 was tested; **functional FIRE advance is integrated into Stage 1 v0.5**. **Caption typography/legibility** remains deferred. |
@@ -305,12 +305,14 @@ Priorities describe a **proposed prototype sequence**, not a development commitm
 7. Simplify the box artwork for a legible cartridge label at real dimensions.
 8. Reconcile the cover's “TOILET PAPER SOLD OUT AGAIN!” gag with the need to acquire toilet paper.
 9. Decide final package brand/logo use and production dimensions.
-10. Create the **center-island two-branch fork** and **flashing green upward arrow** near top on the selected left/right side; **implement the confirmed 0.25s ON / 0.25s OFF cadence, ~2-second pre-island start and removal after Billy passes the decision point**. Determine exact pixel placement, sprite measurements and practical timing/collision implementation. Design a legible **+1.0-mile remaining-distance change** on the wrong fork (specific text/animation still open); draw the two branches **merging soon back into one normal 75%-width road**, independent of the extra mileage. Implement the confirmed **right-side HUD** within the 2/3-left / 1/3-right layout; decide final pixel dimensions.
+10. Design future center-island forks/green flashing up-arrow (~2s before island; 0.25s ON/OFF), +1.0-mile wrong turn and early merge to new **61%-wide** normal pavement; defer implementation until after v0.3 road geometry acceptance.
 11. Design police-car and hazmat-van ramming effects plus **four** window-based gas-blast poses: a simple **blue-jeans backside** briefly sticks out each corresponding front/rear/side window and emits a recognizable gas cloud; specify legibility, frame count and sprite budget after choosing graphics mode. **No diagonal sprites** in the current plan.
 12. **Polish, do not reimplement, the accepted opening:** Option 3 title and the Meet the Crew/Arrival cutscenes are already hardware-compatible, integrated and user-tested in Stage 1 v0.5 with working START/FIRE controls. Retain current v1 title (PMG alternatives v2/v2.1 rejected); refine crew typography only when warranted and later connect the COMPLETE screen to future driving. Do not add a dinner-table cutscene.
-13. Design narrowing/weaving tiles and road-edge transitions for the confirmed **75%→40% (~4s)** and **40%→75% (~4s)** changes; keep shoulders 6.25% each and validate the effect during prototyping.
+13. Review future road narrowing/weaving transitions **from new 61% normal pavement**; prior 40%-minimum and ~4s targets need revalidation, with ~6.5% shoulders.
 
 ## 12. Change log
+
+- **v0.33 — 2026-11-11:** Revised grass/shoulder/road visual proportions to 13/6.5/61/6.5/13% (14/7/66/7/14 native pixels) for v0.3; prior accepted art preserved.
 
 - **v0.32 — 2026-11-03:** Reclassifies title, crew, arrival, three-room restaurant, hazmat and on-foot gas cloud/pose graphics as **implemented prototype assets** rather than still awaiting integration. Keeps final production artwork and later-stage visual work open; clarifies accepted original title and rejected PMG variants. No art, code or XEX binaries modified.
 

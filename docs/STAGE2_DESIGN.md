@@ -2,9 +2,9 @@
 
 **Document:** Stage 2 Gameplay and Technical Design  
 **Milestone:** v0.1-r3 driving accepted; standalone v0.2-r1 pressure/destination implemented and user-accepted in Atari800
-**Date:** 2026-11-09
+**Date:** 2026-11-11
 **Target:** Atari 800XL, stock 64 KB, native 6502 Atari XEX  
-**Working branch:** `feature/stage2-pressure-destination-v0.2` (accepted v0.1 preserved on `main` at tag `stage2-v0.1`)  
+**Current v0.3 design branch:** `feature/stage2-road-zones-v0.3` (accepted v0.2-r1 preserved on `main` at immutable tag `stage2-v0.2`)
 **Status:** **v0.1 driving mechanics accepted after user Atari800 playtest of r3 (2026-11-04).** Future extra upward car travel and polish are deferred. **The corrected standalone v0.2-r1 gas pressure and pharmacy destination prototype was user-playtested in Atari800 and accepted on 2026-11-08.** Initial two-minute drive, 20–100 MPH speed range, 2-mile destination and 2:45 gas-failure deadline are provisional balancing targets (Section 16). **Approved pressure-warning, shake, three-lives, explosion, and FIRE-retry behavior is recorded in Section 17. The pharmacy-arrival cutscene and FIRE-to-complete flow are confirmed in Section 18; the exact native-speed-to-MPH mapping is approved in Section 19, the fixed HUD presentation is approved in Section 20, terminal tie/replay controls are approved in Section 21, and the **Codex implementation/validation/delivery contract is defined in Section 22**.**
 **Repository destination:** `docs/STAGE2_DESIGN.md`  
 
@@ -643,3 +643,26 @@ in the build environment; **the user subsequently playtested the corrected r1 XE
 **Scope of approval:** The standalone 2-mile pharmacy drive, live GAS/MI/MPH/lives HUD, pressure warnings and car shake, 100%-explosion/life loop, GAS-first tie handling, FIRE replays, pharmacy cutscene and corrected car visibility. This does **not** accept a complete all-hazard Stage 2, Stage 3 integration or production balance. Next development milestone should be **v0.3**, initially road/shoulder/grass classification and two-second grass-time failure as separately specified in the whole-game design.
 
 **Git status:** User permission to tag/merge/delete is recorded here; do not describe the tag or branch cleanup as completed until actual remote refs have been checked. The intended immutable `stage2-v0.2` tag should name the **final v0.2 acceptance-documentation commit**, not a pre-acceptance artifact revision.
+
+## 26. Stage 2 v0.3 — approved straight-road proportions (2026-11-11)
+
+**Approval:** Change the road-zone widths after examining the portrait *Spy Hunter* screenshot. New v0.3 ideal cross-section (of the **left driving pane**, not full display): **13% grass / 6.5% dirt shoulder / 61% pavement / 6.5% shoulder / 13% grass**. Grass is twice each shoulder. This **supersedes the earlier v0.1/v0.2 proportions for new development**, but is **not implemented** and must not change accepted v0.2-r1 files or historical §§1–25.
+
+| Zone | Ideal fraction | Width in existing 108 color pixels | Half-open local x range |
+| --- | ---: | ---: | --- |
+| Left grass | **13%** | **14** | **[0,14)** |
+| Left shoulder | **6.5%** | **7** | **[14,21)** |
+| Paved road | **61%** | **66** | **[21,87)** |
+| Right shoulder | **6.5%** | **7** | **[87,94)** |
+| Right grass | **13%** | **14** | **[94,108)** |
+| **Total** | **100%** | **108** | **[0,108)** |
+
+Exact native ratios after rounding are **12.96/6.48/61.11/6.48/12.96%**. Retain the existing **ANTIC 4 / 27-column driving / 13-column fixed HUD** layout. The accepted v0.2-r1 XEX still uses **7/7/80/7/7**; preserve it and its test/manifest history.
+
+**First v0.3 increment — geometry only:** Change straight-road scenery and corresponding local x zone boundaries to **14/7/66/7/14**, preserving accepted v0.2-r1 steering/acceleration, speed-linked Y, PMG sprite, GAS/lives, pharmacy, FIRE/replay, and HUD. **No shoulder traction changes, grass timer, new off-road explosion or winding/forks/enemies in this increment.** Create a new versioned standalone XEX with automated geometry/road-HUD/PMG/r1 regression checks and **user Atari800 visual/steering-space playtest** before activating hazards.
+
+**Subsequent v0.3 off-road increment:** After geometry acceptance, apply the already approved [whole-game §5.7](GAME_DESIGN.md): classify using **car center** at Billy's current Y, shoulder **pauses** accumulated grass time, grass **runs/resumes** it, paved road **resets** it, and **2.0 seconds accumulated in grass** causes a crash/life loss. Exact effects, respawn and simultaneous GAS/crash priority will be worked out separately.
+
+**Later winding/forks:** New road **normal width is 61%**, to which curves and fork reunions return. Prior **40%-minimum** and **~4-second** narrowing/widening targets were chosen for 75%-normal pavement; reconsider after the new straight-road geometry playtest. Do not silently imply 61→40→61 is separately approved.
+
+**Status:** Design approved 2026-11-11; no v0.3 XEX, code, Atari800 playtest or new penalty system implemented by this documentation change.
