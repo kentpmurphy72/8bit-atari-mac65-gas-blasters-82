@@ -1,0 +1,20 @@
+test_aabb_matches_independent_fractional_oracle (__main__.MovementTests.test_aabb_matches_independent_fractional_oracle) ... ok
+test_all_doors_center_threshold_alignment_and_held_no_bounce (__main__.MovementTests.test_all_doors_center_threshold_alignment_and_held_no_bounce) ... ok
+test_cardinal_speed_60_frames_reverse_stop (__main__.MovementTests.test_cardinal_speed_60_frames_reverse_stop) ... ok
+test_center_graze_is_not_door_transition_and_exit (__main__.MovementTests.test_center_graze_is_not_door_transition_and_exit) ... ok
+test_diagonal_corners_and_no_tunneling_after_stall (__main__.MovementTests.test_diagonal_corners_and_no_tunneling_after_stall) ... ok
+test_diagonal_speed_and_opposed_axes (__main__.MovementTests.test_diagonal_speed_and_opposed_axes) ... ok
+test_fire_inert_does_not_lock_walk (__main__.MovementTests.test_fire_inert_does_not_lock_walk) ... ok
+test_live_workers_pursuit_timing_and_input_during_search (__main__.MovementTests.test_live_workers_pursuit_timing_and_input_during_search) ... ok
+test_memory_preservation_and_reproducibility (__main__.MovementTests.test_memory_preservation_and_reproducibility) ... ok
+test_opening_flow_pmg_off_until_stage_and_music (__main__.MovementTests.test_opening_flow_pmg_off_until_stage_and_music) ... ok
+test_pixel_contact_half_open_and_stun_grace (__main__.MovementTests.test_pixel_contact_half_open_and_stun_grace) ... ok
+test_restart_alignment_workers_and_frozen_result (__main__.MovementTests.test_restart_alignment_workers_and_frozen_result) ... ok
+test_video_clock_no_duplicate_and_bounded_catchup_wrap (__main__.MovementTests.test_video_clock_no_duplicate_and_bounded_catchup_wrap) ... ok
+test_visible_pmg_moves_inside_tile_and_clears_old_lines (__main__.MovementTests.test_visible_pmg_moves_inside_tile_and_clears_old_lines) ... ok
+test_wall_slide_cardinal_free_axis_and_exact_stop (__main__.MovementTests.test_wall_slide_cardinal_free_axis_and_exact_stop) ... ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 1.557s
+
+OK

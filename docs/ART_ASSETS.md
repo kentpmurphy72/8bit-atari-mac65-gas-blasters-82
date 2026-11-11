@@ -18,6 +18,15 @@ These are functional temporary assets, not approved final art. See the
 [versioned prototype](../assets/stage2_v02/README.md). Actual Atari800 readability,
 flash/shake visibility, scene transitions and palette evaluation remain untested.
 
+### Stage 2 v0.3 native scenery — 2026-11-11
+
+Geometry-only XEX widens the existing grass and narrows the pavement to approved
+14/7/66/7/14 color-pixel bands. Eight terrain-strip categories still fit the
+original 32 animated glyphs; palette, textures, centerline and car art remain.
+HUD and pharmacy art are unchanged. [Versioned geometry/build and software
+layout preview](../assets/stage2_v03/README.md) are available; the preview is not
+an emulator screenshot. Atari800 visual acceptance remains pending.
+
 ## 1. Visual identity
 
 **Working direction:** energetic early-1980s arcade packaging with hand-painted/pulp comic illustration, bold typography, exaggerated slapstick action, and readable visual storytelling.

@@ -1,0 +1,23 @@
+test_diagonal_push_and_corner_bonk (__main__.BlastTests.test_diagonal_push_and_corner_bonk) ... ok
+test_diagonal_side_worker_blocks_without_chain_push (__main__.BlastTests.test_diagonal_side_worker_blocks_without_chain_push) ... ok
+test_direction_change_release_cancel_one_burst_and_no_direction (__main__.BlastTests.test_direction_change_release_cancel_one_burst_and_no_direction) ... ok
+test_each_direction_animated_knockback_and_corner_safety (__main__.BlastTests.test_each_direction_animated_knockback_and_corner_safety) ... ok
+test_fire_first_eight_aims_four_frame_windup_and_poses (__main__.BlastTests.test_fire_first_eight_aims_four_frame_windup_and_poses) ... ok
+test_four_links_fractional_entries_charge_continuity_and_exit (__main__.BlastTests.test_four_links_fractional_entries_charge_continuity_and_exit) ... ok
+test_free_movement_speeds_preserved (__main__.BlastTests.test_free_movement_speeds_preserved) ... ok
+test_geometry_supercover_matches_all_eight_orientations (__main__.BlastTests.test_geometry_supercover_matches_all_eight_orientations) ... ok
+test_hud_sound_restart_and_silent_opening_data (__main__.BlastTests.test_hud_sound_restart_and_silent_opening_data) ... ok
+test_memory_segments_old_assets_and_deterministic_build (__main__.BlastTests.test_memory_segments_old_assets_and_deterministic_build) ... ok
+test_multiple_hits_once_and_animated_three_steps (__main__.BlastTests.test_multiple_hits_once_and_animated_three_steps) ... ok
+test_opening_original_controls_and_song_continuity (__main__.BlastTests.test_opening_original_controls_and_song_continuity) ... ok
+test_recovery_cooldown_and_blocked_hold_does_not_queue (__main__.BlastTests.test_recovery_cooldown_and_blocked_hold_does_not_queue) ... ok
+test_renewable_supply_and_clock_wrap (__main__.BlastTests.test_renewable_supply_and_clock_wrap) ... ok
+test_restart_clears_active_cloud_and_result_silences_sfx (__main__.BlastTests.test_restart_clears_active_cloud_and_result_silences_sfx) ... ok
+test_stagger_does_not_shorten_longer_stun (__main__.BlastTests.test_stagger_does_not_shorten_longer_stun) ... ok
+test_waves_expansion_restore_and_no_room_leak (__main__.BlastTests.test_waves_expansion_restore_and_no_room_leak) ... ok
+test_worker_collision_stagger_no_chain_push (__main__.BlastTests.test_worker_collision_stagger_no_chain_push) ... ok
+
+----------------------------------------------------------------------
+Ran 18 tests in 3.057s
+
+OK

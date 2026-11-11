@@ -1,0 +1,38 @@
+test_all_phase_pixels_match_the_geometric_cross_section (__main__.RoadTests.test_all_phase_pixels_match_the_geometric_cross_section) ... ok
+test_car_visible_at_74_percent (__main__.RoadTests.test_car_visible_at_74_percent) ... ok
+test_car_visible_at_75_percent (__main__.RoadTests.test_car_visible_at_75_percent) ... ok
+test_car_visible_at_90_percent (__main__.RoadTests.test_car_visible_at_90_percent) ... ok
+test_car_visible_at_99_percent (__main__.RoadTests.test_car_visible_at_99_percent) ... ok
+test_distance_underflow_and_no_early_zero_or_hundred_percent (__main__.RoadTests.test_distance_underflow_and_no_early_zero_or_hundred_percent) ... ok
+test_division_native_precision_randomized (__main__.RoadTests.test_division_native_precision_randomized) ... ok
+test_driving_native_differential_r3_below_warning (__main__.RoadTests.test_driving_native_differential_r3_below_warning) ... ok
+test_exact_120_second_default_drive_both_video_standards (__main__.RoadTests.test_exact_120_second_default_drive_both_video_standards) ... ok
+test_explosion_frames_green_then_life_loss_once (__main__.RoadTests.test_explosion_frames_green_then_life_loss_once) ... ok
+test_fire_inert_and_start_disabled_during_driving (__main__.RoadTests.test_fire_inert_and_start_disabled_during_driving) ... ok
+test_fixed_binary_preserves_gameplay_data_and_previous_artifacts (__main__.RoadTests.test_fixed_binary_preserves_gameplay_data_and_previous_artifacts) ... ok
+test_full_ntsc_pal_deadlines_warning_thresholds_and_freeze (__main__.RoadTests.test_full_ntsc_pal_deadlines_warning_thresholds_and_freeze) ... ok
+test_gas_priority_tie_and_latched_success (__main__.RoadTests.test_gas_priority_tie_and_latched_success) ... ok
+test_geometry_widths_boundaries_and_symmetry (__main__.RoadTests.test_geometry_widths_boundaries_and_symmetry) ... ok
+test_held_fire_cannot_skip_failure_or_pharmacy_or_complete (__main__.RoadTests.test_held_fire_cannot_skip_failure_or_pharmacy_or_complete) ... ok
+test_initial_hud_native_setup (__main__.RoadTests.test_initial_hud_native_setup) ... ok
+test_long_scroll_fonts_and_panel_preserved (__main__.RoadTests.test_long_scroll_fonts_and_panel_preserved) ... ok
+test_mapping_all_values_and_fractional_integration (__main__.RoadTests.test_mapping_all_values_and_fractional_integration) ... ok
+test_measured_steady_frame_budget (__main__.RoadTests.test_measured_steady_frame_budget) ... ok
+test_native_font_publication_uses_new_geometry_on_every_phase (__main__.RoadTests.test_native_font_publication_uses_new_geometry_on_every_phase) ... ok
+test_native_mapping_clamps_every_table_entry_and_duplicate_ticks (__main__.RoadTests.test_native_mapping_clamps_every_table_entry_and_duplicate_ticks) ... ok
+test_native_r1_differential_including_warning_and_result_transitions (__main__.RoadTests.test_native_r1_differential_including_warning_and_result_transitions) ... ok
+test_no_grass_or_shoulder_penalties_or_traction (__main__.RoadTests.test_no_grass_or_shoulder_penalties_or_traction) ... ok
+test_original_bug_reproduced_with_gtia_read_aliases (__main__.RoadTests.test_original_bug_reproduced_with_gtia_read_aliases) ... ok
+test_pharmacy_art_and_terminal_pmg_disable (__main__.RoadTests.test_pharmacy_art_and_terminal_pmg_disable) ... ok
+test_reproducible_manifest_segments_and_prior_hash (__main__.RoadTests.test_reproducible_manifest_segments_and_prior_hash) ... ok
+test_rtc_wrap_and_missed_ticks (__main__.RoadTests.test_rtc_wrap_and_missed_ticks) ... ok
+test_runtime_writes_confined_to_declared_ram_and_registers (__main__.RoadTests.test_runtime_writes_confined_to_declared_ram_and_registers) ... ok
+test_screen_glyphs_geometry_and_hud_partition (__main__.RoadTests.test_screen_glyphs_geometry_and_hud_partition) ... ok
+test_three_lives_retry_and_new_game_release_edges (__main__.RoadTests.test_three_lives_retry_and_new_game_release_edges) ... ok
+test_warning_threshold_boundaries_step_shake_clamp_and_gas_only_flash (__main__.RoadTests.test_warning_threshold_boundaries_step_shake_clamp_and_gas_only_flash) ... ok
+test_warning_visibility_all_collision_flags_edges_speeds_and_transitions (__main__.RoadTests.test_warning_visibility_all_collision_flags_edges_speeds_and_transitions) ... ok
+
+----------------------------------------------------------------------
+Ran 33 tests in 191.150s
+
+OK

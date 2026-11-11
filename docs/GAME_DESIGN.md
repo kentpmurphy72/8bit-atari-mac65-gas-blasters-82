@@ -12,6 +12,14 @@
 
 Stage 2 v0.2-r1 was user-accepted in Atari800 and preserved at immutable tag `stage2-v0.2`. The new v0.3 straight-road design is **13% grass / 6.5% dirt shoulder / 61% paved road / 6.5% shoulder / 13% grass**. The user's portrait-oriented *Spy Hunter* screenshot inspired grass **twice the shoulder width**. This is **approved design only**, not code in the accepted v0.2-r1 XEX. See [Stage 2 §26](STAGE2_DESIGN.md).
 
+### Stage 2 v0.3 geometry implementation — 2026-11-11
+
+The [standalone v0.3 build](../assets/stage2_v03/README.md) now implements the
+approved straight-road 14/7/66/7/14 bands while preserving every r1 gameplay code
+byte. This is geometry only, CPU verified and awaiting user Atari800 acceptance.
+It does not activate the later shoulder/grass timer, traction, crash or enemy
+rules below. Balancing and steering-space suitability still need playtesting.
+
 ## 1. Decision status conventions
 
 - **Confirmed** — explicitly chosen in the design discussion.

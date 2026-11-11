@@ -9,6 +9,19 @@
 > Living checklist. An unchecked item is not necessarily an approved requirement; some items are proposed work that depends on design decisions. Update this file as tasks are finished or scope changes.
 
 - **PMG regression and v2.1 hotfix — 2026-10-30:** The first real Atari800 test of the alternate PMG title **v2 failed visually** (stray cyan/white pixels overlapping text/background). Bug confirmed: DMACTL set to $2E **double-line** although 2 KB PMG data was built for **single-line**. The v2 validator mistakenly expected $2E as well. A separate v2.1 XEX and corrected source now use $3E, an adjusted 56-line vertical origin, and explicit tests for correct DMACTL and cleared PM rows over the text. **v2.1 was tested in Atari800 on 2026-11-01 and was visually rejected:** scattered PMG highlights still degrade the logo, Billy and car. The overlay intentionally adds about 220 disconnected pixels; a heavy DLI handler also has insufficient cycle headroom for one scanline. Do not adopt v2/v2.1; preserve the accepted v1 title. No checklist completion change. **Known-good v1 is unaffected**. Checklist completion count is unchanged until the corrected PMG screen passes visually.
+## Stage 2 v0.3 geometry-only implementation — 2026-11-11
+
+- **Implemented / CPU verified:** new standalone v0.3 XEX with 14/7/66/7/14
+  grass/shoulder/pavement bands, fixed 27/13 road/HUD split, geometry/memory
+  tests and native r1 gameplay regressions. [Build/results/playtest notes](../assets/stage2_v03/README.md).
+- Native gameplay code, controls, gas/lives, pharmacy/HUD and GTIA repair remain
+  byte-identical to accepted r1. All historical XEX/source/tests are preserved.
+- **Not implemented:** shoulder traction, runtime off-road classification/timer,
+  crash effects, winding roads, forks, enemies or other deferred mechanics.
+- **Still open:** actual Atari800 NTSC/PAL visual geometry/steering-space playtest
+  and user acceptance. Emulator/hardware NOT RUN here; no merge/tag. Broad
+  gameplay/acceptance checkboxes and totals remain unchanged.
+
 ## Stage 2 v0.3 road proportions approved — 2026-11-11
 
 - **New design-only straight-road geometry:** **13/6.5/61/6.5/13%** grass/shoulder/pavement/shoulder/grass, rounded to **14/7/66/7/14** in 108 native color pixels; fixed 27-driving/13-HUD columns remain. [Stage 2 §26](STAGE2_DESIGN.md) has exact x boundaries. Grass is twice shoulder width. Accepted v0.2-r1 still uses historic 7/7/80/7/7 and stays untouched.

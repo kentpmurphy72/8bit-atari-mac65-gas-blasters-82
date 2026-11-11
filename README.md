@@ -37,9 +37,27 @@ See [build, memory and playtest instructions](assets/stage2_v02_r1/README.md) an
 [actual validation results](assets/stage2_v02_r1/validation.md). Earlier dated design
 entries below describe the historical v0.1→v0.2 planning boundary.
 
-## Stage 2 v0.3 — approved wider grass / narrower straight road (design only)
+## Stage 2 v0.3 — road geometry only (implemented; acceptance pending)
 
-New approved road zones for a future geometry-only prototype: **13% grass / 6.5% dirt shoulder / 61% paved road / 6.5% shoulder / 13% grass**, implemented as **14/7/66/7/14 color pixels** across the same 27-column/108-pixel driving pane. Keep the 13-column HUD. First playtest new geometry without penalties; later enable the approved two-second grass timer and shoulder handling. See [Stage 2 §26](docs/STAGE2_DESIGN.md). No v0.3 XEX built. The accepted v0.2-r1 XEX/tag remain preserved; v0.3 design is on `feature/stage2-road-zones-v0.3`.
+[Download the v0.3 XEX](assets/stage2_v03/GasBlasters82_Stage2_Road_Geometry_v03.xex).
+New straight-road bands are **14 grass / 7 shoulder / 66 pavement / 7 shoulder /
+14 grass** in the 108-color-pixel driving pane (ideal 13/6.5/61/6.5/13%).
+The fixed 13-column HUD and every native v0.2-r1 code byte remain unchanged.
+No traction, grass timer, crash, winding road, fork or enemy is added.
+
+```bash
+python3 tools/build_stage2_v03.py
+.venv/bin/python tools/test_stage2_v03.py
+.venv/bin/python tools/profile_stage2_v03.py
+atari800 -xl -ntsc -nobasic -run assets/stage2_v03/GasBlasters82_Stage2_Road_Geometry_v03.xex
+# Repeat with -pal. CPU tests need tools/requirements-stage1-test.txt.
+```
+
+**CPU/geometry verified; Atari800: NOT RUN; user acceptance pending.**
+See [build/memory/playtest notes](assets/stage2_v03/README.md) and
+[actual test results](assets/stage2_v03/validation.md). The accepted v0.2-r1 XEX,
+its source and all historical artifacts remain unchanged. v0.3 is on the existing
+`feature/stage2-road-zones-v0.3` branch; no merge or tag before acceptance.
 
 ## Stage 2 v0.1 — driving mechanics accepted (r3, merged into main)
 

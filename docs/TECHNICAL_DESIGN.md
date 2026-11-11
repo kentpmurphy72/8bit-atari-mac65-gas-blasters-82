@@ -240,3 +240,27 @@ The user re-playtested the corrected standalone v0.2-r1 XEX after the 75% car vi
 The approved new straight road in existing **ANTIC 4** has **108 color pixels (27 character columns)** on the left and a fixed **13-column HUD** on the right. Native widths are **14 grass / 7 shoulder / 66 pavement / 7 shoulder / 14 grass**, corresponding to ideal **13/6.5/61/6.5/13%** and half-open local x ranges **[0,14), [14,21), [21,87), [87,94), [94,108)**. Maintain identical road drawing and eventual car-center zone coordinate spaces; do not use GTIA position readback or PMG shake offsets for collision classification. Read [Stage 2 §26](STAGE2_DESIGN.md).
 
 First implement **only** the straight-road geometry in a new v0.3 XEX, keeping the accepted v0.2-r1 7/7/80/7/7 visuals and binaries untouched. Run native coordinate/buffer/PMG/HUD boundary and accepted r1 regression tests, then have the user playtest in Atari800. Shoulder handling and the 2-second grass timer are a **separate later increment**; winding-road 40% minimum and four-second transitions need review against the new 61% normal road.
+
+## Stage 2 v0.3 — geometry-only data revision (2026-11-11)
+
+The standalone [v0.3 XEX](../assets/stage2_v03/README.md) changes the straight-road
+bands to 14/7/66/7/14 across 108 local color pixels, with boundaries
+0/14/21/87/94/108. The builder derives eight four-pixel horizontal categories and
+32 phase pages within the existing 32 animated glyphs. CPU code, mode, display
+list, palette, PMG, state, ZP, load allocation and all gameplay tables stay
+byte-identical to accepted r1. There is no new raster or per-frame CPU work.
+
+Changed segments: left 27 screen columns at $2400/$9400; first 256 bytes of fonts
+at $3000/$3400/$6000; road phase pages at $4000. All HUD cells/static font bytes
+and result scenes are unchanged. Half-open zone boundaries live in canonical
+geometry JSON and offline lookup metadata; future car-center classification,
+traction and off-road timers are not activated. No new hardware register reads
+are introduced, preserving the r1 GTIA position repair.
+
+Geometry tests decode every pixel across all phases, execute native font-bank
+publication, verify 27/13 isolation and run the r1 native gameplay/visibility
+suite on the new XEX. Differential CPU runs compare controls, counters, HUD,
+PMG and outcomes against accepted r1 in both nominal video clocks. Full results
+and CPU costs (excluding ANTIC DMA/OS interrupts) are versioned with the XEX.
+Atari800/hardware NOT RUN here; visual geometry and steering-space acceptance
+remain pending. Stage 1/opening and every prior artifact are preserved.

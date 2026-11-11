@@ -1,0 +1,17 @@
+test_boot_native_registers_sprite_and_standalone_memory (__main__.DrivingTests.test_boot_native_registers_sprite_and_standalone_memory) ... ok
+test_build_reproducibility_segments_and_explicit_geometry (__main__.DrivingTests.test_build_reproducibility_segments_and_explicit_geometry) ... ok
+test_combined_diagonals_steering_speed_and_opposition (__main__.DrivingTests.test_combined_diagonals_steering_speed_and_opposition) ... ok
+test_downward_pixel_motion_all_phases_including_wrap (__main__.DrivingTests.test_downward_pixel_motion_all_phases_including_wrap) ... ok
+test_extended_idle_three_minutes_no_drift_or_corruption (__main__.DrivingTests.test_extended_idle_three_minutes_no_drift_or_corruption) ... ok
+test_fonts_swap_coherently_and_hud_never_scrolls (__main__.DrivingTests.test_fonts_swap_coherently_and_hud_never_scrolls) ... ok
+test_neutral_automatic_positive_motion_and_pipeline (__main__.DrivingTests.test_neutral_automatic_positive_motion_and_pipeline) ... ok
+test_rendered_zone_boundaries_and_lane_location (__main__.DrivingTests.test_rendered_zone_boundaries_and_lane_location) ... ok
+test_restart_release_armed_and_clock_wrap (__main__.DrivingTests.test_restart_release_armed_and_clock_wrap) ... ok
+test_speed_caps_braking_and_neutral_retention (__main__.DrivingTests.test_speed_caps_braking_and_neutral_retention) ... ok
+test_steering_fractional_immediate_reverse_bounds_and_fire_reserved (__main__.DrivingTests.test_steering_fractional_immediate_reverse_bounds_and_fire_reserved) ... ok
+test_zone_classification_center_and_no_penalties (__main__.DrivingTests.test_zone_classification_center_and_no_penalties) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 14.444s
+
+OK

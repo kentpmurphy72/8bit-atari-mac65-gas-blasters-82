@@ -646,7 +646,7 @@ in the build environment; **the user subsequently playtested the corrected r1 XE
 
 ## 26. Stage 2 v0.3 — approved straight-road proportions (2026-11-11)
 
-**Approval:** Change the road-zone widths after examining the portrait *Spy Hunter* screenshot. New v0.3 ideal cross-section (of the **left driving pane**, not full display): **13% grass / 6.5% dirt shoulder / 61% pavement / 6.5% shoulder / 13% grass**. Grass is twice each shoulder. This **supersedes the earlier v0.1/v0.2 proportions for new development**, but is **not implemented** and must not change accepted v0.2-r1 files or historical §§1–25.
+**Approval:** Change the road-zone widths after examining the portrait *Spy Hunter* screenshot. New v0.3 ideal cross-section (of the **left driving pane**, not full display): **13% grass / 6.5% dirt shoulder / 61% pavement / 6.5% shoulder / 13% grass**. Grass is twice each shoulder. This **supersedes the earlier v0.1/v0.2 proportions for new development**, and is now implemented as a separate geometry-only v0.3 XEX; accepted v0.2-r1 files and historical §§1–25 remain unchanged.
 
 | Zone | Ideal fraction | Width in existing 108 color pixels | Half-open local x range |
 | --- | ---: | ---: | --- |
@@ -665,4 +665,11 @@ Exact native ratios after rounding are **12.96/6.48/61.11/6.48/12.96%**. Retain 
 
 **Later winding/forks:** New road **normal width is 61%**, to which curves and fork reunions return. Prior **40%-minimum** and **~4-second** narrowing/widening targets were chosen for 75%-normal pavement; reconsider after the new straight-road geometry playtest. Do not silently imply 61→40→61 is separately approved.
 
-**Status:** Design approved 2026-11-11; no v0.3 XEX, code, Atari800 playtest or new penalty system implemented by this documentation change.
+**Implementation checkpoint (2026-11-11):** Separate standalone v0.3 XEX is built
+and CPU/geometry tested; native r1 gameplay code is byte-identical. Only road
+font pages and left-pane screen glyphs change. Canonical local bands are in
+`assets/stage2_v03/geometry.json`; classification/penalties are not active runtime
+systems in this increment. See [source/build/testing evidence](../assets/stage2_v03/README.md).
+Atari800 NTSC/PAL and hardware: **NOT RUN** in the build environment. User visual
+geometry/steering-space acceptance is pending; no new penalty system, merge,
+tag or branch deletion is authorized by implementation.

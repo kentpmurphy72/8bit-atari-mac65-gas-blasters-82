@@ -1,0 +1,14 @@
+{
+  "revision": "v0.3-geometry-only",
+  "driving_columns": 27,
+  "hud_columns": 13,
+  "color_pixels_per_character": 4,
+  "centerline_x": 54,
+  "bands": [
+    {"name": "left_grass", "zone": "grass", "start": 0, "end": 14},
+    {"name": "left_shoulder", "zone": "shoulder", "start": 14, "end": 21},
+    {"name": "pavement", "zone": "pavement", "start": 21, "end": 87},
+    {"name": "right_shoulder", "zone": "shoulder", "start": 87, "end": 94},
+    {"name": "right_grass", "zone": "grass", "start": 94, "end": 108}
+  ]
+}
