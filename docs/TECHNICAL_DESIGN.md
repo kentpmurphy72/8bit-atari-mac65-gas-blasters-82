@@ -264,3 +264,7 @@ PMG and outcomes against accepted r1 in both nominal video clocks. Full results
 and CPU costs (excluding ANTIC DMA/OS interrupts) are versioned with the XEX.
 Atari800/hardware NOT RUN here; visual geometry and steering-space acceptance
 remain pending. Stage 1/opening and every prior artifact are preserved.
+
+## Stage 2 v0.3 geometry-only Atari800 acceptance — 2026-11-11
+
+The user played the native v0.3 geometry-only XEX in Atari800 and reported **"Looks good and works great"**. Approved normal straight road is 14/7/66/7/14 across 108 color pixels, with unchanged 27/13 road/HUD split. Codex's prior automated verification comprised **33 v0.3 tests, 112 historical regressions, five validators**; v0.2-r1 native code remains byte-identical. This is **user visual/handling acceptance**, not a new CPU test run, confirmed PAL-mode comparison, or physical 800XL test. Runtime classification/shoulder handling/grass-time crash remain **out of scope and unimplemented**; they will require new design/validation work in v0.4.

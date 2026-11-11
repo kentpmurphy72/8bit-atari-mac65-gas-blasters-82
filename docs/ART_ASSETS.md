@@ -25,7 +25,7 @@ Geometry-only XEX widens the existing grass and narrows the pavement to approved
 original 32 animated glyphs; palette, textures, centerline and car art remain.
 HUD and pharmacy art are unchanged. [Versioned geometry/build and software
 layout preview](../assets/stage2_v03/README.md) are available; the preview is not
-an emulator screenshot. Atari800 visual acceptance remains pending.
+an emulator screenshot. The user has now playtested and accepted v0.3 scenery in Atari800 (2026-11-11). Exact video mode and physical 800XL coverage have not been separately verified.
 
 ## 1. Visual identity
 

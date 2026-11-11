@@ -3,7 +3,7 @@
 Standalone native 6502 XEX for stock Atari 800XL / 64 KB. Changes accepted
 v0.2-r1 scenery to **14 grass / 7 shoulder / 66 pavement / 7 shoulder / 14 grass**
 color pixels across the 108-pixel driving pane. The 13-column HUD is unchanged.
-**Implemented/CPU tested; Atari800 visual test and user acceptance pending.**
+**Implemented, CPU tested, and user-playtested/accepted in Atari800 on 2026-11-11.** Codex's build environment did **not** run Atari800; this acceptance comes from the user's independent gameplay check.
 
 ## Build, test and launch
 
@@ -95,8 +95,7 @@ installed in the build environment. CPU tests use py65 and the r1 GTIA register
 read/write-alias shim; they do not emulate ANTIC DMA or OS interrupts. Native
 code is unchanged, so existing CPU timing/transition/nominal-60/50-Hz clock limits
 remain. Visible redraw stutter, colors, flicker, actual input and handling feel
-need emulator confirmation. Widths and steering-space suitability await user
-acceptance before any off-road behavior is added.
+were left for emulator confirmation; the user subsequently played the v0.3 XEX and confirmed it **looks good and works great**. Exact NTSC/PAL mode and physical Atari 800XL coverage remain unspecified. Off-road gameplay behavior is deliberately not included in this accepted geometry revision.
 
 ## Brief Atari800 checklist
 
@@ -113,4 +112,4 @@ acceptance before any off-road behavior is added.
    exterior and both fresh-FIRE transitions. Repeat new-game/retry cycles;
    check no HUD/font/PMG ghosts. START must not bypass lives or results.
 
-No merge/tag/branch deletion; awaiting user gameplay acceptance.
+**Geometry user-accepted.** The user approved immutable tag `stage2-v0.3`, integration into `main`, and retirement of the completed feature branch, pending actual remote Git ref verification. No additional gameplay behavior is included.

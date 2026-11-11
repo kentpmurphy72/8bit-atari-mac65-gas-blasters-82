@@ -1,6 +1,6 @@
 # Gas Blasters '82 — Project To-Do List
 
-**Version:** 0.51  
+**Version:** 0.52  
 **Date:** 2026-11-11  
 **Target:** Atari 800XL  
 **Status:** Stage 1 v0.5 implemented and accepted as a playable prototype; remaining full game in design/development  
@@ -9,6 +9,14 @@
 > Living checklist. An unchecked item is not necessarily an approved requirement; some items are proposed work that depends on design decisions. Update this file as tasks are finished or scope changes.
 
 - **PMG regression and v2.1 hotfix — 2026-10-30:** The first real Atari800 test of the alternate PMG title **v2 failed visually** (stray cyan/white pixels overlapping text/background). Bug confirmed: DMACTL set to $2E **double-line** although 2 KB PMG data was built for **single-line**. The v2 validator mistakenly expected $2E as well. A separate v2.1 XEX and corrected source now use $3E, an adjusted 56-line vertical origin, and explicit tests for correct DMACTL and cleared PM rows over the text. **v2.1 was tested in Atari800 on 2026-11-01 and was visually rejected:** scattered PMG highlights still degrade the logo, Billy and car. The overlay intentionally adds about 220 disconnected pixels; a heavy DLI handler also has insufficient cycle headroom for one scanline. Do not adopt v2/v2.1; preserve the accepted v1 title. No checklist completion change. **Known-good v1 is unaffected**. Checklist completion count is unchanged until the corrected PMG screen passes visually.
+## Stage 2 v0.3 geometry prototype accepted — 2026-11-11
+
+- **User Atari800 approval:** The user played the standalone `v0.3` road-geometry XEX, reported **"Looks good and works great"**, and explicitly approved documentation, immutable `stage2-v0.3` tag, integration to `main`, and removal of the completed feature branch.
+- **Accepted artifact:** [`assets/stage2_v03/GasBlasters82_Stage2_Road_Geometry_v03.xex`](../assets/stage2_v03/GasBlasters82_Stage2_Road_Geometry_v03.xex), SHA-256 `e6c222eb15fa19cf991c0076ebff2d13cae74d0fb0af933f8b66023179e23178`. Geometry **14/7/66/7/14**; fixed 27/13 display. Codex reported **33 new v0.3 tests, 112 historical regressions, five validators passing**; the user supplied independent Atari800 visual/handling acceptance. No additional automation, separate PAL-mode, or physical 800XL coverage is claimed by this documentation update.
+- **Scope:** This is **geometry-only acceptance**. Shoulder traction, grass accumulation, skid/smoke, off-road explosions, winding/forks, traffic, car gas blasts and Stage 3 integration are still unimplemented. The next proposed milestone is **Stage 2 v0.4 — Off-Road Consequences**, after discussion and design approval.
+- **Checklist:** Mark the two geometry build/playtest tasks and implemented straight-boundary task complete. **85 complete / 92 open / 177 total**. Full Stage 2 remains incomplete.
+- **Version control:** Tag/merge/delete authorized by the user. This note is **not evidence that an operation took place**; inspect the remote tag, `main`, and feature branch before asserting completion.
+
 ## Stage 2 v0.3 geometry-only implementation — 2026-11-11
 
 - **Implemented / CPU verified:** new standalone v0.3 XEX with 14/7/66/7/14
@@ -18,14 +26,12 @@
   byte-identical to accepted r1. All historical XEX/source/tests are preserved.
 - **Not implemented:** shoulder traction, runtime off-road classification/timer,
   crash effects, winding roads, forks, enemies or other deferred mechanics.
-- **Still open:** actual Atari800 NTSC/PAL visual geometry/steering-space playtest
-  and user acceptance. Emulator/hardware NOT RUN here; no merge/tag. Broad
-  gameplay/acceptance checkboxes and totals remain unchanged.
+- **Subsequent acceptance:** The user ran the corrected v0.3 geometry XEX in Atari800 and confirmed it looks good and works great. The Codex build environment did not run Atari800; no separately identified PAL or physical hardware coverage is claimed. Geometry-specific checklist tasks are now accepted; off-road consequences remain open.
 
 ## Stage 2 v0.3 road proportions approved — 2026-11-11
 
-- **New design-only straight-road geometry:** **13/6.5/61/6.5/13%** grass/shoulder/pavement/shoulder/grass, rounded to **14/7/66/7/14** in 108 native color pixels; fixed 27-driving/13-HUD columns remain. [Stage 2 §26](STAGE2_DESIGN.md) has exact x boundaries. Grass is twice shoulder width. Accepted v0.2-r1 still uses historic 7/7/80/7/7 and stays untouched.
-- **v0.3 sequence:** geometry-only XEX then Atari800 playtest **before** the future shoulder/grass penalties. Older 40%-minimum/~4s winding model needs review against new 61%-normal pavement. Two additional open implementation/playtest tasks below; totals **82 complete / 95 open / 177 total**.
+- **Approved and now implemented/accepted straight-road geometry:** **13/6.5/61/6.5/13%** grass/shoulder/pavement/shoulder/grass, rounded to **14/7/66/7/14** in 108 native color pixels; fixed 27-driving/13-HUD columns remain. [Stage 2 §26](STAGE2_DESIGN.md) defines exact x boundaries. Historical accepted v0.2-r1 retains its original 7/7/80/7/7 layout.
+- **v0.3 sequence accomplished:** geometry-only XEX built, tested, user-playtested and accepted. Shoulder/grass penalties are **next separate milestone**; earlier 40%-minimum/~4s winding rules still need reconsideration against the 61%-normal road. Updated tasks: **85 complete / 92 open / 177 total**.
 
 ## Stage 2 v0.2-r1 accepted — 2026-11-08
 
@@ -228,7 +234,7 @@
 - [ ] Select emulator and debugging tools.
 - [ ] Establish the assembly, build, and execution workflow.
 - [ ] Decide on cartridge, disk, or other distribution format.
-- [ ] Implement and test new v0.3 straight-road pixel boundaries in existing ANTIC 4 **108-color-pixel/27-column driving pane**: **[0,14), [14,21), [21,87), [87,94), [94,108)**, maintaining 13-column fixed HUD. Winding/fork geometry is deferred.
+- [x] Implemented and tested v0.3 straight-road pixel boundaries in ANTIC 4 **108-color-pixel/27-column driving pane**: **[0,14), [14,21), [21,87), [87,94), [94,108)** with fixed 13-column HUD. New v0.3 deterministic tests verify geometry; future winding/fork geometry remains deferred.
 - [ ] Develop a preliminary memory map and allocation strategy.
 - [ ] Determine how player/missile graphics will be used.
 - [ ] Define the game's main loop, input handling, timing, and collision architecture.
@@ -240,12 +246,12 @@
 ## Phase 3 — First Playable Prototype
 *Goal: Prove that the central game mechanic is fun.*
 
-**Accepted Stage 2 v0.1-r3 driving and v0.2-r1 pressure/destination remain unchanged.** Approved v0.3 normal-road proportions are design-only; new XEX and Atari800 playtest still pending. Off-road consequences, winding/forks, traffic and blast mechanics remain open.
+**Accepted:** Stage 2 v0.1-r3 driving, v0.2-r1 pressure/destination, and **v0.3 geometry-only road proportions** after the user's Atari800 playtest. Off-road consequences, winding/forks, traffic, car gas blasts and full-game integration remain open.
 
 - [x] Display a basic overhead roadway scrolling downward.
 - [x] Implement continuous side-to-side steering (no fixed-lane snapping).
-- [ ] **v0.3 geometry-only XEX:** Implement straight-road native **14/7/66/7/14** grass/shoulder/pavement/shoulder/grass bands in a separate versioned standalone XEX, preserving accepted v0.2-r1 mechanics and *not* activating off-road consequences.
-- [ ] **v0.3 Atari800 geometry gate:** Playtest visual proportions and steering space at low/default/high speed, validate both roadside zones, HUD isolation, car visibility and accepted r1 regressions before enabling grass crash timer.
+- [x] **v0.3 geometry-only XEX:** Implemented straight-road native **14/7/66/7/14** bands in a new standalone XEX; preserved accepted v0.2-r1 mechanics, with no off-road penalties. CPU and geometry tests passed; user accepted the playable prototype.
+- [x] **v0.3 Atari800 geometry gate:** User played the versioned XEX and reported **"Looks good and works great"**. Automated geometry/boundaries, HUD isolation, PMG visibility and r1 regressions passed. Exact video mode and individual min/default/max manual checks were not separately enumerated.
 - [ ] After the v0.3 geometry-only playtest, implement car-center road/shoulder/grass classification using new **14/7/66/7/14** straight boundaries and eventual local cross-sections for winding roads.
 - [ ] Implement **grass time runs/resumes / shoulder time pauses / paved-road time resets** behavior; at 2.0s accumulated grass time since last road recovery, explode and deduct one life.
 - [ ] Implement staged skid, shake/reduced steering, warning/smoke, critical warning/heavy smoke.

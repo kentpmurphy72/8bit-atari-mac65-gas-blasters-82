@@ -14,11 +14,7 @@ Stage 2 v0.2-r1 was user-accepted in Atari800 and preserved at immutable tag `st
 
 ### Stage 2 v0.3 geometry implementation — 2026-11-11
 
-The [standalone v0.3 build](../assets/stage2_v03/README.md) now implements the
-approved straight-road 14/7/66/7/14 bands while preserving every r1 gameplay code
-byte. This is geometry only, CPU verified and awaiting user Atari800 acceptance.
-It does not activate the later shoulder/grass timer, traction, crash or enemy
-rules below. Balancing and steering-space suitability still need playtesting.
+The [standalone v0.3 build](../assets/stage2_v03/README.md) implements the approved straight-road **14/7/66/7/14** bands while preserving every v0.2-r1 native gameplay code byte. **The user playtested it in Atari800 and accepted the geometry, reporting "Looks good and works great" (2026-11-11).** It does not activate the shoulder/grass timer, traction, crash or enemy rules below. Its v0.3 geometry acceptance should not be mistaken for full Stage 2 or physical Atari hardware validation.
 
 ## 1. Decision status conventions
 
@@ -414,3 +410,7 @@ The user approved **gas-first tie handling**: if GAS reaches **100%** on the sam
 ## Stage 2 v0.2-r1 playable milestone accepted — 2026-11-08
 
 The corrected **standalone Stage 2 v0.2-r1** pressure/destination prototype has been **user-playtested in Atari800 and accepted**. Its initial build implemented the full GAS/MI/MPH HUD, three-life explosion/retry loop, gas pressure warnings and pharmacy cutscene. The r1 correction fixed an actual 75%-gas bug where car shake read GTIA collision flags through a horizontal-position register alias, moving the car offscreen. The accepted [v0.2-r1 XEX and validation evidence](../assets/stage2_v02_r1/README.md) preserve the earlier v0.2 and r3 artifacts. **This is the accepted first straight-road pharmacy race**, not the complete stage with road shoulders/grass timer, winding/forking road, police/hazmat traffic, car gas blasts, or Stage 3 integration. Timing/balance and hardware validation can be revisited in later milestones.
+
+## Stage 2 v0.3 geometry accepted — 2026-11-11
+
+The user playtested the [v0.3 geometry-only standalone XEX](../assets/stage2_v03/README.md) and approved the **13% grass / 6.5% shoulder / 61% pavement / 6.5% shoulder / 13% grass** visual/handling baseline, using native **14/7/66/7/14** color pixels. This supersedes the old 75%-pavement geometry **for future development**, while preserving the v0.2-r1 historical binary. The next proposed release is **Stage 2 v0.4 — Off-Road Consequences**, following discussion of crash/life/retry interaction; curves, forks and opponents remain deferred.

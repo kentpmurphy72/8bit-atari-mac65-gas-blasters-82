@@ -37,7 +37,7 @@ See [build, memory and playtest instructions](assets/stage2_v02_r1/README.md) an
 [actual validation results](assets/stage2_v02_r1/validation.md). Earlier dated design
 entries below describe the historical v0.1→v0.2 planning boundary.
 
-## Stage 2 v0.3 — road geometry only (implemented; acceptance pending)
+## Stage 2 v0.3 — accepted road geometry
 
 [Download the v0.3 XEX](assets/stage2_v03/GasBlasters82_Stage2_Road_Geometry_v03.xex).
 New straight-road bands are **14 grass / 7 shoulder / 66 pavement / 7 shoulder /
@@ -53,11 +53,10 @@ atari800 -xl -ntsc -nobasic -run assets/stage2_v03/GasBlasters82_Stage2_Road_Geo
 # Repeat with -pal. CPU tests need tools/requirements-stage1-test.txt.
 ```
 
-**CPU/geometry verified; Atari800: NOT RUN; user acceptance pending.**
+**CPU/geometry verified; user Atari800 playtested and accepted on 2026-11-11.** Codex's own environment did **not** run Atari800; user playtest mode (NTSC/PAL) and real Atari 800XL hardware testing are not separately verified. Off-road consequences remain deferred.
 See [build/memory/playtest notes](assets/stage2_v03/README.md) and
 [actual test results](assets/stage2_v03/validation.md). The accepted v0.2-r1 XEX,
-its source and all historical artifacts remain unchanged. v0.3 is on the existing
-`feature/stage2-road-zones-v0.3` branch; no merge or tag before acceptance.
+its source and all historical artifacts remain unchanged. The user approved v0.3 closeout (documentation, immutable `stage2-v0.3` tag, integration to `main`, branch cleanup). **Do not treat the new tag or branch deletion as completed until remote Git refs verify them.**
 
 ## Stage 2 v0.1 — driving mechanics accepted (r3, merged into main)
 
@@ -159,8 +158,10 @@ On Windows, use the corresponding `.venv\Scripts\python.exe` and `.venv\Scripts\
 | [stage1-v0.4](https://github.com/kentpmurphy72/8bit-atari-mac65-gas-blasters-82/tree/stage1-v0.4) | Approved responsive eight-way movement |
 | [stage1-v0.5](https://github.com/kentpmurphy72/8bit-atari-mac65-gas-blasters-82/tree/stage1-v0.5) | Accepted Stage 1 gameplay prototype with eight-way gas blasting |
 | [stage2-v0.1](https://github.com/kentpmurphy72/8bit-atari-mac65-gas-blasters-82/tree/stage2-v0.1) | Accepted, user-playtested Stage 2 v0.1-r3 standalone driving prototype (`e0e4422`) |
+| [stage2-v0.2](https://github.com/kentpmurphy72/8bit-atari-mac65-gas-blasters-82/tree/stage2-v0.2) | Accepted Stage 2 v0.2-r1 pressure/pharmacy prototype (`8e46ef9`), verified tag |
 
-**Stage 2 v0.2 is user-accepted at the corrected r1 revision.** The tag `stage2-v0.2` is **approved but not yet created** as of this documentation commit; do not list it as an existing immutable tag until verified. Its intended target is the final milestone acceptance commit after this documentation update.
+
+**Stage 2 v0.3 geometry-only is also user-accepted.** The proposed `stage2-v0.3` tag is approved for the final acceptance-documentation commit, but must be created and verified before listing it as an existing tag. The accepted build is `assets/stage2_v03/GasBlasters82_Stage2_Road_Geometry_v03.xex`.
 
 Versioned XEXs, builders, tests and manifests are retained in the repository. The feature branches for these five milestones were removed **after tags were verified**. Future stages use new feature branches, reviewed integration into `main`, and new tags. See [workflow](docs/REPOSITORY_WORKFLOW.md).
 

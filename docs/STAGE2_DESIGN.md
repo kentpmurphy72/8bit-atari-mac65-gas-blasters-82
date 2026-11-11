@@ -1,10 +1,10 @@
 # Gas Blasters '82 — Stage 2: Drive to the Pharmacy
 
 **Document:** Stage 2 Gameplay and Technical Design  
-**Milestone:** v0.1-r3 driving accepted; standalone v0.2-r1 pressure/destination implemented and user-accepted in Atari800
+**Milestone:** v0.1-r3 driving, v0.2-r1 pressure/destination, and v0.3 geometry-only all accepted after Atari800 playtesting
 **Date:** 2026-11-11
 **Target:** Atari 800XL, stock 64 KB, native 6502 Atari XEX  
-**Current v0.3 design branch:** `feature/stage2-road-zones-v0.3` (accepted v0.2-r1 preserved on `main` at immutable tag `stage2-v0.2`)
+**Milestone status:** v0.3 geometry-only user-accepted; tag/merge/feature-branch closeout approved and to be verified against remote Git refs. Accepted v0.2-r1 remains at immutable tag `stage2-v0.2`.
 **Status:** **v0.1 driving mechanics accepted after user Atari800 playtest of r3 (2026-11-04).** Future extra upward car travel and polish are deferred. **The corrected standalone v0.2-r1 gas pressure and pharmacy destination prototype was user-playtested in Atari800 and accepted on 2026-11-08.** Initial two-minute drive, 20–100 MPH speed range, 2-mile destination and 2:45 gas-failure deadline are provisional balancing targets (Section 16). **Approved pressure-warning, shake, three-lives, explosion, and FIRE-retry behavior is recorded in Section 17. The pharmacy-arrival cutscene and FIRE-to-complete flow are confirmed in Section 18; the exact native-speed-to-MPH mapping is approved in Section 19, the fixed HUD presentation is approved in Section 20, terminal tie/replay controls are approved in Section 21, and the **Codex implementation/validation/delivery contract is defined in Section 22**.**
 **Repository destination:** `docs/STAGE2_DESIGN.md`  
 
@@ -670,6 +670,14 @@ and CPU/geometry tested; native r1 gameplay code is byte-identical. Only road
 font pages and left-pane screen glyphs change. Canonical local bands are in
 `assets/stage2_v03/geometry.json`; classification/penalties are not active runtime
 systems in this increment. See [source/build/testing evidence](../assets/stage2_v03/README.md).
-Atari800 NTSC/PAL and hardware: **NOT RUN** in the build environment. User visual
-geometry/steering-space acceptance is pending; no new penalty system, merge,
-tag or branch deletion is authorized by implementation.
+Atari800 NTSC/PAL and hardware were **NOT RUN in the Codex build environment**. The user subsequently played the v0.3 XEX in Atari800, reported that it **looks good and works great**, and approved geometry milestone closeout. No separately verified PAL mode or physical 800XL coverage is claimed. No off-road penalties were added.
+
+## 27. Stage 2 v0.3 geometry-only user acceptance — 2026-11-11
+
+**User decision:** The user ran `assets/stage2_v03/GasBlasters82_Stage2_Road_Geometry_v03.xex` in Atari800 and reported **"Looks good and works great"**, accepting the wider grass/narrower pavement cross-section (native **14/7/66/7/14**) and its preserved driving feel. The user approved recording acceptance, creating immutable `stage2-v0.3`, merging to `main`, and retiring the completed `feature/stage2-road-zones-v0.3` branch after verification.
+
+**Evidence:** The Codex report documents **33 v0.3 automated tests, 112 earlier regressions, five validators passing**, with no changes to accepted v0.2-r1 native CPU code. User Atari800 feedback is **separate from** the build environment's emulator status of **NOT RUN**. PAL-specific testing, an itemized manual test matrix, and physical Atari hardware validation were not independently reported.
+
+**Scope accepted:** **Only straight-road geometry and usability**, with the fixed 27/13 road/HUD split and existing gas/pharmacy/lives/FIRE behaviors. Off-road classification, shoulder traction, two-second accumulated-grass timer, smoke/skid/crash animation, and all winding roads/forks/enemies remain **not implemented**, intended for subsequent discussion and a proposed **Stage 2 v0.4 — Off-Road Consequences** milestone. Preserve accepted v0.3 and all historical XEXs.
+
+**Release ref control:** Approval to tag/merge/delete does not itself establish completion. Set `stage2-v0.3` to the final geometry-acceptance documentation commit; verify the remote tag and `main` both point to that exact commit before deleting the obsolete feature branch. Never rewrite previous tags.
