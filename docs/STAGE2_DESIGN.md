@@ -1,10 +1,10 @@
 # Gas Blasters '82 — Stage 2: Drive to the Pharmacy
 
 **Document:** Stage 2 Gameplay and Technical Design  
-**Milestone:** v0.1-r3 driving, v0.2-r1 pressure/destination, and v0.3 geometry-only all accepted after Atari800 playtesting
-**Date:** 2026-11-11
+**Milestone:** v0.1-r3 driving, v0.2-r1 pressure/destination, and v0.3 geometry-only accepted after Atari800 playtesting; v0.4 off-road consequences design approved, not implemented
+**Date:** 2026-11-14
 **Target:** Atari 800XL, stock 64 KB, native 6502 Atari XEX  
-**Milestone status:** v0.3 geometry-only user-accepted; tag/merge/feature-branch closeout approved and to be verified against remote Git refs. Accepted v0.2-r1 remains at immutable tag `stage2-v0.2`.
+**Milestone status:** v0.3 geometry-only user-accepted and closed out: `stage2-v0.3` and `main` both point to `c0c68285c1fc947c89520a5123e462bd98509e1e`; the obsolete feature branch was removed. Accepted v0.2-r1 remains at immutable tag `stage2-v0.2`. User-approved v0.4 design is on `feature/stage2-offroad-consequences-v0.4` (native implementation pending).
 **Status:** **v0.1 driving mechanics accepted after user Atari800 playtest of r3 (2026-11-04).** Future extra upward car travel and polish are deferred. **The corrected standalone v0.2-r1 gas pressure and pharmacy destination prototype was user-playtested in Atari800 and accepted on 2026-11-08.** Initial two-minute drive, 20–100 MPH speed range, 2-mile destination and 2:45 gas-failure deadline are provisional balancing targets (Section 16). **Approved pressure-warning, shake, three-lives, explosion, and FIRE-retry behavior is recorded in Section 17. The pharmacy-arrival cutscene and FIRE-to-complete flow are confirmed in Section 18; the exact native-speed-to-MPH mapping is approved in Section 19, the fixed HUD presentation is approved in Section 20, terminal tie/replay controls are approved in Section 21, and the **Codex implementation/validation/delivery contract is defined in Section 22**.**
 **Repository destination:** `docs/STAGE2_DESIGN.md`  
 
@@ -681,3 +681,76 @@ Atari800 NTSC/PAL and hardware were **NOT RUN in the Codex build environment**. 
 **Scope accepted:** **Only straight-road geometry and usability**, with the fixed 27/13 road/HUD split and existing gas/pharmacy/lives/FIRE behaviors. Off-road classification, shoulder traction, two-second accumulated-grass timer, smoke/skid/crash animation, and all winding roads/forks/enemies remain **not implemented**, intended for subsequent discussion and a proposed **Stage 2 v0.4 — Off-Road Consequences** milestone. Preserve accepted v0.3 and all historical XEXs.
 
 **Release ref control:** Approval to tag/merge/delete does not itself establish completion. Set `stage2-v0.3` to the final geometry-acceptance documentation commit; verify the remote tag and `main` both point to that exact commit before deleting the obsolete feature branch. Never rewrite previous tags.
+
+
+## 28. Stage 2 v0.4 — Off-Road Consequences (approved design, 2026-11-14)
+
+**Decision:** The user approved the complete off-road consequence design, including the proposed traction values, separate accumulated grass timer, orange/red crash treatment, shared lives/retry loop, non-stacking steering penalties, and exact same-tick outcome order. This is an **implementation specification only**. No v0.4 native XEX, automated result, or Atari800 playtest exists yet.
+
+**Branch:** `feature/stage2-offroad-consequences-v0.4`, created from accepted/tagged v0.3 commit `c0c68285c1fc947c89520a5123e462bd98509e1e`. Implement a separate, versioned standalone 6502 XEX under `assets/stage2_v04/`; preserve every prior XEX, source, manifest, test, tag and the accepted v0.3 road geometry. For a concise implementation assignment, see [Codex v0.4 handoff](CODEX_STAGE2_V04_PROMPT.md).
+
+### 28.1 Scope and road-zone classification
+
+- Keep the approved **straight** road and right-side stationary HUD: left playfield **108 color pixels / 27 ANTIC 4 columns**, HUD **13 columns**, bands **14/7/66/7/14**. Do not change speed-to-car-Y, UP/DOWN throttle, diagonals, GAS, MI, lives or pharmacy logic except for the explicitly integrated off-road consequences.
+- Classify each active driving frame against Billy's **unshaken logical car center** at his Y. For the present straight road, use the actual unshaken sprite-left pixel coordinate **plus 4** (8-pixel-wide car). Never use edge/tire overlap, visually shaken PMG position, or a read from GTIA's write-only horizontal position register at `$D000`; the latter previously caused the v0.2 car-visibility regression.
+- Half-open center-x intervals in the left playfield:
+
+| Center x | Zone | Steering step | Grass accumulator |
+| --- | --- | --- | --- |
+| 0–13 | Left grass | 8/12 Q4 (≈67% of normal) | Runs/resumes |
+| 14–20 | Left dirt shoulder | 10/12 Q4 (≈83%) | Pauses, retained |
+| 21–86 | Pavement | 12/12 Q4 (100%) | Resets to zero; clear off-road warnings |
+| 87–93 | Right dirt shoulder | 10/12 Q4 (≈83%) | Pauses, retained |
+| 94–107 | Right grass | 8/12 Q4 (≈67%) | Runs/resumes |
+
+- Evaluate **both** sides symmetrically. Crossing a boundary changes classification when the **center** crosses it; sprite overlap alone cannot trigger grass. Boundaries for future curves will be local to Billy's Y and are **not** in v0.4.
+- Steering penalties are approved **initial playable tuning**, not a promise of final road handling: normal Q4 step **12**, shoulder **10**, grass **8**. Existing GAS-pressure stages already request reduced steering (normal **12**, at **75%: 10**, at **90%: 8**). On every frame apply the **single strongest requested penalty**: `effective_step = min(pressure_step, surface_step)`. Do **not** multiply or stack penalties (for example, grass + 90% GAS still uses 8), or modify throttle/MPH as a substitute.
+
+### 28.2 Two-second grass accumulator
+
+- Use a **dedicated, non-overlapping 16-bit elapsed-time accumulator** distinct from GAS elapsed time and explosion/failure animation clocks. Count in **1/300-second units** to match the existing engine: +**5** units per NTSC 60 Hz driving frame, +**6** per PAL 50 Hz driving frame, with threshold **600 units = 2.00 real seconds**.
+- The timer advances **only when the car center is in grass and the game is actively driving**. A shoulder frame holds the current value indefinitely; a paved-road frame immediately sets it to zero. A new grass visit after shoulder exposure resumes from the retained value, including when switching between left and right grass without re-entering pavement.
+- Example: **1.3 s grass → 3 s shoulder → 0.7 s grass = crash**; **1.3 s grass → paved road → grass = a fresh 2.0 s**. Do not reset when crossing onto a shoulder.
+- At the first active tick in which the accumulator reaches **600**, request an off-road crash. Latch the terminal result once, stop accumulation outside active driving, and never let an overflow or repeat tick deduct additional lives. Timing tests must cover NTSC and PAL video rates, the exact 599/600 boundary, shoulder pauses, paved resets, both sides and reset/retry.
+
+### 28.3 Progressive warning, skid, smoke and sound
+
+Use the retained accumulated grass time to choose the warning stage. On shoulder the stage **does not advance** and may remain visually indicated; audio escalation pauses while the timer is paused. Re-entering pavement clears all off-road warning graphics and sounds.
+
+| Accumulated grass | Off-road presentation |
+| --- | --- |
+| 0–149 units (0.0–<0.5 s) | Visible skid/traction cue; reduced grass steering is already active. |
+| 150–299 (0.5–<1.0 s) | Mild **render-only**, bounded car shake and less-predictable movement appearance. |
+| 300–449 (1.0–<1.5 s) | Smoke appears; brief normal-warning POKEY sound. |
+| 450–599 (1.5–<2.0 s) | Heavier smoke, more urgent shake and critical warning POKEY sound. |
+| ≥600 (2.0 s) | Orange/red **off-road** explosion; terminal frame latches. |
+
+- Keep skid/smoke effects in the driving pane and within real PMG/graphics/memory/cycle limits. Do not shake the 13-column HUD or physically perturb the logical X/zone test. Preserve sufficient car visibility under simultaneous pressure shaking; bound or combine shake effects rather than adding independent offsets that could move the car offscreen.
+- The GAS HUD warnings at 75%/90% continue independently; the grass timer is **not** a second GAS meter or an extra HUD bar. Keep warning sounds short, channel-safe, and non-disruptive to accepted opening music. Exact art, timbre and intensity can be tuned after Atari800 playtesting without changing the approved game rules.
+
+### 28.4 Crash, lives, replay and terminal-event precedence
+
+- A grass crash is visually distinct from the existing **green GAS-pressure explosion**: start an **orange/red** off-road explosion, freeze driving/steering, road scrolling, GAS growth and miles countdown, run only the latched animation/result transition (reuse the existing roughly half-second explosion cadence if feasible).
+- At the existing one-life loss point, deduct **exactly one life**. If 1 or 2 lives remain, show the existing **`BILLY BLEW IT!`** screen. At 0 lives, show **`GAME OVER`**. Do not introduce a second life counter or an automatic restart.
+- From `BILLY BLEW IT!`, a **fresh FIRE press** retries Stage 2 preserving remaining lives; reset GAS=0%, MI=2.00, default Q4 speed=24/60 MPH, car X/Y, scroll phase, all gas/off-road warning and explosion effects, and grass accumulator=0. At `GAME OVER`, fresh FIRE starts a new three-life Stage 2 game. Preserve the accepted pharmacy cutscene → fresh FIRE → COMPLETE → **separate** fresh FIRE → new three-life run behavior. Maintain release-to-rearm. Console START/F4 must not bypass lives or restart.
+- **Same active-tick outcome priority (approved):**
+  1. **GAS reaches 100%:** green gas explosion wins over both grass threshold and pharmacy arrival.
+  2. Otherwise **grass accumulator reaches 600:** orange/red crash wins over pharmacy arrival.
+  3. Otherwise **MI reaches zero:** pharmacy exterior cutscene.
+- Resolve all three from **unrounded simulation state**; latch only one outcome on the frame and suppress further outcomes during explosion, cutscene, fail/game-over and complete screens. Keep GAS/MI frozen on all terminal screens. Even if both failure thresholds hit on one frame, deduct **only one life**.
+
+### 28.5 Native implementation, validation and acceptance contract
+
+**Required implementation:** Compose the new v0.4 standalone native 6502 build from the accepted v0.3 geometry/gameplay baseline. Extend the real 6502 state machine (not a Python-only gameplay simulation); make new runtime memory allocations explicit and non-overlapping with the live OS/PMG/road/HUD/font/cutscene regions and old pressure timekeeping. Preserve historical versions; emit reproducible offline build, readable source/listing, new versioned XEX, manifest/checksums/segment inventory, CPU tests, cycle profile, and factual validation report. Never modify accepted historical artifacts.
+
+**Required automated tests, with actual evidence:**
+
+1. Car-center threshold tests at **x=13/14, 20/21, 86/87, 93/94**, both sides, plus logical vs shaken sprite positioning; steering steps **12/10/8**, GAS 75%/90% interactions and no compound penalty.
+2. NTSC/PAL **600-unit** timer, grass entry/exit, 1.3+0.7s recovery example, sustained shoulder pause, paved reset, timer freeze after outcome, overflow avoidance, FIRE/retry reset.
+3. Staged skid, bounded shake, smoke and warning sounds; **orange/red** off-road explosion vs **green** GAS explosion; car/HUD visibility and audio interaction.
+4. All 3 terminal-event pairwise and three-way ties (GAS→grass→arrival), one-life latch, 3→2→1→0, failure/game-over FIRE release-to-rearm, START non-bypass, existing pharmacy two-FIRE flow.
+5. Historical Stage 1/Stage 2 r3/v0.2-r1/v0.3 test suites and XEX/manifest hash preservation, 27/13 HUD/font split, Q4/MPH/distance/GAS timing and input regression; XEX load-segment/RAM/zero-page/ANTIC/PMG/POKEY safety and representative/worst-case CPU cycles. CPU-only profiling must explicitly note DMA/OS interrupt exclusions.
+
+**Emulator/hardware evidence:** Run Atari800 NTSC/PAL, if available, and record exact modes and observed outcomes. If unavailable, state **`Atari800: NOT RUN`** and give Kent a short manual playtest checklist covering both grass sides, shoulder pause, pavement reset, under-GAS-warning steering, orange crash/green gas, FIRE/lives and pharmacy priority. Never claim real-hardware or PAL-specific coverage without evidence.
+
+**Delivery gate:** Commit v0.4 implementation and docs **only** on the feature branch. Report branch, commit, exact runnable XEX path, reproduction/testing commands, test counts/results, memory/cycle findings and limitations. **Do not tag, merge to `main`, delete the feature branch, or describe v0.4 as accepted until the user plays and explicitly approves it.** Winding/narrowing roads, forks, cops/hazmat vans, car gas blasts, Gas-Nix pickups, new HUD gauges, Stage 3 and full-game integration are **out of scope**.
