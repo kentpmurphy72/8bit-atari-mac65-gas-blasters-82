@@ -37,7 +37,7 @@ Historical v0.3 geometry branch `feature/stage2-road-zones-v0.3` was merged/reti
 
 ## Current Stage 2 v0.4 assignment — Off-Road Consequences (design approved 2026-11-14)
 
-**Active branch:** `feature/stage2-offroad-consequences-v0.4` from accepted v0.3. **Status: design approved, not implemented, not playtested.** Use [Stage 2 §28](docs/STAGE2_DESIGN.md) as the authoritative requirements and [short v0.4 Codex handoff](docs/CODEX_STAGE2_V04_PROMPT.md). Preserve prior artifacts, including the native **14/7/66/7/14** straight-road geometry and v0.2-r1 GAS/lives/pharmacy loop.
+**Active branch:** `feature/stage2-offroad-consequences-v0.4` from accepted v0.3. **Status: design approved, not implemented, not playtested.** Use [Stage 2 §28](docs/STAGE2_DESIGN.md) as the authoritative requirements; the concise implementation prompt is provided separately in the conversation, not stored as a repository file. Preserve prior artifacts, including the native **14/7/66/7/14** straight-road geometry and v0.2-r1 GAS/lives/pharmacy loop.
 
 - Classify by **unshaken logical 8-pixel car center**; apply pavement/shoulder/grass Q4 steering steps **12/10/8**, choosing the **stronger** (numerically smaller step) of terrain and GAS-warning penalties without compounding them.
 - Separate **600-unit = 2.0s** grass timer at 1/300s per unit, +5 per NTSC tick/+6 PAL tick; run/resume in grass, pause on shoulder, reset on pavement. Display skid/shake/smoke/heavier smoke and POKEY warning stages.
