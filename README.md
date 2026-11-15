@@ -67,7 +67,7 @@ and escalating sound; a distinct orange/red one-life off-road crash; and
 GAS→grass→pharmacy same-tick priority.** Existing GAS-pressure, lives, pharmacy
 and FIRE-retry rules remain intact. The work branch is
 [`feature/stage2-offroad-consequences-v0.4`](https://github.com/kentpmurphy72/8bit-atari-mac65-gas-blasters-82/tree/feature/stage2-offroad-consequences-v0.4)
-with a [short implementation handoff](docs/CODEX_STAGE2_V04_PROMPT.md).
+and **Section 28** is its authoritative design; the implementation prompt is delivered in the conversation.
 **No v0.4 executable or test results exist yet.** Do not tag or merge until a
 new XEX is built, validated and accepted by the user in Atari800.
 
