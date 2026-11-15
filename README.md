@@ -56,7 +56,20 @@ atari800 -xl -ntsc -nobasic -run assets/stage2_v03/GasBlasters82_Stage2_Road_Geo
 **CPU/geometry verified; user Atari800 playtested and accepted on 2026-11-11.** Codex's own environment did **not** run Atari800; user playtest mode (NTSC/PAL) and real Atari 800XL hardware testing are not separately verified. Off-road consequences remain deferred.
 See [build/memory/playtest notes](assets/stage2_v03/README.md) and
 [actual test results](assets/stage2_v03/validation.md). The accepted v0.2-r1 XEX,
-its source and all historical artifacts remain unchanged. The user approved v0.3 closeout (documentation, immutable `stage2-v0.3` tag, integration to `main`, branch cleanup). **Do not treat the new tag or branch deletion as completed until remote Git refs verify them.**
+its source and all historical artifacts remain unchanged. **v0.3 release closed:** Immutable [`stage2-v0.3`](https://github.com/kentpmurphy72/8bit-atari-mac65-gas-blasters-82/tree/stage2-v0.3) and `main` resolve to `c0c68285c1fc947c89520a5123e462bd98509e1e`; the completed `feature/stage2-road-zones-v0.3` branch was removed.
+
+## Stage 2 v0.4 — approved off-road design, implementation pending
+
+[Stage 2 §28](docs/STAGE2_DESIGN.md) defines the user-approved next increment:
+**pavement/shoulder/grass steering 100%/≈83%/≈67%; a two-second accumulated
+grass timer that pauses on shoulders and resets on pavement; skid/shake/smoke
+and escalating sound; a distinct orange/red one-life off-road crash; and
+GAS→grass→pharmacy same-tick priority.** Existing GAS-pressure, lives, pharmacy
+and FIRE-retry rules remain intact. The work branch is
+[`feature/stage2-offroad-consequences-v0.4`](https://github.com/kentpmurphy72/8bit-atari-mac65-gas-blasters-82/tree/feature/stage2-offroad-consequences-v0.4)
+with a [short implementation handoff](docs/CODEX_STAGE2_V04_PROMPT.md).
+**No v0.4 executable or test results exist yet.** Do not tag or merge until a
+new XEX is built, validated and accepted by the user in Atari800.
 
 ## Stage 2 v0.1 — driving mechanics accepted (r3, merged into main)
 
