@@ -1,7 +1,7 @@
 # Gas Blasters '82 — Game Design Document
 
-**Version:** 0.45  
-**Date:** 2026-11-11  
+**Version:** 0.46  
+**Date:** 2026-11-14  
 **Status:** Early design / living document  
 **Primary target:** Atari 800XL (Atari 8-bit family)  
 **Purpose:** Record the current concept for design discussions and eventual Codex implementation.
@@ -285,7 +285,9 @@ Applies to all driving stages (Stages 2, 4 and 6), including situations where pu
 
 **Confirmed:** two-second grass threshold, loss of one life, **center-of-car grass detection**, safe-but-slippery shoulder **pausing** the timer, grass **running/resuming** it, paved-road **reset** to zero, harder grass steering, and progressive skid/shake/smoke/warning feedback. Warning bands are initial balance targets and may be tuned after playtesting.
 
-**Not yet finalized:** exact **Atari display-pixel boundary coordinates** (dependent on graphics mode), how to represent/test the vehicle center in the selected sprite/graphics system, specific steering/traction percentages, other collision math, audio/animation details, and respawn/restart behavior after losing a life.
+**Stage 2 v0.4 approved prototype detail (2026-11-14):** The accepted 108-pixel straight-road boundaries above are implemented as geometry in v0.3. In the approved v0.4 design, car-center detection uses the logical, unshaken sprite-left pixel +4; paved/shoulder/grass steering steps are **12/10/8 Q4** (100%/≈83%/≈67%). The independent 2.0-second grass threshold is **600 units at 1/300 second each**, with **+5 NTSC / +6 PAL units per active grass frame**. Grass warnings progress through skid, bounded shake, smoke, heavier smoke and audio. An **orange/red off-road crash** loses exactly one life and reuses Stage 2's `BILLY BLEW IT!` / `GAME OVER` / FIRE-retry loop, with GAS/miles/grass timer reset per attempt; existing GAS explosions stay **green**. When multiple thresholds occur on the same tick, precedence is **GAS 100% → grass 2.0s → pharmacy arrival**. Pressure and surface steering penalties use the **stronger of the two**, not compounded reductions. See [Stage 2 §28](STAGE2_DESIGN.md) for the precise implementation and test contract. **This is approved design, not an implemented v0.4 executable; values/effects remain playtest-tunable.**
+
+**Still open for later stages:** Curved-road local x boundaries, traffic collision/ramming response, final art/timbres/animation detail, and whether later road stages use the same retry and restart rules.
 
 ## 6. Player goals, failure and progression
 
@@ -293,9 +295,9 @@ Applies to all driving stages (Stages 2, 4 and 6), including situations where pu
 
 **Confirmed:** **2.0 seconds of accumulated grass time since the last paved-road recovery** results in a car explosion and **one life lost**. Time on shoulder pauses the grass timer; reaching the paved road resets it.
 
-**Open:** number of starting lives, continues, checkpoints, score, high-score table, bonus points, difficulty increases after looping, respawn after off-road explosions, and consequences of capture versus gas pressure reaching 100%.
+**Stage 2 now confirmed for v0.4 design:** Three starting lives; one-life gas or off-road failure; FIRE retry with remaining lives; GAME OVER starts a new three-life run. Off-road and gas timers stay independent, while their terminal outcomes share the existing life/retry state machine. Same-tick precedence is GAS → grass → pharmacy arrival. These rules are **not yet implemented as v0.4**.
 
-We should avoid mixing two incompatible loss systems (pressure meter and separate countdown timer) until we deliberately choose how they interact.
+**Still open beyond the Stage 2 prototype:** Continues, checkpoints, score/high-score tables, bonus points, difficulty increases after looping, hazards/capture consequences, and whether later stages use identical restart logic.
 
 ## 7. Atari 800XL development scope
 
@@ -348,7 +350,7 @@ We should avoid mixing two incompatible loss systems (pressure meter and separat
 4. **Pressure failure in later stages:** Stage 2's 100% pressure outcome and FIRE retry/new-game controls are approved (§17/§21); determine whether later stages use identical rules or stage-specific consequences.
 5. **Pharmacy handoff:** how do friends receive Gas-Nix for subsequent drives?
 6. **Stage count:** should exterior/home/bathroom stages be combined?
-7. **Driving details:** What graphics-mode-dependent pixel coordinates and sprite center representation should we use to implement the confirmed zone rules, and how does respawning after a timed off-road explosion work; how will the **40% minimum width and four-second narrowing/widening** perform in prototype testing, and how long should a winding section remain narrow; how do we translate the confirmed ~2s pre-island arrow, 0.25s ON/OFF flashes and decision-point disappearance into display-frame counts, exact coordinates and a measurable fork decision boundary; what center-island size and collision behavior should forks use; how soon and with what visual geometry should the fork branches merge back into one normal-width road, with the +1.0-mile one-time penalty and unchanged countdown rate already confirmed; what steering, collision/ramming impulse, gas-blast knockback and pickup rules apply?
+7. **Driving details:** Stage 2 v0.4's **straight-road** center coordinates and crash/retry rules are now specified (see §5.7 and Stage 2 §28). For later curved roads, how will local geometry and the **40% minimum width and four-second narrowing/widening** perform in prototype testing, and how long should a winding section remain narrow; how do we translate the confirmed ~2s pre-island arrow, 0.25s ON/OFF flashes and decision-point disappearance into display-frame counts, exact coordinates and a measurable fork decision boundary; what center-island size and collision behavior should forks use; how soon and with what visual geometry should the fork branches merge back into one normal-width road, with the +1.0-mile one-time penalty and unchanged countdown rate already confirmed; what steering, collision/ramming impulse, gas-blast knockback and pickup rules apply?
 8. **Road-car blaster prototype:** Validate confirmed **four-way** hold-FIRE + cardinal direction window blasts (car coasts; no steering while FIRE held); decide how diagonally pressed joystick input is resolved **without diagonal car attacks**; tune blast range, repeat rate, impact and sprite readability. **Stage 1 on-foot gas blasting is already eight-way and user-playtested**, with further tuning deferred to [Stage 1 Deferred Work](STAGE1_DEFERRED_WORK.md).
 9. **Progression:** how do restaurants/cycles become visually and mechanically distinct?
 10. **Score/lives:** scoring, bonuses, and continuation rules.
@@ -356,6 +358,8 @@ We should avoid mixing two incompatible loss systems (pressure meter and separat
 12. **Hardware plan:** graphics, sound, memory, development and testing.
 
 ## 10. Change log
+
+- **v0.46 — 2026-11-14:** User approved Stage 2 v0.4 off-road consequences design: 12/10/8 Q4 steering by paved/shoulder/grass, 600-unit NTSC/PAL accumulated grass timer, skid/shake/smoke/audio warnings, orange/red one-life off-road crash, reuse of existing FIRE/lives loop, GAS→grass→pharmacy same-tick precedence, and non-stacking GAS/terrain handling. This is design-only on a new v0.4 feature branch; prior tags/XEXs remain accepted.
 
 - **v0.45 — 2026-11-11:** Approved future v0.3 straight-road grass/shoulder/pavement proportions 13/6.5/61/6.5/13% and native 14/7/66/7/14; accepted v0.2 code preserved, winding targets require future review.
 
