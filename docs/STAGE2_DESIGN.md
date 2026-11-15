@@ -687,7 +687,7 @@ Atari800 NTSC/PAL and hardware were **NOT RUN in the Codex build environment**. 
 
 **Decision:** The user approved the complete off-road consequence design, including the proposed traction values, separate accumulated grass timer, orange/red crash treatment, shared lives/retry loop, non-stacking steering penalties, and exact same-tick outcome order. This is an **implementation specification only**. No v0.4 native XEX, automated result, or Atari800 playtest exists yet.
 
-**Branch:** `feature/stage2-offroad-consequences-v0.4`, created from accepted/tagged v0.3 commit `c0c68285c1fc947c89520a5123e462bd98509e1e`. Implement a separate, versioned standalone 6502 XEX under `assets/stage2_v04/`; preserve every prior XEX, source, manifest, test, tag and the accepted v0.3 road geometry. For a concise implementation assignment, see [Codex v0.4 handoff](CODEX_STAGE2_V04_PROMPT.md).
+**Branch:** `feature/stage2-offroad-consequences-v0.4`, created from accepted/tagged v0.3 commit `c0c68285c1fc947c89520a5123e462bd98509e1e`. Implement a separate, versioned standalone 6502 XEX under `assets/stage2_v04/`; preserve every prior XEX, source, manifest, test, tag and the accepted v0.3 road geometry. Codex receives a concise implementation prompt in the conversation; **Section 28 is the sole authoritative v0.4 specification stored in the repository**.
 
 ### 28.1 Scope and road-zone classification
 
