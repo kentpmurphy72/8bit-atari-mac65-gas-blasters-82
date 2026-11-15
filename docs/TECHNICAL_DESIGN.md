@@ -268,3 +268,28 @@ remain pending. Stage 1/opening and every prior artifact are preserved.
 ## Stage 2 v0.3 geometry-only Atari800 acceptance — 2026-11-11
 
 The user played the native v0.3 geometry-only XEX in Atari800 and reported **"Looks good and works great"**. Approved normal straight road is 14/7/66/7/14 across 108 color pixels, with unchanged 27/13 road/HUD split. Codex's prior automated verification comprised **33 v0.3 tests, 112 historical regressions, five validators**; v0.2-r1 native code remains byte-identical. This is **user visual/handling acceptance**, not a new CPU test run, confirmed PAL-mode comparison, or physical 800XL test. Runtime classification/shoulder handling/grass-time crash remain **out of scope and unimplemented**; they will require new design/validation work in v0.4.
+
+## Stage 2 v0.4 — Off-Road Consequences implementation
+
+The [standalone native v0.4 package](../assets/stage2_v04/README.md) implements
+Stage 2 §28, with separate grass time and GAS time. Unshaken center is
+floor(logical Q4 X/16)+4; half-open 14/7/66/7/14 zones select 12/10/8 traction.
+Effective steering is min(terrain, pressure). Post-input center classification
+runs/pauses/resets a saturating 16-bit 600-unit timer in 1/300-second units.
+GAS→grass→arrival is resolved once from unrounded state. Both failure kinds
+share the old explosion/life/release-FIRE flow; grass uses orange/red, GAS green.
+
+New state $2A00–$2A10 and effect/tuning tables $2B00–$2B77 are explicit gaps in
+the accepted memory map. Native controller expands within $7000–$7FFF; no new
+ZP/interrupt or mode change. Previously unused PMG P2 $3E00 carries 16-row
+skid/smoke footprints; erase-before-redraw and y<=188 keep effects inside the
+192-line road. Car P0/P1 and all road/HUD/font/scene assets are unchanged.
+Combined shake uses bounded RAM-based X, never GTIA position readback, and does
+not perturb logical coordinates. POKEY AUDF1/AUDC1 are used for brief normal/
+critical pulses; other channels and accepted opening assets remain untouched.
+
+CPU/alias-model tests cover traction and exact boundary clocks, smoke/audio,
+priority ties, lives/retry, memory writes and existing gameplay. The measured
+cycle report excludes ANTIC DMA/OS interrupts; existing multi-frame redraw and
+nominal clock limitations remain. Actual Atari800/hardware visual/audio/feel
+coverage is NOT RUN in the build environment; user acceptance is pending.

@@ -685,7 +685,7 @@ Atari800 NTSC/PAL and hardware were **NOT RUN in the Codex build environment**. 
 
 ## 28. Stage 2 v0.4 — Off-Road Consequences (approved design, 2026-11-14)
 
-**Decision:** The user approved the complete off-road consequence design, including the proposed traction values, separate accumulated grass timer, orange/red crash treatment, shared lives/retry loop, non-stacking steering penalties, and exact same-tick outcome order. This is an **implementation specification only**. No v0.4 native XEX, automated result, or Atari800 playtest exists yet.
+**Decision:** The user approved the complete off-road consequence design, including the proposed traction values, separate accumulated grass timer, orange/red crash treatment, shared lives/retry loop, non-stacking steering penalties, and exact same-tick outcome order. These approved rules are now implemented in the separate [v0.4 XEX](../assets/stage2_v04/README.md), with native CPU test/profile evidence. **Actual Atari800/hardware tests are NOT RUN in the build environment; user gameplay acceptance is pending.**
 
 **Branch:** `feature/stage2-offroad-consequences-v0.4`, created from accepted/tagged v0.3 commit `c0c68285c1fc947c89520a5123e462bd98509e1e`. Implement a separate, versioned standalone 6502 XEX under `assets/stage2_v04/`; preserve every prior XEX, source, manifest, test, tag and the accepted v0.3 road geometry. Codex receives a concise implementation prompt in the conversation; **Section 28 is the sole authoritative v0.4 specification stored in the repository**.
 
@@ -754,3 +754,31 @@ Use the retained accumulated grass time to choose the warning stage. On shoulder
 **Emulator/hardware evidence:** Run Atari800 NTSC/PAL, if available, and record exact modes and observed outcomes. If unavailable, state **`Atari800: NOT RUN`** and give Kent a short manual playtest checklist covering both grass sides, shoulder pause, pavement reset, under-GAS-warning steering, orange crash/green gas, FIRE/lives and pharmacy priority. Never claim real-hardware or PAL-specific coverage without evidence.
 
 **Delivery gate:** Commit v0.4 implementation and docs **only** on the feature branch. Report branch, commit, exact runnable XEX path, reproduction/testing commands, test counts/results, memory/cycle findings and limitations. **Do not tag, merge to `main`, delete the feature branch, or describe v0.4 as accepted until the user plays and explicitly approves it.** Winding/narrowing roads, forks, cops/hazmat vans, car gas blasts, Gas-Nix pickups, new HUD gauges, Stage 3 and full-game integration are **out of scope**.
+
+### 28.6 Implementation evidence and provisional presentation choices
+
+The versioned v0.4 build extends the actual native state machine, retaining
+accepted v0.3 geometry/HUD/scene/PMG assets. A new 17-byte state block at $2A00
+contains the independent 16-bit grass clock. Skid/smoke uses the previously
+unused PMG P2 plane, with tables at $2B00/$2B40/$2B60. There is no new zero page
+or interrupt handler. Actual load segments, checksum, native listings, cycle
+profile and tests are in [the v0.4 artifact package](../assets/stage2_v04/README.md).
+
+Each update chooses traction from the current logical center and pressure,
+applies the accepted driving input, then classifies the resulting center for
+that tick's grass run/pause/reset. Render-only jitter never affects it. Same-tick
+GAS→grass→arrival resolution occurs before further warning/effect work. Both
+failures retain the existing 150-unit animation and one-life loss point.
+
+Presentation tuning within §28: up to ±2 color-pixel combined shake (maximum,
+not sum); 8×16 trailing P2 particles at car-top+12; gray/bright-gray smoke;
+30-unit POKEY channel-1 warning pulses every 120/60 grass units, divisors 100/55,
+controls $A4/$A6. Shoulder pauses the next-pulse clock while an existing brief
+pulse finishes. Orange/red crash palettes $28/$36 alternate; green GAS stays
+$C8. Exact visual/audio feel remains provisional, subject to Atari800 playtest.
+These choices add no new gameplay requirements, gauge, penalty or hazard.
+
+The [factual validation report](../assets/stage2_v04/validation.md) distinguishes
+native CPU/GTIA-register-alias checks from actual Atari800 and hardware coverage.
+All historical artifacts remain unchanged. No v0.4 acceptance, merge, tag or
+branch deletion is implied by implementation.

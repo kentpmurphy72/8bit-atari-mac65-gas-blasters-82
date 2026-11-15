@@ -9,6 +9,19 @@
 > Living checklist. An unchecked item is not necessarily an approved requirement; some items are proposed work that depends on design decisions. Update this file as tasks are finished or scope changes.
 
 - **PMG regression and v2.1 hotfix — 2026-10-30:** The first real Atari800 test of the alternate PMG title **v2 failed visually** (stray cyan/white pixels overlapping text/background). Bug confirmed: DMACTL set to $2E **double-line** although 2 KB PMG data was built for **single-line**. The v2 validator mistakenly expected $2E as well. A separate v2.1 XEX and corrected source now use $3E, an adjusted 56-line vertical origin, and explicit tests for correct DMACTL and cleared PM rows over the text. **v2.1 was tested in Atari800 on 2026-11-01 and was visually rejected:** scattered PMG highlights still degrade the logo, Billy and car. The overlay intentionally adds about 220 disconnected pixels; a heavy DLI handler also has insufficient cycle headroom for one scanline. Do not adopt v2/v2.1; preserve the accepted v1 title. No checklist completion change. **Known-good v1 is unaffected**. Checklist completion count is unchanged until the corrected PMG screen passes visually.
+## Stage 2 v0.4 off-road implementation evidence
+
+- **Implemented / CPU verified:** authoritative §28 off-road classification,
+  min(terrain, pressure) steering, grass run/shoulder pause/pavement reset,
+  600-unit crash, staged PMG skid/smoke/shake and brief POKEY warnings, orange/red
+  off-road vs green GAS failure, shared lives/retry and GAS→grass→arrival priority.
+- New standalone [v0.4 XEX/source/build/tests/profile](../assets/stage2_v04/README.md)
+  on the existing feature branch; all accepted prior artifacts are preserved.
+- **Still open:** actual Atari800 NTSC/PAL visual/sound/handling tests and user
+  acceptance. No merge/tag/branch deletion. Winding/forks/traffic/blasts/pickups,
+  Stage 3 and full-game integration remain outside v0.4. Broad acceptance totals
+  and future-stage checkboxes remain unchanged pending gameplay approval.
+
 ## Stage 2 v0.4 off-road design approved — 2026-11-14
 
 - **Approval / scope:** The user approved v0.4's new car-center classification and **12/10/8 Q4** pavement/shoulder/grass steering; **600 units / 2.0 accumulated grass seconds** (+5 NTSC / +6 PAL per frame); grass run / shoulder pause / pavement reset; progressive skid/shake/smoke/audio; distinct **orange/red off-road crash**, one-life penalty and existing FIRE retry loop; strongest-of-surface-and-pressure handling; and **GAS→grass→arrival** same-tick priority. See [Stage 2 §28](STAGE2_DESIGN.md).

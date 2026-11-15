@@ -11,6 +11,29 @@ A work-in-progress comedy action game for the **Atari 800XL (64 KB)**, written i
 - Original continuous **Title → Meet the Crew → Arriving at Taco Smell → Stage 1** sequence and POKEY music.
 - Stage 1 stops at its completion screen. **There is no connected Stage 2 driving gameplay in the Stage 1 XEX.**
 
+## Stage 2 v0.4 — Off-Road Consequences (implementation; acceptance pending)
+
+[Download the standalone v0.4 XEX](assets/stage2_v04/GasBlasters82_Stage2_Offroad_v04.xex).
+Approved §28 behavior is implemented: logical-center terrain classification,
+non-stacking 12/10/8 steering, a separate two-second grass accumulator with
+shoulder pause/pavement reset, staged skid/smoke/shake/sound, distinct orange/red
+crash and GAS→grass→arrival priority. Accepted straight geometry and existing
+pressure/lives/pharmacy/FIRE controls remain. All prior artifacts are preserved.
+
+```bash
+python3 tools/build_stage2_v04.py
+.venv/bin/python tools/test_stage2_v04.py
+.venv/bin/python tools/profile_stage2_v04.py
+atari800 -xl -ntsc -nobasic -run assets/stage2_v04/GasBlasters82_Stage2_Offroad_v04.xex
+# Repeat with -pal. Offline tests need tools/requirements-stage1-test.txt.
+```
+
+**CPU verified; Atari800/hardware NOT RUN here; user acceptance pending.**
+See [build/memory/tuning and playtest notes](assets/stage2_v04/README.md) and
+[actual validation evidence](assets/stage2_v04/validation.md). No winding roads,
+forks, enemies, blasts, pickups, new HUD gauge or stage integration. Work stays
+on `feature/stage2-offroad-consequences-v0.4`; no merge/tag before acceptance.
+
 ## Stage 2 v0.2 — playable pressure/destination prototype
 
 [Download the fixed standalone v0.2-r1 XEX](assets/stage2_v02_r1/GasBlasters82_Stage2_Pressure_Destination_v02_r1.xex).

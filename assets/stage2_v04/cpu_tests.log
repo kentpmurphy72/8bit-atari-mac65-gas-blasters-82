@@ -1,0 +1,40 @@
+test_13_plus_07_second_grass_shoulder_pause_and_side_switch (__main__.OffroadTests.test_13_plus_07_second_grass_shoulder_pause_and_side_switch) ... ok
+test_all_pairwise_and_three_way_terminal_priorities (__main__.OffroadTests.test_all_pairwise_and_three_way_terminal_priorities) ... ok
+test_bounded_combined_shake_and_pmg_visibility_no_gtia_position_reads (__main__.OffroadTests.test_bounded_combined_shake_and_pmg_visibility_no_gtia_position_reads) ... ok
+test_center_thresholds_fractional_floor_both_sides_and_shake_independence (__main__.OffroadTests.test_center_thresholds_fractional_floor_both_sides_and_shake_independence) ... ok
+test_distance_underflow_and_no_early_zero_or_hundred_percent (__main__.OffroadTests.test_distance_underflow_and_no_early_zero_or_hundred_percent) ... ok
+test_division_native_precision_randomized (__main__.OffroadTests.test_division_native_precision_randomized) ... ok
+test_exact_120_second_default_drive_both_video_standards (__main__.OffroadTests.test_exact_120_second_default_drive_both_video_standards) ... ok
+test_exact_599_600_boundary_no_overflow_and_duplicate_ticks (__main__.OffroadTests.test_exact_599_600_boundary_no_overflow_and_duplicate_ticks) ... ok
+test_exact_two_second_grass_crash_ntsc_pal_both_sides (__main__.OffroadTests.test_exact_two_second_grass_crash_ntsc_pal_both_sides) ... ok
+test_explosion_frames_green_then_life_loss_once (__main__.OffroadTests.test_explosion_frames_green_then_life_loss_once) ... ok
+test_fire_inert_and_start_disabled_during_driving (__main__.OffroadTests.test_fire_inert_and_start_disabled_during_driving) ... ok
+test_full_ntsc_pal_deadlines_warning_thresholds_and_freeze (__main__.OffroadTests.test_full_ntsc_pal_deadlines_warning_thresholds_and_freeze) ... ok
+test_gas_priority_tie_and_latched_success (__main__.OffroadTests.test_gas_priority_tie_and_latched_success) ... ok
+test_geometry_hud_fonts_and_road_data_preserved (__main__.OffroadTests.test_geometry_hud_fonts_and_road_data_preserved) ... ok
+test_held_fire_cannot_skip_failure_or_pharmacy_or_complete (__main__.OffroadTests.test_held_fire_cannot_skip_failure_or_pharmacy_or_complete) ... ok
+test_initial_hud_native_setup (__main__.OffroadTests.test_initial_hud_native_setup) ... ok
+test_latched_arrival_never_crashes_later_and_clears_warning_effects (__main__.OffroadTests.test_latched_arrival_never_crashes_later_and_clears_warning_effects) ... ok
+test_mapping_all_values_and_fractional_integration (__main__.OffroadTests.test_mapping_all_values_and_fractional_integration) ... ok
+test_native_mapping_clamps_every_table_entry_and_duplicate_ticks (__main__.OffroadTests.test_native_mapping_clamps_every_table_entry_and_duplicate_ticks) ... ok
+test_native_pavement_driver_matches_accepted_v03 (__main__.OffroadTests.test_native_pavement_driver_matches_accepted_v03) ... ok
+test_offroad_runtime_writes_stay_in_declared_ram_and_registers (__main__.OffroadTests.test_offroad_runtime_writes_stay_in_declared_ram_and_registers) ... ok
+test_offroad_three_lives_release_to_retry_and_complete_reset (__main__.OffroadTests.test_offroad_three_lives_release_to_retry_and_complete_reset) ... ok
+test_orange_red_crash_vs_green_gas_animation_and_frozen_counters (__main__.OffroadTests.test_orange_red_crash_vs_green_gas_animation_and_frozen_counters) ... ok
+test_pavement_resets_exposure_and_graphics_audio_immediately (__main__.OffroadTests.test_pavement_resets_exposure_and_graphics_audio_immediately) ... ok
+test_pharmacy_art_and_terminal_pmg_disable (__main__.OffroadTests.test_pharmacy_art_and_terminal_pmg_disable) ... ok
+test_pharmacy_two_press_flow_after_retained_grass_exposure (__main__.OffroadTests.test_pharmacy_two_press_flow_after_retained_grass_exposure) ... ok
+test_pmg_effect_rows_clear_on_y_relocations_and_speed_anchors (__main__.OffroadTests.test_pmg_effect_rows_clear_on_y_relocations_and_speed_anchors) ... ok
+test_rtc_wrap_and_missed_ticks (__main__.OffroadTests.test_rtc_wrap_and_missed_ticks) ... ok
+test_shoulder_pauses_audio_escalation_retains_smoke_and_pulse_finishes (__main__.OffroadTests.test_shoulder_pauses_audio_escalation_retains_smoke_and_pulse_finishes) ... ok
+test_single_strongest_steering_penalty_all_nine_combinations (__main__.OffroadTests.test_single_strongest_steering_penalty_all_nine_combinations) ... ok
+test_three_lives_retry_and_new_game_release_edges (__main__.OffroadTests.test_three_lives_retry_and_new_game_release_edges) ... ok
+test_timer_599_boundary_pal_and_pavement_full_reset (__main__.OffroadTests.test_timer_599_boundary_pal_and_pavement_full_reset) ... ok
+test_warning_audio_channel_safety_and_brief_cadence (__main__.OffroadTests.test_warning_audio_channel_safety_and_brief_cadence) ... ok
+test_warning_stage_boundaries_skid_smoke_and_audio (__main__.OffroadTests.test_warning_stage_boundaries_skid_smoke_and_audio) ... ok
+test_xex_reproducibility_segments_state_and_source (__main__.OffroadTests.test_xex_reproducibility_segments_state_and_source) ... ok
+
+----------------------------------------------------------------------
+Ran 35 tests in 87.153s
+
+OK

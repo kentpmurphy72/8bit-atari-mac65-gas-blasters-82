@@ -16,6 +16,14 @@ Stage 2 v0.2-r1 was user-accepted in Atari800 and preserved at immutable tag `st
 
 The [standalone v0.3 build](../assets/stage2_v03/README.md) implements the approved straight-road **14/7/66/7/14** bands while preserving every v0.2-r1 native gameplay code byte. **The user playtested it in Atari800 and accepted the geometry, reporting "Looks good and works great" (2026-11-11).** It does not activate the shoulder/grass timer, traction, crash or enemy rules below. Its v0.3 geometry acceptance should not be mistaken for full Stage 2 or physical Atari hardware validation.
 
+### Stage 2 v0.4 implementation checkpoint
+
+The [new standalone v0.4 prototype](../assets/stage2_v04/README.md) implements only
+the approved off-road consequences in Stage 2 §28 on accepted straight geometry.
+It is native CPU verified and awaiting Atari800 gameplay acceptance. It does not
+activate later winding/fork/enemy/blast/pickup rules or integrate any other stage.
+Exact presentation tuning remains provisional; core requirements remain §28.
+
 ## 1. Decision status conventions
 
 - **Confirmed** — explicitly chosen in the design discussion.

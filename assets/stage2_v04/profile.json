@@ -1,0 +1,67 @@
+{
+  "xex_sha256": "241554e62bf7be97c5ae505b599e9ababff2f34462c5ba6d13e74d9d2628a9c1",
+  "model": "py65 NMOS 6502 only; ANTIC DMA and OS interrupts NOT included",
+  "active_drive_budget_cycles": 15000,
+  "active_drive_budget_pass": true,
+  "samples": {
+    "pavement": {
+      "min": 9127,
+      "max": 9869
+    },
+    "shoulder": {
+      "min": 9334,
+      "max": 9538
+    },
+    "grass_skid": {
+      "min": 9297,
+      "max": 9501
+    },
+    "grass_mild": {
+      "min": 9378,
+      "max": 9582
+    },
+    "grass_smoke": {
+      "min": 9423,
+      "max": 9649
+    },
+    "critical_combined": {
+      "min": 9841,
+      "max": 10775
+    },
+    "drive_sweep": {
+      "max": 11806,
+      "case": {
+        "speed": 25,
+        "time_units": 49490,
+        "center": 10,
+        "grass_units": 445,
+        "joy": 249
+      },
+      "cases": 7056
+    },
+    "gas_failure": {
+      "entry": 13963,
+      "animation_result_max": 20300
+    },
+    "gas_failure_retry": {
+      "max": 44423
+    },
+    "offroad_failure": {
+      "entry": 13205,
+      "animation_result_max": 19999
+    },
+    "offroad_failure_retry": {
+      "max": 44423
+    },
+    "arrival": {
+      "max": 25301
+    },
+    "completion": {
+      "max": 19846
+    },
+    "missed_255_ticks_paved": {
+      "max": 12791
+    }
+  },
+  "notes": "Full-screen result/retry transitions may span frames as in accepted v0.3; actual raster and audio need Atari800."
+}

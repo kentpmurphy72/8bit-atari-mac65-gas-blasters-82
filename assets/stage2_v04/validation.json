@@ -1,0 +1,195 @@
+{
+  "date": "2026-11-14",
+  "branch": "feature/stage2-offroad-consequences-v0.4",
+  "baseline_commit": "72bea2618986bbe9226b750cd2118779b620ccbe",
+  "output": "GasBlasters82_Stage2_Offroad_v04.xex",
+  "sha256": "241554e62bf7be97c5ae505b599e9ababff2f34462c5ba6d13e74d9d2628a9c1",
+  "bytes": 26710,
+  "v04_tests": 35,
+  "historical_tests": 114,
+  "validators": 5,
+  "all_pass": true,
+  "preserved_historical_asset_tool_files": 207,
+  "regressions": [
+    {
+      "command": "python3 tools/test_stage2_v03.py",
+      "returncode": 0,
+      "seconds": 117.779,
+      "tail": [
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 33 tests in 117.557s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "command": "python3 tools/test_stage2_v02_r1.py",
+      "returncode": 0,
+      "seconds": 95.375,
+      "tail": [
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 27 tests in 95.217s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "command": "python3 tools/test_stage2_v01_r3.py",
+      "returncode": 0,
+      "seconds": 15.076,
+      "tail": [
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 21 tests in 14.912s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "command": "python3 tools/test_stage1_v04.py",
+      "returncode": 0,
+      "seconds": 1.344,
+      "tail": [
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 15 tests in 1.231s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "command": "python3 tools/test_stage1_v05.py",
+      "returncode": 0,
+      "seconds": 3.446,
+      "tail": [
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 18 tests in 3.317s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "command": "python3 tools/validate_taco_smell_stage1.py",
+      "returncode": 0,
+      "seconds": 0.037,
+      "tail": [
+        "PASS taco_smell_stage1_v01 48x22, 751 walkable tiles, 43 minimum steps Billy\u2192exit, 3 zones, 2 chokepoints"
+      ]
+    },
+    {
+      "command": "python3 tools/validate_taco_smell_stage1_v02.py",
+      "returncode": 0,
+      "seconds": 0.058,
+      "tail": [
+        "PASS dining: 40x22, 662 connected walkable tiles",
+        "PASS kitchen: 40x22, 625 connected walkable tiles",
+        "PASS storage: 40x22, 613 connected walkable tiles",
+        "PASS: 3 screens; 4 reciprocal doorway transitions; one exit; 1 active hazmat; no scrolling"
+      ]
+    },
+    {
+      "command": "python3 tools/validate_stage1_pressure_v03.py",
+      "returncode": 0,
+      "seconds": 0.037,
+      "tail": [
+        "PASS: dining: 662 connected passable tiles and all v0.3 spawns reachable",
+        "PASS: kitchen: 625 connected passable tiles and all v0.3 spawns reachable",
+        "PASS: storage: 613 connected passable tiles and all v0.3 spawns reachable",
+        "PASS: unique actors, 3 valid spawns, timing ranges, gas-blast rules, preserved v0.2 maps"
+      ]
+    },
+    {
+      "command": "python3 tools/validate_stage1_blast_v05.py",
+      "returncode": 0,
+      "seconds": 0.033,
+      "tail": [
+        "PASS: Stage 1 v0.5 has 8 aim directions (4 cardinal + 4 diagonal),",
+        "      7-cell cones, diagonal corner blocking, 3-tile knockback and 3 gas charges.",
+        "NOTE: This validates JSON, NOT the resulting 6502 gameplay or Atari800 presentation."
+      ]
+    },
+    {
+      "command": "python3 tools/validate_opening_sequence.py",
+      "returncode": 0,
+      "seconds": 0.088,
+      "tail": [
+        "{'xex_bytes': 23537, 'sha256': '08971fa2ca324e1e5e36bbc7c7d0fe891cb23c568230abb70c93a4f6de3d7e29', 'segments': 22, 'cpu_instructions_simulated': 48650, 'scene_transitions_tested': 'START->FIRE->FIRE->START replay', 'music': 'tempo switching, register writes and continuity checked', 'screen': '3 relocated original ANTIC displays and Stage1 placeholder checked', 'warning': 'Not a real POKEY/ANTIC emulator test'}"
+      ]
+    }
+  ],
+  "profile": {
+    "xex_sha256": "241554e62bf7be97c5ae505b599e9ababff2f34462c5ba6d13e74d9d2628a9c1",
+    "model": "py65 NMOS 6502 only; ANTIC DMA and OS interrupts NOT included",
+    "active_drive_budget_cycles": 15000,
+    "active_drive_budget_pass": true,
+    "samples": {
+      "pavement": {
+        "min": 9127,
+        "max": 9869
+      },
+      "shoulder": {
+        "min": 9334,
+        "max": 9538
+      },
+      "grass_skid": {
+        "min": 9297,
+        "max": 9501
+      },
+      "grass_mild": {
+        "min": 9378,
+        "max": 9582
+      },
+      "grass_smoke": {
+        "min": 9423,
+        "max": 9649
+      },
+      "critical_combined": {
+        "min": 9841,
+        "max": 10775
+      },
+      "drive_sweep": {
+        "max": 11806,
+        "case": {
+          "speed": 25,
+          "time_units": 49490,
+          "center": 10,
+          "grass_units": 445,
+          "joy": 249
+        },
+        "cases": 7056
+      },
+      "gas_failure": {
+        "entry": 13963,
+        "animation_result_max": 20300
+      },
+      "gas_failure_retry": {
+        "max": 44423
+      },
+      "offroad_failure": {
+        "entry": 13205,
+        "animation_result_max": 19999
+      },
+      "offroad_failure_retry": {
+        "max": 44423
+      },
+      "arrival": {
+        "max": 25301
+      },
+      "completion": {
+        "max": 19846
+      },
+      "missed_255_ticks_paved": {
+        "max": 12791
+      }
+    },
+    "notes": "Full-screen result/retry transitions may span frames as in accepted v0.3; actual raster and audio need Atari800."
+  },
+  "atari800": "NOT RUN: executable unavailable",
+  "hardware": "NOT RUN",
+  "accepted": false,
+  "model": "py65 NMOS 6502 with GTIA read/write-alias shim; no ANTIC DMA, OS interrupt or actual audio/video emulation",
+  "specification": "docs/STAGE2_DESIGN.md Section 28"
+}

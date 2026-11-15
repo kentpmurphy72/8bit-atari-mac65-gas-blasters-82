@@ -27,6 +27,15 @@ HUD and pharmacy art are unchanged. [Versioned geometry/build and software
 layout preview](../assets/stage2_v03/README.md) are available; the preview is not
 an emulator screenshot. The user has now playtested and accepted v0.3 scenery in Atari800 (2026-11-11). Exact video mode and physical 800XL coverage have not been separately verified.
 
+### Stage 2 v0.4 temporary off-road effects
+
+Four original 8×16 PMG P2 patterns provide skid, mild skid, smoke and denser smoke,
+with gray 6/10/14 colors. They trail car-top+12 and erase cleanly as Y changes.
+Car P0/P1, road, palette/HUD and pharmacy artwork remain accepted assets. Orange/
+red $28/$36 reuses the basic explosion shape to distinguish grass crashes from
+$C8 green GAS failures. Exact effect/timbre/readability tuning is provisional;
+actual Atari800 visual/audio review is pending. See [versioned source and build](../assets/stage2_v04/README.md).
+
 ## 1. Visual identity
 
 **Working direction:** energetic early-1980s arcade packaging with hand-painted/pulp comic illustration, bold typography, exaggerated slapstick action, and readable visual storytelling.
