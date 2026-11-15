@@ -11,6 +11,10 @@
 
 **Stage 1 is an accepted playable prototype at `stage1-v0.5` on `main`.** The user approved v0.4 smooth diagonal movement and said v0.5 indoor gas blasting is **good enough for now**, with polish deferred. Historical Stage 1 feature branches were **merged/tagged/deleted**; **do not recreate them**. Original source/XEX and proposed rules remain accessible via the tags and [docs archive](docs/archive/stage1/README.md). A separate Stage 2 branch may already exist; inspect live refs before creating or rebasing anything.
 
+## Design-spec and prompt discipline
+
+Follow [Repository Workflow — Design authority and concise Codex prompts](docs/REPOSITORY_WORKFLOW.md): approved stage design docs own **all functional requirements and acceptance criteria**. Codex prompts are brief, delivered in the conversation, and reference the authoritative design instead of duplicating specs; separate prompt Markdown files are not required. Escalate missing or conflicting design requirements for user approval rather than inventing them in a prompt or in code.
+
 ## Engineering rules
 
 - **Respect platform boundaries:** no 65816-only instructions; no unreviewed RAM/zero-page writes overlapping the 64 KB Atari memory map, OS/CIO, ANTIC/DLI, GTIA PMG, POKEY, screen, font, buffers, enemy queues or load segments. Inspect the *actual* XEX manifest and measured timing.
