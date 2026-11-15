@@ -5,10 +5,17 @@
 
 ## Source of truth and ownership
 
-- **Game design:** `docs/GAME_DESIGN.md` covers the whole game; `docs/STAGE1_DESIGN.md` is authoritative for **current Stage 1**; `docs/STAGE2_DESIGN.md` is authoritative for **accepted Stage 2 v0.1 driving and upcoming v0.2 pressure/destination design**; `docs/TECHNICAL_DESIGN.md` covers implementation; `docs/ART_ASSETS.md` covers final art plans; machine JSON and the actual executable define concrete version-specific values.
+- **Game design:** `docs/GAME_DESIGN.md` covers the whole game; `docs/STAGE1_DESIGN.md` is authoritative for **current Stage 1**; `docs/STAGE2_DESIGN.md` is authoritative for **current Stage 2 requirements, implementation milestones and accepted-version history**; `docs/TECHNICAL_DESIGN.md` covers implementation; `docs/ART_ASSETS.md` covers final art plans; machine JSON and the actual executable define concrete version-specific values.
 - **ChatGPT/design work:** Specify requirements, update authoritative docs, list open decisions, and give a clear acceptance checklist. When asked, make documentation-only GitHub commits.
 - **Codex/implementation:** Branch, implement native 6502 code and reproducible Python offline tooling, build a distinct playable XEX, test, provide exact commit/commands/results; **never claim an Atari800/real-hardware test without running it**.
 - **User:** Evaluate actual game feel in Atari800 and decide acceptance. Do not assume acceptance of provisional numbers implies final art or exhaustive test coverage.
+
+## Design authority and concise Codex prompts
+
+- **One source of truth:** Approved functional requirements, numeric rules and acceptance criteria belong in the relevant `docs/STAGE*_DESIGN.md` (or `docs/GAME_DESIGN.md` for whole-game rules). `AGENTS.md` contains standing engineering instructions; this workflow document owns process rules. Do not independently redefine gameplay requirements in a Codex prompt.
+- **Minimal prompts in conversation:** A milestone prompt identifies the assignment, **existing** branch, authoritative documents, execution boundary and expected completion report. Reference the design rather than reproducing it. Do not routinely commit separate `CODEX_*_PROMPT.md` files.
+- **Handle gaps explicitly:** If a functional requirement is missing or conflicts between documents, clarify it and update the authoritative design with user approval before implementation. Codex may make normal technical implementation choices within approved requirements, but must not invent gameplay or acceptance criteria.
+- **Validation and closeout:** Codex reports actual build/test/emulator evidence and updates implementation documentation. The user reviews playable behavior and authorizes release tagging, merging and branch cleanup. Historical conversation prompts need **no retroactive reconstruction**.
 
 ## Branch and merge convention
 
